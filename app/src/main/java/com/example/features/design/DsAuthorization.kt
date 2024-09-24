@@ -18,57 +18,51 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun DsRegistration() {
+fun DsAuthorization() {
 
     Column(
         Modifier
             .fillMaxSize()
-
+            .background(Color.White)
     ) {
         Box(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .weight(0.1f)
+                .fillMaxWidth()
         )
         Box(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Регистрация",
+                text = "Добро пожаловать",
                 fontSize = 30.sp
             )
-        }
 
+        }
         Box(
-            modifier =
-            Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Уже есть учетная запись? \nВойти",
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center
+                text = "Нет учетной записи? \nЗарегистрироваться",
+                textAlign = TextAlign.Center,
+                fontSize = 18.sp
             )
         }
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp)
         ) {
             Text(
-                text = "Введите имя",
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                fontSize = 16.sp
+                text = "Логин",
+                fontSize = 16.sp,
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
 
             )
-
         }
         Box(
             modifier = Modifier
@@ -76,19 +70,14 @@ fun DsRegistration() {
                 .padding(top = 10.dp)
         ) {
             Text(
-                text = "Введите пароль",
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                fontSize = 16.sp
-
+                text = "Пароль",
+                fontSize = 16.sp,
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
             )
-
         }
-
         Box(
-            modifier =
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 20.dp),
             contentAlignment = Alignment.Center
@@ -96,21 +85,15 @@ fun DsRegistration() {
             Button(
                 onClick = { /*TODO*/ },
                 Modifier
-                    .size(width = 350.dp, 55.dp)
+                    .size(width = 350.dp, 55.dp),
 
-            ) {
+                ) {
                 Text(
                     text = "ГОТОВО",
                     fontSize = 20.sp
                 )
             }
-
         }
-        Box(
-            modifier = Modifier
-                .background(Color.Gray)
-                .weight(0.2f)
-        )
-
+        Box(modifier = Modifier.weight(0.2f))
     }
 }

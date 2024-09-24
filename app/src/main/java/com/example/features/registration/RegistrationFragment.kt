@@ -8,7 +8,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
+import androidx.navigation.compose.rememberNavController
 import com.example.features.design.DsRegistration
+import com.example.features.navigation.NavigationAppHost
 
 class RegistrationFragment : Fragment() {
 
@@ -22,7 +24,10 @@ class RegistrationFragment : Fragment() {
         )
         setContent {
             Surface {
-                DsRegistration()
+
+                val navController = rememberNavController()
+                DsRegistration(navController)
+
             }
         }
     }

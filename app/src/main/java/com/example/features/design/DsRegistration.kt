@@ -16,9 +16,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.features.navigation.Screens
 
 @Composable
-fun DsRegistration() {
+fun DsRegistration(navController: NavController) {
 
     Column(
         Modifier
@@ -94,7 +96,7 @@ fun DsRegistration() {
             contentAlignment = Alignment.Center
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(Screens.AuthorizationFragment.route) },
                 Modifier
                     .size(width = 350.dp, 55.dp)
 

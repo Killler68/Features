@@ -15,6 +15,6 @@ fun NavigationAppHost(navHostController: NavHostController) {
             DsRegistration(navHostController)
         }
 //        composable(Screens.RegistrationFragment.route) { DsRegistration(navHostController) }
-        composable(Screens.AuthorizationFragment.route) { DsAuthorization() }
+        composable(Screens.AuthorizationFragment.route) { DsAuthorization(navHostController) }
     }
 }

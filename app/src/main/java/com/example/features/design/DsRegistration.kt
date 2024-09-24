@@ -1,6 +1,7 @@
 package com.example.features.design
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -53,7 +54,9 @@ fun DsRegistration(navController: NavController) {
             Text(
                 text = "Уже есть учетная запись? \nВойти",
                 fontSize = 18.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .clickable { navController.navigate(Screens.AuthorizationFragment.route) }
             )
         }
 

@@ -1,6 +1,7 @@
 package com.example.features.design
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,9 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.features.navigation.Screens
 
 @Composable
-fun DsAuthorization() {
+fun DsAuthorization(navController: NavController) {
 
     Column(
         Modifier
@@ -48,7 +51,9 @@ fun DsAuthorization() {
             Text(
                 text = "Нет учетной записи? \nЗарегистрироваться",
                 textAlign = TextAlign.Center,
-                fontSize = 18.sp
+                fontSize = 18.sp,
+                modifier = Modifier
+                    .clickable { navController.navigate(Screens.RegistrationFragment.route) }
             )
         }
         Box(

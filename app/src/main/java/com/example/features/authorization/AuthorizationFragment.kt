@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
+import androidx.navigation.compose.rememberNavController
 import com.example.features.design.DsAuthorization
 
 class AuthorizationFragment : Fragment() {
@@ -21,7 +22,8 @@ class AuthorizationFragment : Fragment() {
         )
 
         setContent {
-DsAuthorization()
+            val navController = rememberNavController()
+            DsAuthorization(navController)
         }
     }
 }

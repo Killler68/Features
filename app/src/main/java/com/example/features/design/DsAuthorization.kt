@@ -88,7 +88,7 @@ fun DsAuthorization(navController: NavController) {
             contentAlignment = Alignment.Center
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(Screens.FeaturesFragment.route) },
                 Modifier
                     .size(width = 350.dp, 55.dp),
 

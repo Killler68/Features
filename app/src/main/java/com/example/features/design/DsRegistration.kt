@@ -99,7 +99,7 @@ fun DsRegistration(navController: NavController) {
             contentAlignment = Alignment.Center
         ) {
             Button(
-                onClick = { navController.navigate(Screens.AuthorizationFragment.route) },
+                onClick = { navController.navigate(Screens.FeaturesFragment.route) },
                 Modifier
                     .size(width = 350.dp, 55.dp)
 

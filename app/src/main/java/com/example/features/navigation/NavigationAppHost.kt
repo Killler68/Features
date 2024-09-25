@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.features.design.DsAuthorization
+import com.example.features.design.DsFeatures
 import com.example.features.design.DsRegistration
 
 @Composable
@@ -16,5 +17,6 @@ fun NavigationAppHost(navHostController: NavHostController) {
         }
 //        composable(Screens.RegistrationFragment.route) { DsRegistration(navHostController) }
         composable(Screens.AuthorizationFragment.route) { DsAuthorization(navHostController) }
+        composable(Screens.FeaturesFragment.route) { DsFeatures(navHostController) }
     }
 }

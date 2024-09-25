@@ -110,7 +110,7 @@ fun DsFeatures(navController: NavController) {
                     Features(0, "4", "1", "1"),
                 )
             ) { index, item ->
-                DsFeatureItems(features = item)
+                DsFeatureItems(features = item, navController)
             }
         }
 

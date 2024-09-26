@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.example.features.common.fragment.getViewModelFactory
 import com.example.features.design.DsWeather
+import com.example.features.weather.viewmodel.WeatherViewModel
 
 class WeatherFragment : Fragment() {
 
+
+    private val viewModel: WeatherViewModel by viewModels { getViewModelFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater,

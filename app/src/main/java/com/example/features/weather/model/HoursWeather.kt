@@ -1,6 +1,6 @@
 package com.example.features.weather.model
 
-data class HourlyWeather(
+data class HoursWeather(
     val id: Int,
     val time: String,
     val icon: Int,

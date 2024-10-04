@@ -8,9 +8,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.compose.rememberNavController
+import com.example.features.common.fragment.getViewModelFactory
+import com.example.features.weather.viewmodel.WeatherViewModel
 
 class NavigationFragment : Fragment() {
+
+    private val viewModel: WeatherViewModel by viewModels { getViewModelFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,9 +26,10 @@ class NavigationFragment : Fragment() {
             ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner)
         )
         setContent {
+
             Surface {
                 val navController = rememberNavController()
-                NavigationAppHost(navHostController = navController)
+                NavigationAppHost(navHostController = navController, viewModel)
             }
         }
 

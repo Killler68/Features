@@ -27,7 +27,8 @@ class WeatherFragment : Fragment() {
         )
 
         setContent {
-            DsWeather()
+
+            DsWeather(viewModel = viewModel)
         }
     }
 }

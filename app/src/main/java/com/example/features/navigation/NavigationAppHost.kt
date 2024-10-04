@@ -8,9 +8,10 @@ import com.example.features.design.DsAuthorization
 import com.example.features.design.DsFeatures
 import com.example.features.design.DsRegistration
 import com.example.features.design.DsWeather
+import com.example.features.weather.viewmodel.WeatherViewModel
 
 @Composable
-fun NavigationAppHost(navHostController: NavHostController) {
+fun NavigationAppHost(navHostController: NavHostController, viewModel: WeatherViewModel) {
 
     NavHost(navController = navHostController, startDestination = "RegistrationFragment") {
         composable(Screens.RegistrationFragment.route) {
@@ -19,6 +20,6 @@ fun NavigationAppHost(navHostController: NavHostController) {
 //        composable(Screens.RegistrationFragment.route) { DsRegistration(navHostController) }
         composable(Screens.AuthorizationFragment.route) { DsAuthorization(navHostController) }
         composable(Screens.FeaturesFragment.route) { DsFeatures(navHostController) }
-        composable(Screens.WeatherFragment.route) { DsWeather() }
+        composable(Screens.WeatherFragment.route) { DsWeather(viewModel) }
     }
 }

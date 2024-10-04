@@ -26,10 +26,14 @@ import androidx.compose.ui.unit.sp
 import com.example.features.R
 import com.example.features.ui.theme.Cyan
 import com.example.features.weather.model.DailyWeather
-import com.example.features.weather.model.HourlyWeather
+import com.example.features.weather.model.HoursWeather
+import com.example.features.weather.viewmodel.WeatherViewModel
 
 @Composable
-fun DsWeather() {
+fun DsWeather(viewModel: WeatherViewModel) {
+
+//    private val viewModel: WeatherViewModel by viewModels { getViewModelFactory() }
+
 
     Column(
         Modifier
@@ -37,8 +41,8 @@ fun DsWeather() {
             .background(Color.White)
     ) {
         DsWeatherActionBar()
-        DsWeatherPreviewBar()
-        DsDailyWeatherPanel()
+        DsWeatherPreviewBar(viewModel)
+        DsDailyWeatherPanel(viewModel)
     }
 
 }
@@ -76,7 +80,7 @@ fun DsWeatherActionBar() {
 }
 
 @Composable
-fun DsWeatherPreviewBar() {
+fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
 
     Column(
         Modifier
@@ -87,25 +91,25 @@ fun DsWeatherPreviewBar() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Сегодня, 26 сен. пн",
+            text = viewModel.getPreviewBarWeather().date,
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,
             color = Color.White
         )
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            painter = painterResource(viewModel.getPreviewBarWeather().icon),
             contentDescription = "image"
         )
         Text(
-            text = "10 C",
+            text = viewModel.getPreviewBarWeather().temp,
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 30.sp,
             color = Color.White
         )
         Text(
-            text = "Солнечно",
+            text = viewModel.getPreviewBarWeather().description,
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,
@@ -115,27 +119,21 @@ fun DsWeatherPreviewBar() {
 }
 
 @Composable
-fun DsDailyWeatherPanel() {
+fun DsDailyWeatherPanel(viewModel: WeatherViewModel) {
 
     LazyColumn(
         Modifier
     ) {
         itemsIndexed(
-            listOf(
-                DailyWeather(0, "пн", "12 C", 1),
-                DailyWeather(0, "пн", "12 C", 1),
-                DailyWeather(0, "пн", "12 C", 1),
-                DailyWeather(0, "пн", "12 C", 1),
-                DailyWeather(0, "пн", "12 C", 1),
-            )
+            viewModel.getWeather()
         ) { index, item ->
-            DsDailyWeatherItem(dailyWeather = item)
+            DsDailyWeatherItem(dailyWeather = item, viewModel)
         }
     }
 }
 
 @Composable
-fun DsDailyWeatherItem(dailyWeather: DailyWeather) {
+fun DsDailyWeatherItem(dailyWeather: DailyWeather?, viewModel: WeatherViewModel) {
 
     Column(
         Modifier
@@ -150,15 +148,23 @@ fun DsDailyWeatherItem(dailyWeather: DailyWeather) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.End
         ) {
-            Text(
-                text = dailyWeather.dayOfWeek
-            )
-            Text(
-                text = dailyWeather.temp,
-                modifier = Modifier
-                    .padding(horizontal = 5.dp)
+            if (dailyWeather != null) {
+                Text(
+                    text = dailyWeather.dayOfWeek
+                )
 
-            )
+            }
+
+            if (dailyWeather != null) {
+                Text(
+                    text = dailyWeather.temp,
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+
+                )
+
+
+            }
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = "image",
@@ -172,7 +178,7 @@ fun DsDailyWeatherItem(dailyWeather: DailyWeather) {
                 .padding(horizontal = 5.dp)
                 .fillMaxWidth()
                 .background(Color.White)
-                .size(0.dp,1.dp)
+                .size(0.dp, 1.dp)
         )
 
         LazyRow(
@@ -181,26 +187,16 @@ fun DsDailyWeatherItem(dailyWeather: DailyWeather) {
 
         ) {
             itemsIndexed(
-                listOf(
-                    HourlyWeather(0, "00:00", 1, "12 C"),
-                    HourlyWeather(0, "00:00", 1, "12 C"),
-                    HourlyWeather(0, "00:00", 1, "12 C"),
-                    HourlyWeather(0, "00:00", 1, "12 C"),
-                    HourlyWeather(0, "00:00", 1, "12 C"),
-                    HourlyWeather(0, "00:00", 1, "12 C"),
-                    HourlyWeather(0, "00:00", 1, "12 C"),
-                    HourlyWeather(0, "00:00", 1, "12 C"),
-                    HourlyWeather(0, "00:00", 1, "12 C"),
-                )
+                viewModel.getHoursWeather()
             ) { index, item ->
-                DsHourlyWeatherItem(hourlyWeather = item)
+                DsHourlyWeatherItem(hoursWeather = item)
             }
         }
     }
 }
 
 @Composable
-fun DsHourlyWeatherItem(hourlyWeather: HourlyWeather) {
+fun DsHourlyWeatherItem(hoursWeather: HoursWeather) {
 
     Column(
         Modifier
@@ -210,7 +206,7 @@ fun DsHourlyWeatherItem(hourlyWeather: HourlyWeather) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = hourlyWeather.time,
+            text = hoursWeather.time,
             fontSize = 12.sp
         )
         Image(
@@ -220,7 +216,7 @@ fun DsHourlyWeatherItem(hourlyWeather: HourlyWeather) {
                 .size(50.dp)
         )
         Text(
-            text = hourlyWeather.temp,
+            text = hoursWeather.temp,
             fontSize = 12.sp
         )
     }

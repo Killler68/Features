@@ -1,6 +1,8 @@
 package com.example.features.weather
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import com.example.features.weather.repository.WeatherRepositoryImpl
 import com.example.features.weather.usecase.HoursWeatherUseCaseImpl
 import com.example.features.weather.usecase.PreviewBarWeatherUseCaseImpl
@@ -33,6 +35,8 @@ class WeatherModule {
     fun providePreviewBarWeather(weatherRepository: WeatherRepository): PreviewBarWeatherUseCase =
         PreviewBarWeatherUseCaseImpl(weatherRepository)
 
+    @Provides
+    fun provideNavController(context: Context) = NavController(context)
 
     @Provides
     @IntoMap
@@ -40,11 +44,13 @@ class WeatherModule {
     fun provideWeatherViewModel(
         weatherUseCase: WeatherUseCase,
         hoursWeatherUseCase: HoursWeatherUseCase,
-        previewBarWeatherUseCase: PreviewBarWeatherUseCase
+        previewBarWeatherUseCase: PreviewBarWeatherUseCase,
+        navController: NavController
     ): ViewModel =
         WeatherViewModel(
             weatherUseCase,
             hoursWeatherUseCase,
-            previewBarWeatherUseCase
+            previewBarWeatherUseCase,
+            navController
         )
 }

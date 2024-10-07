@@ -2,6 +2,7 @@ package com.example.features.design
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,18 +25,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.features.R
+import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
 import com.example.features.weather.model.DailyWeather
 import com.example.features.weather.model.HoursWeather
+import com.example.features.weather.state.WeatherEvent
+import com.example.features.weather.state.WeatherState
 import com.example.features.weather.viewmodel.WeatherViewModel
 
 @Composable
 fun DsWeather(viewModel: WeatherViewModel) {
 
-//    private val viewModel: WeatherViewModel by viewModels { getViewModelFactory() }
+    val state = viewModel.state.collectAsState()
 
+    when (state.value) {
+        WeatherState.Loading -> DsLoading()
+        is WeatherState.Content -> Content(
+            viewModel,
+            viewModel::dispatch
+        )
 
+        is WeatherState.Error -> DsLoading()
+    }
+}
+
+@Composable
+fun Content(
+    viewModel: WeatherViewModel,
+    onEvent: (WeatherEvent) -> Unit
+) {
     Column(
         Modifier
             .fillMaxSize()
@@ -44,7 +65,6 @@ fun DsWeather(viewModel: WeatherViewModel) {
         DsWeatherPreviewBar(viewModel)
         DsDailyWeatherPanel(viewModel)
     }
-
 }
 
 @Composable
@@ -56,24 +76,31 @@ fun DsWeatherActionBar() {
             .background(Color.LightGray),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Image(
+            painter = painterResource(R.drawable.ic_launcher_foreground),
+            contentDescription = "image",
+            modifier = Modifier
+                .size(50.dp)
+                .weight(0.1f)
+        )
+
         Text(
             text = "Буденновск",
             modifier = Modifier
-                .padding(start = 10.dp)
-
+                .padding(horizontal = 10.dp)
+                .weight(0.5f)
         )
 
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
+                .size(50.dp)
+                .weight(0.1f),
             contentAlignment = Alignment.CenterEnd
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = "image",
                 modifier = Modifier
-                    .size(50.dp)
             )
         }
     }
@@ -91,25 +118,25 @@ fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = viewModel.getPreviewBarWeather().date,
+            text = viewModel.previewBarWeather.value.date,
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,
             color = Color.White
         )
         Image(
-            painter = painterResource(viewModel.getPreviewBarWeather().icon),
+            painter = painterResource(viewModel.previewBarWeather.value.icon),
             contentDescription = "image"
         )
         Text(
-            text = viewModel.getPreviewBarWeather().temp,
+            text = viewModel.previewBarWeather.value.temp,
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 30.sp,
             color = Color.White
         )
         Text(
-            text = viewModel.getPreviewBarWeather().description,
+            text = viewModel.previewBarWeather.value.description,
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,
@@ -125,7 +152,7 @@ fun DsDailyWeatherPanel(viewModel: WeatherViewModel) {
         Modifier
     ) {
         itemsIndexed(
-            viewModel.getWeather()
+            viewModel.weather.value
         ) { index, item ->
             DsDailyWeatherItem(dailyWeather = item, viewModel)
         }
@@ -187,7 +214,7 @@ fun DsDailyWeatherItem(dailyWeather: DailyWeather?, viewModel: WeatherViewModel)
 
         ) {
             itemsIndexed(
-                viewModel.getHoursWeather()
+                viewModel.hoursWeather.value
             ) { index, item ->
                 DsHourlyWeatherItem(hoursWeather = item)
             }
@@ -219,5 +246,18 @@ fun DsHourlyWeatherItem(hoursWeather: HoursWeather) {
             text = hoursWeather.temp,
             fontSize = 12.sp
         )
+    }
+}
+
+@Composable
+fun DsLoading() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+//        CircularProgressIndicator()
+        Text("asf")
     }
 }

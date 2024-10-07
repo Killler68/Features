@@ -20,6 +20,6 @@ fun NavigationAppHost(navHostController: NavHostController, viewModel: WeatherVi
 //        composable(Screens.RegistrationFragment.route) { DsRegistration(navHostController) }
         composable(Screens.AuthorizationFragment.route) { DsAuthorization(navHostController) }
         composable(Screens.FeaturesFragment.route) { DsFeatures(navHostController) }
-        composable(Screens.WeatherFragment.route) { DsWeather(viewModel) }
+        composable(Screens.WeatherFragment.route) { DsWeather(viewModel, navHostController) }
     }
 }

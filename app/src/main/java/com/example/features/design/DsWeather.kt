@@ -36,7 +36,7 @@ import com.example.features.weather.state.WeatherState
 import com.example.features.weather.viewmodel.WeatherViewModel
 
 @Composable
-fun DsWeather(viewModel: WeatherViewModel) {
+fun DsWeather(viewModel: WeatherViewModel, navController: NavController) {
 
     val state = viewModel.state.collectAsState()
 
@@ -44,7 +44,8 @@ fun DsWeather(viewModel: WeatherViewModel) {
         WeatherState.Loading -> DsLoading()
         is WeatherState.Content -> Content(
             viewModel,
-            viewModel::dispatch
+            viewModel::dispatch,
+            navController
         )
 
         is WeatherState.Error -> DsLoading()
@@ -54,21 +55,22 @@ fun DsWeather(viewModel: WeatherViewModel) {
 @Composable
 fun Content(
     viewModel: WeatherViewModel,
-    onEvent: (WeatherEvent) -> Unit
+    onEvent: (WeatherEvent) -> Unit,
+    navController: NavController
 ) {
     Column(
         Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        DsWeatherActionBar()
+        DsWeatherActionBar(navController)
         DsWeatherPreviewBar(viewModel)
         DsDailyWeatherPanel(viewModel)
     }
 }
 
 @Composable
-fun DsWeatherActionBar() {
+fun DsWeatherActionBar(navController: NavController) {
 
     Row(
         Modifier
@@ -82,6 +84,7 @@ fun DsWeatherActionBar() {
             modifier = Modifier
                 .size(50.dp)
                 .weight(0.1f)
+                .clickable { navController.navigate(Screens.Features.route) }
         )
 
         Text(

@@ -1,4 +1,4 @@
-package com.example.features.design
+package com.example.features.authorization
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,10 +18,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.features.MainScreenEvent
+import com.example.features.MainViewModel
 import com.example.features.navigation.Screens
 
 @Composable
-fun DsAuthorization(navController: NavController) {
+fun DsAuthorization(
+    navController: NavController,
+    mainViewModel: MainViewModel
+) {
 
     Column(
         Modifier
@@ -53,7 +58,11 @@ fun DsAuthorization(navController: NavController) {
                 textAlign = TextAlign.Center,
                 fontSize = 18.sp,
                 modifier = Modifier
-                    .clickable { navController.navigate(Screens.RegistrationFragment.route) }
+                    .clickable {
+                        navController.navigate(Screens.Registration.route)
+                        mainViewModel.handleEvent(MainScreenEvent.NavigateToRegistration)
+
+                    }
             )
         }
         Box(
@@ -88,7 +97,7 @@ fun DsAuthorization(navController: NavController) {
             contentAlignment = Alignment.Center
         ) {
             Button(
-                onClick = { navController.navigate(Screens.FeaturesFragment.route) },
+                onClick = { },
                 Modifier
                     .size(width = 350.dp, 55.dp),
 

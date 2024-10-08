@@ -1,4 +1,4 @@
-package com.example.features.design
+package com.example.features.registration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,15 +18,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.features.MainScreenEvent
+import com.example.features.MainViewModel
 import com.example.features.navigation.Screens
 
 @Composable
-fun DsRegistration(navController: NavController) {
+fun DsRegistration(
+    navController: NavController,
+    mainViewModel: MainViewModel
+) {
 
     Column(
         Modifier
             .fillMaxSize()
-
+            .background(Color.White)
     ) {
         Box(
             modifier =
@@ -56,7 +61,10 @@ fun DsRegistration(navController: NavController) {
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .clickable { navController.navigate(Screens.AuthorizationFragment.route) }
+                    .clickable {
+                        navController.navigate(Screens.Authorization.route)
+                        mainViewModel.handleEvent(MainScreenEvent.NavigateToAuthorization)
+                    }
             )
         }
 
@@ -99,14 +107,17 @@ fun DsRegistration(navController: NavController) {
             contentAlignment = Alignment.Center
         ) {
             Button(
-                onClick = { navController.navigate(Screens.FeaturesFragment.route) },
+                onClick = {
+                    navController.navigate(Screens.Features.route)
+                    mainViewModel.handleEvent(MainScreenEvent.NavigateToFeatures)
+                },
                 Modifier
                     .size(width = 350.dp, 55.dp)
 
             ) {
                 Text(
                     text = "ГОТОВО",
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
                 )
             }
 
@@ -116,6 +127,7 @@ fun DsRegistration(navController: NavController) {
                 .background(Color.Gray)
                 .weight(0.2f)
         )
+
 
     }
 }

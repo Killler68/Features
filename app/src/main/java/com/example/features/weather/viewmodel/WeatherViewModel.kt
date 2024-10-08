@@ -68,7 +68,7 @@ class WeatherViewModel(
     }
 
     private fun onBack() {
-        navController.navigate(Screens.FeaturesFragment.route)
+        navController.navigate(Screens.Features.route)
     }
 
 }

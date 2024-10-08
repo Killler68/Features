@@ -1,4 +1,4 @@
-package com.example.features.design
+package com.example.features.features
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,12 +22,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.features.MainScreenEvent
+import com.example.features.MainViewModel
 import com.example.features.R
+import com.example.features.design.DsFeatureItems
 import com.example.features.features.model.Features
 import com.example.features.navigation.Screens
 
 @Composable
-fun DsFeatures(navController: NavController) {
+fun DsFeatures(navController: NavController, mainViewModel: MainViewModel) {
 
     Column(
         Modifier
@@ -48,7 +51,10 @@ fun DsFeatures(navController: NavController) {
                     .padding(start = 10.dp)
                     .clip(CircleShape)
                     .size(40.dp)
-                    .clickable { navController.navigate(Screens.RegistrationFragment.route) }
+                    .clickable {
+                        navController.navigate(Screens.Weather.route)
+                        mainViewModel.handleEvent(MainScreenEvent.NavigateToWeather)
+                    }
             )
             Box(
                 modifier = Modifier
@@ -76,7 +82,7 @@ fun DsFeatures(navController: NavController) {
                     Features(0, "2", "1", "1"),
                     Features(0, "3", "1", "1"),
 
-                )
+                    )
             ) { index, item ->
                 DsFeatureItems(features = item, navController)
             }

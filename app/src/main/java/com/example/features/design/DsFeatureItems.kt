@@ -16,7 +16,7 @@ fun DsFeatureItems(features: Features, navController: NavController) {
     Row(
         Modifier
             .fillMaxWidth()
-            .clickable { navController.navigate(Screens.WeatherFragment.route) }
+            .clickable { navController.navigate(Screens.Weather.route) }
     ) {
         Text(text = features.title)
         Text(text = features.description)

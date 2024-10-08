@@ -2,9 +2,10 @@ package com.example.features.navigation
 
 sealed class Screens(val route: String) {
 
-    data object NavigationScreen : Screens("NavigationScreen")
-    data object RegistrationFragment : Screens("RegistrationFragment")
-    data object AuthorizationFragment : Screens("AuthorizationFragment")
-    data object FeaturesFragment : Screens("FeaturesFragment")
-    data object WeatherFragment : Screens("WeatherFragment")
+
+    data object Registration : Screens("Registration")
+    data object Authorization : Screens("Authorization")
+    data object Features : Screens("Features")
+    data object Weather : Screens("Weather")
+
 }

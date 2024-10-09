@@ -1,15 +1,51 @@
 package com.example.features.weather.repository
 
+import android.content.Context
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.features.R
 import com.example.features.weather.model.DailyWeather
 import com.example.features.weather.model.HoursWeather
 import com.example.features.weather.model.PreviewBarWeather
 import com.example.features.weather.usecase.WeatherRepository
+import org.json.JSONObject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
+
+const val WEATHER_API_KEY = "d4261ea19cfd4ee59b0212506240810 "
 
 class WeatherRepositoryImpl() : WeatherRepository {
 
+    override suspend fun getHoursWeather(context: Context): List<HoursWeather> {
+        return suspendCoroutine { continuation ->
+            val url = "https://api.weatherapi.com/v1/forecast.json?key=" +
+                    WEATHER_API_KEY +
+                    "&q=London" +
+                    "&days=3&aqi=no&alerts=no"
+
+            val queue = Volley.newRequestQueue(context)
+            val sRequest = StringRequest(
+                Request.Method.GET,
+                url,
+                { response ->
+                    val list = getWeatherByDays(response)
+                    continuation.resume(list) // Возвращаем результат через continuation
+                },
+                { error ->
+                    continuation.resumeWithException(error)
+                }
+            )
+            queue.add(sRequest)
+        }
+    }
+
     override fun getWeather(): List<DailyWeather> = weatherPanelTest
-    override fun getHoursWeather(): List<HoursWeather> = hoursWeatherTest
+//    override fun getHoursWeather(): List<HoursWeather> {
+//
+//    }
+
     override fun previewBarWeather(): PreviewBarWeather = previewBarWeatherTest
 }
 
@@ -22,15 +58,6 @@ private val weatherPanelTest = listOf(
     DailyWeather(5, "41231ыф", "4", 1),
 )
 
-private val hoursWeatherTest = listOf(
-    HoursWeather(0, "00:00", 1, "10 C"),
-    HoursWeather(1, "02:00", 1, "15 C"),
-    HoursWeather(2, "03:00", 1, "20 C"),
-    HoursWeather(3, "04:00", 1, "30 C"),
-    HoursWeather(4, "05:00", 1, "40 C"),
-    HoursWeather(5, "06:00", 1, "50 C"),
-    HoursWeather(6, "07:00", 1, "60 C"),
-)
 
 private val previewBarWeatherTest =
     PreviewBarWeather(
@@ -40,3 +67,36 @@ private val previewBarWeatherTest =
         temp = "20",
         description = "Солнечно"
     )
+
+
+private fun getWeatherByDays(response: String): List<HoursWeather> {
+    if (response.isEmpty()) return listOf()
+
+    val list = ArrayList<HoursWeather>()
+    val mainObject = JSONObject(response)
+    val days = mainObject.getJSONObject("forecast").getJSONArray("forecastday")
+
+    // Получаем текущую погоду (например, для отображения иконки)
+    val currentCondition = mainObject.getJSONObject("current").getJSONObject("condition")
+
+    for (i in 0 until days.length()) {
+        val item = days[i] as JSONObject
+        val hours = item.getJSONArray("hour")
+
+        // Проходим по каждому часу
+        for (j in 0 until hours.length()) { // Заменено на `until`
+            val hour = hours[j] as JSONObject
+            val time = hour.getString("time").split(" ")[1] // Берем вторую часть, где содержится время (часы и минуты)
+
+            list.add(
+                HoursWeather(
+                    time = time, // Время
+                    icon = currentCondition.getString("icon"), // Иконка текущей погоды
+                    temp = hour.getString("temp_c") // Температура для этого часа
+                )
+            )
+        }
+    }
+
+    return list
+}

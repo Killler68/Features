@@ -1,4 +1,4 @@
-package com.example.features.design
+package com.example.features.weather.design
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,15 +17,18 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.example.features.R
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
@@ -42,6 +45,11 @@ fun DsWeather(navController: NavController) {
     val viewModel: WeatherViewModel = getViewModel()
     val state = viewModel.state.collectAsState()
 
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.loadWeather(context)
+    }
     when (state.value) {
         WeatherState.Loading -> DsLoading()
         is WeatherState.Content -> Content(
@@ -133,7 +141,7 @@ fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
             color = Color.White
         )
         Image(
-            painter = painterResource(viewModel.previewBarWeather.value.icon),
+            painter = painterResource(R.drawable.ic_launcher_foreground),
             contentDescription = "image"
         )
         Text(
@@ -169,7 +177,11 @@ fun DsDailyWeatherPanel(viewModel: WeatherViewModel) {
 }
 
 @Composable
-fun DsDailyWeatherItem(dailyWeather: DailyWeather?, viewModel: WeatherViewModel) {
+fun DsDailyWeatherItem(
+    dailyWeather: DailyWeather?,
+    viewModel: WeatherViewModel,
+//    hoursList: MutableState<List<HoursWeather>>
+) {
 
     Column(
         Modifier
@@ -234,6 +246,7 @@ fun DsDailyWeatherItem(dailyWeather: DailyWeather?, viewModel: WeatherViewModel)
 @Composable
 fun DsHourlyWeatherItem(hoursWeather: HoursWeather) {
 
+    val integerValue = hoursWeather.temp.toFloat().toInt()
     Column(
         Modifier
             .padding(5.dp)
@@ -246,13 +259,14 @@ fun DsHourlyWeatherItem(hoursWeather: HoursWeather) {
             fontSize = 12.sp
         )
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = "image",
+            painter = rememberImagePainter(data = "https:" + hoursWeather.icon), // Загружаем иконку по URL
+            contentDescription = "Weather Icon",
             modifier = Modifier
                 .size(50.dp)
+                .padding(8.dp)
         )
         Text(
-            text = hoursWeather.temp,
+            text = "$integerValue°",
             fontSize = 12.sp
         )
     }

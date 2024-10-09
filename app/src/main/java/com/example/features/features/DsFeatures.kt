@@ -26,7 +26,7 @@ import androidx.navigation.NavController
 import com.example.features.MainScreenEvent
 import com.example.features.MainViewModel
 import com.example.features.R
-import com.example.features.design.DsFeatureItems
+import com.example.features.weather.design.DsFeatureItems
 import com.example.features.features.model.Features
 import com.example.features.navigation.Screens
 

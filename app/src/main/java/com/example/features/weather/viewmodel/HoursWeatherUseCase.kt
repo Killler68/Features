@@ -1,8 +1,9 @@
 package com.example.features.weather.viewmodel
 
+import android.content.Context
 import com.example.features.weather.model.HoursWeather
 
 interface HoursWeatherUseCase {
 
-    operator fun invoke(): List<HoursWeather>
+    suspend operator fun invoke(context: Context): List<HoursWeather>
 }

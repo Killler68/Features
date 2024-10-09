@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.features.authorization.DsAuthorization
-import com.example.features.design.DsWeather
+import com.example.features.weather.design.DsWeather
 import com.example.features.features.DsFeatures
 import com.example.features.registration.DsRegistration
 

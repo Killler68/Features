@@ -1,4 +1,4 @@
-package com.example.features.design
+package com.example.features.weather.design
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row

@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.features.MainScreenEvent
 import com.example.features.MainViewModel
@@ -30,7 +31,9 @@ import com.example.features.features.model.Features
 import com.example.features.navigation.Screens
 
 @Composable
-fun DsFeatures(navController: NavController, mainViewModel: MainViewModel) {
+fun DsFeatures(navController: NavController) {
+
+    val mainViewModel: MainViewModel = viewModel()
 
     Column(
         Modifier

@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.features.MainScreenEvent
 import com.example.features.MainViewModel
@@ -24,9 +25,10 @@ import com.example.features.navigation.Screens
 
 @Composable
 fun DsAuthorization(
-    navController: NavController,
-    mainViewModel: MainViewModel
+    navController: NavController
 ) {
+
+    val mainViewModel: MainViewModel = viewModel()
 
     Column(
         Modifier

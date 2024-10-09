@@ -34,10 +34,12 @@ import com.example.features.weather.model.HoursWeather
 import com.example.features.weather.state.WeatherEvent
 import com.example.features.weather.state.WeatherState
 import com.example.features.weather.viewmodel.WeatherViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun DsWeather(viewModel: WeatherViewModel, navController: NavController) {
+fun DsWeather(navController: NavController) {
 
+    val viewModel: WeatherViewModel = getViewModel()
     val state = viewModel.state.collectAsState()
 
     when (state.value) {
@@ -58,6 +60,8 @@ fun Content(
     onEvent: (WeatherEvent) -> Unit,
     navController: NavController
 ) {
+
+
     Column(
         Modifier
             .fillMaxSize()
@@ -112,6 +116,7 @@ fun DsWeatherActionBar(navController: NavController) {
 @Composable
 fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
 
+
     Column(
         Modifier
             .fillMaxWidth()
@@ -150,6 +155,7 @@ fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
 
 @Composable
 fun DsDailyWeatherPanel(viewModel: WeatherViewModel) {
+
 
     LazyColumn(
         Modifier

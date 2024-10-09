@@ -1,13 +1,16 @@
 package com.example.features.common.application
 
 import android.app.Application
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class MainApp : Application() {
 
-    val appComponent: AppComponent by lazy {
-        DaggerAppComponent
-            .builder()
-            .applicationModule(ApplicationModule(this))
-            .build()
+    override fun onCreate() {
+        super.onCreate()
+        startKoin {
+            androidContext(this@MainApp)
+            modules(appModule)
+        }
     }
 }

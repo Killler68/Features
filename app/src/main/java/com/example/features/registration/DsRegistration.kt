@@ -21,12 +21,12 @@ import androidx.navigation.NavController
 import com.example.features.MainScreenEvent
 import com.example.features.MainViewModel
 import com.example.features.navigation.Screens
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun DsRegistration(
-    navController: NavController,
-    mainViewModel: MainViewModel
-) {
+fun DsRegistration(navController: NavController) {
+
+    val mainViewModel: MainViewModel = getViewModel()
 
     Column(
         Modifier
@@ -127,7 +127,5 @@ fun DsRegistration(
                 .background(Color.Gray)
                 .weight(0.2f)
         )
-
-
     }
 }

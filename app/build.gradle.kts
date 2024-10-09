@@ -103,4 +103,9 @@ dependencies {
     // rxjava
     implementation("io.reactivex.rxjava2:rxjava:2.2.21")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
+
+    // Core Koin
+    implementation("io.insert-koin:koin-android:3.4.0")
+// Jetpack Integration
+    implementation("io.insert-koin:koin-androidx-compose:3.4.0")
 }

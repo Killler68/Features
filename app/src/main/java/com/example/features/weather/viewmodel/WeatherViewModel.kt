@@ -19,8 +19,7 @@ import kotlinx.coroutines.launch
 class WeatherViewModel(
     private val weatherUseCase: WeatherUseCase,
     private val hoursWeatherUseCase: HoursWeatherUseCase,
-    private val previewBarWeatherUseCase: PreviewBarWeatherUseCase,
-    private val navController: NavController
+    private val previewBarWeatherUseCase: PreviewBarWeatherUseCase
 ) : ViewModel() {
 
     private val _weather = mutableStateOf<List<DailyWeather>>(emptyList())
@@ -68,7 +67,7 @@ class WeatherViewModel(
     }
 
     private fun onBack() {
-        navController.navigate(Screens.Features.route)
+//        navController.navigate(Screens.Features.route)
     }
 
 }

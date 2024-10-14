@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,7 +33,6 @@ import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
 import com.example.features.weather.model.DailyWeather
 import com.example.features.weather.model.HoursWeather
-import com.example.features.weather.state.WeatherEvent
 import com.example.features.weather.state.WeatherState
 import com.example.features.weather.viewmodel.WeatherViewModel
 import org.koin.androidx.compose.getViewModel
@@ -45,16 +43,13 @@ fun DsWeather(navController: NavController) {
     val viewModel: WeatherViewModel = getViewModel()
     val state = viewModel.state.collectAsState()
 
-    val context = LocalContext.current
-
     LaunchedEffect(Unit) {
-        viewModel.loadWeather(context)
+        viewModel.loadWeather()
     }
     when (state.value) {
         WeatherState.Loading -> DsLoading()
         is WeatherState.Content -> Content(
             viewModel,
-            viewModel::dispatch,
             navController
         )
 
@@ -65,10 +60,8 @@ fun DsWeather(navController: NavController) {
 @Composable
 fun Content(
     viewModel: WeatherViewModel,
-    onEvent: (WeatherEvent) -> Unit,
     navController: NavController
 ) {
-
 
     Column(
         Modifier

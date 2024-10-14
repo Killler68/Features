@@ -1,21 +1,18 @@
 package com.example.features.common.api
 
 import com.example.features.weather.model.WeatherResponse
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 const val WEATHER_URL = "https://api.weatherapi.com/v1/"
-//const val url = "https://api.weatherapi.com/v1/forecast.json?key="
-
 const val WEATHER_API_KEY = "d4261ea19cfd4ee59b0212506240810 "
 
 interface WeatherApi {
 
     @GET("forecast.json")
-   suspend fun getWeather(
+    suspend fun getWeather(
         @Query("key") apiKey: String,
         @Query("q") city: String,
         @Query("days") days: Int

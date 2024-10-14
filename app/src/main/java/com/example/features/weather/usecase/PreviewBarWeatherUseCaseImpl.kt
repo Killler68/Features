@@ -1,7 +1,6 @@
 package com.example.features.weather.usecase
 
 import com.example.features.weather.model.PreviewBarWeather
-import com.example.features.weather.model.WeatherResponse
 import com.example.features.weather.viewmodel.PreviewBarWeatherUseCase
 
 class PreviewBarWeatherUseCaseImpl(private val repository: WeatherRepository) :

@@ -109,7 +109,11 @@ dependencies {
 // Jetpack Integration
     implementation("io.insert-koin:koin-androidx-compose:3.4.0")
 
+    //Volley
     implementation("com.android.volley:volley:1.2.1")
     implementation("io.coil-kt:coil-compose:2.0.0")
 
+    //Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.10.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.10.0")
 }

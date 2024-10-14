@@ -268,6 +268,7 @@ fun DsHourlyWeatherItem(hoursWeather: HoursWeather) {
         Text(
             text = "$integerValue°",
             fontSize = 12.sp
+
         )
     }
 }

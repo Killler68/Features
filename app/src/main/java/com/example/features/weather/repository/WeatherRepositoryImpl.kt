@@ -17,7 +17,6 @@ import kotlin.coroutines.suspendCoroutine
 const val WEATHER_API_KEY = "d4261ea19cfd4ee59b0212506240810 "
 
 class WeatherRepositoryImpl() : WeatherRepository {
-
     override suspend fun getHoursWeather(context: Context): List<HoursWeather> {
         return suspendCoroutine { continuation ->
             val url = "https://api.weatherapi.com/v1/forecast.json?key=" +

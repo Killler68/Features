@@ -145,7 +145,7 @@ fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
             contentDescription = "image"
         )
         Text(
-            text = viewModel.previewBarWeather.value.temp,
+            text = viewModel.previewBarWeather.value.temp.toString(),
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 30.sp,
@@ -169,7 +169,7 @@ fun DsDailyWeatherPanel(viewModel: WeatherViewModel) {
         Modifier
     ) {
         itemsIndexed(
-            viewModel.weather.value
+            viewModel.dailyWeather.value
         ) { index, item ->
             DsDailyWeatherItem(dailyWeather = item, viewModel)
         }
@@ -205,7 +205,7 @@ fun DsDailyWeatherItem(
 
             if (dailyWeather != null) {
                 Text(
-                    text = dailyWeather.temp,
+                    text = dailyWeather.temp.toString(),
                     modifier = Modifier
                         .padding(horizontal = 5.dp)
 

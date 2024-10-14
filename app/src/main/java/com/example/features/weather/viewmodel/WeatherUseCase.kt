@@ -4,5 +4,5 @@ import com.example.features.weather.model.DailyWeather
 
 interface WeatherUseCase {
 
-    operator fun invoke(): List<DailyWeather>
+   suspend operator fun invoke(): List<DailyWeather>
 }

@@ -1,10 +1,8 @@
 package com.example.features.weather.viewmodel
 
 import android.content.Context
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.weather.model.DailyWeather
@@ -26,6 +24,13 @@ class WeatherViewModel(
     private val _hoursWeather = mutableStateOf<List<HoursWeather>>(emptyList())
     val hoursWeather: State<List<HoursWeather>> = _hoursWeather
 
+    private val _previewBarWeather =
+        mutableStateOf<PreviewBarWeather>(PreviewBarWeather("", "", 0f, ""))
+    val previewBarWeather: State<PreviewBarWeather> = _previewBarWeather
+
+
+    //    private val _previewBarWeather = mutableStateOf(WeatherResponse(0, "", 0, "", ""))
+//    val previewBarWeather: State<PreviewBarWeather> = _previewBarWeather
 
     private val _state: MutableStateFlow<WeatherState> = MutableStateFlow(WeatherState.Content)
     val state: StateFlow<WeatherState> get() = _state
@@ -35,13 +40,12 @@ class WeatherViewModel(
 //    }
 
 
-
     fun loadWeather(context: Context) {
         viewModelScope.launch {
             _state.value = WeatherState.Loading
-            delay(1000L)
             try {
-                _weather.value = weatherUseCase()
+
+                _dailyWeather.value = weatherUseCase()
                 _hoursWeather.value = hoursWeatherUseCase(context)
                 _previewBarWeather.value = previewBarWeatherUseCase()
                 _state.value = WeatherState.Content
@@ -64,11 +68,9 @@ class WeatherViewModel(
         }
     }
 
-    private val _weather = mutableStateOf<List<DailyWeather>>(emptyList())
-    val weather: State<List<DailyWeather>> = _weather
-
-    private val _previewBarWeather = mutableStateOf(PreviewBarWeather(0, "", 0, "", ""))
-    val previewBarWeather: State<PreviewBarWeather> = _previewBarWeather
+    private val _dailyWeather = mutableStateOf<List<DailyWeather>>(emptyList())
+    val dailyWeather: State<List<DailyWeather>> = _dailyWeather
+//
 
     private fun onBack() {
 //        navController.navigate(Screens.Features.route)

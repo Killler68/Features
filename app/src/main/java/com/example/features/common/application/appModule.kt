@@ -1,6 +1,7 @@
 package com.example.features.common.application
 
 import com.example.features.MainViewModel
+import com.example.features.common.api.WeatherApi
 import com.example.features.weather.repository.WeatherRepositoryImpl
 import com.example.features.weather.usecase.HoursWeatherUseCaseImpl
 import com.example.features.weather.usecase.PreviewBarWeatherUseCaseImpl

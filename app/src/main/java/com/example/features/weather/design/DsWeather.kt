@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -68,14 +69,14 @@ fun Content(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        DsWeatherActionBar(navController)
+        DsWeatherActionBar(viewModel, navController)
         DsWeatherPreviewBar(viewModel)
         DsDailyWeatherPanel(viewModel)
     }
 }
 
 @Composable
-fun DsWeatherActionBar(navController: NavController) {
+fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController) {
 
     Row(
         Modifier
@@ -93,7 +94,7 @@ fun DsWeatherActionBar(navController: NavController) {
         )
 
         Text(
-            text = "Буденновск",
+            text = viewModel.previewBarWeather.value.city,
             modifier = Modifier
                 .padding(horizontal = 10.dp)
                 .weight(0.5f)
@@ -134,8 +135,10 @@ fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
             color = Color.White
         )
         Image(
-            painter = painterResource(R.drawable.ic_launcher_foreground),
-            contentDescription = "image"
+            painter = rememberImagePainter(data = "https:" + viewModel.previewBarWeather.value.icon),
+            contentDescription = "image",
+            modifier = Modifier
+                .size(100.dp)
         )
         Text(
             text = viewModel.previewBarWeather.value.temp.toString(),
@@ -171,11 +174,12 @@ fun DsDailyWeatherPanel(viewModel: WeatherViewModel) {
 
 @Composable
 fun DsDailyWeatherItem(
-    dailyWeather: DailyWeather?,
+    dailyWeather: DailyWeather,
     viewModel: WeatherViewModel,
 //    hoursList: MutableState<List<HoursWeather>>
 ) {
-
+    val integerValueMax = dailyWeather.maxTemp.toInt()
+    val integerValueMin = dailyWeather.minTemp.toInt()
     Column(
         Modifier
             .fillMaxWidth()
@@ -189,28 +193,35 @@ fun DsDailyWeatherItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.End
         ) {
-            if (dailyWeather != null) {
-                Text(
-                    text = dailyWeather.dayOfWeek
-                )
+            Text(
+                text = dailyWeather.dayOfWeek,
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .weight(0.3f)
+                    .padding(start = 10.dp)
+            )
 
-            }
+            Text(
+                text = "$integerValueMin°",
+                textAlign = TextAlign.End,
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .weight(0.3f)
 
-            if (dailyWeather != null) {
-                Text(
-                    text = dailyWeather.temp.toString(),
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp)
+            )
+            Text(
+                text = "$integerValueMax°",
+                textAlign = TextAlign.End,
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
 
-                )
+            )
 
-
-            }
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = rememberImagePainter(data = "https:" + dailyWeather.icon),
                 contentDescription = "image",
                 modifier = Modifier
-                    .size(50.dp)
+                    .size(30.dp)
             )
         }
 
@@ -239,7 +250,7 @@ fun DsDailyWeatherItem(
 @Composable
 fun DsHourlyWeatherItem(hoursWeather: HoursWeather) {
 
-    val integerValue = hoursWeather.temp.toFloat().toInt()
+    val integerValue = hoursWeather.temp.toInt()
     Column(
         Modifier
             .padding(5.dp)

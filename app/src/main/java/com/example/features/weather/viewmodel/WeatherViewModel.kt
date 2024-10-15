@@ -19,7 +19,7 @@ class WeatherViewModel(
 ) : ViewModel() {
 
     private val _previewBarWeather =
-        mutableStateOf(PreviewBarWeather("", "", 0f, ""))
+        mutableStateOf(PreviewBarWeather("", "","", 0f, ""))
     val previewBarWeather: State<PreviewBarWeather> = _previewBarWeather
 
     private val _hoursWeather = mutableStateOf<List<HoursWeather>>(emptyList())

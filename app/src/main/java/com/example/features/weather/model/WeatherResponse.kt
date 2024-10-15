@@ -28,6 +28,7 @@ data class ForecastDay(
 
 data class Day(
     val maxtemp_c: Float,
+    val mintemp_c: Float,
     val condition: Condition
 )
 

@@ -1,16 +1,16 @@
 package com.example.features.weather.repository
 
-import android.annotation.SuppressLint
 import com.example.features.common.api.RetrofitClient
 import com.example.features.common.api.WEATHER_API_KEY
+import com.example.features.common.extension.dateFormatDaily
+import com.example.features.common.extension.dateFormatHourly
+import com.example.features.common.extension.dateFormatPreview
 import com.example.features.weather.model.DailyWeather
 import com.example.features.weather.model.HoursWeather
 import com.example.features.weather.model.PreviewBarWeather
 import com.example.features.weather.usecase.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class WeatherRepositoryImpl : WeatherRepository {
     override suspend fun getHoursWeather(): List<HoursWeather> =
@@ -51,36 +51,4 @@ class WeatherRepositoryImpl : WeatherRepository {
                 response.current.condition.text
             )
         }
-}
-
-const val DATE_FORMAT_PREVIEW = "Сегодня d MMM EEE"
-const val DATE_FORMAT_HOURLY = "H:mm"
-const val DATE_FORMAT_DAILY = "MMM d EEE"
-const val INPUT_DATE_FORMAT = "yyyy-MM-dd HH:mm"
-const val INPUT_DATE_FORMAT_DAILY = "yyyy-MM-dd"
-const val LANGUAGE = "ru"
-
-@SuppressLint("ConstantLocale")
-val inputDateFormat = SimpleDateFormat(INPUT_DATE_FORMAT, Locale.getDefault())
-val inputDateFormatDaily = SimpleDateFormat(INPUT_DATE_FORMAT_DAILY, Locale.getDefault())
-val dateFormatPreview = SimpleDateFormat(DATE_FORMAT_PREVIEW, Locale(LANGUAGE))
-val dateFormatHourly = SimpleDateFormat(DATE_FORMAT_HOURLY, Locale(LANGUAGE))
-val dateFormatDaily = SimpleDateFormat(DATE_FORMAT_DAILY, Locale(LANGUAGE))
-
-fun String.dateFormatPreview(): String {
-
-    val parseDate = inputDateFormat.parse(this)
-    return parseDate.let { dateFormatPreview.format(it!!) }
-}
-
-fun String.dateFormatDaily(): String {
-
-    val parseDate = inputDateFormatDaily.parse(this)
-    return parseDate.let { dateFormatDaily.format(it!!) }
-}
-
-fun String.dateFormatHourly(): String {
-
-    val parseDate = inputDateFormat.parse(this)
-    return parseDate.let { dateFormatHourly.format(it!!) }
 }

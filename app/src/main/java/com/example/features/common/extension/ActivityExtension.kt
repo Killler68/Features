@@ -1,4 +1,4 @@
-package com.example.features.common
+package com.example.features.common.extension
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

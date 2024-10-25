@@ -46,8 +46,7 @@ fun DsNotesListItems(notesModel: NotesModel) {
                         fontSize = 16.sp,
                         style = TextStyle(Color.Black),
                         modifier = Modifier
-                            .padding(start = 10.dp)
-                            .background(Color.Gray)
+                            .padding(start = 10.dp, top = 10.dp)
                     )
                 }
 
@@ -67,7 +66,6 @@ fun DsNotesListItems(notesModel: NotesModel) {
                 Text(
                     text = notesModel.description,
                     fontSize = 16.sp,
-                    style = TextStyle(color = Color.LightGray),
                     modifier = Modifier
                         .padding(start = 10.dp)
                         .weight(0.9f)

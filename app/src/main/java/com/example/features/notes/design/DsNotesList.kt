@@ -1,4 +1,4 @@
-package com.example.features.notes
+package com.example.features.notes.design
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.navigation.Screens
-import com.example.features.notes.design.DsNotesListItems
 import com.example.features.notes.viewmodel.NotesViewModel
 import org.koin.androidx.compose.getViewModel
 

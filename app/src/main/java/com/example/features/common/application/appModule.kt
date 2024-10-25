@@ -3,9 +3,11 @@ package com.example.features.common.application
 import com.example.features.MainViewModel
 import com.example.features.notes.repository.NotesRepositoryImpl
 import com.example.features.notes.usecase.AddNoteUseCaseImpl
+import com.example.features.notes.usecase.DeleteNoteImpl
 import com.example.features.notes.usecase.GetNotesUseCaseImpl
 import com.example.features.notes.usecase.NotesRepository
 import com.example.features.notes.viewmodel.AddNoteUseCase
+import com.example.features.notes.viewmodel.DeleteNote
 import com.example.features.notes.viewmodel.GetNotesUseCase
 import com.example.features.notes.viewmodel.NotesViewModel
 import com.example.features.weather.repository.WeatherRepositoryImpl
@@ -33,7 +35,8 @@ val appModule = module {
 
     factory<GetNotesUseCase> { GetNotesUseCaseImpl(get()) }
     factory<AddNoteUseCase> { AddNoteUseCaseImpl(get()) }
+    factory<DeleteNote> { DeleteNoteImpl(get()) }
 
     viewModel { WeatherViewModel(get(), get(), get()) }
-    viewModel { NotesViewModel(get(), get()) }
+    viewModel { NotesViewModel(get(), get(), get()) }
 }

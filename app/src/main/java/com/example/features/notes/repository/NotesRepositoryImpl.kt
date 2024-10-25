@@ -12,4 +12,8 @@ class NotesRepositoryImpl : NotesRepository {
     override fun addNote(note: NotesModel) {
         notes.add(note)
     }
+
+    override fun deleteNote(note: NotesModel) {
+        notes.remove(note)
+    }
 }

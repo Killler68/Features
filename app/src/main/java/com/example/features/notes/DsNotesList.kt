@@ -1,0 +1,101 @@
+package com.example.features.notes
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.features.R
+import com.example.features.navigation.Screens
+import com.example.features.notes.design.DsNotesListItems
+import com.example.features.notes.viewmodel.NotesViewModel
+import org.koin.androidx.compose.getViewModel
+
+@Composable
+fun DsNotesList(navController: NavController) {
+
+    val viewModel: NotesViewModel = getViewModel()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadNotes()
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    )
+    {
+        DsActionBar(navController)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.LightGray)
+                .size(height = 1.dp, width = 100.dp)
+        )
+
+        LazyColumn {
+
+            itemsIndexed(
+                viewModel.stateGetNotes.value
+            )
+            { index, item ->
+                DsNotesListItems(item)
+            }
+        }
+    }
+}
+
+
+@Composable
+fun DsActionBar(navController: NavController) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(R.drawable.ic_launcher_foreground),
+            contentDescription = "image",
+            modifier = Modifier
+                .size(50.dp)
+                .clickable { navController.navigate(Screens.Features.route) }
+
+        )
+        Text(
+            text = "Заметки",
+            fontSize = 16.sp,
+            modifier = Modifier
+                .weight(0.7f)
+                .padding(10.dp)
+
+        )
+
+
+
+        Image(
+            painter = painterResource(R.drawable.ic_launcher_foreground),
+            contentDescription = "image",
+            modifier = Modifier
+                .size(50.dp)
+                .clickable { navController.navigate(Screens.AddNote.route) }
+        )
+    }
+}

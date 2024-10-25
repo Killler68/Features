@@ -5,6 +5,7 @@ sealed class MainScreenState {
     data object Authorization : MainScreenState()
     data object Features : MainScreenState()
     data object Weather : MainScreenState()
+    data object NotesList : MainScreenState()
 }
 
 sealed class MainScreenEvent() {
@@ -12,4 +13,5 @@ sealed class MainScreenEvent() {
     data object NavigateToAuthorization : MainScreenEvent()
     data object NavigateToFeatures : MainScreenEvent()
     data object NavigateToWeather : MainScreenEvent()
+    data object NavigateToNotesList: MainScreenEvent()
 }

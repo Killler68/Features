@@ -27,6 +27,9 @@ class MainViewModel : ViewModel() {
 
             is MainScreenEvent.NavigateToWeather -> _state.value =
                 MainScreenState.Weather
+
+            is MainScreenEvent.NavigateToNotesList -> _state.value =
+                MainScreenState.NotesList
         }
     }
 }

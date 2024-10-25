@@ -26,9 +26,9 @@ import androidx.navigation.NavController
 import com.example.features.MainScreenEvent
 import com.example.features.MainViewModel
 import com.example.features.R
-import com.example.features.weather.design.DsFeatureItems
 import com.example.features.features.model.Features
 import com.example.features.navigation.Screens
+import com.example.features.weather.design.DsFeatureItems
 
 @Composable
 fun DsFeatures(navController: NavController) {
@@ -55,8 +55,8 @@ fun DsFeatures(navController: NavController) {
                     .clip(CircleShape)
                     .size(40.dp)
                     .clickable {
-                        navController.navigate(Screens.Weather.route)
-                        mainViewModel.handleEvent(MainScreenEvent.NavigateToWeather)
+                        navController.navigate(Screens.NotesList.route)
+                        mainViewModel.handleEvent(MainScreenEvent.NavigateToNotesList)
                     }
             )
             Box(

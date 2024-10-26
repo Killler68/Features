@@ -7,12 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,8 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.features.common.extension.design.DsButton
 import com.example.features.navigation.Screens
-import com.example.features.notes.model.NotesModel
 import com.example.features.notes.viewmodel.NotesViewModel
 import com.example.features.ui.theme.Cyan
 import org.koin.androidx.compose.getViewModel
@@ -47,7 +43,7 @@ fun DsAddNote(navController: NavController) {
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(12.dp))
-                .fillMaxWidth(0.8f)
+                .fillMaxWidth(0.85f)
                 .background(Color.White)
         ) {
             TextField(
@@ -79,42 +75,35 @@ fun DsRowButtonsAddNote(
     inputTitle: String,
     inputDescription: String
 ) {
-
     val viewModel: NotesViewModel = getViewModel()
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Box(
-            contentAlignment = Alignment.CenterStart,
-            modifier = Modifier
-                .weight(0.1f)
-                .padding(10.dp)
-        ) {
-            Button(
-                colors = ButtonDefaults.buttonColors(Cyan),
-                modifier = Modifier.size(width = 140.dp, 40.dp),
-                onClick = { navController.navigate(Screens.NotesList.route) },
-            ) {
-                Text("Назад")
-            }
-        }
-        Box(
-            contentAlignment = Alignment.CenterEnd,
-            modifier = Modifier
-                .padding(10.dp)
-        ) {
-            Button(
-                colors = ButtonDefaults.buttonColors(Cyan),
-                modifier = Modifier.size(width = 140.dp, 40.dp),
-                onClick = {
-                    viewModel.createNote(NotesModel(inputTitle, inputDescription))
-                    navController.navigate(Screens.NotesList.route)
-                }
-            ) {
-                Text("Добавить")
-            }
-        }
+
+        DsButton(
+            contentAlignmentBox = Alignment.CenterStart,
+            paddingBox = 10.dp,
+            colorsButton = Cyan,
+            widthButton = 140.dp,
+            heightButton = 40.dp,
+            navController = navController,
+            toScreen = Screens.NotesList,
+            textButton = "Назад"
+        )
+        DsButton(
+            contentAlignmentBox = Alignment.CenterEnd,
+            paddingBox = 10.dp,
+            colorsButton = Cyan,
+            widthButton = 140.dp,
+            heightButton = 40.dp,
+            navController = navController,
+            toScreen = Screens.NotesList,
+            textButton = "Добавить",
+            viewModelNotes = viewModel,
+            inputTextTitle = inputTitle,
+            inputTextDescription = inputDescription
+        )
     }
 }

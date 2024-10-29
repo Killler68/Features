@@ -10,17 +10,26 @@ import kotlinx.coroutines.launch
 class NotesViewModel(
     private val getNotes: GetNotesUseCase,
     private val addNote: AddNoteUseCase,
-    private val deleteNote: DeleteNote
+    private val deleteNote: DeleteNote,
+    private val updateNoteUseCase: UpdateNote
 ) : ViewModel() {
 
-    private val _stateGetNotes = mutableStateOf<List<NotesModel>>(emptyList())
-    val stateGetNotes: State<List<NotesModel>> = _stateGetNotes
+    private var _stateGetNotes = mutableStateOf<List<NotesModel>>(emptyList())
+    val stateGetNotes: State<List<NotesModel>> get() = _stateGetNotes
+
+    var isAddNote = mutableStateOf(false)
+    var isEditing = mutableStateOf(false)
+
+    init {
+        loadNotes()
+    }
 
     fun createNote(note: NotesModel) {
         addNote(note)
+        loadNotes()
     }
 
-    fun loadNotes() {
+    private fun loadNotes() {
         viewModelScope.launch {
             _stateGetNotes.value = getNotes()
         }
@@ -30,6 +39,13 @@ class NotesViewModel(
         viewModelScope.launch {
             deleteNote(note)
             _stateGetNotes.value = getNotes()
+        }
+    }
+
+    fun updateNote(id: Int, note: NotesModel) {
+        viewModelScope.launch {
+            updateNoteUseCase(id, note)
+            loadNotes()
         }
     }
 }

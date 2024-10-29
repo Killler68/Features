@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,11 +28,12 @@ import com.example.features.notes.viewmodel.NotesViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun DsNotesListItems(notesModel: NotesModel) {
+fun DsNotesListItems(idNote: Int, notesModel: NotesModel) {
 
     val viewModel: NotesViewModel = getViewModel()
 
-//    val rem by remember { mutableStateOf(viewModel.stateDeleteNote) }
+    var editTitle by remember { mutableStateOf(notesModel.title) }
+    var editDescription by remember { mutableStateOf(notesModel.description) }
 
     Row(
         modifier = Modifier
@@ -39,7 +41,6 @@ fun DsNotesListItems(notesModel: NotesModel) {
     ) {
 
         Column {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -57,8 +58,6 @@ fun DsNotesListItems(notesModel: NotesModel) {
                             .padding(start = 10.dp, top = 10.dp)
                     )
                 }
-
-
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_foreground),
                     contentDescription = "image",
@@ -68,10 +67,7 @@ fun DsNotesListItems(notesModel: NotesModel) {
                 )
             }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = notesModel.description,
                     fontSize = 16.sp,
@@ -79,16 +75,34 @@ fun DsNotesListItems(notesModel: NotesModel) {
                         .padding(start = 10.dp)
                         .weight(0.9f)
                 )
-
-
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_foreground),
                     contentDescription = "image",
                     modifier = Modifier
                         .size(36.dp)
+                        .clickable { viewModel.isEditing.value = true }
                 )
-
             }
+            if (viewModel.isEditing.value) {
+                DsNote(
+                    title = editTitle,
+                    description = editDescription,
+                    onTitleChange = { editTitle = it },
+                    onDescriptionChange = { editDescription = it },
+                    onDismiss = { viewModel.isEditing.value = false },
+                    onSave = {
+                        viewModel.updateNote(
+                            idNote,
+                            notesModel.copy(
+                                title = editTitle,
+                                description = editDescription
+                            )
+                        )
+                        viewModel.isEditing.value = false
+                    }
+                )
+            }
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -7,7 +7,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.features.authorization.DsAuthorization
 import com.example.features.features.DsFeatures
 import com.example.features.notes.design.DsNotesList
-import com.example.features.notes.design.DsAddNote
 import com.example.features.registration.DsRegistration
 import com.example.features.weather.design.DsWeather
 
@@ -26,6 +25,5 @@ fun NavigationAppHost() {
         composable(Screens.Features.route) { DsFeatures(navHostController) }
         composable(Screens.Weather.route) { DsWeather(navHostController) }
         composable(Screens.NotesList.route) { DsNotesList(navHostController) }
-        composable(Screens.AddNote.route) { DsAddNote(navHostController) }
     }
 }

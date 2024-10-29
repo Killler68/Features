@@ -16,4 +16,8 @@ class NotesRepositoryImpl : NotesRepository {
     override fun deleteNote(note: NotesModel) {
         notes.remove(note)
     }
+
+    override fun updateNote(id: Int, note: NotesModel) {
+        notes[id] = note
+    }
 }

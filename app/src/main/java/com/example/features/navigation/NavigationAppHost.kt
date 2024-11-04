@@ -14,7 +14,6 @@ import com.example.features.weather.design.DsWeather
 fun NavigationAppHost() {
     val navHostController = rememberNavController()
 
-
     NavHost(navController = navHostController, startDestination = "Registration") {
         composable(Screens.Registration.route) {
             DsRegistration(navHostController)
@@ -24,6 +23,6 @@ fun NavigationAppHost() {
         }
         composable(Screens.Features.route) { DsFeatures(navHostController) }
         composable(Screens.Weather.route) { DsWeather(navHostController) }
-        composable(Screens.NotesList.route) { DsNotesList(navHostController) }
+        composable(Screens.NotesList.route) {DsNotesList(navHostController) }
     }
 }

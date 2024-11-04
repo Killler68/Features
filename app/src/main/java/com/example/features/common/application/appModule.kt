@@ -1,6 +1,11 @@
 package com.example.features.common.application
 
 import com.example.features.MainViewModel
+import com.example.features.features.repository.FeaturesRepositoryImpl
+import com.example.features.features.usecase.FeaturesRepository
+import com.example.features.features.usecase.FeaturesUseCaseImpl
+import com.example.features.features.viewmodel.FeaturesUseCase
+import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.notes.repository.NotesRepositoryImpl
 import com.example.features.notes.usecase.AddNoteUseCaseImpl
 import com.example.features.notes.usecase.DeleteNoteImpl
@@ -27,8 +32,12 @@ import org.koin.dsl.module
 val appModule = module {
 
     viewModel { MainViewModel() }
+
+    single<FeaturesRepository> { FeaturesRepositoryImpl() }
     single<WeatherRepository> { WeatherRepositoryImpl() }
     single<NotesRepository> { NotesRepositoryImpl() }
+
+    factory<FeaturesUseCase> { FeaturesUseCaseImpl(get()) }
 
     factory<WeatherUseCase> { WeatherUseCaseImpl(get()) }
     factory<HoursWeatherUseCase> { HoursWeatherUseCaseImpl(get()) }
@@ -39,6 +48,7 @@ val appModule = module {
     factory<DeleteNote> { DeleteNoteImpl(get()) }
     factory<UpdateNote> { UpdateNoteImpl(get()) }
 
+    viewModel { FeaturesViewModel(get()) }
     viewModel { WeatherViewModel(get(), get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get()) }
 }

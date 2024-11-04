@@ -6,12 +6,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,21 +27,18 @@ import androidx.navigation.NavController
 import com.example.features.MainScreenEvent
 import com.example.features.MainViewModel
 import com.example.features.R
-import com.example.features.features.model.Features
+import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.navigation.Screens
 import com.example.features.weather.design.DsFeatureItems
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun DsFeatures(navController: NavController) {
 
     val mainViewModel: MainViewModel = viewModel()
+    val viewModel: FeaturesViewModel = getViewModel()
 
-    Column(
-        Modifier
-            .fillMaxSize()
-
-    ) {
-
+    Column(Modifier.fillMaxSize()) {
         Row(
             Modifier
                 .fillMaxWidth()
@@ -55,8 +53,8 @@ fun DsFeatures(navController: NavController) {
                     .clip(CircleShape)
                     .size(40.dp)
                     .clickable {
-                        navController.navigate(Screens.NotesList.route)
-                        mainViewModel.handleEvent(MainScreenEvent.NavigateToNotesList)
+                        navController.navigate(Screens.Weather.route)
+                        mainViewModel.handleEvent(MainScreenEvent.NavigateToWeather)
                     }
             )
             Box(
@@ -66,7 +64,7 @@ fun DsFeatures(navController: NavController) {
                 contentAlignment = Alignment.CenterStart
             ) {
                 Text(
-                    text = "Имя пользоватеdsssssssssssssssssssssssssssssssssssssssssssssssля",
+                    text = "Имя пользователя",
                     modifier = Modifier
                         .padding(horizontal = 20.dp)
                         .fillMaxWidth(),
@@ -77,20 +75,20 @@ fun DsFeatures(navController: NavController) {
         }
 
         LazyRow(
-
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
         ) {
-            itemsIndexed(
-                listOf(
-                    Features(0, "1", "1", "1"),
-                    Features(0, "2", "1", "1"),
-                    Features(0, "3", "1", "1"),
 
-                    )
-            ) { index, item ->
-                DsFeatureItems(features = item, navController)
+            items(viewModel.loadFeatures()) { feature ->
+                DsFeatureItems(feature) {
+                    navController.navigate(feature.feature)
+                }
+
             }
         }
 
     }
-
 }
+
+

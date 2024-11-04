@@ -20,16 +20,12 @@ class NotesViewModel(
     var isAddNote = mutableStateOf(false)
     var isEditing = mutableStateOf(false)
 
-    init {
-        loadNotes()
-    }
-
     fun createNote(note: NotesModel) {
         addNote(note)
         loadNotes()
     }
 
-    private fun loadNotes() {
+     private fun loadNotes() {
         viewModelScope.launch {
             _stateGetNotes.value = getNotes()
         }

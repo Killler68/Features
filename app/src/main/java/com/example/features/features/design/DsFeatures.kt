@@ -1,4 +1,4 @@
-package com.example.features.features
+package com.example.features.features.design
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,7 +29,6 @@ import com.example.features.MainViewModel
 import com.example.features.R
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.navigation.Screens
-import com.example.features.weather.design.DsFeatureItems
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -38,7 +37,10 @@ fun DsFeatures(navController: NavController) {
     val mainViewModel: MainViewModel = viewModel()
     val viewModel: FeaturesViewModel = getViewModel()
 
-    Column(Modifier.fillMaxSize()) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)) {
         Row(
             Modifier
                 .fillMaxWidth()

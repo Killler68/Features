@@ -29,6 +29,8 @@ import com.example.features.MainViewModel
 import com.example.features.R
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.navigation.Screens
+import com.example.features.ui.theme.Gray
+import com.example.features.ui.theme.LightGray
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -44,7 +46,7 @@ fun DsFeatures(navController: NavController) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .background(Color.LightGray)
+                .background(Gray)
 
         ) {
             Image(
@@ -80,6 +82,7 @@ fun DsFeatures(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
+                .background(LightGray)
         ) {
 
             items(viewModel.loadFeatures()) { feature ->

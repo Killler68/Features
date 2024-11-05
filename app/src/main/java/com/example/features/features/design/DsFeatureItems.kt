@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.features.R
 import com.example.features.features.model.Features
 import com.example.features.ui.theme.Cyan
+import com.example.features.ui.theme.Gray
 
 @Composable
 fun DsFeatureItems(features: Features, onClick: () -> Unit) {
@@ -35,7 +36,7 @@ fun DsFeatureItems(features: Features, onClick: () -> Unit) {
             .fillMaxHeight(0.8f)
             .padding(start = 80.dp, top = 80.dp, bottom = 40.dp, end = 10.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(Cyan)
+            .background(Gray)
             .clickable { onClick() }
     ) {
         Column {

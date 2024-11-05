@@ -20,6 +20,10 @@ class NotesViewModel(
     var isAddNote = mutableStateOf(false)
     var isEditing = mutableStateOf(false)
 
+    init {
+        loadNotes()
+    }
+
     fun createNote(note: NotesModel) {
         addNote(note)
         loadNotes()

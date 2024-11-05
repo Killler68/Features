@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,6 +36,10 @@ import org.koin.androidx.compose.getViewModel
 fun DsNotesList(navController: NavController) {
 
     val viewModel: NotesViewModel = getViewModel()
+    var editTitle by remember { mutableStateOf("") }
+    var editDescription by remember { mutableStateOf("") }
+    var noteId by remember { mutableIntStateOf(0) }
+
 
     Column(
         modifier = Modifier
@@ -53,8 +58,26 @@ fun DsNotesList(navController: NavController) {
 
             LazyColumn {
                 itemsIndexed(viewModel.stateGetNotes.value) { index, item ->
-                    DsNotesListItems(index, item)
+                    DsNotesListItems(index, item, onClick = {
+                        navController.navigate(Screens.NotesDetail.createRouter(noteId = index))
+                    })
                 }
+            }
+
+            if (viewModel.isAddNote.value) {
+                DsNote(
+                    title = editTitle,
+                    description = editDescription,
+                    onTitleChange = { editTitle = it },
+                    onDescriptionChange = { editDescription = it },
+                    onDismiss = { viewModel.isAddNote.value = false },
+                    onSave = {
+                        viewModel.createNote(NotesModel(noteId++, editTitle, editDescription))
+                        viewModel.isAddNote.value = false
+                        editTitle = ""
+                        editDescription = ""
+                    }
+                )
             }
 
             Image(
@@ -74,11 +97,6 @@ fun DsNotesList(navController: NavController) {
 @Composable
 fun DsActionBar(navController: NavController) {
 
-    var editTitle by remember { mutableStateOf("") }
-    var editDescription by remember { mutableStateOf("") }
-
-    val viewModel: NotesViewModel = getViewModel()
-
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -91,22 +109,6 @@ fun DsActionBar(navController: NavController) {
                 .size(50.dp)
                 .clickable { navController.navigate(Screens.Features.route) }
         )
-
-        if (viewModel.isAddNote.value) {
-            DsNote(
-                title = editTitle,
-                description = editDescription,
-                onTitleChange = { editTitle = it },
-                onDescriptionChange = { editDescription = it },
-                onDismiss = { viewModel.isAddNote.value = false },
-                onSave = {
-                    viewModel.createNote(NotesModel(editTitle, editDescription))
-                    viewModel.isAddNote.value = false
-                    editTitle = ""
-                    editDescription = ""
-                }
-            )
-        }
 
         Text(
             text = "Заметки",

@@ -9,6 +9,10 @@ class NotesRepositoryImpl : NotesRepository {
 
     override fun getNotes(): List<NotesModel> = notes
 
+    override fun getNoteById(noteId: Int): NotesModel? {
+        return notes.find { it.id == noteId }
+    }
+
     override fun addNote(note: NotesModel) {
         notes.add(note)
     }

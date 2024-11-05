@@ -9,11 +9,13 @@ import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.notes.repository.NotesRepositoryImpl
 import com.example.features.notes.usecase.AddNoteUseCaseImpl
 import com.example.features.notes.usecase.DeleteNoteImpl
+import com.example.features.notes.usecase.GetNoteByIdUseCaseImpl
 import com.example.features.notes.usecase.GetNotesUseCaseImpl
 import com.example.features.notes.usecase.NotesRepository
 import com.example.features.notes.usecase.UpdateNoteImpl
 import com.example.features.notes.viewmodel.AddNoteUseCase
 import com.example.features.notes.viewmodel.DeleteNote
+import com.example.features.notes.viewmodel.GetNoteByIdUseCase
 import com.example.features.notes.viewmodel.GetNotesUseCase
 import com.example.features.notes.viewmodel.NotesViewModel
 import com.example.features.notes.viewmodel.UpdateNote
@@ -44,11 +46,12 @@ val appModule = module {
     factory<PreviewBarWeatherUseCase> { PreviewBarWeatherUseCaseImpl(get()) }
 
     factory<GetNotesUseCase> { GetNotesUseCaseImpl(get()) }
+    factory<GetNoteByIdUseCase> { GetNoteByIdUseCaseImpl(get()) }
     factory<AddNoteUseCase> { AddNoteUseCaseImpl(get()) }
     factory<DeleteNote> { DeleteNoteImpl(get()) }
     factory<UpdateNote> { UpdateNoteImpl(get()) }
 
     viewModel { FeaturesViewModel(get()) }
     viewModel { WeatherViewModel(get(), get(), get()) }
-    viewModel { NotesViewModel(get(), get(), get(), get()) }
+    viewModel { NotesViewModel(get(), get(), get(), get(), get()) }
 }

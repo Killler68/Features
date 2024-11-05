@@ -28,7 +28,7 @@ import com.example.features.notes.viewmodel.NotesViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun DsNotesListItems(idNote: Int, notesModel: NotesModel) {
+fun DsNotesListItems(idNote: Int, notesModel: NotesModel, onClick: () -> Unit) {
 
     val viewModel: NotesViewModel = getViewModel()
 
@@ -38,6 +38,7 @@ fun DsNotesListItems(idNote: Int, notesModel: NotesModel) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable { onClick() }
     ) {
 
         Column {

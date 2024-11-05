@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 
 class NotesViewModel(
     private val getNotes: GetNotesUseCase,
+    private val getNoteById: GetNoteByIdUseCase,
     private val addNote: AddNoteUseCase,
     private val deleteNote: DeleteNote,
     private val updateNoteUseCase: UpdateNote
@@ -29,11 +30,13 @@ class NotesViewModel(
         loadNotes()
     }
 
-     private fun loadNotes() {
+    private fun loadNotes() {
         viewModelScope.launch {
             _stateGetNotes.value = getNotes()
         }
     }
+
+    fun getNoteDetail(noteId: Int): NotesModel? = getNoteById(noteId)
 
     fun removeNote(note: NotesModel) {
         viewModelScope.launch {

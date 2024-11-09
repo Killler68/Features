@@ -38,11 +38,8 @@ class NotesViewModel(
         }
     }
 
-    fun getNoteDetail(noteId: Int) {
-        viewModelScope.launch {
-            _stateGetNotes.value[noteId]
-            getNoteById(noteId)
-        }
+    fun getNoteDetail(noteId: Int): NotesModel? {
+        return stateGetNotes.value.find { it.id == noteId }
     }
 
     fun removeNote(note: NotesModel) {

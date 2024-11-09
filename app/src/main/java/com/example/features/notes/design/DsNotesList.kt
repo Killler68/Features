@@ -57,7 +57,7 @@ fun DsNotesList(navController: NavController) {
             LazyColumn {
                 itemsIndexed(viewModel.stateGetNotes.value) { index, item ->
                     DsNotesListItems(item, onClick = {
-                        navController.navigate(Screens.NotesDetail.createRouter(noteId = index))
+                        navController.navigate(Screens.NotesDetail.createRouter(noteId = item.id))
                     })
                 }
             }

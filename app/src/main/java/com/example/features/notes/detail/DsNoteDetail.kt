@@ -17,10 +17,9 @@ import org.koin.androidx.compose.getViewModel
 fun DsNoteDetail(noteId: Int) {
 
     val viewModel: NotesViewModel = getViewModel()
+    val note = viewModel.getNoteDetail(noteId)
 
-    val notes = viewModel.getNoteDetail(noteId)
-
-    notes.let {
+    note?.let {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -28,19 +27,18 @@ fun DsNoteDetail(noteId: Int) {
                 .background(Color.White)
         ) {
             Text(
-                "hello",
+                it.title,
                 style = TextStyle(
                     fontSize = 40.sp
                 )
             )
             Text(
-                "Hello",
+                it.description,
                 style = TextStyle(
                     fontSize = 40.sp
                 )
 
             )
         }
-    }
-
+    } ?: Text("Заметка не найдена")
 }

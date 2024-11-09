@@ -7,5 +7,5 @@ class AddNoteUseCaseImpl(
     private val repository: NotesRepository
 ) : AddNoteUseCase {
 
-    override fun invoke(note: NotesModel) = repository.addNote(note)
+    override suspend fun invoke(note: NotesModel) = repository.addNote(note)
 }

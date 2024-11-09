@@ -28,7 +28,7 @@ import com.example.features.notes.viewmodel.NotesViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun DsNotesListItems(idNote: Int, notesModel: NotesModel, onClick: () -> Unit) {
+fun DsNotesListItems(notesModel: NotesModel, onClick: () -> Unit) {
 
     val viewModel: NotesViewModel = getViewModel()
 
@@ -93,7 +93,6 @@ fun DsNotesListItems(idNote: Int, notesModel: NotesModel, onClick: () -> Unit) {
                     onDismiss = { viewModel.isEditing.value = false },
                     onSave = {
                         viewModel.updateNote(
-                            idNote,
                             notesModel.copy(
                                 title = editTitle,
                                 description = editDescription

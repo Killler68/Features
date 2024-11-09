@@ -1,6 +1,8 @@
 package com.example.features.common.application
 
+import androidx.room.Room
 import com.example.features.MainViewModel
+import com.example.features.common.database.NotesDatabase
 import com.example.features.features.repository.FeaturesRepositoryImpl
 import com.example.features.features.usecase.FeaturesRepository
 import com.example.features.features.usecase.FeaturesUseCaseImpl
@@ -37,7 +39,16 @@ val appModule = module {
 
     single<FeaturesRepository> { FeaturesRepositoryImpl() }
     single<WeatherRepository> { WeatherRepositoryImpl() }
-    single<NotesRepository> { NotesRepositoryImpl() }
+    single<NotesRepository> { NotesRepositoryImpl(get()) }
+
+    single {
+        Room.databaseBuilder(
+            get(),
+            NotesDatabase::class.java,
+            "notes_database"
+        ).build()
+    }
+    single { get<NotesDatabase>().notesDao() }
 
     factory<FeaturesUseCase> { FeaturesUseCaseImpl(get()) }
 

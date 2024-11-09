@@ -7,5 +7,5 @@ class GetNoteByIdUseCaseImpl(
     private val repository: NotesRepository
 ) : GetNoteByIdUseCase {
 
-    override fun invoke(noteId: Int): NotesModel? = repository.getNoteById(noteId)
+    override suspend fun invoke(noteId: Int): NotesModel? = repository.getNoteById(noteId)
 }

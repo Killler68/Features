@@ -6,5 +6,6 @@ import com.example.features.notes.viewmodel.UpdateNote
 class UpdateNoteImpl(
     private val repository: NotesRepository
 ) : UpdateNote {
-    override fun invoke(id: Int, note: NotesModel) = repository.updateNote(id, note)
+
+    override suspend fun invoke(note: NotesModel) = repository.updateNote(note)
 }

@@ -26,8 +26,10 @@ class NotesViewModel(
     }
 
     fun createNote(note: NotesModel) {
-        addNote(note)
-        loadNotes()
+        viewModelScope.launch {
+            addNote(note)
+            loadNotes()
+        }
     }
 
     private fun loadNotes() {
@@ -36,18 +38,23 @@ class NotesViewModel(
         }
     }
 
-    fun getNoteDetail(noteId: Int): NotesModel? = getNoteById(noteId)
+    fun getNoteDetail(noteId: Int) {
+        viewModelScope.launch {
+            _stateGetNotes.value[noteId]
+            getNoteById(noteId)
+        }
+    }
 
     fun removeNote(note: NotesModel) {
         viewModelScope.launch {
             deleteNote(note)
-            _stateGetNotes.value = getNotes()
+            loadNotes()
         }
     }
 
-    fun updateNote(id: Int, note: NotesModel) {
+    fun updateNote(note: NotesModel) {
         viewModelScope.launch {
-            updateNoteUseCase(id, note)
+            updateNoteUseCase(note)
             loadNotes()
         }
     }

@@ -6,7 +6,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-
 @Composable
 fun DsNote(
     title: String,
@@ -24,7 +23,7 @@ fun DsNote(
                 TextField(
                     value = title,
                     onValueChange = onTitleChange,
-                    label = { Text("Заглавие") }
+                    label = { Text("Заголовок") }
                 )
                 TextField(
                     value = description,

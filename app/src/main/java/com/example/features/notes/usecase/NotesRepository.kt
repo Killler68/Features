@@ -4,9 +4,9 @@ import com.example.features.notes.model.NotesModel
 
 interface NotesRepository {
 
-    fun getNotes(): List<NotesModel>
-    fun getNoteById(noteId: Int): NotesModel?
-    fun addNote(note: NotesModel)
-    fun deleteNote(note: NotesModel)
-    fun updateNote(id: Int, note: NotesModel)
+    suspend fun getNotes(): List<NotesModel>
+    suspend fun getNoteById(noteId: Int): NotesModel?
+    suspend fun addNote(note: NotesModel)
+    suspend fun deleteNote(note: NotesModel)
+    suspend fun updateNote(note: NotesModel)
 }

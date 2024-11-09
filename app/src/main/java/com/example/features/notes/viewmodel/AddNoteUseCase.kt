@@ -4,5 +4,5 @@ import com.example.features.notes.model.NotesModel
 
 interface AddNoteUseCase {
 
-    operator fun invoke(note: NotesModel)
+    suspend operator fun invoke(note: NotesModel)
 }

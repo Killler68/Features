@@ -4,5 +4,5 @@ import com.example.features.notes.model.NotesModel
 
 interface UpdateNote {
 
-    operator fun invoke(id: Int, note: NotesModel)
+    suspend operator fun invoke(note: NotesModel)
 }

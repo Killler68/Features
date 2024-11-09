@@ -38,8 +38,6 @@ fun DsNotesList(navController: NavController) {
     val viewModel: NotesViewModel = getViewModel()
     var editTitle by remember { mutableStateOf("") }
     var editDescription by remember { mutableStateOf("") }
-    var noteId by remember { mutableIntStateOf(0) }
-
 
     Column(
         modifier = Modifier
@@ -58,7 +56,7 @@ fun DsNotesList(navController: NavController) {
 
             LazyColumn {
                 itemsIndexed(viewModel.stateGetNotes.value) { index, item ->
-                    DsNotesListItems(index, item, onClick = {
+                    DsNotesListItems(item, onClick = {
                         navController.navigate(Screens.NotesDetail.createRouter(noteId = index))
                     })
                 }
@@ -72,7 +70,7 @@ fun DsNotesList(navController: NavController) {
                     onDescriptionChange = { editDescription = it },
                     onDismiss = { viewModel.isAddNote.value = false },
                     onSave = {
-                        viewModel.createNote(NotesModel(noteId++, editTitle, editDescription))
+                        viewModel.createNote(NotesModel(title = editTitle, description =  editDescription))
                         viewModel.isAddNote.value = false
                         editTitle = ""
                         editDescription = ""
@@ -91,7 +89,6 @@ fun DsNotesList(navController: NavController) {
             )
         }
     }
-
 }
 
 @Composable

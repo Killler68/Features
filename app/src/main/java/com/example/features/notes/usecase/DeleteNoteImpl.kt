@@ -7,5 +7,6 @@ class DeleteNoteImpl(
     private val repository: NotesRepository
 ) : DeleteNote {
 
-    override fun invoke(note: NotesModel) = repository.deleteNote(note)
+    override suspend
+    fun invoke(note: NotesModel) = repository.deleteNote(note)
 }

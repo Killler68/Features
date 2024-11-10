@@ -3,6 +3,7 @@ package com.example.features.notes.design
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,12 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -36,6 +37,7 @@ import org.koin.androidx.compose.getViewModel
 fun DsNotesList(navController: NavController) {
 
     val viewModel: NotesViewModel = getViewModel()
+    val notes = viewModel.stateGetNotes.value
     var editTitle by remember { mutableStateOf("") }
     var editDescription by remember { mutableStateOf("") }
 
@@ -54,9 +56,16 @@ fun DsNotesList(navController: NavController) {
         )
         Box(modifier = Modifier.fillMaxSize()) {
 
-            LazyColumn {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 100.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier
+                    .padding(16.dp)
+            ) {
+
                 itemsIndexed(viewModel.stateGetNotes.value) { index, item ->
-                    DsNotesListItems(item, onClick = {
+                    DsNoteGridItem (item, onClick = {
                         navController.navigate(Screens.NotesDetail.createRouter(noteId = item.id))
                     })
                 }
@@ -70,7 +79,12 @@ fun DsNotesList(navController: NavController) {
                     onDescriptionChange = { editDescription = it },
                     onDismiss = { viewModel.isAddNote.value = false },
                     onSave = {
-                        viewModel.createNote(NotesModel(title = editTitle, description =  editDescription))
+                        viewModel.createNote(
+                            NotesModel(
+                                title = editTitle,
+                                description = editDescription
+                            )
+                        )
                         viewModel.isAddNote.value = false
                         editTitle = ""
                         editDescription = ""

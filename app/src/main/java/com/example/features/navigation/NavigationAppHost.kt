@@ -33,7 +33,7 @@ fun NavigationAppHost() {
             arguments = listOf(navArgument("noteId") { type = NavType.IntType })
         ) { backStackEntry ->
             val noteId = backStackEntry.arguments?.getInt("noteId") ?: 0
-            DsNoteDetail(noteId = noteId)
+            DsNoteDetail(noteId = noteId, navHostController)
         }
 
     }

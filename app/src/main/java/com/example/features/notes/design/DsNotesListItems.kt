@@ -60,23 +60,31 @@ fun DsNoteGridItem(notesModel: NotesModel, onClick: () -> Unit) {
 
                 Row(
                     verticalAlignment = Alignment.Bottom,
-                    modifier = Modifier.weight(0.5f)
+                    modifier = Modifier
+                        .weight(0.5f)
+                        .padding(horizontal = 5.dp, vertical = 5.dp)
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.ic_launcher_foreground),
-                        contentDescription = "image",
+                        painter = painterResource(R.drawable.trash_bucket),
+                        contentDescription = "remove_note",
                         modifier = Modifier
                             .clickable { viewModel.removeNote(notesModel) }
-                            .size(48.dp),
+                            .size(24.dp)
+                            .weight(0.5f),
                         Alignment.CenterStart
                     )
 
                     Image(
-                        painter = painterResource(R.drawable.ic_launcher_foreground),
-                        contentDescription = "image",
+                        painter = painterResource(R.drawable.pencil),
+                        contentDescription = "update_note",
                         modifier = Modifier
-                            .clickable { viewModel.isEditing.value = true }
-                            .size(48.dp),
+                            .clickable {
+                                viewModel.editingNoteId.value = notesModel.id
+                                editTitle = notesModel.title
+                                editDescription = notesModel.description
+                            }
+                            .size(24.dp)
+                            .weight(0.5f),
                         Alignment.CenterEnd
 
                     )
@@ -97,24 +105,23 @@ fun DsNoteGridItem(notesModel: NotesModel, onClick: () -> Unit) {
                 style = TextStyle(fontSize = 14.sp)
             )
         }
-    }
-
-    if (viewModel.isEditing.value) {
-        DsNote(
-            title = editTitle,
-            description = editDescription,
-            onTitleChange = { editTitle = it },
-            onDescriptionChange = { editDescription = it },
-            onDismiss = { viewModel.isEditing.value = false },
-            onSave = {
-                viewModel.updateNote(
-                    notesModel.copy(
-                        title = editTitle,
-                        description = editDescription
+        if (viewModel.editingNoteId.value == notesModel.id) {
+            DsNote(
+                title = editTitle,
+                description = editDescription,
+                onTitleChange = { editTitle = it },
+                onDescriptionChange = { editDescription = it },
+                onDismiss = { viewModel.editingNoteId.value = null },
+                onSave = {
+                    viewModel.updateNote(
+                        notesModel.copy(
+                            title = editTitle,
+                            description = editDescription
+                        )
                     )
-                )
-                viewModel.isEditing.value = false
-            }
-        )
+                    viewModel.editingNoteId.value = null
+                }
+            )
+        }
     }
 }

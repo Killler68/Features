@@ -21,6 +21,8 @@ class NotesViewModel(
     var isAddNote = mutableStateOf(false)
     var isEditing = mutableStateOf(false)
 
+    var editingNoteId = mutableStateOf<Int?>(null)
+
     init {
         loadNotes()
     }
@@ -53,6 +55,7 @@ class NotesViewModel(
         viewModelScope.launch {
             updateNoteUseCase(note)
             loadNotes()
+            editingNoteId.value = null
         }
     }
 }

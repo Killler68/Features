@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -31,13 +33,14 @@ import com.example.features.R
 import com.example.features.navigation.Screens
 import com.example.features.notes.model.NotesModel
 import com.example.features.notes.viewmodel.NotesViewModel
+import com.example.features.ui.theme.LightGray
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun DsNotesList(navController: NavController) {
 
     val viewModel: NotesViewModel = getViewModel()
-    val notes = viewModel.stateGetNotes.value
+    val notesList = viewModel.stateGetNotes.value
     var editTitle by remember { mutableStateOf("") }
     var editDescription by remember { mutableStateOf("") }
 
@@ -64,8 +67,8 @@ fun DsNotesList(navController: NavController) {
                     .padding(16.dp)
             ) {
 
-                itemsIndexed(viewModel.stateGetNotes.value) { index, item ->
-                    DsNoteGridItem (item, onClick = {
+                itemsIndexed(notesList) { index, item ->
+                    DsNoteGridItem(item, onClick = {
                         navController.navigate(Screens.NotesDetail.createRouter(noteId = item.id))
                     })
                 }
@@ -93,11 +96,14 @@ fun DsNotesList(navController: NavController) {
             }
 
             Image(
-                painter = painterResource(R.drawable.ic_launcher_foreground),
+                painter = painterResource(R.drawable.note),
                 contentDescription = "image",
                 modifier = Modifier
                     .padding(bottom = 20.dp, end = 40.dp)
-                    .size(54.dp)
+                    .size(58.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color.Gray)
+                    .padding(7.dp)
                     .align(Alignment.BottomEnd)
                     .clickable { viewModel.isAddNote.value = true }
             )
@@ -110,14 +116,18 @@ fun DsActionBar(navController: NavController) {
 
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(R.drawable.ic_launcher_foreground),
+            painter = painterResource(R.drawable.back),
             contentDescription = "image",
             modifier = Modifier
-                .size(50.dp)
+                .size(32.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(LightGray)
+                .padding(7.dp)
                 .clickable { navController.navigate(Screens.Features.route) }
         )
 

@@ -9,8 +9,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,12 +28,18 @@ import androidx.navigation.NavController
 import com.example.features.MainScreenEvent
 import com.example.features.MainViewModel
 import com.example.features.navigation.Screens
+import com.example.features.registration.viewmodel.RegistrationViewModel
+import com.example.features.ui.theme.Cyan
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun DsRegistration(navController: NavController) {
 
     val mainViewModel: MainViewModel = getViewModel()
+    val registrationViewModel: RegistrationViewModel = getViewModel()
+
+    var login by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     Column(
         Modifier
@@ -67,37 +80,24 @@ fun DsRegistration(navController: NavController) {
                     }
             )
         }
-
-        Box(
+        TextField(
+            value = login,
+            onValueChange = { login = it },
+            label = { Text("Логин") },
+            colors = OutlinedTextFieldDefaults.colors(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp)
-        ) {
-            Text(
-                text = "Введите имя",
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                fontSize = 16.sp
-
-            )
-
-        }
-        Box(
+                .padding(vertical = 10.dp, horizontal = 20.dp)
+        )
+        TextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Пароль") },
+            colors = OutlinedTextFieldDefaults.colors(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp)
-        ) {
-            Text(
-                text = "Введите пароль",
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                fontSize = 16.sp
-
-            )
-
-        }
+                .padding(horizontal = 20.dp)
+        )
 
         Box(
             modifier =
@@ -108,19 +108,21 @@ fun DsRegistration(navController: NavController) {
         ) {
             Button(
                 onClick = {
-                    navController.navigate(Screens.Features.route)
-                    mainViewModel.handleEvent(MainScreenEvent.NavigateToFeatures)
+                    if (login.isNotEmpty() && password.isNotEmpty()) {
+                        registrationViewModel.createUser(login, password)
+                        navController.navigate(Screens.Features.route)
+                        mainViewModel.handleEvent(MainScreenEvent.NavigateToFeatures)
+                    }
                 },
                 Modifier
-                    .size(width = 350.dp, 55.dp)
-
+                    .size(width = 350.dp, 55.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Cyan)
             ) {
                 Text(
                     text = "ГОТОВО",
                     fontSize = 20.sp,
                 )
             }
-
         }
         Box(
             modifier = Modifier

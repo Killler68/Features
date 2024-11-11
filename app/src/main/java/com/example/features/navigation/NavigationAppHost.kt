@@ -18,15 +18,11 @@ fun NavigationAppHost() {
     val navHostController = rememberNavController()
 
     NavHost(navController = navHostController, startDestination = "Registration") {
-        composable(Screens.Registration.route) {
-            DsRegistration(navHostController)
-        }
-        composable(Screens.Authorization.route) {
-            DsAuthorization(navHostController)
-        }
-        composable(Screens.Features.route) { DsFeatures(navHostController) }
+        composable(Screens.Registration.route) { DsRegistration(navHostController) }
+        composable(Screens.Authorization.route) { DsAuthorization(navHostController) }
         composable(Screens.Weather.route) { DsWeather(navHostController) }
         composable(Screens.NotesList.route) { DsNotesList(navHostController) }
+        composable(Screens.Features.route) { DsFeatures(navHostController) }
 
         composable(
             route = Screens.NotesDetail.route,
@@ -35,6 +31,5 @@ fun NavigationAppHost() {
             val noteId = backStackEntry.arguments?.getInt("noteId") ?: 0
             DsNoteDetail(noteId = noteId, navHostController)
         }
-
     }
 }

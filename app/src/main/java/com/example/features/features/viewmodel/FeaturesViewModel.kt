@@ -7,4 +7,5 @@ class FeaturesViewModel(
 ) : ViewModel() {
 
     fun loadFeatures() = features()
+
 }

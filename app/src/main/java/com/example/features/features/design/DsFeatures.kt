@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +29,7 @@ import androidx.navigation.NavController
 import com.example.features.MainScreenEvent
 import com.example.features.MainViewModel
 import com.example.features.R
+import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Gray
@@ -39,10 +42,14 @@ fun DsFeatures(navController: NavController) {
     val mainViewModel: MainViewModel = viewModel()
     val viewModel: FeaturesViewModel = getViewModel()
 
+    val sharedViewModel: SharedViewModel = getViewModel()
+    val user by sharedViewModel.currentUser.collectAsState()
+
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color.White)) {
+            .background(Color.White)
+    ) {
         Row(
             Modifier
                 .fillMaxWidth()
@@ -67,13 +74,15 @@ fun DsFeatures(navController: NavController) {
                     .size(40.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
-                Text(
-                    text = "Имя пользователя",
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp)
-                        .fillMaxWidth(),
-                    maxLines = 1
-                )
+                user?.login?.let {
+                    Text(
+                        text = it,
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp)
+                            .fillMaxWidth(),
+                        maxLines = 1
+                    )
+                } ?: Text("No user logged in")
 
             }
         }
@@ -84,7 +93,6 @@ fun DsFeatures(navController: NavController) {
                 .fillMaxHeight()
                 .background(LightGray)
         ) {
-
             items(viewModel.loadFeatures()) { feature ->
                 DsFeatureItems(feature) {
                     navController.navigate(feature.feature)
@@ -92,7 +100,6 @@ fun DsFeatures(navController: NavController) {
 
             }
         }
-
     }
 }
 

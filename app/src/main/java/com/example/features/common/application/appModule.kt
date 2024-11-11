@@ -3,6 +3,10 @@ package com.example.features.common.application
 import androidx.room.Room
 import com.example.features.MainViewModel
 import com.example.features.common.database.NotesDatabase
+import com.example.features.common.database.user.UserDatabase
+import com.example.features.common.repository.UserRepository
+import com.example.features.common.repository.UserRepositoryImpl
+import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.repository.FeaturesRepositoryImpl
 import com.example.features.features.usecase.FeaturesRepository
 import com.example.features.features.usecase.FeaturesUseCaseImpl
@@ -21,6 +25,9 @@ import com.example.features.notes.viewmodel.GetNoteByIdUseCase
 import com.example.features.notes.viewmodel.GetNotesUseCase
 import com.example.features.notes.viewmodel.NotesViewModel
 import com.example.features.notes.viewmodel.UpdateNote
+import com.example.features.registration.usecase.CreateUserUseCaseImpl
+import com.example.features.registration.viewmodel.CreateUserUseCase
+import com.example.features.registration.viewmodel.RegistrationViewModel
 import com.example.features.weather.repository.WeatherRepositoryImpl
 import com.example.features.weather.usecase.HoursWeatherUseCaseImpl
 import com.example.features.weather.usecase.PreviewBarWeatherUseCaseImpl
@@ -37,9 +44,12 @@ val appModule = module {
 
     viewModel { MainViewModel() }
 
+    single { SharedViewModel() }
+
     single<FeaturesRepository> { FeaturesRepositoryImpl() }
     single<WeatherRepository> { WeatherRepositoryImpl() }
     single<NotesRepository> { NotesRepositoryImpl(get()) }
+    single<UserRepository> { UserRepositoryImpl(get()) }
 
     single {
         Room.databaseBuilder(
@@ -50,6 +60,16 @@ val appModule = module {
     }
     single { get<NotesDatabase>().notesDao() }
 
+    single {
+        Room.databaseBuilder(
+            get(),
+            UserDatabase::class.java,
+            "user_database"
+        ).build()
+    }
+    single { get<UserDatabase>().userDao() }
+
+    factory<CreateUserUseCase> { CreateUserUseCaseImpl(get()) }
     factory<FeaturesUseCase> { FeaturesUseCaseImpl(get()) }
 
     factory<WeatherUseCase> { WeatherUseCaseImpl(get()) }
@@ -62,6 +82,7 @@ val appModule = module {
     factory<DeleteNote> { DeleteNoteImpl(get()) }
     factory<UpdateNote> { UpdateNoteImpl(get()) }
 
+    viewModel { RegistrationViewModel(get(), get()) }
     viewModel { FeaturesViewModel(get()) }
     viewModel { WeatherViewModel(get(), get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get(), get()) }

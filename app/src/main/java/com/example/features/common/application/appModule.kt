@@ -2,6 +2,8 @@ package com.example.features.common.application
 
 import androidx.room.Room
 import com.example.features.MainViewModel
+import com.example.features.authorization.GetUserByLoginAndPassword
+import com.example.features.authorization.GetUserByLoginAndPasswordImpl
 import com.example.features.common.database.NotesDatabase
 import com.example.features.common.database.user.UserDatabase
 import com.example.features.common.repository.UserRepository
@@ -44,7 +46,7 @@ val appModule = module {
 
     viewModel { MainViewModel() }
 
-    single { SharedViewModel() }
+    single { SharedViewModel(get()) }
 
     single<FeaturesRepository> { FeaturesRepositoryImpl() }
     single<WeatherRepository> { WeatherRepositoryImpl() }
@@ -71,6 +73,7 @@ val appModule = module {
 
     factory<CreateUserUseCase> { CreateUserUseCaseImpl(get()) }
     factory<FeaturesUseCase> { FeaturesUseCaseImpl(get()) }
+    factory<GetUserByLoginAndPassword> { GetUserByLoginAndPasswordImpl(get()) }
 
     factory<WeatherUseCase> { WeatherUseCaseImpl(get()) }
     factory<HoursWeatherUseCase> { HoursWeatherUseCaseImpl(get()) }

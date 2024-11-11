@@ -10,7 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +26,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.features.MainScreenEvent
 import com.example.features.MainViewModel
+import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.navigation.Screens
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun DsAuthorization(
@@ -29,6 +36,12 @@ fun DsAuthorization(
 ) {
 
     val mainViewModel: MainViewModel = viewModel()
+
+    val sharedViewModel: SharedViewModel = getViewModel()
+
+    var login by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
 
     Column(
         Modifier
@@ -72,9 +85,9 @@ fun DsAuthorization(
                 .fillMaxWidth()
                 .padding(top = 20.dp)
         ) {
-            Text(
-                text = "Логин",
-                fontSize = 16.sp,
+            TextField(
+                value = login,
+                onValueChange = { login = it },
                 modifier = Modifier
                     .padding(horizontal = 10.dp)
 
@@ -85,9 +98,9 @@ fun DsAuthorization(
                 .fillMaxWidth()
                 .padding(top = 10.dp)
         ) {
-            Text(
-                text = "Пароль",
-                fontSize = 16.sp,
+            TextField(
+                value = password,
+                onValueChange = { password = it },
                 modifier = Modifier
                     .padding(horizontal = 10.dp)
             )
@@ -99,7 +112,15 @@ fun DsAuthorization(
             contentAlignment = Alignment.Center
         ) {
             Button(
-                onClick = { },
+                onClick = {
+                    if (login.isNotBlank() && password.isNotBlank()) {
+                        sharedViewModel.getUser(login, password)
+                        sharedViewModel.currentUser.value
+                        navController.navigate(Screens.Features.route)
+
+
+                    }
+                },
                 Modifier
                     .size(width = 350.dp, 55.dp),
 
@@ -111,5 +132,6 @@ fun DsAuthorization(
             }
         }
         Box(modifier = Modifier.weight(0.2f))
+
     }
 }

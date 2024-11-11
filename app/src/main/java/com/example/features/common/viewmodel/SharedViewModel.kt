@@ -25,7 +25,4 @@ class SharedViewModel(
             setCurrentUser(user)
         }
     }
-    fun resetUserState() {
-        _currentUser.value
-    }
 }

@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -28,20 +30,17 @@ import com.example.features.MainScreenEvent
 import com.example.features.MainViewModel
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.navigation.Screens
+import com.example.features.ui.theme.Cyan
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun DsAuthorization(
-    navController: NavController
-) {
+fun DsAuthorization(navController: NavController) {
 
     val mainViewModel: MainViewModel = viewModel()
-
     val sharedViewModel: SharedViewModel = getViewModel()
 
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
 
     Column(
         Modifier
@@ -62,7 +61,6 @@ fun DsAuthorization(
                 text = "Добро пожаловать",
                 fontSize = 30.sp
             )
-
         }
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -76,35 +74,27 @@ fun DsAuthorization(
                     .clickable {
                         navController.navigate(Screens.Registration.route)
                         mainViewModel.handleEvent(MainScreenEvent.NavigateToRegistration)
-
                     }
             )
         }
-        Box(
+        TextField(
+            value = login,
+            onValueChange = { login = it },
+            label = { Text("Логин") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 20.dp)
-        ) {
-            TextField(
-                value = login,
-                onValueChange = { login = it },
-                modifier = Modifier
-                    .padding(horizontal = 10.dp)
-
-            )
-        }
-        Box(
+                .padding(horizontal = 20.dp, vertical = 10.dp),
+            colors = OutlinedTextFieldDefaults.colors()
+        )
+        TextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Пароль") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp)
-        ) {
-            TextField(
-                value = password,
-                onValueChange = { password = it },
-                modifier = Modifier
-                    .padding(horizontal = 10.dp)
-            )
-        }
+                .padding(horizontal = 20.dp),
+            colors = OutlinedTextFieldDefaults.colors()
+        )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -115,16 +105,12 @@ fun DsAuthorization(
                 onClick = {
                     if (login.isNotBlank() && password.isNotBlank()) {
                         sharedViewModel.getUser(login, password)
-                        sharedViewModel.currentUser.value
                         navController.navigate(Screens.Features.route)
-
-
                     }
                 },
-                Modifier
-                    .size(width = 350.dp, 55.dp),
-
-                ) {
+                Modifier.size(width = 350.dp, 55.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Cyan),
+            ) {
                 Text(
                     text = "ГОТОВО",
                     fontSize = 20.sp
@@ -132,6 +118,5 @@ fun DsAuthorization(
             }
         }
         Box(modifier = Modifier.weight(0.2f))
-
     }
 }

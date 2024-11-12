@@ -9,23 +9,31 @@ class NotesRepositoryImpl(
     private val notesDao: NotesDao
 ) : NotesRepository {
 
-    override suspend fun getNotes(): List<NotesModel> = notesDao.getNotes().map {
-        NotesModel(it.id, it.title, it.description)
+    override suspend fun getNotes(userId: Int): List<NotesModel> = notesDao.getNotes(userId).map {
+        NotesModel(it.noteId, it.title, it.description, it.userId)
     }
 
     override suspend fun getNoteById(noteId: Int): NotesModel? =
         notesDao.getNoteById(noteId)?.let {
-            NotesModel(it.id, it.title, it.description)
+            NotesModel(it.noteId, it.title, it.description, it.userId)
         }
 
     override suspend fun addNote(note: NotesModel) {
-        notesDao.addNote(Notes(note.id, note.title, note.description))
+        notesDao.addNote(Notes(0, note.title, note.description, note.userId))
     }
 
     override suspend fun deleteNote(note: NotesModel) {
-        notesDao.deleteNote(Notes(note.id, note.title, note.description))
+        notesDao.deleteNote(noteId = note.noteId)
     }
+
     override suspend fun updateNote(note: NotesModel) {
-        notesDao.updateNote(Notes(id = note.id, title = note.title, description =  note.description))
+        notesDao.updateNote(
+            Notes(
+                noteId = note.noteId,
+                title = note.title,
+                description = note.description,
+                userId = note.userId
+            )
+        )
     }
 }

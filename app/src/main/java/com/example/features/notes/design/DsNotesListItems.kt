@@ -79,7 +79,7 @@ fun DsNoteGridItem(notesModel: NotesModel, onClick: () -> Unit) {
                         contentDescription = "update_note",
                         modifier = Modifier
                             .clickable {
-                                viewModel.editingNoteId.value = notesModel.id
+                                viewModel.editingNoteId.value = notesModel.noteId
                                 editTitle = notesModel.title
                                 editDescription = notesModel.description
                             }
@@ -105,7 +105,7 @@ fun DsNoteGridItem(notesModel: NotesModel, onClick: () -> Unit) {
                 style = TextStyle(fontSize = 14.sp)
             )
         }
-        if (viewModel.editingNoteId.value == notesModel.id) {
+        if (viewModel.editingNoteId.value == notesModel.noteId) {
             DsNote(
                 title = editTitle,
                 description = editDescription,

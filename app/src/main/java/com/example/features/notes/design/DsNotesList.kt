@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.R
+import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.navigation.Screens
 import com.example.features.notes.model.NotesModel
 import com.example.features.notes.viewmodel.NotesViewModel
@@ -41,6 +43,11 @@ fun DsNotesList(navController: NavController) {
 
     val viewModel: NotesViewModel = getViewModel()
     val notesList = viewModel.stateGetNotes.value
+
+    val sharedViewModel: SharedViewModel = getViewModel()
+    val currentUser by sharedViewModel.currentUser.collectAsState()
+    val userId = currentUser?.id
+
     var editTitle by remember { mutableStateOf("") }
     var editDescription by remember { mutableStateOf("") }
 
@@ -69,7 +76,7 @@ fun DsNotesList(navController: NavController) {
 
                 itemsIndexed(notesList) { index, item ->
                     DsNoteGridItem(item, onClick = {
-                        navController.navigate(Screens.NotesDetail.createRouter(noteId = item.id))
+                        navController.navigate(Screens.NotesDetail.createRouter(noteId = item.noteId))
                     })
                 }
             }
@@ -82,15 +89,18 @@ fun DsNotesList(navController: NavController) {
                     onDescriptionChange = { editDescription = it },
                     onDismiss = { viewModel.isAddNote.value = false },
                     onSave = {
-                        viewModel.createNote(
-                            NotesModel(
-                                title = editTitle,
-                                description = editDescription
+                        if (userId != null) {
+                            viewModel.createNote(
+                                NotesModel(
+                                    title = editTitle,
+                                    description = editDescription,
+                                    userId = userId
+                                )
                             )
-                        )
-                        viewModel.isAddNote.value = false
-                        editTitle = ""
-                        editDescription = ""
+                            viewModel.isAddNote.value = false
+                            editTitle = ""
+                            editDescription = ""
+                        }
                     }
                 )
             }

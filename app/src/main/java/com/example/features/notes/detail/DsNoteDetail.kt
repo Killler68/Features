@@ -87,7 +87,7 @@ fun DsNoteDetail(noteId: Int, navController: NavController) {
                         .background(LightGray)
                         .padding(7.dp)
                         .clickable {
-                            viewModel.editingNoteId.value = it.id
+                            viewModel.editingNoteId.value = it.noteId
                             editTitle = it.title
                             editDescription = it.description
 
@@ -108,7 +108,7 @@ fun DsNoteDetail(noteId: Int, navController: NavController) {
                         }
                 )
             }
-            if (viewModel.editingNoteId.value == it.id) {
+            if (viewModel.editingNoteId.value == it.noteId) {
                 DsNote(
                     title = editTitle,
                     description = editDescription,

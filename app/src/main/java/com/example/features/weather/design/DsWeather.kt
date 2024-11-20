@@ -86,8 +86,8 @@ fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(R.drawable.ic_launcher_foreground),
-            contentDescription = "image",
+            painter = painterResource(R.drawable.back),
+            contentDescription = "image_back",
             modifier = Modifier
                 .size(50.dp)
                 .weight(0.1f)
@@ -108,8 +108,8 @@ fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController
             contentAlignment = Alignment.CenterEnd
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "image",
+                painter = painterResource(id = R.drawable.location),
+                contentDescription = "image_location",
                 modifier = Modifier
             )
         }

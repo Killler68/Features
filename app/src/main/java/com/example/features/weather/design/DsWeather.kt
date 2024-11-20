@@ -33,6 +33,7 @@ import com.example.features.R
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
+import com.example.features.ui.theme.LightGray
 import com.example.features.weather.model.DailyWeather
 import com.example.features.weather.model.HoursWeather
 import com.example.features.weather.state.WeatherState
@@ -89,8 +90,10 @@ fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController
             painter = painterResource(R.drawable.back),
             contentDescription = "image_back",
             modifier = Modifier
-                .size(50.dp)
-                .weight(0.1f)
+                .size(32.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(LightGray)
+                .padding(7.dp)
                 .clickable { navController.navigate(Screens.Features.route) }
         )
 
@@ -111,6 +114,10 @@ fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController
                 painter = painterResource(id = R.drawable.location),
                 contentDescription = "image_location",
                 modifier = Modifier
+                    .size(32.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(LightGray)
+                    .padding(7.dp)
             )
         }
     }

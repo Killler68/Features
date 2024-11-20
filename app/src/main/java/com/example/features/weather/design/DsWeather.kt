@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.features.R
+import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
 import com.example.features.weather.model.DailyWeather
@@ -148,7 +149,7 @@ fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
             color = Color.White
         )
         Text(
-            text = viewModel.previewBarWeather.value.description,
+            text = viewModel.previewBarWeather.value.description.getRawNameWeatherExtension(),
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,

@@ -1,5 +1,6 @@
 package com.example.features.common.api
 
+import androidx.compose.runtime.MutableState
 import com.example.features.weather.model.WeatherResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,7 +15,7 @@ interface WeatherApi {
     @GET("forecast.json")
     suspend fun getWeather(
         @Query("key") apiKey: String,
-        @Query("q") city: String,
+        @Query("q") city: MutableState<String>,
         @Query("days") days: Int
     ): WeatherResponse
 }

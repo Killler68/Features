@@ -19,6 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +40,7 @@ import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
 import com.example.features.weather.model.DailyWeather
 import com.example.features.weather.model.HoursWeather
+import com.example.features.weather.repository.city
 import com.example.features.weather.state.WeatherState
 import com.example.features.weather.viewmodel.WeatherViewModel
 import org.koin.androidx.compose.getViewModel
@@ -80,6 +85,8 @@ fun Content(
 @Composable
 fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController) {
 
+    var editCity by remember { mutableStateOf(viewModel.previewBarWeather.value.city) }
+
     Row(
         Modifier
             .fillMaxWidth()
@@ -118,7 +125,24 @@ fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController
                     .clip(RoundedCornerShape(12.dp))
                     .background(LightGray)
                     .padding(7.dp)
+                    .clickable { viewModel.isEnabled.value = true }
             )
+
+            if (viewModel.isEnabled.value) {
+                DsChangeLocation(
+                    title = editCity,
+                    onCityChange = { editCity = it },
+                    onDismiss = { viewModel.isEnabled.value = false },
+                    onSave = {
+                        city.value = editCity
+
+                        viewModel.previewBarWeather.value.city = editCity
+
+                        viewModel.loadWeather()
+                        viewModel.isEnabled.value = false
+                    }
+                )
+            }
         }
     }
 }

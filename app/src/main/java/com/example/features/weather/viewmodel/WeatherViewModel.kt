@@ -12,6 +12,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+
+sealed class Event() {
+    data object GoBack: Event()
+    data class LoadWeather(val city: String?): Event()
+    class NavigateTo(screen: String)
+}
+
 class WeatherViewModel(
     private val weatherUseCase: WeatherUseCase,
     private val hoursWeatherUseCase: HoursWeatherUseCase,
@@ -19,7 +26,7 @@ class WeatherViewModel(
 ) : ViewModel() {
 
     private val _previewBarWeather =
-        mutableStateOf(PreviewBarWeather("", "","", 0f, ""))
+        mutableStateOf(PreviewBarWeather("London", "", "", 0f, ""))
     val previewBarWeather: State<PreviewBarWeather> = _previewBarWeather
 
     private val _hoursWeather = mutableStateOf<List<HoursWeather>>(emptyList())
@@ -30,6 +37,9 @@ class WeatherViewModel(
 
     private val _state: MutableStateFlow<WeatherState> = MutableStateFlow(WeatherState.Content)
     val state: StateFlow<WeatherState> get() = _state
+
+    var isEnabled = mutableStateOf(false)
+
 
     fun loadWeather() {
         viewModelScope.launch {

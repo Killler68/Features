@@ -34,6 +34,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.features.R
+import com.example.features.common.extension.getRawNameCityEngToRuExtension
+import com.example.features.common.extension.getRawNameCityRuToEngExtension
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
@@ -105,7 +107,7 @@ fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController
         )
 
         Text(
-            text = viewModel.previewBarWeather.value.city,
+            text = viewModel.previewBarWeather.value.city.getRawNameCityEngToRuExtension(),
             modifier = Modifier
                 .padding(horizontal = 10.dp)
                 .weight(0.5f)
@@ -130,13 +132,13 @@ fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController
 
             if (viewModel.isEnabled.value) {
                 DsChangeLocation(
-                    title = editCity,
+                    title = editCity.getRawNameCityEngToRuExtension(),
                     onCityChange = { editCity = it },
                     onDismiss = { viewModel.isEnabled.value = false },
                     onSave = {
-                        city.value = editCity
-
                         viewModel.previewBarWeather.value.city = editCity
+
+                        city.value = editCity.getRawNameCityRuToEngExtension()
 
                         viewModel.loadWeather()
                         viewModel.isEnabled.value = false
@@ -207,8 +209,7 @@ fun DsDailyWeatherPanel(viewModel: WeatherViewModel) {
 @Composable
 fun DsDailyWeatherItem(
     dailyWeather: DailyWeather,
-    viewModel: WeatherViewModel,
-//    hoursList: MutableState<List<HoursWeather>>
+    viewModel: WeatherViewModel
 ) {
     val integerValueMax = dailyWeather.maxTemp.toInt()
     val integerValueMin = dailyWeather.minTemp.toInt()
@@ -295,7 +296,7 @@ fun DsHourlyWeatherItem(hoursWeather: HoursWeather) {
             fontSize = 12.sp
         )
         Image(
-            painter = rememberImagePainter(data = "https:" + hoursWeather.icon), // Загружаем иконку по URL
+            painter = rememberImagePainter(data = "https:" + hoursWeather.icon),
             contentDescription = "Weather Icon",
             modifier = Modifier
                 .size(50.dp)

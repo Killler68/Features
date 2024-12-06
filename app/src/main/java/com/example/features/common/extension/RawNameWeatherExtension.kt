@@ -17,6 +17,27 @@ fun String.getRawNameWeatherExtension(): String {
         "Light freezing rain " -> "Легкий ледяной дождь"
         "Moderate snow " -> "Умеренный снегопад"
         "Sunny " -> "Солнечный"
-        else -> "textWeather"
+        else -> this
+    }
+}
+fun String.getRawNameCityRuToEngExtension(): String {
+
+    return when (this) {
+        "Воронеж" -> "Voronezh"
+        "Оттава" -> "Ottawa"
+        "Лондон" -> "London"
+        "Москва" -> "Moscow"
+        else -> this
+    }
+}
+
+fun String.getRawNameCityEngToRuExtension(): String {
+
+    return when (this) {
+        "Voronezh" -> "Воронеж"
+        "Ottawa"  -> "Оттава"
+        "London" -> "Лондон"
+        "Moscow" -> "Москва"
+        else -> this
     }
 }

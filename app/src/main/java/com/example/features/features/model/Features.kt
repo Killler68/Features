@@ -1,7 +1,8 @@
 package com.example.features.features.model
 
 data class Features(
-    val title: String,
-    val description: String,
+    var title: String,
+    var description: String,
+    var image: String,
     val feature: String
 )

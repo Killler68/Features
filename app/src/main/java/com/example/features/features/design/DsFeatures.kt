@@ -12,10 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,18 +30,26 @@ import androidx.navigation.NavController
 import com.example.features.MainScreenEvent
 import com.example.features.MainViewModel
 import com.example.features.R
+import com.example.features.common.extension.getRawNameFeaturesCityEngToRuExtension
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Gray
 import com.example.features.ui.theme.LightGray
+import com.example.features.weather.viewmodel.WeatherViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun DsFeatures(navController: NavController) {
 
     val mainViewModel: MainViewModel = viewModel()
-    val viewModel: FeaturesViewModel = getViewModel()
+    val featuresViewModel: FeaturesViewModel = getViewModel()
+
+    val weatherViewModel: WeatherViewModel = getViewModel()
+
+    LaunchedEffect(Unit) {
+        weatherViewModel.loadWeather()
+    }
 
     val sharedViewModel: SharedViewModel = getViewModel()
     val user by sharedViewModel.currentUser.collectAsState()
@@ -93,8 +102,17 @@ fun DsFeatures(navController: NavController) {
                 .fillMaxHeight()
                 .background(LightGray)
         ) {
-            items(viewModel.loadFeatures()) { feature ->
+            itemsIndexed(featuresViewModel.loadFeatures()) { index, feature ->
                 DsFeatureItems(feature) {
+                    if (index == 1) {
+                        feature.title =
+                            "В ${
+                                weatherViewModel.previewBarWeather.value.city
+                                    .getRawNameFeaturesCityEngToRuExtension()
+                            } сегодня"
+                        feature.description = "${weatherViewModel.previewBarWeather.value.temp} C"
+                        feature.image = weatherViewModel.previewBarWeather.value.icon
+                    }
                     navController.navigate(feature.feature)
                 }
 

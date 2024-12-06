@@ -15,15 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.features.R
+import coil.compose.rememberImagePainter
 import com.example.features.features.model.Features
-import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.Gray
 
 @Composable
@@ -33,36 +30,40 @@ fun DsFeatureItems(features: Features, onClick: () -> Unit) {
         contentAlignment = Alignment.TopCenter,
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.8f)
             .padding(start = 80.dp, top = 80.dp, bottom = 40.dp, end = 10.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(Gray)
             .clickable { onClick() }
     ) {
-        Column {
+        Column(
+            modifier = Modifier
+                .size(width = 200.dp, height = 300.dp),
+        ) {
             Text(
                 text = features.title,
-                textAlign = TextAlign.Center,
                 style = TextStyle(fontSize = 30.sp),
+                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(top = 10.dp)
-                    .size(200.dp, 40.dp)
+                    .fillMaxWidth()
+
             )
 
             Text(
                 text = features.description,
-                textAlign = TextAlign.Center,
                 style = TextStyle(fontSize = 30.sp),
+                textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(vertical = 30.dp)
-                    .size(200.dp, 40.dp),
+                    .padding(vertical = 10.dp)
+                    .fillMaxWidth()
             )
 
             Image(
-                painter = painterResource(R.drawable.ic_launcher_foreground),
+                painter = rememberImagePainter(data = "https:" + features.image),
                 contentDescription = "image",
                 modifier = Modifier
-                    .size(200.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .size(100.dp)
             )
         }
     }

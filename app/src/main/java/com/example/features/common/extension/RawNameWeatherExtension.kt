@@ -41,3 +41,13 @@ fun String.getRawNameCityEngToRuExtension(): String {
         else -> this
     }
 }
+fun String.getRawNameFeaturesCityEngToRuExtension(): String {
+
+    return when (this) {
+        "Voronezh" -> "Воронеже"
+        "Ottawa"  -> "Оттаве"
+        "London" -> "Лондоне"
+        "Moscow" -> "Москве"
+        else -> this
+    }
+}

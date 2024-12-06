@@ -10,6 +10,6 @@ class FeaturesRepositoryImpl : FeaturesRepository {
 }
 
 private val features = listOf(
-    Features("Notes", "Заметки", Screens.NotesList.route),
-    Features("Weather", "Погода", Screens.Weather.route),
+    Features("Notes", "Заметки", "", Screens.NotesList.route),
+    Features("Weather", "Погода", "", Screens.Weather.route),
 )

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -46,6 +47,7 @@ import com.example.features.weather.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
+
 @Composable
 fun DsFeatures(navController: NavController) {
 
@@ -55,14 +57,14 @@ fun DsFeatures(navController: NavController) {
 
     LaunchedEffect(Unit) {
         weatherViewModel.loadWeather()
+        featuresViewModel.getDrawerItems()
     }
 
     val sharedViewModel: SharedViewModel = getViewModel()
     val user by sharedViewModel.currentUser.collectAsState()
 
-
-    val items = listOf("Профиль", "Настройки", "Настройки 2")
-    val selectedItem = remember { mutableStateOf(items[0]) }
+    val items = featuresViewModel.drawer.value
+    val selectedItem = remember { mutableStateOf(items.getOrNull(0)) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -76,13 +78,66 @@ fun DsFeatures(navController: NavController) {
                             scope.launch { drawerState.close() }
                             selectedItem.value = item
 
-                            when (selectedItem.value) {
-                                "Профиль" -> navController.navigate(Screens.Profile.route)
-                                "Настройки" -> navController.navigate(Screens.Registration.route)
+                            when (item.id) {
+                                0, 1 -> navController.navigate(Screens.Profile.route)
+                                2 -> navController.navigate(Screens.Authorization.route)
                             }
-                        },
-                    )
-                    { Text(text = item, fontSize = 20.sp) }
+                        }
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth(0.6f)
+                        ) {
+                            when (item.id) {
+                                0 -> {
+                                    Image(
+                                        painter = painterResource(item.image),
+                                        contentDescription = "image",
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(start = 20.dp, end = 20.dp, top = 20.dp)
+                                            .size(100.dp),
+                                        alignment = Alignment.Center,
+                                    )
+                                }
+                                1 -> {
+                                    user?.login?.let {
+                                        Text(
+                                            text = it,
+                                            fontSize = 20.sp,
+                                            color = Color.Black,
+                                            modifier = Modifier
+                                                .padding(horizontal = 10.dp),
+                                            maxLines = 1
+                                        )
+                                    }
+
+                                }
+                                else -> {
+
+                                    Row {
+                                        Image(
+                                            painter = painterResource(item.image),
+                                            contentDescription = "image_drawer",
+                                            modifier = Modifier
+                                                .size(42.dp)
+                                                .clip(RoundedCornerShape(12.dp))
+                                                .background(LightGray)
+                                                .padding(7.dp)
+                                        )
+                                        Text(
+                                            text = item.title,
+                                            fontSize = 16.sp,
+                                            color = Color.Gray,
+                                            modifier = Modifier
+                                                .padding(start = 10.dp, top = 5.dp)
+
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         },

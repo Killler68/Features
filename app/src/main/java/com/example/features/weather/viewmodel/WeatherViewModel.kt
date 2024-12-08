@@ -12,13 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-
-sealed class Event() {
-    data object GoBack: Event()
-    data class LoadWeather(val city: String?): Event()
-    class NavigateTo(screen: String)
-}
-
 class WeatherViewModel(
     private val weatherUseCase: WeatherUseCase,
     private val hoursWeatherUseCase: HoursWeatherUseCase,

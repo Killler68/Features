@@ -12,8 +12,10 @@ import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.repository.FeaturesRepositoryImpl
 import com.example.features.features.usecase.FeaturesRepository
 import com.example.features.features.usecase.FeaturesUseCaseImpl
+import com.example.features.features.usecase.GetDrawerItemsImpl
 import com.example.features.features.viewmodel.FeaturesUseCase
 import com.example.features.features.viewmodel.FeaturesViewModel
+import com.example.features.features.viewmodel.GetDrawerItems
 import com.example.features.notes.repository.NotesRepositoryImpl
 import com.example.features.notes.usecase.AddNoteUseCaseImpl
 import com.example.features.notes.usecase.DeleteNoteImpl
@@ -73,6 +75,7 @@ val appModule = module {
 
     factory<CreateUserUseCase> { CreateUserUseCaseImpl(get()) }
     factory<FeaturesUseCase> { FeaturesUseCaseImpl(get()) }
+    factory<GetDrawerItems> { GetDrawerItemsImpl(get()) }
     factory<GetUserByLoginAndPassword> { GetUserByLoginAndPasswordImpl(get()) }
 
     factory<WeatherUseCase> { WeatherUseCaseImpl(get()) }
@@ -86,7 +89,7 @@ val appModule = module {
     factory<UpdateNote> { UpdateNoteImpl(get()) }
 
     viewModel { RegistrationViewModel(get(), get()) }
-    viewModel { FeaturesViewModel(get()) }
+    viewModel { FeaturesViewModel(get(), get()) }
     viewModel { WeatherViewModel(get(), get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get(), get()) }
 }

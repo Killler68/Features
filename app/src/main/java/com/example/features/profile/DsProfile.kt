@@ -150,22 +150,40 @@ fun DsProfileInformation() {
     ) {
 
         Text(
-            text = "Имя",
+            text = "Андрей",
             fontSize = 16.sp,
+            modifier = Modifier
+                .padding(top = 10.dp)
+        )
+        Text(
+            text = "Имя",
+            fontSize = 12.sp,
             modifier = Modifier
                 .padding(vertical = 10.dp)
         )
         DsLine()
+        Text(
+            text = "23",
+            fontSize = 16.sp,
+            modifier = Modifier
+                .padding(top = 10.dp)
+        )
         Text(
             text = "Возраст",
-            fontSize = 16.sp,
+            fontSize = 12.sp,
             modifier = Modifier
                 .padding(vertical = 10.dp)
         )
         DsLine()
         Text(
-            text = "Национальность",
+            text = "Русский",
             fontSize = 16.sp,
+            modifier = Modifier
+                .padding(top = 10.dp)
+        )
+        Text(
+            text = "Национальность",
+            fontSize = 12.sp,
             modifier = Modifier
                 .padding(vertical = 10.dp)
         )

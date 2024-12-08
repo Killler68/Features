@@ -67,13 +67,13 @@ fun DsFeatures(navController: NavController) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "image",
+                contentDescription = "image_menu",
                 modifier = Modifier
                     .padding(start = 10.dp)
                     .clip(CircleShape)
                     .size(40.dp)
                     .clickable {
-                        navController.navigate(Screens.Weather.route)
+                        navController.navigate(Screens.Profile.route)
                         mainViewModel.handleEvent(MainScreenEvent.NavigateToWeather)
                     }
             )

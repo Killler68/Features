@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,8 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.R
+import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.navigation.Screens
+import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun DsProfile(navController: NavController) {
@@ -95,6 +99,9 @@ fun DsLine() {
 @Composable
 fun DsProfilePreview() {
 
+    val sharedViewModel: SharedViewModel = getViewModel()
+    val user = sharedViewModel.currentUser.collectAsState()
+
     Row(
         modifier = Modifier
             .padding(10.dp)
@@ -122,12 +129,15 @@ fun DsProfilePreview() {
                     .padding(top = 10.dp, bottom = 10.dp)
             )
             DsLine()
-            Text(
-                text = "Логин",
-                fontSize = 18.sp,
-                modifier = Modifier
-                    .padding(top = 10.dp)
-            )
+            user.value?.login?.let {
+                Text(
+                    text = it,
+                    fontSize = 18.sp,
+                    color = Cyan,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                )
+            } ?: Text("User not Found")
         }
     }
 }

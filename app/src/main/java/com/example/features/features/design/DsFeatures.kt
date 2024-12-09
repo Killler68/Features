@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.common.extension.getRawNameFeaturesCityEngToRuExtension
+import com.example.features.common.utils.ExitBackStack
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.navigation.Screens
@@ -66,6 +67,8 @@ fun DsFeatures(navController: NavController) {
     val selectedItem = remember { mutableStateOf(items.getOrNull(0)) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    ExitBackStack()
 
     ModalNavigationDrawer(
         drawerState = drawerState,

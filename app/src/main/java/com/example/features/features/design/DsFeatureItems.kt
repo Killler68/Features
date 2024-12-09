@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.features.features.model.Features
-import com.example.features.ui.theme.Gray
+import com.example.features.ui.theme.LightGray
 
 @Composable
 fun DsFeatureItems(features: Features, onClick: () -> Unit) {
@@ -32,7 +31,7 @@ fun DsFeatureItems(features: Features, onClick: () -> Unit) {
             .fillMaxWidth()
             .padding(start = 80.dp, top = 80.dp, bottom = 40.dp, end = 10.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(Gray)
+            .background(LightGray)
             .clickable { onClick() }
     ) {
         Column(

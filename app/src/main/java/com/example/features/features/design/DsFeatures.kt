@@ -3,7 +3,6 @@ package com.example.features.features.design
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -33,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -41,7 +41,7 @@ import com.example.features.common.extension.getRawNameFeaturesCityEngToRuExtens
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.navigation.Screens
-import com.example.features.ui.theme.Gray
+import com.example.features.profile.DsLine
 import com.example.features.ui.theme.LightGray
 import com.example.features.weather.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
@@ -71,7 +71,10 @@ fun DsFeatures(navController: NavController) {
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet(
+                drawerContainerColor = Color.DarkGray,
+                drawerContentColor = Color.LightGray
+            ) {
                 items.forEach { item ->
                     TextButton(
                         onClick = {
@@ -94,27 +97,31 @@ fun DsFeatures(navController: NavController) {
                                         painter = painterResource(item.image),
                                         contentDescription = "image",
                                         modifier = Modifier
-                                            .fillMaxWidth()
                                             .padding(start = 20.dp, end = 20.dp, top = 20.dp)
-                                            .size(100.dp),
+                                            .size(180.dp)
+                                            .clip(CircleShape)
+                                            .background(Color.White)
+                                            .padding(20.dp),
                                         alignment = Alignment.Center,
                                     )
                                 }
+
                                 1 -> {
                                     user?.login?.let {
                                         Text(
                                             text = it,
                                             fontSize = 20.sp,
-                                            color = Color.Black,
+                                            color = Color.White,
                                             modifier = Modifier
+                                                .fillMaxWidth()
                                                 .padding(horizontal = 10.dp),
+                                            textAlign = TextAlign.Center,
                                             maxLines = 1
                                         )
                                     }
-
                                 }
-                                else -> {
 
+                                else -> {
                                     Row {
                                         Image(
                                             painter = painterResource(item.image),
@@ -151,8 +158,6 @@ fun DsFeatures(navController: NavController) {
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .background(Gray)
-
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_launcher_foreground),
@@ -165,31 +170,14 @@ fun DsFeatures(navController: NavController) {
                                 scope.launch { drawerState.open() }
                             }
                     )
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .size(40.dp),
-                        contentAlignment = Alignment.CenterStart
-                    ) {
-                        user?.login?.let {
-                            Text(
-                                text = it,
-                                modifier = Modifier
-                                    .padding(horizontal = 20.dp)
-                                    .fillMaxWidth(),
-                                maxLines = 1
-                            )
-                        } ?: Text("No user logged in")
-
-                    }
                 }
 
+                DsLine()
 
                 LazyRow(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
-                        .background(LightGray)
                 ) {
                     itemsIndexed(featuresViewModel.loadFeatures()) { index, feature ->
                         DsFeatureItems(feature) {
@@ -205,7 +193,6 @@ fun DsFeatures(navController: NavController) {
                             }
                             navController.navigate(feature.feature)
                         }
-
                     }
                 }
             }

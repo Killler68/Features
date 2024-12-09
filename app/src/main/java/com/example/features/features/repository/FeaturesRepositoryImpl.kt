@@ -18,7 +18,7 @@ private val features = listOf(
 )
 
 private val drawerItems = listOf(
-    DrawerItems(0, "Профиль", R.drawable.note),
+    DrawerItems(0, "Профиль", R.drawable.location),
     DrawerItems(1, "Настройки", 0),
     DrawerItems(2, "Настройки", R.drawable.pencil),
 )

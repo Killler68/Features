@@ -47,7 +47,6 @@ import com.example.features.weather.viewmodel.WeatherViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-
 @Composable
 fun DsFeatures(navController: NavController) {
 

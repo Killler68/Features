@@ -28,10 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.features.MainScreenEvent
-import com.example.features.MainViewModel
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
@@ -39,17 +36,18 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun DsAuthorization(navController: NavController) {
-
-    val mainViewModel: MainViewModel = viewModel()
     val sharedViewModel: SharedViewModel = getViewModel()
 
     val errorMessage by sharedViewModel.error.collectAsState()
     val context = LocalContext.current
 
-    val currentUser by sharedViewModel.currentUser.collectAsState()
-
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    // Очистка состояния при первом рендере экрана
+    LaunchedEffect(Unit) {
+        sharedViewModel.clearCurrentUser()
+    }
 
     Column(
         Modifier
@@ -82,7 +80,6 @@ fun DsAuthorization(navController: NavController) {
                 modifier = Modifier
                     .clickable {
                         navController.navigate(Screens.Registration.route)
-                        mainViewModel.handleEvent(MainScreenEvent.NavigateToRegistration)
                     }
             )
         }
@@ -112,13 +109,18 @@ fun DsAuthorization(navController: NavController) {
         ) {
             Button(
                 onClick = {
-                    if (login.isNotBlank() && password.isNotBlank()) {
-                        sharedViewModel.getUser(login, password)
+                    if (login.isNotEmpty() && password.isNotEmpty()) {
+                        sharedViewModel.getUser(login, password) { userFound ->
+                            if (userFound) {
+                                navController.navigate(Screens.Features.route)
+                            } else {
+                                Toast.makeText(context, "Неверный логин или пароль", Toast.LENGTH_LONG).show()
+                            }
+                        }
                     } else {
                         Toast.makeText(context, "Введите логин и пароль", Toast.LENGTH_LONG).show()
                     }
                 },
-
                 Modifier.size(width = 350.dp, 55.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Cyan),
             ) {
@@ -128,11 +130,15 @@ fun DsAuthorization(navController: NavController) {
                 )
             }
         }
-        currentUser?.let {
-            LaunchedEffect(it) {
-                navController.navigate(Screens.Features.route)
-            }
-        }
+//
+//        // Проверка успешного входа и переход
+//        val currentUser by sharedViewModel.currentUser.collectAsState()
+//        currentUser?.let {
+//            LaunchedEffect(currentUser) {
+//                navController.navigate(Screens.Features.route)
+//            }
+//        }
+
         errorMessage?.let { message ->
             LaunchedEffect(message) {
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()

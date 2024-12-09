@@ -25,8 +25,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.features.MainScreenEvent
-import com.example.features.MainViewModel
 import com.example.features.navigation.Screens
 import com.example.features.registration.viewmodel.RegistrationViewModel
 import com.example.features.ui.theme.Cyan
@@ -35,7 +33,6 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun DsRegistration(navController: NavController) {
 
-    val mainViewModel: MainViewModel = getViewModel()
     val registrationViewModel: RegistrationViewModel = getViewModel()
 
     var login by remember { mutableStateOf("") }
@@ -76,7 +73,6 @@ fun DsRegistration(navController: NavController) {
                 modifier = Modifier
                     .clickable {
                         navController.navigate(Screens.Authorization.route)
-                        mainViewModel.handleEvent(MainScreenEvent.NavigateToAuthorization)
                     }
             )
         }
@@ -111,7 +107,6 @@ fun DsRegistration(navController: NavController) {
                     if (login.isNotEmpty() && password.isNotEmpty()) {
                         registrationViewModel.createUser(login, password)
                         navController.navigate(Screens.Features.route)
-                        mainViewModel.handleEvent(MainScreenEvent.NavigateToFeatures)
                     }
                 },
                 Modifier

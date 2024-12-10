@@ -29,6 +29,7 @@ import com.example.features.notes.viewmodel.GetNoteByIdUseCase
 import com.example.features.notes.viewmodel.GetNotesUseCase
 import com.example.features.notes.viewmodel.NotesViewModel
 import com.example.features.notes.viewmodel.UpdateNote
+import com.example.features.profile.viewmodel.ProfileViewModel
 import com.example.features.registration.usecase.CreateUserUseCaseImpl
 import com.example.features.registration.viewmodel.CreateUserUseCase
 import com.example.features.registration.viewmodel.RegistrationViewModel
@@ -92,4 +93,5 @@ val appModule = module {
     viewModel { FeaturesViewModel(get(), get()) }
     viewModel { WeatherViewModel(get(), get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get(), get()) }
+    viewModel { ProfileViewModel() }
 }

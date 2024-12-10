@@ -114,7 +114,11 @@ fun DsAuthorization(navController: NavController) {
                             if (userFound) {
                                 navController.navigate(Screens.Features.route)
                             } else {
-                                Toast.makeText(context, "Неверный логин или пароль", Toast.LENGTH_LONG).show()
+                                Toast.makeText(
+                                    context,
+                                    "Неверный логин или пароль",
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
                         }
                     } else {
@@ -130,14 +134,6 @@ fun DsAuthorization(navController: NavController) {
                 )
             }
         }
-//
-//        // Проверка успешного входа и переход
-//        val currentUser by sharedViewModel.currentUser.collectAsState()
-//        currentUser?.let {
-//            LaunchedEffect(currentUser) {
-//                navController.navigate(Screens.Features.route)
-//            }
-//        }
 
         errorMessage?.let { message ->
             LaunchedEffect(message) {

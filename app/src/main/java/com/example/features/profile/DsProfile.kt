@@ -12,9 +12,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,9 +32,11 @@ import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.navigation.Screens
+import com.example.features.profile.viewmodel.ProfileViewModel
 import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
 import org.koin.androidx.compose.getViewModel
+
 
 @Composable
 fun DsProfile(navController: NavController) {
@@ -50,6 +58,9 @@ fun DsProfile(navController: NavController) {
 
 @Composable
 fun DsProfileActionBar(navController: NavController) {
+
+    val viewModel: ProfileViewModel = getViewModel()
+
 
     Row(
         modifier = Modifier
@@ -76,12 +87,54 @@ fun DsProfileActionBar(navController: NavController) {
                 .padding(10.dp)
         )
 
-        Image(
-            painter = painterResource(R.drawable.ic_launcher_foreground),
-            contentDescription = "image_setting",
-            modifier = Modifier
-                .size(50.dp)
-        )
+        when (viewModel.num.intValue) {
+
+            0 -> {
+                Image(
+                    painter = painterResource(R.drawable.pencil),
+                    contentDescription = "image_setting",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(LightGray)
+                        .padding(7.dp)
+                        .clickable {
+                            if (viewModel.num.intValue == 0) viewModel.num.intValue =
+                                1 else viewModel.num.intValue = 0
+                        }
+                )
+            }
+
+            1 -> {
+                Image(
+                    painter = painterResource(R.drawable.trash_bucket),
+                    contentDescription = "image_cancel",
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(LightGray)
+                        .padding(7.dp)
+                        .clickable {
+                            if (viewModel.num.intValue == 0) viewModel.num.intValue =
+                                1 else viewModel.num.intValue = 0
+                        }
+                )
+                Image(
+                    painter = painterResource(R.drawable.note),
+                    contentDescription = "image_apply",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(LightGray)
+                        .padding(7.dp)
+                        .clickable {
+
+
+                        }
+                )
+            }
+        }
     }
 }
 
@@ -144,50 +197,137 @@ fun DsProfilePreview() {
 
 @Composable
 fun DsProfileInformation() {
+
+    var name by remember { mutableStateOf("") }
+    var age by remember { mutableStateOf("") }
+    var city by remember { mutableStateOf("") }
+    var nationaly by remember { mutableStateOf("") }
+
+    val viewModel: ProfileViewModel = getViewModel()
+
     Column(
         modifier = Modifier
             .padding(horizontal = 10.dp)
     ) {
 
-        Text(
-            text = "Андрей",
-            fontSize = 16.sp,
-            modifier = Modifier
-                .padding(top = 10.dp)
-        )
-        Text(
-            text = "Имя",
-            fontSize = 12.sp,
-            modifier = Modifier
-                .padding(vertical = 10.dp)
-        )
-        DsLine()
-        Text(
-            text = "23",
-            fontSize = 16.sp,
-            modifier = Modifier
-                .padding(top = 10.dp)
-        )
-        Text(
-            text = "Возраст",
-            fontSize = 12.sp,
-            modifier = Modifier
-                .padding(vertical = 10.dp)
-        )
-        DsLine()
-        Text(
-            text = "Русский",
-            fontSize = 16.sp,
-            modifier = Modifier
-                .padding(top = 10.dp)
-        )
-        Text(
-            text = "Национальность",
-            fontSize = 12.sp,
-            modifier = Modifier
-                .padding(vertical = 10.dp)
-        )
-        DsLine()
+        when (viewModel.num.intValue) {
+
+            0 -> {
+
+
+                Text(
+                    text = "Андрей",
+                    fontSize = 16.sp,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                )
+                Text(
+                    text = "Имя",
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                )
+                DsLine()
+                Text(
+                    text = "23",
+                    fontSize = 16.sp,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                )
+                Text(
+                    text = "Возраст",
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                )
+                DsLine()
+                Text(
+                    text = "Русский",
+                    fontSize = 16.sp,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                )
+                Text(
+                    text = "Национальность",
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                )
+                DsLine()
+
+
+            }
+
+            1 -> {
+
+                TextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 10.dp),
+                    colors = OutlinedTextFieldDefaults.colors()
+                )
+
+                Text(
+                    text = "Имя",
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                )
+                DsLine()
+                TextField(
+                    value = age,
+                    onValueChange = { age = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 10.dp),
+                    colors = OutlinedTextFieldDefaults.colors()
+                )
+                Text(
+                    text = "Возраст",
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                )
+                DsLine()
+
+                TextField(
+                    value = city,
+                    onValueChange = { city = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 10.dp),
+                    colors = OutlinedTextFieldDefaults.colors()
+                )
+                Text(
+                    text = "Город",
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                )
+                DsLine()
+
+                TextField(
+                    value = nationaly,
+                    onValueChange = { nationaly = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 10.dp),
+                    colors = OutlinedTextFieldDefaults.colors()
+                )
+                Text(
+                    text = "Национальность",
+                    fontSize = 12.sp,
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                )
+                DsLine()
+
+            }
+
+        }
+
 
     }
 }

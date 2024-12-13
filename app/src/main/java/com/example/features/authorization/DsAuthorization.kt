@@ -44,7 +44,6 @@ fun DsAuthorization(navController: NavController) {
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // Очистка состояния при первом рендере экрана
     LaunchedEffect(Unit) {
         sharedViewModel.clearCurrentUser()
     }
@@ -110,9 +109,9 @@ fun DsAuthorization(navController: NavController) {
             Button(
                 onClick = {
                     if (login.isNotEmpty() && password.isNotEmpty()) {
-                        sharedViewModel.getUser(login, password) { userFound ->
+                        sharedViewModel.getUser(login, password) { userFound, userId ->
                             if (userFound) {
-                                navController.navigate(Screens.Features.route)
+                                navController.navigate(Screens.Features.createRoute(userId))
                             } else {
                                 Toast.makeText(
                                     context,

@@ -1,4 +1,4 @@
-package com.example.features.common.database
+package com.example.features.common.database.notes
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

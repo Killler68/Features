@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.features.common.database.user.model.UserData
-import com.example.features.common.database.user.tuple.CreateUseTuple
+import com.example.features.common.database.user.tuple.CreateUserTuple
 import com.example.features.common.database.user.tuple.DeleteUserTuple
 
 
@@ -22,7 +22,7 @@ interface UserDao {
     suspend fun getUserByLoginAndPassword(login: String, password: String): UserData?
 
     @Insert(entity = UserData::class)
-    suspend fun createUser(userTuple: CreateUseTuple): Long
+    suspend fun createUser(userTuple: CreateUserTuple): Long
 
     @Delete(entity = UserData::class)
     suspend fun deleteUser(deleteUserTuple: DeleteUserTuple)

@@ -4,10 +4,13 @@ import androidx.room.Room
 import com.example.features.MainViewModel
 import com.example.features.authorization.GetUserByLoginAndPassword
 import com.example.features.authorization.GetUserByLoginAndPasswordImpl
-import com.example.features.common.database.NotesDatabase
+import com.example.features.common.database.notes.NotesDatabase
+import com.example.features.common.database.profile.UserAdditionalInfoDatabase
 import com.example.features.common.database.user.UserDatabase
 import com.example.features.common.repository.UserRepository
 import com.example.features.common.repository.UserRepositoryImpl
+import com.example.features.common.repository.profile.UserAdditionalInfoRepository
+import com.example.features.common.repository.profile.UserAdditionalInfoRepositoryImpl
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.repository.FeaturesRepositoryImpl
 import com.example.features.features.usecase.FeaturesRepository
@@ -29,7 +32,11 @@ import com.example.features.notes.viewmodel.GetNoteByIdUseCase
 import com.example.features.notes.viewmodel.GetNotesUseCase
 import com.example.features.notes.viewmodel.NotesViewModel
 import com.example.features.notes.viewmodel.UpdateNote
-import com.example.features.profile.viewmodel.ProfileViewModel
+import com.example.features.profile.usecase.CreateUserAdditionalInfoUseCaseImpl
+import com.example.features.profile.usecase.GetUserAdditionalInfoByIdUseCaseImpl
+import com.example.features.profile.viewmodel.CreateUserAdditionalInfoUseCase
+import com.example.features.profile.viewmodel.GetUserAdditionalInfoByIdUseCase
+import com.example.features.profile.viewmodel.UserAdditionalInfoViewModel
 import com.example.features.registration.usecase.CreateUserUseCaseImpl
 import com.example.features.registration.viewmodel.CreateUserUseCase
 import com.example.features.registration.viewmodel.RegistrationViewModel
@@ -55,6 +62,7 @@ val appModule = module {
     single<WeatherRepository> { WeatherRepositoryImpl() }
     single<NotesRepository> { NotesRepositoryImpl(get()) }
     single<UserRepository> { UserRepositoryImpl(get()) }
+    single<UserAdditionalInfoRepository> { UserAdditionalInfoRepositoryImpl(get()) }
 
     single {
         Room.databaseBuilder(
@@ -72,6 +80,16 @@ val appModule = module {
             "user_database"
         ).build()
     }
+
+    single {
+        Room.databaseBuilder(
+            get(),
+            UserAdditionalInfoDatabase::class.java,
+            "user_additional_info_database"
+        ).build()
+    }
+
+    single { get<UserAdditionalInfoDatabase>().userAdditionalInfoDao() }
     single { get<UserDatabase>().userDao() }
 
     factory<CreateUserUseCase> { CreateUserUseCaseImpl(get()) }
@@ -83,6 +101,9 @@ val appModule = module {
     factory<HoursWeatherUseCase> { HoursWeatherUseCaseImpl(get()) }
     factory<PreviewBarWeatherUseCase> { PreviewBarWeatherUseCaseImpl(get()) }
 
+    factory<CreateUserAdditionalInfoUseCase> { CreateUserAdditionalInfoUseCaseImpl(get()) }
+    factory<GetUserAdditionalInfoByIdUseCase> { GetUserAdditionalInfoByIdUseCaseImpl(get()) }
+
     factory<GetNotesUseCase> { GetNotesUseCaseImpl(get()) }
     factory<GetNoteByIdUseCase> { GetNoteByIdUseCaseImpl(get()) }
     factory<AddNoteUseCase> { AddNoteUseCaseImpl(get()) }
@@ -93,5 +114,5 @@ val appModule = module {
     viewModel { FeaturesViewModel(get(), get()) }
     viewModel { WeatherViewModel(get(), get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get(), get()) }
-    viewModel { ProfileViewModel() }
+    viewModel { UserAdditionalInfoViewModel(get(), get()) }
 }

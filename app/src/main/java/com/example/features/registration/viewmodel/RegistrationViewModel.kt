@@ -10,10 +10,11 @@ class RegistrationViewModel(
     private val sharedViewModel: SharedViewModel
 ) : ViewModel() {
 
-    fun createUser(login: String, password: String) {
+    fun createUser(login: String, password: String, onUserCreated: (Int) -> Unit) {
         viewModelScope.launch {
             val user = createUserUseCase(login, password)
             sharedViewModel.setCurrentUser(user)
+            onUserCreated(user.id)
         }
     }
 }

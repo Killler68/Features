@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun DsFeatures(navController: NavController) {
+fun DsFeatures(navController: NavController, userId: Int?) {
 
     val featuresViewModel: FeaturesViewModel = getViewModel()
 
@@ -84,7 +84,9 @@ fun DsFeatures(navController: NavController) {
                             selectedItem.value = item
 
                             when (item.id) {
-                                0, 1 -> navController.navigate(Screens.Profile.route)
+                                0, 1 -> userId?.let {
+                                    navController.navigate(Screens.UserAdditionalInfo.createRoute(userId))
+                                }
                                 2 -> navController.navigate(Screens.Authorization.route)
                             }
                         }
@@ -201,6 +203,3 @@ fun DsFeatures(navController: NavController) {
         }
     )
 }
-
-
-

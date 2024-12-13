@@ -1,10 +1,10 @@
 package com.example.features.common.repository
 
-import com.example.features.common.database.user.tuple.CreateUseTuple
-import com.example.features.common.database.user.tuple.DeleteUserTuple
-import com.example.features.common.database.user.model.User
 import com.example.features.common.database.user.UserDao
+import com.example.features.common.database.user.model.User
 import com.example.features.common.database.user.model.toUser
+import com.example.features.common.database.user.tuple.CreateUserTuple
+import com.example.features.common.database.user.tuple.DeleteUserTuple
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -33,7 +33,7 @@ class UserRepositoryImpl(
     override suspend fun createUser(login: String, password: String): User =
         withContext(Dispatchers.IO) {
             userDao.createUser(
-                CreateUseTuple(
+                CreateUserTuple(
                     login = login,
                     password = password
                 )

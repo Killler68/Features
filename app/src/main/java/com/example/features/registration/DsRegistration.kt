@@ -105,8 +105,10 @@ fun DsRegistration(navController: NavController) {
             Button(
                 onClick = {
                     if (login.isNotEmpty() && password.isNotEmpty()) {
-                        registrationViewModel.createUser(login, password)
-                        navController.navigate(Screens.Features.route)
+                        registrationViewModel.createUser(login, password) {
+                            navController.navigate(Screens.Features.createRoute(it))
+
+                        }
                     }
                 },
                 Modifier

@@ -1,7 +1,7 @@
 package com.example.features.notes.repository
 
-import com.example.features.common.database.Notes
-import com.example.features.common.database.NotesDao
+import com.example.features.common.database.notes.Notes
+import com.example.features.common.database.notes.NotesDao
 import com.example.features.notes.model.NotesModel
 import com.example.features.notes.usecase.NotesRepository
 

@@ -1,6 +1,5 @@
 package com.example.features.notes.usecase
 
-import com.example.features.common.database.Notes
 import com.example.features.notes.model.NotesModel
 
 interface NotesRepository {

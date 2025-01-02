@@ -23,13 +23,8 @@ fun NavigationAppHost() {
         composable(Screens.Authorization.route) { DsAuthorization(navHostController) }
         composable(Screens.Weather.route) { DsWeather(navHostController) }
         composable(Screens.NotesList.route) { DsNotesList(navHostController) }
-        composable(
-            route = Screens.Features.route,
-            arguments = listOf(navArgument("userId") { type = NavType.IntType; defaultValue = -1 })
-        ) { backStackEntry ->
-            val userId = backStackEntry.arguments?.getInt("userId") ?: -1
-            DsFeatures(navHostController, userId)
-        }
+        composable(Screens.Features.route) { DsFeatures(navHostController) }
+
         composable(
             route = Screens.UserAdditionalInfo.route,
             arguments = listOf(navArgument("userId") { type = NavType.IntType; defaultValue = -1 })

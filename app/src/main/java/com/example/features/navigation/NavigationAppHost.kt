@@ -13,12 +13,14 @@ import com.example.features.notes.detail.DsNoteDetail
 import com.example.features.profile.DsUserAdditionalInfo
 import com.example.features.registration.DsRegistration
 import com.example.features.weather.design.DsWeather
+import com.example.features.welcome.DsWelcome
 
 @Composable
 fun NavigationAppHost() {
     val navHostController = rememberNavController()
 
-    NavHost(navController = navHostController, startDestination = "Registration") {
+    NavHost(navController = navHostController, startDestination = "Welcome") {
+        composable(Screens.Welcome.route) { DsWelcome(navHostController) }
         composable(Screens.Registration.route) { DsRegistration(navHostController) }
         composable(Screens.Authorization.route) { DsAuthorization(navHostController) }
         composable(Screens.Weather.route) { DsWeather(navHostController) }

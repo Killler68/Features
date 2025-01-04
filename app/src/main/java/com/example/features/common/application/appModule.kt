@@ -49,6 +49,11 @@ import com.example.features.weather.viewmodel.HoursWeatherUseCase
 import com.example.features.weather.viewmodel.PreviewBarWeatherUseCase
 import com.example.features.weather.viewmodel.WeatherUseCase
 import com.example.features.weather.viewmodel.WeatherViewModel
+import com.example.features.welcome.repository.WelcomeRepositoryImpl
+import com.example.features.welcome.usecase.WelcomeRepository
+import com.example.features.welcome.usecase.WelcomeUseCaseImpl
+import com.example.features.welcome.viewmodel.WelcomeUseCase
+import com.example.features.welcome.viewmodel.WelcomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -58,6 +63,7 @@ val appModule = module {
 
     single { SharedViewModel(get()) }
 
+    single<WelcomeRepository> { WelcomeRepositoryImpl() }
     single<FeaturesRepository> { FeaturesRepositoryImpl() }
     single<WeatherRepository> { WeatherRepositoryImpl() }
     single<NotesRepository> { NotesRepositoryImpl(get()) }
@@ -89,8 +95,12 @@ val appModule = module {
         ).build()
     }
 
+
+
     single { get<UserAdditionalInfoDatabase>().userAdditionalInfoDao() }
     single { get<UserDatabase>().userDao() }
+
+    factory<WelcomeUseCase> { WelcomeUseCaseImpl(get()) }
 
     factory<CreateUserUseCase> { CreateUserUseCaseImpl(get()) }
     factory<FeaturesUseCase> { FeaturesUseCaseImpl(get()) }
@@ -110,6 +120,7 @@ val appModule = module {
     factory<DeleteNote> { DeleteNoteImpl(get()) }
     factory<UpdateNote> { UpdateNoteImpl(get()) }
 
+    viewModel { WelcomeViewModel(get()) }
     viewModel { RegistrationViewModel(get(), get()) }
     viewModel { FeaturesViewModel(get(), get()) }
     viewModel { WeatherViewModel(get(), get(), get()) }

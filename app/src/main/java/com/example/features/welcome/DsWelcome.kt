@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -30,29 +29,16 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.features.R
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
+import com.example.features.welcome.models.PagerItems
+import com.example.features.welcome.viewmodel.WelcomeViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun DsWelcome(navController: NavController) {
 
-
-    val images = listOf(
-        painterResource(R.drawable.book),
-        painterResource(R.drawable.weather_forecast),
-        painterResource(R.drawable.trash_bucket),
-    )
-    val titles = listOf(
-        "Заметки",
-        "Погода",
-        "В стадии разработки",
-    )
-    val subTitles = listOf(
-        "Создание заметок с подробным описанием",
-        "Узнайте погоду в любой точке мира!",
-        "",
-    )
+    val viewModel: WelcomeViewModel = getViewModel()
 
     Column(
         modifier = Modifier
@@ -82,7 +68,7 @@ fun DsWelcome(navController: NavController) {
             )
         }
 
-        ImagePager(images = images, titles, subTitles, navController)
+        WelcomePager(viewModel.getPagerItems(), navController)
 
         Box(
             modifier = Modifier
@@ -118,17 +104,14 @@ fun DsWelcome(navController: NavController) {
                 text = "Авторизация",
                 fontSize = 16.sp
             )
-
         }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ImagePager(
-    images: List<Painter>,
-    titles: List<String>,
-    subTitles: List<String>,
+fun WelcomePager(
+    items: List<PagerItems>,
     navController: NavController
 ) {
 
@@ -137,10 +120,9 @@ fun ImagePager(
     HorizontalPager(
         state = pagerState
     ) { page ->
-
         Column {
             Image(
-                painter = images[page],
+                painter = painterResource(items[page].image),
                 contentDescription = "image $page",
                 alignment = Alignment.Center,
                 modifier = Modifier
@@ -149,16 +131,15 @@ fun ImagePager(
                     .fillMaxHeight(0.5f)
                     .clickable { navController.navigate(Screens.Authorization.route) }
             )
-
             Text(
-                text = titles[page],
+                text = items[page].title,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(horizontal = 40.dp, vertical = 10.dp)
             )
             Text(
-                text = subTitles[page],
+                text = items[page].subTitle,
                 fontSize = 16.sp,
                 modifier = Modifier
                     .padding(horizontal = 40.dp)

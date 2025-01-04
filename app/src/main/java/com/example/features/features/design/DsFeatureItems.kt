@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.features.features.model.Features
+import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
 
 @Composable
@@ -29,18 +30,17 @@ fun DsFeatureItems(features: Features, onClick: () -> Unit) {
         contentAlignment = Alignment.TopCenter,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 80.dp, top = 80.dp, bottom = 40.dp, end = 10.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(LightGray)
             .clickable { onClick() }
     ) {
         Column(
             modifier = Modifier
-                .size(width = 200.dp, height = 300.dp),
+                .size(width = 150.dp, height = 150.dp),
         ) {
             Text(
                 text = features.title,
-                style = TextStyle(fontSize = 30.sp),
+                style = TextStyle(fontSize = 18.sp),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(top = 10.dp)
@@ -50,7 +50,7 @@ fun DsFeatureItems(features: Features, onClick: () -> Unit) {
 
             Text(
                 text = features.description,
-                style = TextStyle(fontSize = 30.sp),
+                style = TextStyle(fontSize = 18.sp),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(vertical = 10.dp)

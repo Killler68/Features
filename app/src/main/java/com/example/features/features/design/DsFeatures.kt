@@ -3,6 +3,7 @@ package com.example.features.features.design
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -11,6 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,6 +46,7 @@ import com.example.features.common.utils.ExitBackStack
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.navigation.Screens
+import com.example.features.notes.design.DsNoteGridItem
 import com.example.features.profile.DsLine
 import com.example.features.ui.theme.LightGray
 import com.example.features.weather.viewmodel.WeatherViewModel
@@ -178,11 +183,15 @@ fun DsFeatures(navController: NavController) {
 
                 DsLine()
 
-                LazyRow(
+
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 110.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
+                        .padding(16.dp)
                 ) {
+
                     itemsIndexed(featuresViewModel.loadFeatures()) { index, feature ->
                         DsFeatureItems(feature) {
                             if (index == 1) {
@@ -199,6 +208,29 @@ fun DsFeatures(navController: NavController) {
                         }
                     }
                 }
+
+
+//                LazyRow(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .fillMaxHeight()
+//                ) {
+//                    itemsIndexed(featuresViewModel.loadFeatures()) { index, feature ->
+//                        DsFeatureItems(feature) {
+//                            if (index == 1) {
+//                                feature.title =
+//                                    "В ${
+//                                        weatherViewModel.previewBarWeather.value.city
+//                                            .getRawNameFeaturesCityEngToRuExtension()
+//                                    } сегодня"
+//                                feature.description =
+//                                    "${weatherViewModel.previewBarWeather.value.temp} C"
+//                                feature.image = weatherViewModel.previewBarWeather.value.icon
+//                            }
+//                            navController.navigate(feature.feature)
+//                        }
+//                    }
+//                }
             }
         }
     )

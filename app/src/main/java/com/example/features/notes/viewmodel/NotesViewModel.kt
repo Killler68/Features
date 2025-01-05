@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.viewmodel.SharedViewModel
-import com.example.features.notes.model.AddNoteModel
 import com.example.features.notes.model.NotesModel
 import kotlinx.coroutines.launch
 

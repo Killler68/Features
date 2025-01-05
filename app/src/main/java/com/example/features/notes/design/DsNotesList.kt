@@ -1,6 +1,5 @@
 package com.example.features.notes.design
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,13 +17,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -66,7 +61,9 @@ fun DsNotesList(navController: NavController) {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        DsActionBar(navController)
+        if (!viewModel.isAddNote.value) {
+            DsActionBar { navController.navigate(Screens.Features.route) }
+        }
 
         Box(
             modifier = Modifier
@@ -119,25 +116,28 @@ fun DsNotesList(navController: NavController) {
                     navController
                 )
             }
-
-            Image(
-                painter = painterResource(R.drawable.note),
-                contentDescription = "image",
-                modifier = Modifier
-                    .padding(bottom = 20.dp, end = 40.dp)
-                    .size(58.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color.Gray)
-                    .padding(7.dp)
-                    .align(Alignment.BottomEnd)
-                    .clickable { viewModel.isAddNote.value = true }
-            )
+            if (!viewModel.isAddNote.value) {
+                Image(
+                    painter = painterResource(R.drawable.note),
+                    contentDescription = "image",
+                    modifier = Modifier
+                        .padding(bottom = 20.dp, end = 40.dp)
+                        .size(58.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color.Gray)
+                        .padding(7.dp)
+                        .align(Alignment.BottomEnd)
+                        .clickable { viewModel.isAddNote.value = true }
+                )
+            }
         }
     }
 }
 
 @Composable
-fun DsActionBar(navController: NavController) {
+fun DsActionBar(
+    onClick: () -> Unit
+) {
 
     val viewModel: NotesViewModel = getViewModel()
 
@@ -155,7 +155,7 @@ fun DsActionBar(navController: NavController) {
                 .clip(RoundedCornerShape(12.dp))
                 .background(LightGray)
                 .padding(7.dp)
-                .clickable { navController.navigate(Screens.Features.route) }
+                .clickable { onClick() }
         )
 
         Text(
@@ -176,7 +176,6 @@ fun DsActionBar(navController: NavController) {
     }
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DsAddNote(
@@ -188,71 +187,53 @@ fun DsAddNote(
     navController: NavController
 ) {
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    IconButton(
-                        onClick = { navController.navigate(Screens.NotesList.route) },
-                        content = {
-                            Image(
-                                painter = painterResource(R.drawable.back),
-                                contentDescription = "back",
-                                modifier = Modifier
-                                    .clickable {
-                                        navController.navigate(Screens.NotesList.route)
-                                        onSave()
-                                    }
-                            )
-                        }
-                    )
-                },
-                title = { Text("Добавление Заметки", fontSize = 20.sp) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White,
-                    titleContentColor = Color.Gray
-                ),
-            )
-        },
-        content = {
-            Column(
-                modifier = Modifier
-                    .padding(top = 50.dp, start = 10.dp, end = 10.dp)
-            ) {
-                TextField(
-                    value = title,
-                    onValueChange = onTitleChange,
-                    placeholder = { Text("Заглавие", fontSize = 24.sp) },
-                    colors = TextFieldDefaults.textFieldColors(
-                        focusedIndicatorColor = Color.White,
-                        focusedTextColor = Color.Black,
-                        unfocusedIndicatorColor = Color.White,
-                        unfocusedTextColor = Color.Black,
-                        containerColor = Color.White
-                    ),
-                    textStyle = TextStyle(fontSize = 24.sp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 10.dp)
-                )
-                TextField(
-                    value = description,
-                    onValueChange = onDescriptionChange,
-                    placeholder = { Text(text = "Описание", fontSize = 18.sp) },
-                    colors = TextFieldDefaults.textFieldColors(
-                        focusedIndicatorColor = Color.White,
-                        focusedTextColor = Color.Black,
-                        unfocusedIndicatorColor = Color.White,
-                        unfocusedTextColor = Color.Black,
-                        containerColor = Color.White
-                    ),
-                    textStyle = TextStyle(fontSize = 16.sp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                )
-            }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        DsActionBar {
+            navController.navigate(Screens.NotesList.route)
+            onSave()
         }
-    )
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.LightGray)
+                .size(height = 1.dp, width = 100.dp)
+        )
+
+        TextField(
+            value = title,
+            onValueChange = onTitleChange,
+            placeholder = { Text("Заглавие", fontSize = 24.sp) },
+            colors = TextFieldDefaults.textFieldColors(
+                focusedIndicatorColor = Color.White,
+                focusedTextColor = Color.Black,
+                unfocusedIndicatorColor = Color.White,
+                unfocusedTextColor = Color.Black,
+                containerColor = Color.White
+            ),
+            textStyle = TextStyle(fontSize = 24.sp),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        TextField(
+            value = description,
+            onValueChange = onDescriptionChange,
+            placeholder = { Text(text = "Описание", fontSize = 18.sp) },
+            colors = TextFieldDefaults.textFieldColors(
+                focusedIndicatorColor = Color.White,
+                focusedTextColor = Color.Black,
+                unfocusedIndicatorColor = Color.White,
+                unfocusedTextColor = Color.Black,
+                containerColor = Color.White
+            ),
+            textStyle = TextStyle(fontSize = 16.sp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+        )
+    }
 }

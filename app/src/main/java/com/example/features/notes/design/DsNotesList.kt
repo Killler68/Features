@@ -116,6 +116,23 @@ fun DsNotesList(navController: NavController) {
                     navController
                 )
             }
+
+            if (viewModel.isChoiceNote.value) {
+                DsChoiceNote(
+                    onDismiss = {
+                        viewModel.isChoiceNote.value = false
+                    },
+                    navigateToAddNote = {
+                        viewModel.isAddNote.value = true
+                        viewModel.isChoiceNote.value = false
+                    },
+                    navigateTotodo = {
+                        viewModel.isAddNote.value = false
+                        viewModel.isChoiceNote.value = false
+                    }
+                )
+            }
+
             if (!viewModel.isAddNote.value) {
                 Image(
                     painter = painterResource(R.drawable.note),
@@ -127,7 +144,7 @@ fun DsNotesList(navController: NavController) {
                         .background(Color.Gray)
                         .padding(7.dp)
                         .align(Alignment.BottomEnd)
-                        .clickable { viewModel.isAddNote.value = true }
+                        .clickable { viewModel.isChoiceNote.value = true }
                 )
             }
         }

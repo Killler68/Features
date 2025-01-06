@@ -20,6 +20,7 @@ class NotesViewModel(
     val stateGetNotes: State<List<NotesModel>> get() = _stateGetNotes
 
     var isAddNote = mutableStateOf(false)
+    var isChoiceNote = mutableStateOf(false)
 
     var editingNoteId = mutableStateOf<Int?>(null)
 

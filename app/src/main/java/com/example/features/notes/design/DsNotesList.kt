@@ -157,7 +157,6 @@ fun DsActionBar(
 ) {
 
     val viewModel: NotesViewModel = getViewModel()
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -213,7 +212,6 @@ fun DsAddNote(
             navController.navigate(Screens.NotesList.route)
             onSave()
         }
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()

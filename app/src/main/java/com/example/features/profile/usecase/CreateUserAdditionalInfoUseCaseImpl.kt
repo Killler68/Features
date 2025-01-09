@@ -11,10 +11,10 @@ class CreateUserAdditionalInfoUseCaseImpl(
 ) : CreateUserAdditionalInfoUseCase {
 
     override suspend fun invoke(
-        email: String, name: String, age: String, city: String, nationality: String
+       userId: Int, email: String, name: String, age: String, city: String, nationality: String
     ): UserAdditionalInfo {
         return withContext(Dispatchers.IO) {
-            repository.createUserAdditionalInfo(email, name, age, city, nationality)
+            repository.createUserAdditionalInfo(userId, email, name, age, city, nationality)
         }
     }
 }

@@ -34,8 +34,10 @@ import com.example.features.notes.viewmodel.NotesViewModel
 import com.example.features.notes.viewmodel.UpdateNote
 import com.example.features.profile.usecase.CreateUserAdditionalInfoUseCaseImpl
 import com.example.features.profile.usecase.GetUserAdditionalInfoByIdUseCaseImpl
+import com.example.features.profile.usecase.UpdateUserAdditionalInfoUseCaseImpl
 import com.example.features.profile.viewmodel.CreateUserAdditionalInfoUseCase
 import com.example.features.profile.viewmodel.GetUserAdditionalInfoByIdUseCase
+import com.example.features.profile.viewmodel.UpdateUserAdditionalInfoUseCase
 import com.example.features.profile.viewmodel.UserAdditionalInfoViewModel
 import com.example.features.registration.usecase.CreateUserUseCaseImpl
 import com.example.features.registration.viewmodel.CreateUserUseCase
@@ -113,6 +115,7 @@ val appModule = module {
 
     factory<CreateUserAdditionalInfoUseCase> { CreateUserAdditionalInfoUseCaseImpl(get()) }
     factory<GetUserAdditionalInfoByIdUseCase> { GetUserAdditionalInfoByIdUseCaseImpl(get()) }
+    factory<UpdateUserAdditionalInfoUseCase> { UpdateUserAdditionalInfoUseCaseImpl(get()) }
 
     factory<GetNotesUseCase> { GetNotesUseCaseImpl(get()) }
     factory<GetNoteByIdUseCase> { GetNoteByIdUseCaseImpl(get()) }
@@ -125,5 +128,5 @@ val appModule = module {
     viewModel { FeaturesViewModel(get(), get()) }
     viewModel { WeatherViewModel(get(), get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get(), get()) }
-    viewModel { UserAdditionalInfoViewModel(get(), get()) }
+    viewModel { UserAdditionalInfoViewModel(get(), get(), get()) }
 }

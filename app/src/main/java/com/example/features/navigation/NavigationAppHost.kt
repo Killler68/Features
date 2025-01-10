@@ -10,6 +10,7 @@ import com.example.features.authorization.DsAuthorization
 import com.example.features.features.design.DsFeatures
 import com.example.features.notes.design.DsNotesList
 import com.example.features.notes.detail.DsNoteDetail
+import com.example.features.notes.noteadd.screen.NoteAddScreen
 import com.example.features.profile.DsUserAdditionalInfo
 import com.example.features.registration.DsRegistration
 import com.example.features.weather.design.DsWeather
@@ -26,6 +27,7 @@ fun NavigationAppHost() {
         composable(Screens.Weather.route) { DsWeather(navHostController) }
         composable(Screens.NotesList.route) { DsNotesList(navHostController) }
         composable(Screens.Features.route) { DsFeatures(navHostController) }
+        composable(Screens.NoteAddScreen.route) { NoteAddScreen(navHostController) }
 
         composable(
             route = Screens.UserAdditionalInfo.route,

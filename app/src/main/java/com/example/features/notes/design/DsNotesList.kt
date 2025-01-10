@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,30 +19,20 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.R
-import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.navigation.Screens
-import com.example.features.notes.model.NotesModel
 import com.example.features.notes.viewmodel.NotesViewModel
 import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
@@ -54,13 +43,6 @@ fun DsNotesList(navController: NavController) {
 
     val viewModel: NotesViewModel = getViewModel()
     val notesList = viewModel.stateGetNotes.value
-
-    val sharedViewModel: SharedViewModel = getViewModel()
-    val currentUser by sharedViewModel.currentUser.collectAsState()
-    val userId = currentUser?.id
-
-    var editTitle by remember { mutableStateOf("") }
-    var editDescription by remember { mutableStateOf("") }
 
     val onCLickChoiceNote = { viewModel.isChoiceNote.value = true }
     val interactionSource = remember { MutableInteractionSource() }
@@ -97,43 +79,14 @@ fun DsNotesList(navController: NavController) {
                 }
             }
 
-            if (viewModel.isAddNote.value) {
-                DsAddNote(
-                    title = editTitle,
-                    description = editDescription,
-                    onTitleChange = { editTitle = it },
-                    onDescriptionChange = { editDescription = it },
-                    onSave = {
-                        if (editTitle.isNotEmpty() && editDescription.isNotEmpty() || editDescription.isNotEmpty()) {
-                            if (userId != null) {
-                                viewModel.createNote(
-                                    NotesModel(
-                                        title = editTitle,
-                                        description = editDescription,
-                                        userId = userId
-                                    )
-                                )
-                                navController.navigate(Screens.NotesList.route)
-                                viewModel.isAddNote.value = false
-                                editTitle = ""
-                                editDescription = ""
-                            }
-                        } else {
-                            navController.navigate(Screens.NotesList.route)
-                        }
-                    },
-                    navController
-                )
-            }
-
             if (viewModel.isChoiceNote.value) {
                 DsChoiceNote(
                     onDismiss = {
                         viewModel.isChoiceNote.value = false
                     },
                     navigateToAddNote = {
-                        viewModel.isAddNote.value = true
                         viewModel.isChoiceNote.value = false
+                        navController.navigate(Screens.NoteAddScreen.route)
                     },
                     navigateTotodo = {
                         viewModel.isAddNote.value = false
@@ -207,63 +160,3 @@ fun DsActionBar(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DsAddNote(
-    title: String,
-    description: String,
-    onTitleChange: (String) -> Unit,
-    onDescriptionChange: (String) -> Unit,
-    onSave: () -> Unit,
-    navController: NavController
-) {
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        DsActionBar {
-            navController.navigate(Screens.NotesList.route)
-            onSave()
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.LightGray)
-                .size(height = 1.dp, width = 100.dp)
-        )
-
-        TextField(
-            value = title,
-            onValueChange = onTitleChange,
-            placeholder = { Text("Заглавие", fontSize = 24.sp) },
-            colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = Color.White,
-                focusedTextColor = Color.Black,
-                unfocusedIndicatorColor = Color.White,
-                unfocusedTextColor = Color.Black,
-                containerColor = Color.White
-            ),
-            textStyle = TextStyle(fontSize = 24.sp),
-            modifier = Modifier
-                .fillMaxWidth()
-        )
-        TextField(
-            value = description,
-            onValueChange = onDescriptionChange,
-            placeholder = { Text(text = "Описание", fontSize = 18.sp) },
-            colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = Color.White,
-                focusedTextColor = Color.Black,
-                unfocusedIndicatorColor = Color.White,
-                unfocusedTextColor = Color.Black,
-                containerColor = Color.White
-            ),
-            textStyle = TextStyle(fontSize = 16.sp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-        )
-    }
-}

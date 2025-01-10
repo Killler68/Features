@@ -19,6 +19,7 @@ import com.example.features.features.usecase.GetDrawerItemsImpl
 import com.example.features.features.viewmodel.FeaturesUseCase
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.features.viewmodel.GetDrawerItems
+import com.example.features.notes.noteadd.viewmodel.NoteAddViewModel
 import com.example.features.notes.repository.NotesRepositoryImpl
 import com.example.features.notes.usecase.AddNoteUseCaseImpl
 import com.example.features.notes.usecase.DeleteNoteImpl
@@ -129,4 +130,5 @@ val appModule = module {
     viewModel { WeatherViewModel(get(), get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get(), get()) }
     viewModel { UserAdditionalInfoViewModel(get(), get(), get()) }
+    viewModel { NoteAddViewModel(get(), get()) }
 }

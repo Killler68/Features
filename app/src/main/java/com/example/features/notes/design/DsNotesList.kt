@@ -3,6 +3,7 @@ package com.example.features.notes.design
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +16,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -30,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -40,6 +45,7 @@ import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.navigation.Screens
 import com.example.features.notes.model.NotesModel
 import com.example.features.notes.viewmodel.NotesViewModel
+import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
 import org.koin.androidx.compose.getViewModel
 
@@ -55,6 +61,9 @@ fun DsNotesList(navController: NavController) {
 
     var editTitle by remember { mutableStateOf("") }
     var editDescription by remember { mutableStateOf("") }
+
+    val onCLickChoiceNote = { viewModel.isChoiceNote.value = true }
+    val interactionSource = remember { MutableInteractionSource() }
 
     Column(
         modifier = Modifier
@@ -135,16 +144,22 @@ fun DsNotesList(navController: NavController) {
 
             if (!viewModel.isAddNote.value) {
                 Image(
-                    painter = painterResource(R.drawable.note),
-                    contentDescription = "image",
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = "image_add_note",
+                    colorFilter = ColorFilter.tint(Color.White),
                     modifier = Modifier
                         .padding(bottom = 20.dp, end = 40.dp)
-                        .size(58.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(Color.Gray)
+                        .size(68.dp)
+                        .clip(CircleShape)
+                        .background(Cyan)
                         .padding(7.dp)
                         .align(Alignment.BottomEnd)
-                        .clickable { viewModel.isChoiceNote.value = true }
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            onClick = { onCLickChoiceNote() }
+                        )
+
                 )
             }
         }

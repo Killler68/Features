@@ -69,7 +69,7 @@ fun DsNoteGridItem(notesModel: NotesModel, onClick: () -> Unit) {
                         painter = painterResource(R.drawable.trash_bucket),
                         contentDescription = "remove_note",
                         modifier = Modifier
-                            .clickable { viewModel.removeNote(notesModel) }
+                            .clickable { viewModel.deleteNote(notesModel) }
                             .size(24.dp)
                             .weight(0.5f),
                         Alignment.CenterStart

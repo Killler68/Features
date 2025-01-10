@@ -19,20 +19,15 @@ import com.example.features.features.usecase.GetDrawerItemsImpl
 import com.example.features.features.viewmodel.FeaturesUseCase
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.features.viewmodel.GetDrawerItems
-import com.example.features.notes.noteadd.viewmodel.NoteAddViewModel
-import com.example.features.notes.noteslist.viewmodel.DeleteNote
-import com.example.features.notes.noteslist.viewmodel.NotesViewModel
 import com.example.features.notes.common.repository.NotesRepositoryImpl
-import com.example.features.notes.noteadd.usecase.AddNoteUseCaseImpl
-import com.example.features.notes.noteslist.usecase.DeleteNoteImpl
-import com.example.features.notes.noteslist.usecase.GetNoteByIdUseCaseImpl
-import com.example.features.notes.noteslist.usecase.GetNotesUseCaseImpl
-import com.example.features.notes.noteslist.usecase.NotesRepository
-import com.example.features.notes.noteslist.usecase.UpdateNoteImpl
-import com.example.features.notes.noteadd.viewmodel.AddNoteUseCase
-import com.example.features.notes.noteslist.viewmodel.GetNoteByIdUseCase
-import com.example.features.notes.noteslist.viewmodel.GetNotesUseCase
-import com.example.features.notes.noteslist.viewmodel.UpdateNote
+import com.example.features.notes.noteadd.usecase.AddNoteUseCase
+import com.example.features.notes.noteadd.viewmodel.NoteAddViewModel
+import com.example.features.notes.notedetail.viewmodel.NoteDetailViewModel
+import com.example.features.notes.common.usecase.DeleteNoteUseCase
+import com.example.features.notes.common.usecase.GetNotesUseCase
+import com.example.features.notes.common.usecase.NotesRepository
+import com.example.features.notes.common.usecase.UpdateNoteUseCase
+import com.example.features.notes.noteslist.viewmodel.NotesViewModel
 import com.example.features.profile.usecase.CreateUserAdditionalInfoUseCaseImpl
 import com.example.features.profile.usecase.GetUserAdditionalInfoByIdUseCaseImpl
 import com.example.features.profile.usecase.UpdateUserAdditionalInfoUseCaseImpl
@@ -118,11 +113,10 @@ val appModule = module {
     factory<GetUserAdditionalInfoByIdUseCase> { GetUserAdditionalInfoByIdUseCaseImpl(get()) }
     factory<UpdateUserAdditionalInfoUseCase> { UpdateUserAdditionalInfoUseCaseImpl(get()) }
 
-    factory<GetNotesUseCase> { GetNotesUseCaseImpl(get()) }
-    factory<GetNoteByIdUseCase> { GetNoteByIdUseCaseImpl(get()) }
-    factory<AddNoteUseCase> { AddNoteUseCaseImpl(get()) }
-    factory<DeleteNote> { DeleteNoteImpl(get()) }
-    factory<UpdateNote> { UpdateNoteImpl(get()) }
+    factory { GetNotesUseCase(get()) }
+    factory { AddNoteUseCase(get()) }
+    factory { DeleteNoteUseCase(get()) }
+    factory { UpdateNoteUseCase(get()) }
 
     viewModel { WelcomeViewModel(get()) }
     viewModel { RegistrationViewModel(get(), get()) }
@@ -131,4 +125,5 @@ val appModule = module {
     viewModel { NotesViewModel(get(), get(), get(), get()) }
     viewModel { UserAdditionalInfoViewModel(get(), get(), get()) }
     viewModel { NoteAddViewModel(get(), get()) }
+    viewModel { NoteDetailViewModel(get(), get(), get(), get()) }
 }

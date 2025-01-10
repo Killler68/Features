@@ -1,4 +1,4 @@
-package com.example.features.notes.noteslist.viewmodel
+package com.example.features.notes.notedetail.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -11,18 +11,15 @@ import com.example.features.notes.common.usecase.GetNotesUseCase
 import com.example.features.notes.common.usecase.UpdateNoteUseCase
 import kotlinx.coroutines.launch
 
-class NotesViewModel(
-    private val getNotesUseCase: GetNotesUseCase,
+class NoteDetailViewModel(
+    private val sharedViewModel: SharedViewModel,
     private val deleteNoteUseCase: DeleteNoteUseCase,
     private val updateNoteUseCase: UpdateNoteUseCase,
-    private val sharedViewModel: SharedViewModel
+    private val getNotesUseCase: GetNotesUseCase
 ) : ViewModel() {
 
     private var _stateGetNotes = mutableStateOf<List<NotesModel>>(emptyList())
-    val stateGetNotes: State<List<NotesModel>> get() = _stateGetNotes
-
-    var isAddNote = mutableStateOf(false)
-    var isChoiceNote = mutableStateOf(false)
+    private val stateGetNotes: State<List<NotesModel>> get() = _stateGetNotes
 
     var editingNoteId = mutableStateOf<Int?>(null)
 
@@ -37,6 +34,10 @@ class NotesViewModel(
                 _stateGetNotes.value = getNotesUseCase(user.id)
             }
         }
+    }
+
+    fun getNoteDetail(noteId: Int): NotesModel? {
+        return stateGetNotes.value.find { it.noteId == noteId }
     }
 
     fun deleteNote(note: NotesModel) {

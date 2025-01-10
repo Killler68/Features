@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.notes.common.model.NotesModel
+import com.example.features.notes.noteadd.usecase.AddNoteUseCase
 import kotlinx.coroutines.launch
 
 class NoteAddViewModel(

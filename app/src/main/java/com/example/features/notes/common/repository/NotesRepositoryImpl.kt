@@ -3,7 +3,7 @@ package com.example.features.notes.common.repository
 import com.example.features.common.database.notes.Notes
 import com.example.features.common.database.notes.NotesDao
 import com.example.features.notes.common.model.NotesModel
-import com.example.features.notes.noteslist.usecase.NotesRepository
+import com.example.features.notes.common.usecase.NotesRepository
 
 class NotesRepositoryImpl(
     private val notesDao: NotesDao

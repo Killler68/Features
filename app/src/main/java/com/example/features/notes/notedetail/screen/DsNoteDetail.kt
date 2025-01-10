@@ -1,4 +1,4 @@
-package com.example.features.notes.notedetail
+package com.example.features.notes.notedetail.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,14 +30,14 @@ import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.navigation.Screens
 import com.example.features.notes.common.screen.DsNote
-import com.example.features.notes.noteslist.viewmodel.NotesViewModel
+import com.example.features.notes.notedetail.viewmodel.NoteDetailViewModel
 import com.example.features.ui.theme.LightGray
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun DsNoteDetail(noteId: Int, navController: NavController) {
 
-    val viewModel: NotesViewModel = getViewModel()
+    val viewModel: NoteDetailViewModel = getViewModel()
     val note = viewModel.getNoteDetail(noteId)
 
     var lineTitle by remember { mutableIntStateOf(1) }
@@ -55,7 +55,7 @@ fun DsNoteDetail(noteId: Int, navController: NavController) {
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 10.dp),
             ) {
@@ -103,7 +103,7 @@ fun DsNoteDetail(noteId: Int, navController: NavController) {
                         .background(LightGray)
                         .padding(7.dp)
                         .clickable {
-                            viewModel.removeNote(it)
+                            viewModel.deleteNote(it)
                             navController.navigate(Screens.NotesList.route)
                         }
                 )

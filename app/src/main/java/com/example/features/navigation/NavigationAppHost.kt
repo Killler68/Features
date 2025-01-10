@@ -8,11 +8,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.features.authorization.DsAuthorization
 import com.example.features.features.design.DsFeatures
-import com.example.features.notes.noteslist.screen.DsNotesList
-import com.example.features.notes.notedetail.screen.DsNoteDetail
 import com.example.features.notes.noteadd.screen.NoteAddScreen
+import com.example.features.notes.notedetail.screen.DsNoteDetail
+import com.example.features.notes.noteslist.screen.DsNotesList
 import com.example.features.profile.DsUserAdditionalInfo
 import com.example.features.registration.DsRegistration
+import com.example.features.start.screen.StartScreen
 import com.example.features.weather.design.DsWeather
 import com.example.features.welcome.DsWelcome
 
@@ -21,6 +22,7 @@ fun NavigationAppHost() {
     val navHostController = rememberNavController()
 
     NavHost(navController = navHostController, startDestination = "Welcome") {
+        composable(Screens.StartScreen.route) { StartScreen() }
         composable(Screens.Welcome.route) { DsWelcome(navHostController) }
         composable(Screens.Registration.route) { DsRegistration(navHostController) }
         composable(Screens.Authorization.route) { DsAuthorization(navHostController) }

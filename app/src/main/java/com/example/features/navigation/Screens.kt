@@ -2,6 +2,7 @@ package com.example.features.navigation
 
 sealed class Screens(val route: String) {
 
+    data object StartScreen : Screens("start_screen")
     data object Welcome : Screens("Welcome")
     data object Registration : Screens("Registration")
     data object Authorization : Screens("Authorization")

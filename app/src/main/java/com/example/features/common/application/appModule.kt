@@ -11,6 +11,8 @@ import com.example.features.common.repository.UserRepository
 import com.example.features.common.repository.UserRepositoryImpl
 import com.example.features.common.repository.profile.UserAdditionalInfoRepository
 import com.example.features.common.repository.profile.UserAdditionalInfoRepositoryImpl
+import com.example.features.common.sharedpreferences.LocalStorage
+import com.example.features.common.sharedpreferences.LocalStorageImpl
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.repository.FeaturesRepositoryImpl
 import com.example.features.features.usecase.FeaturesRepository
@@ -20,13 +22,13 @@ import com.example.features.features.viewmodel.FeaturesUseCase
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.features.viewmodel.GetDrawerItems
 import com.example.features.notes.common.repository.NotesRepositoryImpl
-import com.example.features.notes.noteadd.usecase.AddNoteUseCase
-import com.example.features.notes.noteadd.viewmodel.NoteAddViewModel
-import com.example.features.notes.notedetail.viewmodel.NoteDetailViewModel
 import com.example.features.notes.common.usecase.DeleteNoteUseCase
 import com.example.features.notes.common.usecase.GetNotesUseCase
 import com.example.features.notes.common.usecase.NotesRepository
 import com.example.features.notes.common.usecase.UpdateNoteUseCase
+import com.example.features.notes.noteadd.usecase.AddNoteUseCase
+import com.example.features.notes.noteadd.viewmodel.NoteAddViewModel
+import com.example.features.notes.notedetail.viewmodel.NoteDetailViewModel
 import com.example.features.notes.noteslist.viewmodel.NotesViewModel
 import com.example.features.profile.usecase.CreateUserAdditionalInfoUseCaseImpl
 import com.example.features.profile.usecase.GetUserAdditionalInfoByIdUseCaseImpl
@@ -38,6 +40,9 @@ import com.example.features.profile.viewmodel.UserAdditionalInfoViewModel
 import com.example.features.registration.usecase.CreateUserUseCaseImpl
 import com.example.features.registration.viewmodel.CreateUserUseCase
 import com.example.features.registration.viewmodel.RegistrationViewModel
+import com.example.features.start.usecase.CheckLocaleUseCaseImpl
+import com.example.features.start.viewmodel.CheckLocaleUseCase
+import com.example.features.start.viewmodel.StartViewModel
 import com.example.features.weather.repository.WeatherRepositoryImpl
 import com.example.features.weather.usecase.HoursWeatherUseCaseImpl
 import com.example.features.weather.usecase.PreviewBarWeatherUseCaseImpl
@@ -93,10 +98,12 @@ val appModule = module {
         ).build()
     }
 
-
+    factory<LocalStorage> { LocalStorageImpl(get()) }
 
     single { get<UserAdditionalInfoDatabase>().userAdditionalInfoDao() }
     single { get<UserDatabase>().userDao() }
+
+    factory<CheckLocaleUseCase> { CheckLocaleUseCaseImpl(get(), get()) }
 
     factory<WelcomeUseCase> { WelcomeUseCaseImpl(get()) }
 
@@ -118,6 +125,7 @@ val appModule = module {
     factory { DeleteNoteUseCase(get()) }
     factory { UpdateNoteUseCase(get()) }
 
+    viewModel { StartViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
     viewModel { RegistrationViewModel(get(), get()) }
     viewModel { FeaturesViewModel(get(), get()) }

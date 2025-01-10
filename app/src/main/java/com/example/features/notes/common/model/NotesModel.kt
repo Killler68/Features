@@ -1,4 +1,4 @@
-package com.example.features.notes.model
+package com.example.features.notes.common.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

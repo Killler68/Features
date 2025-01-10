@@ -1,9 +1,9 @@
-package com.example.features.notes.repository
+package com.example.features.notes.common.repository
 
 import com.example.features.common.database.notes.Notes
 import com.example.features.common.database.notes.NotesDao
-import com.example.features.notes.model.NotesModel
-import com.example.features.notes.usecase.NotesRepository
+import com.example.features.notes.common.model.NotesModel
+import com.example.features.notes.noteslist.usecase.NotesRepository
 
 class NotesRepositoryImpl(
     private val notesDao: NotesDao

@@ -3,8 +3,7 @@ package com.example.features.notes.noteadd.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.viewmodel.SharedViewModel
-import com.example.features.notes.model.NotesModel
-import com.example.features.notes.viewmodel.AddNoteUseCase
+import com.example.features.notes.common.model.NotesModel
 import kotlinx.coroutines.launch
 
 class NoteAddViewModel(

@@ -1,4 +1,4 @@
-package com.example.features.notes.design
+package com.example.features.notes.common.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

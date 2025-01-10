@@ -1,4 +1,4 @@
-package com.example.features.notes.design
+package com.example.features.notes.noteslist.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.navigation.Screens
-import com.example.features.notes.viewmodel.NotesViewModel
+import com.example.features.notes.noteslist.viewmodel.NotesViewModel
 import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
 import org.koin.androidx.compose.getViewModel
@@ -52,9 +52,7 @@ fun DsNotesList(navController: NavController) {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        if (!viewModel.isAddNote.value) {
-            DsActionBar { navController.navigate(Screens.Features.route) }
-        }
+        DsActionBar { navController.navigate(Screens.Features.route) }
 
         Box(
             modifier = Modifier
@@ -95,26 +93,23 @@ fun DsNotesList(navController: NavController) {
                 )
             }
 
-            if (!viewModel.isAddNote.value) {
-                Image(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = "image_add_note",
-                    colorFilter = ColorFilter.tint(Color.White),
-                    modifier = Modifier
-                        .padding(bottom = 20.dp, end = 40.dp)
-                        .size(68.dp)
-                        .clip(CircleShape)
-                        .background(Cyan)
-                        .padding(7.dp)
-                        .align(Alignment.BottomEnd)
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            onClick = { onCLickChoiceNote() }
-                        )
-
-                )
-            }
+            Image(
+                imageVector = Icons.Filled.Add,
+                contentDescription = "image_add_note",
+                colorFilter = ColorFilter.tint(Color.White),
+                modifier = Modifier
+                    .padding(bottom = 20.dp, end = 40.dp)
+                    .size(68.dp)
+                    .clip(CircleShape)
+                    .background(Cyan)
+                    .padding(7.dp)
+                    .align(Alignment.BottomEnd)
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = { onCLickChoiceNote() }
+                    )
+            )
         }
     }
 }

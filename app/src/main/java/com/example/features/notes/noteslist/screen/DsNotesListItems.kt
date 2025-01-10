@@ -1,4 +1,4 @@
-package com.example.features.notes.design
+package com.example.features.notes.noteslist.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,8 +24,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.R
-import com.example.features.notes.model.NotesModel
-import com.example.features.notes.viewmodel.NotesViewModel
+import com.example.features.notes.common.screen.DsNote
+import com.example.features.notes.common.model.NotesModel
+import com.example.features.notes.noteslist.viewmodel.NotesViewModel
 import com.example.features.ui.theme.LightGray
 import org.koin.androidx.compose.getViewModel
 

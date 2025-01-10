@@ -1,7 +1,7 @@
-package com.example.features.notes.usecase
+package com.example.features.notes.noteslist.usecase
 
-import com.example.features.notes.model.NotesModel
-import com.example.features.notes.viewmodel.GetNotesUseCase
+import com.example.features.notes.common.model.NotesModel
+import com.example.features.notes.noteslist.viewmodel.GetNotesUseCase
 
 class GetNotesUseCaseImpl(
     private val repository: NotesRepository

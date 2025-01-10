@@ -8,8 +8,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.features.authorization.DsAuthorization
 import com.example.features.features.design.DsFeatures
-import com.example.features.notes.design.DsNotesList
-import com.example.features.notes.detail.DsNoteDetail
+import com.example.features.notes.noteslist.screen.DsNotesList
+import com.example.features.notes.notedetail.DsNoteDetail
 import com.example.features.notes.noteadd.screen.NoteAddScreen
 import com.example.features.profile.DsUserAdditionalInfo
 import com.example.features.registration.DsRegistration

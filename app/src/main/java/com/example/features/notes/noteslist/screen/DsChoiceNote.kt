@@ -1,4 +1,4 @@
-package com.example.features.notes.design
+package com.example.features.notes.noteslist.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

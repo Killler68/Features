@@ -1,6 +1,6 @@
-package com.example.features.notes.usecase
+package com.example.features.notes.noteslist.usecase
 
-import com.example.features.notes.model.NotesModel
+import com.example.features.notes.common.model.NotesModel
 
 interface NotesRepository {
 

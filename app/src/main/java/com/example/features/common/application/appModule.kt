@@ -13,6 +13,8 @@ import com.example.features.common.repository.profile.UserAdditionalInfoReposito
 import com.example.features.common.repository.profile.UserAdditionalInfoRepositoryImpl
 import com.example.features.common.sharedpreferences.LocalStorage
 import com.example.features.common.sharedpreferences.LocalStorageImpl
+import com.example.features.common.usecase.CheckLocaleUseCase
+import com.example.features.common.usecase.CheckLocaleUseCaseImpl
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.repository.FeaturesRepositoryImpl
 import com.example.features.features.usecase.FeaturesRepository
@@ -40,9 +42,6 @@ import com.example.features.profile.viewmodel.UserAdditionalInfoViewModel
 import com.example.features.registration.usecase.CreateUserUseCaseImpl
 import com.example.features.registration.viewmodel.CreateUserUseCase
 import com.example.features.registration.viewmodel.RegistrationViewModel
-import com.example.features.start.usecase.CheckLocaleUseCaseImpl
-import com.example.features.start.viewmodel.CheckLocaleUseCase
-import com.example.features.start.viewmodel.StartViewModel
 import com.example.features.weather.repository.WeatherRepositoryImpl
 import com.example.features.weather.usecase.HoursWeatherUseCaseImpl
 import com.example.features.weather.usecase.PreviewBarWeatherUseCaseImpl
@@ -62,8 +61,7 @@ import org.koin.dsl.module
 
 val appModule = module {
 
-    viewModel { MainViewModel() }
-
+    single<CheckLocaleUseCase> { CheckLocaleUseCaseImpl(get()) }
     single { SharedViewModel(get()) }
 
     single<WelcomeRepository> { WelcomeRepositoryImpl() }
@@ -103,7 +101,6 @@ val appModule = module {
     single { get<UserAdditionalInfoDatabase>().userAdditionalInfoDao() }
     single { get<UserDatabase>().userDao() }
 
-    factory<CheckLocaleUseCase> { CheckLocaleUseCaseImpl(get(), get()) }
 
     factory<WelcomeUseCase> { WelcomeUseCaseImpl(get()) }
 
@@ -125,7 +122,7 @@ val appModule = module {
     factory { DeleteNoteUseCase(get()) }
     factory { UpdateNoteUseCase(get()) }
 
-    viewModel { StartViewModel(get()) }
+    viewModel { MainViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
     viewModel { RegistrationViewModel(get(), get()) }
     viewModel { FeaturesViewModel(get(), get()) }

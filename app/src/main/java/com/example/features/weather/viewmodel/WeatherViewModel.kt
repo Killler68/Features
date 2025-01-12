@@ -28,7 +28,7 @@ class WeatherViewModel(
     private val _dailyWeather = mutableStateOf<List<DailyWeather>>(emptyList())
     val dailyWeather: State<List<DailyWeather>> = _dailyWeather
 
-    private val _state: MutableStateFlow<WeatherState> = MutableStateFlow(WeatherState.Content)
+    private val _state: MutableStateFlow<WeatherState> = MutableStateFlow(WeatherState.Loading)
     val state: StateFlow<WeatherState> get() = _state
 
     var isEnabled = mutableStateOf(false)
@@ -43,15 +43,12 @@ class WeatherViewModel(
                 _previewBarWeather.value = previewBarWeatherUseCase()
                 _state.value = WeatherState.Content
             } catch (e: Exception) {
-                _state.value = WeatherState.Error(
-                    title = e.message.toString(),
-                    message = e.message.toString()
-                )
+                e.message?.let { onError(it) }
             }
         }
     }
 
-    private fun onError(title: String, message: String) {
-        _state.value = WeatherState.Error(title, message)
+    private fun onError(message: String) {
+        _state.value = WeatherState.Error(message)
     }
 }

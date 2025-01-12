@@ -3,6 +3,7 @@ package com.example.features.authorization
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +26,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -43,6 +46,7 @@ fun DsAuthorization(navController: NavController) {
 
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val interactionSource = remember { MutableInteractionSource() }
 
     LaunchedEffect(Unit) {
         sharedViewModel.clearCurrentUser()
@@ -72,16 +76,25 @@ fun DsAuthorization(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
+
             Text(
-                text = "Нет учетной записи? \nЗарегистрироваться",
-                textAlign = TextAlign.Center,
+                text = buildAnnotatedString {
+                    append("Нет учетной записи? \n")
+                    withStyle(
+                        style = SpanStyle(color = Cyan)
+                    )
+                    { append("Зарегистрироваться") }
+                },
                 fontSize = 18.sp,
                 modifier = Modifier
-                    .clickable {
-                        navController.navigate(Screens.Registration.route)
-                    }
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = { navController.navigate(Screens.Registration.route) }
+                    )
             )
         }
+
         TextField(
             value = login,
             onValueChange = { login = it },

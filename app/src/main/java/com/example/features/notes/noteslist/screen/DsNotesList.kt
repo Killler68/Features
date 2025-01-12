@@ -87,8 +87,8 @@ fun DsNotesList(navController: NavController) {
                         navController.navigate(Screens.NoteAddScreen.route)
                     },
                     navigateTotodo = {
-                        viewModel.isAddNote.value = false
                         viewModel.isChoiceNote.value = false
+                        navController.navigate(Screens.NoteTodoScreen.route)
                     }
                 )
             }

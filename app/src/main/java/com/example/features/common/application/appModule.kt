@@ -32,6 +32,7 @@ import com.example.features.notes.noteadd.usecase.AddNoteUseCase
 import com.example.features.notes.noteadd.viewmodel.NoteAddViewModel
 import com.example.features.notes.notedetail.viewmodel.NoteDetailViewModel
 import com.example.features.notes.noteslist.viewmodel.NotesViewModel
+import com.example.features.notes.notetodo.viewmodel.NoteTodoViewModel
 import com.example.features.profile.usecase.CreateUserAdditionalInfoUseCaseImpl
 import com.example.features.profile.usecase.GetUserAdditionalInfoByIdUseCaseImpl
 import com.example.features.profile.usecase.UpdateUserAdditionalInfoUseCaseImpl
@@ -131,4 +132,5 @@ val appModule = module {
     viewModel { UserAdditionalInfoViewModel(get(), get(), get()) }
     viewModel { NoteAddViewModel(get(), get()) }
     viewModel { NoteDetailViewModel(get(), get(), get(), get()) }
+    viewModel { NoteTodoViewModel() }
 }

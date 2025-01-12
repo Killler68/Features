@@ -12,6 +12,7 @@ import com.example.features.features.design.DsFeatures
 import com.example.features.notes.noteadd.screen.NoteAddScreen
 import com.example.features.notes.notedetail.screen.DsNoteDetail
 import com.example.features.notes.noteslist.screen.DsNotesList
+import com.example.features.notes.notetodo.NoteTodoScreen
 import com.example.features.profile.DsUserAdditionalInfo
 import com.example.features.registration.DsRegistration
 import com.example.features.weather.design.DsWeather
@@ -31,6 +32,7 @@ fun NavigationAppHost(checkLocale: String) {
             composable(Screens.NotesList.route) { DsNotesList(navHostController) }
             composable(Screens.Features.route) { DsFeatures(navHostController) }
             composable(Screens.NoteAddScreen.route) { NoteAddScreen(navHostController) }
+            composable(Screens.NoteTodoScreen.route) { NoteTodoScreen(navHostController) }
 
             composable(
                 route = Screens.UserAdditionalInfo.route,

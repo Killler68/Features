@@ -43,6 +43,7 @@ import com.example.features.ui.theme.LightGray
 import com.example.features.weather.model.DailyWeather
 import com.example.features.weather.model.HoursWeather
 import com.example.features.weather.repository.city
+import com.example.features.weather.screen.ErrorScreen
 import com.example.features.weather.screen.LoadingScreen
 import com.example.features.weather.state.WeatherState
 import com.example.features.weather.viewmodel.WeatherViewModel
@@ -65,7 +66,10 @@ fun DsWeather(navController: NavController) {
             navController
         )
 
-        is WeatherState.Error -> Text("Error")
+        is WeatherState.Error -> ErrorScreen(
+            R.drawable.weather,
+            "Ошибка"
+        )
     }
 }
 

@@ -48,7 +48,7 @@ class WeatherViewModel(
         }
     }
 
-    private fun onError(message: String) {
+     fun onError(message: String) {
         _state.value = WeatherState.Error(message)
     }
 }

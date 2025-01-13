@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.features.authorization.DsAuthorization
+import com.example.features.common.sharedpreferences.LocalStorageImpl
 import com.example.features.features.design.DsFeatures
 import com.example.features.notes.noteadd.screen.NoteAddScreen
 import com.example.features.notes.notedetail.screen.DsNoteDetail
@@ -16,6 +17,7 @@ import com.example.features.registration.DsRegistration
 import com.example.features.settings.screen.SettingsScreen
 import com.example.features.weather.design.DsWeather
 import com.example.features.welcome.DsWelcome
+import org.koin.androidx.compose.get
 
 @Composable
 fun NavigationAppHost(checkLocale: String) {

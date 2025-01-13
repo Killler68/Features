@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.features.about.AboutScreen
 import com.example.features.authorization.DsAuthorization
 import com.example.features.features.design.DsFeatures
 import com.example.features.notes.noteadd.screen.NoteAddScreen
@@ -31,6 +32,7 @@ fun NavigationAppHost(checkLocale: String) {
             composable(Screens.Features.route) { DsFeatures(navHostController) }
             composable(Screens.NoteAddScreen.route) { NoteAddScreen(navHostController) }
             composable(Screens.SettingsScreen.route) { SettingsScreen(navHostController) }
+            composable(Screens.AboutScreen.route) { AboutScreen(navHostController) }
 
             composable(
                 route = Screens.UserAdditionalInfo.route,

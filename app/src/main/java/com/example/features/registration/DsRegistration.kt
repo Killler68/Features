@@ -2,6 +2,7 @@ package com.example.features.registration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +22,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -37,6 +40,8 @@ fun DsRegistration(navController: NavController) {
 
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    val interactionSource = remember { MutableInteractionSource() }
 
     Column(
         Modifier
@@ -67,13 +72,20 @@ fun DsRegistration(navController: NavController) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Уже есть учетная запись? \nВойти",
+                text = buildAnnotatedString {
+                    append("Уже есть учетная запись?\n")
+                    withStyle(
+                        style = SpanStyle(color = Cyan)
+                    )
+                    { append("                   Войти") }
+                },
                 fontSize = 18.sp,
-                textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .clickable {
-                        navController.navigate(Screens.Authorization.route)
-                    }
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = { navController.navigate(Screens.Authorization.route) }
+                    )
             )
         }
         TextField(

@@ -20,4 +20,6 @@ sealed class Screens(val route: String) {
     data object NotesDetail : Screens("note_detail/{noteId}") {
         fun createRouter(noteId: Int) = "note_detail/$noteId"
     }
+
+    data object SettingsScreen : Screens("settings_screen")
 }

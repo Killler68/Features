@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_additional_info")
 data class UserAdditionalInfoData(
     @PrimaryKey(autoGenerate = true) val id: Int,
+    val userId: Int,
     val email: String,
     val name: String,
     val age: String,

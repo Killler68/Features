@@ -5,14 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.database.profile.model.UserAdditionalInfo
-import com.example.features.common.database.profile.model.emptyUserAdditionalInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class UserAdditionalInfoViewModel(
     private val createProfileUser: CreateUserAdditionalInfoUseCase,
-    private val getUserAdditionalInfoById: GetUserAdditionalInfoByIdUseCase
+    private val getUserAdditionalInfoById: GetUserAdditionalInfoByIdUseCase,
+    private val updateUserAdditionalInfoUseCase: UpdateUserAdditionalInfoUseCase
 ) : ViewModel() {
 
     var email = mutableStateOf("")
@@ -27,6 +27,7 @@ class UserAdditionalInfoViewModel(
     private val _userInfo = MutableStateFlow<UserAdditionalInfo?>(null)
     val userInfo: StateFlow<UserAdditionalInfo?> = _userInfo
 
+    var editingAdditionalId = mutableStateOf<Int?>(null)
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> get() = _error
@@ -40,23 +41,33 @@ class UserAdditionalInfoViewModel(
         }
     }
 
-    fun addAdditionalInfo(userId: Int, name: String, age: String, city: String, nationality: String) {
+    fun addAdditionalInfo(
+        userId: Int,
+        name: String,
+        age: String,
+        city: String,
+        nationality: String
+    ) {
         viewModelScope.launch {
-            val currentInfo = getUserAdditionalInfoById(userId)
-            if (currentInfo == null) {
-                // Создаём новую запись
-                createProfileUser(
-                    email = "",
-                    name = name,
-                    age = age,
-                    city = city,
-                    nationality = nationality
-                )
-            } else {
-                // Логика обновления (если требуется)
-            }
+            createProfileUser(
+                userId,
+                email = "",
+                name = name,
+                age = age,
+                city = city,
+                nationality = nationality
+            )
         }
     }
+
+    fun updateUserAdditionalInfo(userAdditionalInfo: UserAdditionalInfo) {
+        viewModelScope.launch {
+            updateUserAdditionalInfoUseCase(userAdditionalInfo)
+            loadUserInfo(userId = userAdditionalInfo.userId)
+            editingAdditionalId.value = null
+        }
+    }
+}
 
 //    fun createUserAdditionalInfo(userId: Int) {
 //        viewModelScope.launch {
@@ -88,4 +99,4 @@ class UserAdditionalInfoViewModel(
 //            }
 //        }
 //    }
-}
+

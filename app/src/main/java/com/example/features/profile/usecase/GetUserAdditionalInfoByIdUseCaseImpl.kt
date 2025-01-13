@@ -9,8 +9,8 @@ import kotlinx.coroutines.withContext
 class GetUserAdditionalInfoByIdUseCaseImpl(
     private val repository: UserAdditionalInfoRepository
 ) : GetUserAdditionalInfoByIdUseCase {
-    override suspend fun invoke(id: Int): UserAdditionalInfo = withContext(Dispatchers.IO) {
-        val user = repository.getUsersAdditionalInfoById(id)
+    override suspend fun invoke(userId: Int): UserAdditionalInfo? = withContext(Dispatchers.IO) {
+        val user = repository.getUsersAdditionalInfoById(userId)
         user
     }
 }

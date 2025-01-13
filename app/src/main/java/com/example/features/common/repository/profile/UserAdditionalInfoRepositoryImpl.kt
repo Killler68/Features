@@ -2,6 +2,7 @@ package com.example.features.common.repository.profile
 
 import com.example.features.common.database.profile.UserAdditionalInfoDao
 import com.example.features.common.database.profile.model.UserAdditionalInfo
+import com.example.features.common.database.profile.model.UserAdditionalInfoData
 import com.example.features.common.database.profile.model.toUserAdditionalInfo
 import com.example.features.common.database.profile.tuple.CreateUserAdditionalInfoTuple
 import com.example.features.common.database.profile.tuple.DeleteUserAdditionalInfoTuple
@@ -18,15 +19,16 @@ class UserAdditionalInfoRepositoryImpl(
             userAdditionalInfo.map { it.toUserAdditionalInfo() }.toList()
         }
 
-    override suspend fun getUsersAdditionalInfoById(id: Int): UserAdditionalInfo =
+    override suspend fun getUsersAdditionalInfoById(userId: Int): UserAdditionalInfo? =
         withContext(Dispatchers.IO) {
             val userAdditionalInfo =
-                userAdditionalInfoDao.getUserAdditionalInfoById(id)?.toUserAdditionalInfo()
-            userAdditionalInfo ?: throw Exception("UserAdditionalInfo $id is not Found ")
+                userAdditionalInfoDao.getUserAdditionalInfoById(userId)?.toUserAdditionalInfo()
+            userAdditionalInfo
 
         }
 
     override suspend fun createUserAdditionalInfo(
+        userId: Int,
         email: String,
         name: String,
         age: String,
@@ -36,6 +38,7 @@ class UserAdditionalInfoRepositoryImpl(
         withContext(Dispatchers.IO) {
             userAdditionalInfoDao.createUserAdditionalInfo(
                 CreateUserAdditionalInfoTuple(
+                    userId = userId,
                     email = email,
                     name = name,
                     age = age,
@@ -47,6 +50,20 @@ class UserAdditionalInfoRepositoryImpl(
                 userAdditionalInfoDao.getUsersAdditionalInfo().last().toUserAdditionalInfo()
             createUserAdditionalInfo
         }
+
+    override suspend fun updateUserAdditionalInfo(userAdditionalInfo: UserAdditionalInfo) {
+        userAdditionalInfoDao.updateUserAdditionalInfo(
+            UserAdditionalInfoData(
+                id = userAdditionalInfo.id,
+                userId = userAdditionalInfo.userId,
+                email = userAdditionalInfo.email,
+                name = userAdditionalInfo.name,
+                age = userAdditionalInfo.age,
+                city = userAdditionalInfo.city,
+                nationality = userAdditionalInfo.nationality
+            )
+        )
+    }
 
     override suspend fun deleteUserAdditionalInfo(id: Int) =
         withContext(Dispatchers.IO) {

@@ -145,6 +145,7 @@ fun DsProfileActionBar(navController: NavController, userId: Int) {
                         .background(LightGray)
                         .padding(7.dp)
                         .clickable {
+
                             viewModel.addAdditionalInfo(
                                 userId = userId,
                                 viewModel.name.value,

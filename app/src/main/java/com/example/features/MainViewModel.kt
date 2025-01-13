@@ -1,35 +1,23 @@
 package com.example.features
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.features.common.usecase.CheckLocaleUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    private val checkLocaleUseCase: CheckLocaleUseCase
+) : ViewModel() {
 
-    private val _state = MutableLiveData<MainScreenState>()
-    val state: LiveData<MainScreenState> = _state
+    private val _locale = MutableStateFlow("")
+    val locale: StateFlow<String> get() = _locale
 
-    init {
-        _state.value = MainScreenState.Registration
-    }
-
-    fun handleEvent(event: MainScreenEvent) {
-
-        when (event) {
-            is MainScreenEvent.NavigateToRegistration -> _state.value =
-                MainScreenState.Registration
-
-            is MainScreenEvent.NavigateToAuthorization -> _state.value =
-                MainScreenState.Authorization
-
-            is MainScreenEvent.NavigateToFeatures -> _state.value =
-                MainScreenState.Features
-
-            is MainScreenEvent.NavigateToWeather -> _state.value =
-                MainScreenState.Weather
-
-            is MainScreenEvent.NavigateToNotesList -> _state.value =
-                MainScreenState.NotesList
+    fun checkLocale() {
+        viewModelScope.launch {
+            val result = checkLocaleUseCase()
+            _locale.value = result
         }
     }
 }

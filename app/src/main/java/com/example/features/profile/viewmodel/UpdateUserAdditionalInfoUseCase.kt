@@ -2,7 +2,7 @@ package com.example.features.profile.viewmodel
 
 import com.example.features.common.database.profile.model.UserAdditionalInfo
 
-interface GetUserAdditionalInfoByIdUseCase {
+interface UpdateUserAdditionalInfoUseCase {
 
-    suspend operator fun invoke(userId: Int): UserAdditionalInfo?
+    suspend operator fun invoke(userAdditionalInfo: UserAdditionalInfo)
 }

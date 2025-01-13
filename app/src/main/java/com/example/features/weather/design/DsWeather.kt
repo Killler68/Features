@@ -43,6 +43,8 @@ import com.example.features.ui.theme.LightGray
 import com.example.features.weather.model.DailyWeather
 import com.example.features.weather.model.HoursWeather
 import com.example.features.weather.repository.city
+import com.example.features.weather.screen.ErrorScreen
+import com.example.features.weather.screen.LoadingScreen
 import com.example.features.weather.state.WeatherState
 import com.example.features.weather.viewmodel.WeatherViewModel
 import org.koin.androidx.compose.getViewModel
@@ -56,14 +58,18 @@ fun DsWeather(navController: NavController) {
     LaunchedEffect(Unit) {
         viewModel.loadWeather()
     }
+
     when (state.value) {
-        WeatherState.Loading -> DsLoading()
+        WeatherState.Loading -> LoadingScreen()
         is WeatherState.Content -> Content(
             viewModel,
             navController
         )
 
-        is WeatherState.Error -> DsLoading()
+        is WeatherState.Error -> ErrorScreen(
+            R.drawable.weather,
+            "Ошибка"
+        )
     }
 }
 
@@ -305,20 +311,6 @@ fun DsHourlyWeatherItem(hoursWeather: HoursWeather) {
         Text(
             text = "$integerValue°",
             fontSize = 12.sp
-
         )
-    }
-}
-
-@Composable
-fun DsLoading() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-//        CircularProgressIndicator()
-        Text("asf")
     }
 }

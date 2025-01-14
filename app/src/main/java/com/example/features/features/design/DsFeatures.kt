@@ -88,7 +88,7 @@ fun DsFeatures(navController: NavController) {
                                 0, 1 -> user?.id?.let {
                                     navController.navigate(Screens.UserAdditionalInfo.createRoute(userId = user!!.id))
                                 }
-                                2 -> navController.navigate(Screens.SettingsScreen.route)
+                                2 -> navController.navigate(Screens.WeatherDetailedScreen.route)
                             }
                         }
                     ) {

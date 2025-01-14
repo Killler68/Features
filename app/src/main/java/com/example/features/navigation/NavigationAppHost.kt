@@ -15,6 +15,7 @@ import com.example.features.profile.DsUserAdditionalInfo
 import com.example.features.registration.DsRegistration
 import com.example.features.settings.screen.SettingsScreen
 import com.example.features.weather.design.DsWeather
+import com.example.features.weather.detailed.screen.WeatherDetailedScreen
 import com.example.features.welcome.screen.DsWelcome
 
 @Composable
@@ -49,6 +50,15 @@ fun NavigationAppHost(checkLocale: String) {
                 val noteId = backStackEntry.arguments?.getInt("noteId") ?: 0
                 DsNoteDetail(noteId = noteId, navHostController)
             }
+
+            composable(Screens.WeatherDetailedScreen.route) { WeatherDetailedScreen(navHostController) }
+//            composable(
+//                route = Screens.WeatherDetailedScreen.route,
+//                arguments = listOf(navArgument("weatherId") { type = NavType.IntType })
+//            ) { backStackEntry ->
+//                val weatherId = backStackEntry.arguments?.getInt("weatherId") ?: 0
+//                WeatherDetailedScreen(weatherId = weatherId, navHostController)
+//            }
         }
     }
 }

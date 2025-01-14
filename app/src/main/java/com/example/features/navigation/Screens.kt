@@ -7,6 +7,10 @@ sealed class Screens(val route: String) {
     data object Authorization : Screens("Authorization")
 
     data object Weather : Screens("Weather")
+    data object WeatherDetailedScreen : Screens("weather_detailed_screen/{weatherId}") {
+        fun createRouter(weatherId: Int) = "weather_detailed_screen/$weatherId"
+    }
+
     data object NotesList : Screens("NotesList")
     data object NoteAddScreen : Screens("note_add_screen")
     data object Features : Screens("Features/{userId}") {

@@ -53,23 +53,23 @@ fun WeatherDetailedScreen(navController: NavController) {
             ) {
                 weatherDetailed.apply {
                     TextPreview(
-                        temp,
-                        descriptionWeather,
-                        maxTemp,
-                        minTemp,
-                        feelingTemp
+                        temp = temp,
+                        description = descriptionWeather,
+                        maxTemp = maxTemp,
+                        minTemp = minTemp,
+                        feelingTemp = feelingTemp
                     )
                 }
                 HoursInfoDay(
-                    weatherDetailed.descriptionWeather,
-                    viewModel.hoursDay.value
+                    description = weatherDetailed.descriptionWeather,
+                    hoursDay = viewModel.hoursDay.value
                 )
                 weatherAdditionalInfoDay.apply {
                     AdditionalInfoDay(
-                        uvIndex,
-                        humidity,
-                        wind,
-                        pressure
+                        uvIndex = uvIndex,
+                        humidity = humidity,
+                        wind = wind,
+                        pressure = pressure
                     )
                 }
                 WeatherNameAPI()

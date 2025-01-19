@@ -10,10 +10,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AdditionalInfoDay(
-    uvIndex: String,
-    humidity: String,
-    wind: String,
-    pressure: String
+    uvIndex: Float,
+    humidity: Float,
+    wind: Float,
+    pressure: Float
 ) {
     Row(
         modifier = Modifier
@@ -26,7 +26,7 @@ fun AdditionalInfoDay(
             10.dp,
             5.dp,
             "УФ-индекс",
-            uvIndex
+            uvIndex.toString()
         )
         CardAdditionalInfoDay(
             1f,
@@ -34,7 +34,7 @@ fun AdditionalInfoDay(
             5.dp,
             10.dp,
             "Влажность",
-            humidity
+            humidity.toString()
         )
     }
     Row(
@@ -48,7 +48,7 @@ fun AdditionalInfoDay(
             10.dp,
             5.dp,
             "Ветер",
-            wind
+            wind.toString()
         )
         CardAdditionalInfoDay(
             1f,
@@ -56,7 +56,7 @@ fun AdditionalInfoDay(
             5.dp,
             10.dp,
             "Давление",
-            pressure
+            pressure.toString()
         )
     }
 }

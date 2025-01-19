@@ -57,3 +57,31 @@ fun TopBarScreen(
         )
     }
 }
+@Composable
+fun TopBarScreen(
+    @DrawableRes imageOnBack: Int,
+    onBack: () -> Unit,
+    imageDescriptionOnBack: String,
+    city: String,
+) {
+    Column {
+        Row {
+            Image(
+                painter = painterResource(imageOnBack),
+                contentDescription = imageDescriptionOnBack,
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .size(32.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(LightGray)
+                    .padding(7.dp)
+                    .clickable { onBack() }
+            )
+            Text(
+                text = city,
+                fontSize = 18.sp,
+                color = Color.Black
+            )
+        }
+    }
+}

@@ -17,7 +17,7 @@ import com.example.features.weather.usecase.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-var city = mutableStateOf("London")
+var city = mutableStateOf("London   ")
 
 
 class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
@@ -60,47 +60,38 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
             )
         }
 
-    override fun getWeatherDetailedDay(): WeatherDetailedDay = testWeatherDetailedDay
-    override fun getWeatherHoursDay(): List<WeatherHoursDay> = testWeatherHoursDay
+    override suspend fun getWeatherDetailedDay(): WeatherDetailedDay = withContext(Dispatchers.IO) {
+        val response = RetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, 1)
+        WeatherDetailedDay(
+            response.current.temp_c,
+            response.current.condition.text,
+            response.forecast.forecastday.first().day.maxtemp_c,
+            response.forecast.forecastday.first().day.mintemp_c,
+            response.wind_degree,
+        )
+    }
 
-    override fun getWeatherAdditionalInfoDay(): WeatherAdditionalInfoDay =
-        testWeatherAdditionalInfoDay
+    override suspend fun getWeatherHoursDay(): List<WeatherHoursDay> = withContext(Dispatchers.IO) {
+        val response = RetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, 1)
+        val days = response.forecast.forecastday
+        days.flatMap { day ->
+            day.hour.map { hour ->
+                WeatherHoursDay(
+                    hour.time.dateFormatHourly(),
+                    hour.condition.icon,
+                    hour.temp_c,
+                    hour.temp_c
+                )
+            }
+        }
+    }
 
-
-    private val testWeatherDetailedDay = WeatherDetailedDay(
-        0,
-        "1 C",
-        "Облачно",
-        "1 С",
-        "4 С",
-        "-1 С",
-        "-3 С",
-    )
-
-    private val testWeatherHoursDay = listOf(
-        WeatherHoursDay("00:00", "img 1", "1 C", "1%"),
-        WeatherHoursDay("01:00", "img 2", "2 C", "3%"),
-        WeatherHoursDay("02:00", "img 3", "1 C", "3%"),
-        WeatherHoursDay("03:00", "img 4", "2 C", "2%"),
-        WeatherHoursDay("04:00", "img 5", "2 C", "2%"),
-        WeatherHoursDay("05:00", "img 6", "1 C", "1%"),
-        WeatherHoursDay("06:00", "img 7", "2 C", "1%"),
-        WeatherHoursDay("07:00", "img 8", "1 C", "1%"),
-        WeatherHoursDay("08:00", "img 9", "2 C", "2%"),
-        WeatherHoursDay("09:00", "img 10", "1 C", "1%"),
-        WeatherHoursDay("11:00", "img 11", "1 C", "1%"),
-        WeatherHoursDay("12:00", "img 12", "2 C", "3%"),
-    )
-
-    private val testWeatherAdditionalInfoDay = WeatherAdditionalInfoDay(
-        "Среда",
-        "Температура немного ниже чем сегодня",
-        "3 С",
-        "Ожидается что Среда будет тоже солнечным днем",
-        "Солнце взойдет в 08:25",
-        "Низкий",
-        "81%",
-        "11км/ч",
-        "1033,2 мбар"
-    )
+    override suspend fun getWeatherAdditionalInfoDay(): WeatherAdditionalInfoDay =
+        withContext(Dispatchers.IO) {
+            val response = RetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, 1)
+            WeatherAdditionalInfoDay(
+                response.current.temp_c,
+                response.current.condition.text,
+            )
+        }
 }

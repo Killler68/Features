@@ -16,25 +16,30 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.features.weather.model.WeatherHoursDay
+import com.example.features.ui.theme.WeatherHoursBackground
+import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun HoursInfoDay(
     description: String,
-    hoursDay: List<WeatherHoursDay>
 ) {
+
+    val viewModel: WeatherDetailedViewModel = getViewModel()
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 5.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(Color.LightGray)
+            .background(WeatherHoursBackground)
     ) {
         Text(
             text = description,
             fontSize = 14.sp,
             modifier = Modifier
-                .padding(horizontal = 10.dp, vertical = 5.dp)
+                .padding(horizontal = 10.dp, vertical = 5.dp),
+            color = Color.White
         )
         Box(
             modifier = Modifier
@@ -46,7 +51,7 @@ fun HoursInfoDay(
         )
         LazyRow {
             itemsIndexed(
-                hoursDay
+                viewModel.hoursDay.value
             ) { index, item ->
                 WeatherDetailedHoursDayItem(hoursDay = item)
             }

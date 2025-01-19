@@ -3,6 +3,7 @@ package com.example.features.weather.detailed.viewmodel
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.features.weather.detailed.usecase.WeatherAdditionalInfoDayUseCase
 import com.example.features.weather.detailed.usecase.WeatherDetailedDayUseCase
 import com.example.features.weather.detailed.usecase.WeatherHoursDayUseCase
@@ -11,6 +12,7 @@ import com.example.features.weather.model.WeatherDetailedDay
 import com.example.features.weather.model.WeatherHoursDay
 import com.example.features.weather.model.emptyWeatherAdditionalInfoDay
 import com.example.features.weather.model.emptyWeatherDetailedDay
+import kotlinx.coroutines.launch
 
 class WeatherDetailedViewModel(
     private val weatherDetailedDayUseCase: WeatherDetailedDayUseCase,
@@ -29,14 +31,23 @@ class WeatherDetailedViewModel(
     val hoursDay: State<List<WeatherHoursDay>> = _hoursDay
 
     fun loadWeatherDetailedDay() {
-        _detailedDay.value = weatherDetailedDayUseCase()
+        viewModelScope.launch {
+            _detailedDay.value = weatherDetailedDayUseCase()
+
+        }
     }
 
     fun loadWeatherAdditionalInfoDay() {
-        _additionalInfoDay.value = weatherAdditionalInfoDayUseCase()
+        viewModelScope.launch {
+            _additionalInfoDay.value = weatherAdditionalInfoDayUseCase()
+
+        }
     }
 
     fun loadWeatherHoursDay() {
-        _hoursDay.value = weatherHoursDayUseCase()
+        viewModelScope.launch {
+            _hoursDay.value = weatherHoursDayUseCase()
+
+        }
     }
 }

@@ -5,5 +5,5 @@ import com.example.features.weather.model.WeatherHoursDay
 class WeatherHoursDayUseCase(
     private val repository: WeatherDetailedRepository
 ) {
-    operator fun invoke(): List<WeatherHoursDay> = repository.getWeatherHoursDay()
+    suspend operator fun invoke(): List<WeatherHoursDay> = repository.getWeatherHoursDay()
 }

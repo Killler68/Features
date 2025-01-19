@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.ui.theme.WeatherHoursBackground
 
 @Composable
 fun CardAdditionalInfoDay(
@@ -37,7 +38,7 @@ fun CardAdditionalInfoDay(
                 .fillMaxWidth()
                 .padding(start = startPadding, end = endPadding)
                 .size(width = 1.dp, 100.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.LightGray)
+            colors = CardDefaults.cardColors(containerColor = WeatherHoursBackground)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -49,13 +50,15 @@ fun CardAdditionalInfoDay(
                     text = info,
                     fontSize = 14.sp,
                     modifier = Modifier
-                        .padding(horizontal = 10.dp, vertical = 5.dp)
+                        .padding(horizontal = 10.dp, vertical = 5.dp),
+                    color = Color.White
                 )
                 Text(
                     text = subInfo,
                     fontSize = 18.sp,
                     modifier = Modifier
-                        .padding(horizontal = 10.dp, vertical = 5.dp)
+                        .padding(horizontal = 10.dp, vertical = 5.dp),
+                    color = Color.White
                 )
             }
         }

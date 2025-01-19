@@ -122,4 +122,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
 
     implementation ("com.google.accompanist:accompanist-pager:0.32.0")
+
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("com.github.bumptech.glide:compose:1.0.0-alpha.1")
 }

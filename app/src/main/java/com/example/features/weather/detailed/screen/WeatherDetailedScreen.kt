@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -14,6 +15,7 @@ import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.common.design.TopBarScreen
 import com.example.features.navigation.Screens
+import com.example.features.ui.theme.WeatherBackground
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -37,11 +39,12 @@ fun WeatherDetailedScreen(navController: NavController) {
                 title = {
                     TopBarScreen(
                         R.drawable.back,
-                        "back",
                         { navController.navigate(Screens.Weather.route) },
-                        "London"
+                        "back",
+                        "London",
                     )
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = WeatherBackground)
             )
         },
         content = {
@@ -60,20 +63,21 @@ fun WeatherDetailedScreen(navController: NavController) {
                         feelingTemp = feelingTemp
                     )
                 }
+
                 HoursInfoDay(
-                    description = weatherDetailed.descriptionWeather,
-                    hoursDay = viewModel.hoursDay.value
+                    description = weatherDetailed.descriptionWeather
                 )
                 weatherAdditionalInfoDay.apply {
                     AdditionalInfoDay(
-                        uvIndex = uvIndex,
-                        humidity = humidity,
-                        wind = wind,
-                        pressure = pressure
+                        uvIndex = temp,
+                        humidity = temp,
+                        wind = temp,
+                        pressure = temp
                     )
                 }
                 WeatherNameAPI()
             }
-        }
+        },
+        containerColor = WeatherBackground
     )
 }

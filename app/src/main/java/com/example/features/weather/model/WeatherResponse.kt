@@ -3,7 +3,9 @@ package com.example.features.weather.model
 data class WeatherResponse(
     val location: Location,
     val forecast: Forecast,
-    val current: Current
+    val current: Current,
+    val wind_degree: Int,
+
 )
 
 data class Location(

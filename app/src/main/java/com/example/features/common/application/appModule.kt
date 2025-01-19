@@ -44,6 +44,11 @@ import com.example.features.registration.viewmodel.CreateUserUseCase
 import com.example.features.registration.viewmodel.RegistrationViewModel
 import com.example.features.settings.usecase.DeleteUserUseCase
 import com.example.features.settings.viewmodel.SettingsViewModel
+import com.example.features.weather.detailed.usecase.WeatherAdditionalInfoDayUseCase
+import com.example.features.weather.detailed.usecase.WeatherDetailedDayUseCase
+import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
+import com.example.features.weather.detailed.usecase.WeatherHoursDayUseCase
+import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
 import com.example.features.weather.repository.WeatherRepositoryImpl
 import com.example.features.weather.usecase.HoursWeatherUseCaseImpl
 import com.example.features.weather.usecase.PreviewBarWeatherUseCaseImpl
@@ -69,6 +74,7 @@ val appModule = module {
     single<WelcomeRepository> { WelcomeRepositoryImpl() }
     single<FeaturesRepository> { FeaturesRepositoryImpl() }
     single<WeatherRepository> { WeatherRepositoryImpl() }
+    single<WeatherDetailedRepository> { WeatherRepositoryImpl() }
     single<NotesRepository> { NotesRepositoryImpl(get()) }
     single<UserRepository> { UserRepositoryImpl(get()) }
     single<UserAdditionalInfoRepository> { UserAdditionalInfoRepositoryImpl(get()) }
@@ -115,6 +121,10 @@ val appModule = module {
     factory<HoursWeatherUseCase> { HoursWeatherUseCaseImpl(get()) }
     factory<PreviewBarWeatherUseCase> { PreviewBarWeatherUseCaseImpl(get()) }
 
+    factory { WeatherDetailedDayUseCase(get()) }
+    factory { WeatherAdditionalInfoDayUseCase(get()) }
+    factory { WeatherHoursDayUseCase(get()) }
+
     factory<CreateUserAdditionalInfoUseCase> { CreateUserAdditionalInfoUseCaseImpl(get()) }
     factory<GetUserAdditionalInfoByIdUseCase> { GetUserAdditionalInfoByIdUseCaseImpl(get()) }
     factory<UpdateUserAdditionalInfoUseCase> { UpdateUserAdditionalInfoUseCaseImpl(get()) }
@@ -136,4 +146,5 @@ val appModule = module {
     viewModel { NoteAddViewModel(get(), get()) }
     viewModel { NoteDetailViewModel(get(), get(), get(), get()) }
     viewModel { SettingsViewModel(get()) }
+    viewModel { WeatherDetailedViewModel(get(), get(), get()) }
 }

@@ -3,7 +3,12 @@ package com.example.features.weather.model
 data class WeatherResponse(
     val location: Location,
     val forecast: Forecast,
-    val current: Current
+    val current: Current,
+    val humidity: Int,
+    val uv: Float,
+    val pressure_mb: Float,
+    val wind_kph: Float,
+
 )
 
 data class Location(
@@ -29,6 +34,8 @@ data class ForecastDay(
 data class Day(
     val maxtemp_c: Float,
     val mintemp_c: Float,
+    val avgtemp_c: Float,
+    val daily_chance_of_rain: Int,
     val condition: Condition
 )
 

@@ -1,5 +1,7 @@
 package com.example.features.common.extension
 
+import com.example.features.R
+
 fun String.getRawNameWeatherExtension(): String {
 
     return when (this) {
@@ -17,6 +19,7 @@ fun String.getRawNameWeatherExtension(): String {
         "Light freezing rain " -> "Легкий ледяной дождь"
         "Moderate snow " -> "Умеренный снегопад"
         "Sunny " -> "Солнечный"
+        "Mist" -> "Туман"
         else -> this
     }
 }
@@ -50,4 +53,33 @@ fun String.getRawNameFeaturesCityEngToRuExtension(): String {
         "Moscow" -> "Москве"
         else -> this
     }
+}
+
+fun extensionConditionWeather(condition: String): Int {
+    return when (condition) {
+        "Overcast" -> R.raw.gif_clouds
+        "Mist" -> R.raw.gif_clouds
+        "Patchy rain nearby" -> R.raw.gif_rain
+        "Light snow showers" -> R.raw.gif_snow
+        "Cloudy " -> R.raw.gif_clouds
+        "Light snow" -> R.raw.gif_snow
+        "Heavy snow" -> R.raw.gif_snow
+        "Partly Cloudy " -> R.raw.gif_clouds
+        "Moderate rain " -> R.raw.gif_rain
+        "Light drizzle " -> R.raw.gif_rain
+        "Light rain " -> R.raw.gif_rain
+        "Blizzard " -> R.raw.gif_snow
+        "Light freezing rain " -> R.raw.gif_rain
+        "Moderate snow " -> R.raw.gif_snow
+        "Sunny " -> R.raw.gif_sun
+        else -> R.raw.gif_clouds
+    }
+}
+
+fun extensionTemperatureWeather(float: Float): Int = when {
+    float < 0 -> R.raw.gif_sun
+    float < 10 -> R.raw.gif_cold_children
+    float < 20 -> R.raw.child_warm
+    float < 30 -> R.raw.gif_girl_sun
+    else -> R.raw.child_warm
 }

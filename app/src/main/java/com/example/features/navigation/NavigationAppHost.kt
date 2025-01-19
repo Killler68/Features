@@ -51,7 +51,6 @@ fun NavigationAppHost(checkLocale: String) {
                 DsNoteDetail(noteId = noteId, navHostController)
             }
 
-//            composable(Screens.WeatherDetailedScreen.route) { WeatherDetailedScreen(navHostController) }
             composable(
                 route = Screens.WeatherDetailedScreen.route,
                 arguments = listOf(navArgument("weatherId") { type = NavType.IntType })

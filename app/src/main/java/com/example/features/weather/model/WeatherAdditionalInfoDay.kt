@@ -2,7 +2,7 @@ package com.example.features.weather.model
 
 data class WeatherAdditionalInfoDay(
     val temp: Float,
-    val description: String
+    val description: String,
 //    val nextDay: String,
 //    val descriptionTemp: String,
 //    val temp: String,
@@ -11,11 +11,11 @@ data class WeatherAdditionalInfoDay(
 //
 //    val sunrise: String,
 //
-//    val uvIndex: String,
-//    val humidity: String,
-//    val wind: String,
-//    val pressure: String
+    val uvIndex: Float,
+    val humidity: Int,
+    val wind: Float,
+    val pressure: Float
 )
 
 val emptyWeatherAdditionalInfoDay =
-    WeatherAdditionalInfoDay(0.0f, "")
+    WeatherAdditionalInfoDay(0.0f, "", 0.0f, 0, 0.0f, 0.0f)

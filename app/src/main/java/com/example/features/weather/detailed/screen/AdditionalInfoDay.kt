@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AdditionalInfoDay(
     uvIndex: Float,
-    humidity: Float,
+    humidity: Int,
     wind: Float,
     pressure: Float
 ) {
@@ -26,7 +26,7 @@ fun AdditionalInfoDay(
             10.dp,
             5.dp,
             "УФ-индекс",
-            uvIndex.toString()
+            uvIndex.toInt().toString()
         )
         CardAdditionalInfoDay(
             1f,
@@ -34,7 +34,7 @@ fun AdditionalInfoDay(
             5.dp,
             10.dp,
             "Влажность",
-            humidity.toString()
+            "$humidity%"
         )
     }
     Row(
@@ -48,7 +48,7 @@ fun AdditionalInfoDay(
             10.dp,
             5.dp,
             "Ветер",
-            wind.toString()
+            "$wind км/ч"
         )
         CardAdditionalInfoDay(
             1f,
@@ -56,7 +56,7 @@ fun AdditionalInfoDay(
             5.dp,
             10.dp,
             "Давление",
-            pressure.toString()
+            "${pressure.toInt()} мбар"
         )
     }
 }

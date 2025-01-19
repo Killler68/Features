@@ -30,23 +30,23 @@ class WeatherDetailedViewModel(
     private val _hoursDay = mutableStateOf<List<WeatherHoursDay>>(emptyList())
     val hoursDay: State<List<WeatherHoursDay>> = _hoursDay
 
-    fun loadWeatherDetailedDay() {
+    fun loadWeatherDetailedDay(weatherId: Int) {
         viewModelScope.launch {
-            _detailedDay.value = weatherDetailedDayUseCase()
+            _detailedDay.value = weatherDetailedDayUseCase(weatherId)
 
         }
     }
 
-    fun loadWeatherAdditionalInfoDay() {
+    fun loadWeatherAdditionalInfoDay(weatherId: Int) {
         viewModelScope.launch {
-            _additionalInfoDay.value = weatherAdditionalInfoDayUseCase()
+            _additionalInfoDay.value = weatherAdditionalInfoDayUseCase(weatherId)
 
         }
     }
 
-    fun loadWeatherHoursDay() {
+    fun loadWeatherHoursDay(weatherId: Int) {
         viewModelScope.launch {
-            _hoursDay.value = weatherHoursDayUseCase()
+            _hoursDay.value = weatherHoursDayUseCase(weatherId)
 
         }
     }

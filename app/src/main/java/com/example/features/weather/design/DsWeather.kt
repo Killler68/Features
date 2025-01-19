@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.features.R
 import com.example.features.common.extension.getRawNameCityEngToRuExtension
@@ -86,7 +87,7 @@ fun Content(
     ) {
         DsWeatherActionBar(viewModel, navController)
         DsWeatherPreviewBar(viewModel)
-        DsDailyWeatherPanel(viewModel)
+        DsDailyWeatherPanel(viewModel, navController)
     }
 }
 
@@ -198,16 +199,16 @@ fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
 }
 
 @Composable
-fun DsDailyWeatherPanel(viewModel: WeatherViewModel) {
+fun DsDailyWeatherPanel(viewModel: WeatherViewModel, navController: NavController) {
 
 
-    LazyColumn(
-        Modifier
-    ) {
+    LazyColumn {
         itemsIndexed(
             viewModel.dailyWeather.value
         ) { index, item ->
-            DsDailyWeatherItem(dailyWeather = item, viewModel)
+            DsDailyWeatherItem(
+                dailyWeather = item, viewModel
+            ) { navController.navigate(Screens.WeatherDetailedScreen.createRouter(index)) }
         }
     }
 }
@@ -215,7 +216,8 @@ fun DsDailyWeatherPanel(viewModel: WeatherViewModel) {
 @Composable
 fun DsDailyWeatherItem(
     dailyWeather: DailyWeather,
-    viewModel: WeatherViewModel
+    viewModel: WeatherViewModel,
+    onClick: () -> Unit
 ) {
     val integerValueMax = dailyWeather.maxTemp.toInt()
     val integerValueMin = dailyWeather.minTemp.toInt()
@@ -225,6 +227,9 @@ fun DsDailyWeatherItem(
             .padding(horizontal = 10.dp, vertical = 5.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(Color.Gray)
+            .clickable {
+                onClick()
+            }
     ) {
         Row(
             Modifier
@@ -302,7 +307,7 @@ fun DsHourlyWeatherItem(hoursWeather: HoursWeather) {
             fontSize = 12.sp
         )
         Image(
-            painter = rememberImagePainter(data = "https:" + hoursWeather.icon),
+            painter = rememberAsyncImagePainter("https:" + hoursWeather.icon),
             contentDescription = "Weather Icon",
             modifier = Modifier
                 .size(50.dp)

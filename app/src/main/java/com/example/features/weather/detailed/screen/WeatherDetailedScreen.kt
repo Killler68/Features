@@ -17,20 +17,21 @@ import com.example.features.common.design.TopBarScreen
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.WeatherBackground
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
+import com.example.features.weather.repository.city
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WeatherDetailedScreen(navController: NavController) {
+fun WeatherDetailedScreen(weatherId: Int, navController: NavController) {
 
     val viewModel: WeatherDetailedViewModel = getViewModel()
     val weatherDetailed = viewModel.detailedDay.value
     val weatherAdditionalInfoDay = viewModel.additionalInfoDay.value
 
     LaunchedEffect(Unit) {
-        viewModel.loadWeatherDetailedDay()
-        viewModel.loadWeatherAdditionalInfoDay()
-        viewModel.loadWeatherHoursDay()
+        viewModel.loadWeatherDetailedDay(weatherId)
+        viewModel.loadWeatherAdditionalInfoDay(weatherId)
+        viewModel.loadWeatherHoursDay(weatherId)
     }
 
     Scaffold(
@@ -41,7 +42,7 @@ fun WeatherDetailedScreen(navController: NavController) {
                         R.drawable.back,
                         { navController.navigate(Screens.Weather.route) },
                         "back",
-                        "London",
+                        city = weatherDetailed.city,
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = WeatherBackground)
@@ -69,10 +70,10 @@ fun WeatherDetailedScreen(navController: NavController) {
                 )
                 weatherAdditionalInfoDay.apply {
                     AdditionalInfoDay(
-                        uvIndex = temp,
-                        humidity = temp,
-                        wind = temp,
-                        pressure = temp
+                        uvIndex = uvIndex,
+                        humidity = humidity,
+                        wind = wind,
+                        pressure = pressure
                     )
                 }
                 WeatherNameAPI()

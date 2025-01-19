@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.ui.theme.WeatherHoursBackground
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
 import org.koin.androidx.compose.getViewModel
@@ -35,7 +36,7 @@ fun HoursInfoDay(
             .background(WeatherHoursBackground)
     ) {
         Text(
-            text = description,
+            text = description.getRawNameWeatherExtension(),
             fontSize = 14.sp,
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp),
@@ -52,7 +53,7 @@ fun HoursInfoDay(
         LazyRow {
             itemsIndexed(
                 viewModel.hoursDay.value
-            ) { index, item ->
+            ) { _, item ->
                 WeatherDetailedHoursDayItem(hoursDay = item)
             }
         }

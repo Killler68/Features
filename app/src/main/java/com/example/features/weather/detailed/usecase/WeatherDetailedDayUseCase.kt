@@ -4,5 +4,5 @@ import com.example.features.weather.model.WeatherDetailedDay
 
 class WeatherDetailedDayUseCase(private val repository: WeatherDetailedRepository) {
 
-    suspend operator fun invoke(): WeatherDetailedDay = repository.getWeatherDetailedDay()
+    suspend operator fun invoke(weatherId: Int): WeatherDetailedDay = repository.getWeatherDetailedDay(weatherId)
 }

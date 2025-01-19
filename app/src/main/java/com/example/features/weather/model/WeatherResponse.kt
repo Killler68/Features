@@ -4,7 +4,10 @@ data class WeatherResponse(
     val location: Location,
     val forecast: Forecast,
     val current: Current,
-    val wind_degree: Int,
+    val humidity: Int,
+    val uv: Float,
+    val pressure_mb: Float,
+    val wind_kph: Float,
 
 )
 
@@ -31,6 +34,8 @@ data class ForecastDay(
 data class Day(
     val maxtemp_c: Float,
     val mintemp_c: Float,
+    val avgtemp_c: Float,
+    val daily_chance_of_rain: Int,
     val condition: Condition
 )
 

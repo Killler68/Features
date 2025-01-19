@@ -13,13 +13,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.common.extension.getRawNameCityEngToRuExtension
 import com.example.features.ui.theme.LightGray
+import com.example.features.ui.theme.WeatherHoursBackground
 
 
 @Composable
@@ -69,18 +73,19 @@ fun TopBarScreen(
             Image(
                 painter = painterResource(imageOnBack),
                 contentDescription = imageDescriptionOnBack,
+                colorFilter = ColorFilter.tint(Color.White),
                 modifier = Modifier
-                    .padding(end = 10.dp)
+                    .padding(horizontal = 10.dp)
                     .size(32.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(LightGray)
+                    .background(WeatherHoursBackground)
                     .padding(7.dp)
                     .clickable { onBack() }
             )
             Text(
-                text = city,
+                text = city.getRawNameCityEngToRuExtension(),
                 fontSize = 18.sp,
-                color = Color.Black
+                color = Color.White
             )
         }
     }

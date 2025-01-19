@@ -51,14 +51,14 @@ fun NavigationAppHost(checkLocale: String) {
                 DsNoteDetail(noteId = noteId, navHostController)
             }
 
-            composable(Screens.WeatherDetailedScreen.route) { WeatherDetailedScreen(navHostController) }
-//            composable(
-//                route = Screens.WeatherDetailedScreen.route,
-//                arguments = listOf(navArgument("weatherId") { type = NavType.IntType })
-//            ) { backStackEntry ->
-//                val weatherId = backStackEntry.arguments?.getInt("weatherId") ?: 0
-//                WeatherDetailedScreen(weatherId = weatherId, navHostController)
-//            }
+//            composable(Screens.WeatherDetailedScreen.route) { WeatherDetailedScreen(navHostController) }
+            composable(
+                route = Screens.WeatherDetailedScreen.route,
+                arguments = listOf(navArgument("weatherId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val weatherId = backStackEntry.arguments?.getInt("weatherId") ?: 0
+                WeatherDetailedScreen(weatherId = weatherId, navHostController)
+            }
         }
     }
 }

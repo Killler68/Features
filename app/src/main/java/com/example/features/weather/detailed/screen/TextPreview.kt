@@ -16,6 +16,9 @@ import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.features.R
+import com.example.features.common.extension.extensionConditionWeather
+import com.example.features.common.extension.extensionTemperatureWeather
+import com.example.features.common.extension.getRawNameWeatherExtension
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -24,7 +27,7 @@ fun TextPreview(
     description: String,
     maxTemp: Float,
     minTemp: Float,
-    feelingTemp: Int
+    feelingTemp: Float
 ) {
 
     Row {
@@ -33,21 +36,21 @@ fun TextPreview(
                 .fillMaxWidth(0.7f)
         ) {
             Text(
-                text = temp.toString(),
+                text = "${temp.toInt()}°",
                 fontSize = 50.sp,
                 modifier = Modifier
                     .padding(start = 20.dp, end = 10.dp, top = 10.dp, bottom = 20.dp),
                 color = Color.White
             )
             Text(
-                text = description,
+                text = description.getRawNameWeatherExtension(),
                 fontSize = 14.sp,
                 modifier = Modifier
                     .padding(start = 20.dp, end = 10.dp, bottom = 20.dp),
                 color = Color.White
             )
             Text(
-                text = "$maxTemp / $minTemp Ощущается как $feelingTemp",
+                text = "${maxTemp.toInt()}° / ${minTemp.toInt()}° Ощущается как ${feelingTemp.toInt()}°",
                 fontSize = 12.sp,
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 20.dp),
@@ -77,31 +80,3 @@ fun TextPreview(
         }
     }
 }
-
-fun extensionConditionWeather(condition: String): Int {
-    return when (condition) {
-        "Overcast" -> R.raw.gif_sun
-        "Mist" -> R.raw.gif_sun
-        "Patchy rain nearby" -> R.raw.gif_rain
-        "Light snow showers" -> R.raw.gif_snow
-        "Cloudy " -> R.raw.gif_clouds
-        "Light snow" -> R.raw.gif_snow
-        "Heavy snow" -> R.raw.gif_snow
-        "Partly Cloudy " -> R.raw.gif_clouds
-        "Moderate rain " -> R.raw.gif_rain
-        "Light drizzle " -> R.raw.gif_rain
-        "Light rain " -> R.raw.gif_rain
-        "Blizzard " -> R.raw.gif_snow
-        "Light freezing rain " -> R.raw.gif_rain
-        "Moderate snow " -> R.raw.gif_snow
-        "Sunny " -> R.raw.gif_sun
-        else -> R.raw.gif_clouds
-    }
-}
-
-fun extensionTemperatureWeather(float: Float): Int =
-    if (float < 0) R.raw.gif_child_cool
-    else if (float < 10) R.raw.gif_cold_children
-    else if (float < 20) R.raw.child_warm
-    else if (float < 30) R.raw.gif_girl_sun
-    else R.raw.gif_sun

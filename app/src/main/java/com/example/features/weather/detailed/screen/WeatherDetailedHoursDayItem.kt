@@ -2,6 +2,7 @@ package com.example.features.weather.detailed.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -9,10 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
+import com.example.features.R
+import com.example.features.ui.theme.LightGray
 import com.example.features.weather.model.WeatherHoursDay
 
 @Composable
@@ -25,7 +29,7 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay) {
     ) {
         Text(
             text = hoursDay.hours,
-            fontSize = 12.sp,
+            fontSize = 14.sp,
             modifier = Modifier
                 .padding(vertical = 5.dp),
             color = Color.White
@@ -34,19 +38,33 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay) {
             painter = rememberAsyncImagePainter("https:" + hoursDay.icon),
             contentDescription = "hours_weather",
             modifier = Modifier
-                .size(24.dp)
+                .size(28.dp)
         )
         Text(
-            text = hoursDay.temp.toString(),
-            fontSize = 12.sp,
+            text = "${hoursDay.temp.toInt()}°",
+            fontSize = 14.sp,
             modifier = Modifier
-                .padding(vertical = 5.dp),
+                .padding(horizontal = 10.dp, vertical = 5.dp),
             color = Color.White
         )
-        Text(
-            text = hoursDay.rainfall.toString(),
-            fontSize = 12.sp,
-            color = Color.White
-        )
+
+        Row {
+
+            Image(
+                painter = painterResource(R.drawable.rain_drop),
+                contentDescription = "rain_drop",
+                modifier = Modifier
+                    .padding(start = 3.dp, end = 3.dp, top = 5.dp, bottom = 10.dp)
+                    .size(8.dp),
+                colorFilter = ColorFilter.tint(LightGray)
+            )
+
+            Text(
+                text = "${hoursDay.chanceRain}%",
+                fontSize = 10.sp,
+                color = Color.White
+            )
+        }
+
     }
 }

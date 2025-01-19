@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.features.weather.model.WeatherHoursDay
 
@@ -30,8 +31,8 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay) {
             color = Color.White
         )
         Image(
-            painter = rememberImagePainter(data = "https:" + hoursDay.icon),
-            contentDescription = "icon",
+            painter = rememberAsyncImagePainter("https:" + hoursDay.icon),
+            contentDescription = "hours_weather",
             modifier = Modifier
                 .size(24.dp)
         )

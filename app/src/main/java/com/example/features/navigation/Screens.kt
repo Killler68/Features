@@ -22,4 +22,5 @@ sealed class Screens(val route: String) {
     }
 
     data object SettingsScreen : Screens("settings_screen")
+    data object AboutScreen : Screens("about_screen")
 }

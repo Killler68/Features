@@ -86,9 +86,14 @@ fun DsFeatures(navController: NavController) {
 
                             when (item.id) {
                                 0, 1 -> user?.id?.let {
-                                    navController.navigate(Screens.UserAdditionalInfo.createRoute(userId = user!!.id))
+                                    navController.navigate(
+                                        Screens.UserAdditionalInfo.createRoute(
+                                            userId = user!!.id
+                                        )
+                                    )
                                 }
                                 2 -> navController.navigate(Screens.SettingsScreen.route)
+                                3 -> navController.navigate(Screens.AboutScreen.route)
                             }
                         }
                     ) {

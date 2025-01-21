@@ -1,4 +1,4 @@
-package com.example.features.features.design
+package com.example.features.features.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.features.features.model.Features
-import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
 
 @Composable

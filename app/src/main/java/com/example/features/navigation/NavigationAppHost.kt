@@ -7,17 +7,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.features.authorization.DsAuthorization
-import com.example.features.common.sharedpreferences.LocalStorageImpl
 import com.example.features.features.design.DsFeatures
 import com.example.features.notes.noteadd.screen.NoteAddScreen
 import com.example.features.notes.notedetail.screen.DsNoteDetail
-import com.example.features.notes.noteslist.screen.DsNotesList
-import com.example.features.notes.notetodo.NoteTodoScreen
+import com.example.features.notes.noteslist.screen.NotesListScreen
+import com.example.features.notes.task.screen.TaskScreen
 import com.example.features.profile.DsUserAdditionalInfo
 import com.example.features.registration.DsRegistration
 import com.example.features.weather.design.DsWeather
 import com.example.features.welcome.DsWelcome
-import org.koin.androidx.compose.get
 
 @Composable
 fun NavigationAppHost(checkLocale: String) {
@@ -29,10 +27,10 @@ fun NavigationAppHost(checkLocale: String) {
             composable(Screens.Registration.route) { DsRegistration(navHostController) }
             composable(Screens.Authorization.route) { DsAuthorization(navHostController) }
             composable(Screens.Weather.route) { DsWeather(navHostController) }
-            composable(Screens.NotesList.route) { DsNotesList(navHostController) }
+            composable(Screens.NotesList.route) { NotesListScreen(navHostController) }
             composable(Screens.Features.route) { DsFeatures(navHostController) }
             composable(Screens.NoteAddScreen.route) { NoteAddScreen(navHostController) }
-            composable(Screens.NoteTodoScreen.route) { NoteTodoScreen(navHostController) }
+            composable(Screens.TaskScreen.route) { TaskScreen(navHostController) }
 
             composable(
                 route = Screens.UserAdditionalInfo.route,
@@ -51,37 +49,6 @@ fun NavigationAppHost(checkLocale: String) {
                 val noteId = backStackEntry.arguments?.getInt("noteId") ?: 0
                 DsNoteDetail(noteId = noteId, navHostController)
             }
-//        }
         }
     }
-//    else {
-//        NavHost(navController = navHostController, startDestination = "Registration") {
-//            composable(Screens.Welcome.route) { DsWelcome(navHostController) }
-//            composable(Screens.Registration.route) { DsRegistration(navHostController) }
-//            composable(Screens.Authorization.route) { DsAuthorization(navHostController) }
-//            composable(Screens.Weather.route) { DsWeather(navHostController) }
-//            composable(Screens.NotesList.route) { DsNotesList(navHostController) }
-//            composable(Screens.Features.route) { DsFeatures(navHostController) }
-//            composable(Screens.NoteAddScreen.route) { NoteAddScreen(navHostController) }
-//
-//            composable(
-//                route = Screens.UserAdditionalInfo.route,
-//                arguments = listOf(navArgument("userId") {
-//                    type = NavType.IntType; defaultValue = -1
-//                })
-//            ) { backStackEntry ->
-//                val userId = backStackEntry.arguments?.getInt("userId") ?: -1
-//                DsUserAdditionalInfo(navHostController, userId)
-//            }
-//
-//            composable(
-//                route = Screens.NotesDetail.route,
-//                arguments = listOf(navArgument("noteId") { type = NavType.IntType })
-//            ) { backStackEntry ->
-//                val noteId = backStackEntry.arguments?.getInt("noteId") ?: 0
-//                DsNoteDetail(noteId = noteId, navHostController)
-//            }
-//        }
-//    }
-
 }

@@ -24,10 +24,10 @@ import com.example.features.R
 
 
 @Composable
-fun DsChoiceNote(
+fun DialogChoice(
     onDismiss: () -> Unit,
     navigateToAddNote: () -> Unit,
-    navigateTotodo: () -> Unit
+    navigateToTask: () -> Unit
 ) {
     Dialog(
         onDismissRequest = { onDismiss() }
@@ -74,7 +74,7 @@ fun DsChoiceNote(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { navigateTotodo() }
+                        .clickable { navigateToTask() }
                 ) {
                     Image(
                         painter = painterResource(R.drawable.note),

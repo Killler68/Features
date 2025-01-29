@@ -20,18 +20,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.R
-import com.example.features.notes.common.screen.DsNote
 import com.example.features.notes.common.model.NotesModel
+import com.example.features.notes.common.screen.DsNote
 import com.example.features.notes.noteslist.viewmodel.NotesViewModel
 import com.example.features.ui.theme.LightGray
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun DsNoteGridItem(notesModel: NotesModel, onClick: () -> Unit) {
+fun NoteItem(notesModel: NotesModel, onClick: () -> Unit) {
 
     val viewModel: NotesViewModel = getViewModel()
 
@@ -48,7 +47,7 @@ fun DsNoteGridItem(notesModel: NotesModel, onClick: () -> Unit) {
             modifier = Modifier
                 .clip(RoundedCornerShape(12.dp))
                 .background(LightGray)
-                .size(width = 100.dp, height = 160.dp)
+                .size(width = 160.dp, height = 160.dp)
         ) {
             Column {
                 Text(
@@ -93,19 +92,6 @@ fun DsNoteGridItem(notesModel: NotesModel, onClick: () -> Unit) {
             }
         }
 
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(width = 100.dp, height = 70.dp)
-        ) {
-            Text(
-                notesModel.title,
-                modifier = Modifier.padding(10.dp),
-                maxLines = 2,
-                textAlign = TextAlign.Center,
-                style = TextStyle(fontSize = 14.sp)
-            )
-        }
         if (viewModel.editingNoteId.value == notesModel.noteId) {
             DsNote(
                 title = editTitle,

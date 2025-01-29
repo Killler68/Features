@@ -139,7 +139,7 @@ val appModule = module {
     viewModel { MainViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
     viewModel { RegistrationViewModel(get(), get()) }
-    viewModel { FeaturesViewModel(get(), get()) }
+    viewModel { FeaturesViewModel(get(), get(), get(), get()) }
     viewModel { WeatherViewModel(get(), get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get()) }
     viewModel { UserAdditionalInfoViewModel(get(), get(), get()) }

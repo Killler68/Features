@@ -13,13 +13,13 @@ class FeaturesRepositoryImpl : FeaturesRepository {
 }
 
 private val features = listOf(
-    Features("", "Заметки", "", Screens.NotesList.route),
-    Features("", "Погода", "", Screens.Weather.route)
+    Features("Перейдите и посмотрите что в задачах", "Создайте заметку или задачу", "", 0.0f, Screens.NotesList.route),
+    Features("Погода сегодня прекрасна не так ли?", "Выберите город для отображения погоды", "", 0.0f, Screens.Weather.route)
 )
 
 private val drawerItems = listOf(
-    DrawerItems(0, "Профиль", R.drawable.location),
+    DrawerItems(0, "Профиль", R.drawable.profile),
     DrawerItems(1, "Настройки", 0),
-    DrawerItems(2, "Настройки", R.drawable.pencil),
+    DrawerItems(2, "Настройки", R.drawable.settings),
     DrawerItems(3, "О приложении", R.drawable.question),
 )

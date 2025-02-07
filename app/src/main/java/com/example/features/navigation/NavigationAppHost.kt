@@ -9,7 +9,6 @@ import androidx.navigation.navArgument
 import com.example.features.about.AboutScreen
 import com.example.features.authorization.DsAuthorization
 import com.example.features.features.screen.DsFeatures
-import com.example.features.features.design.DsFeatures
 import com.example.features.notes.noteadd.screen.NoteAddScreen
 import com.example.features.notes.notedetail.screen.DsNoteDetail
 import com.example.features.notes.noteslist.screen.NotesListScreen
@@ -18,7 +17,6 @@ import com.example.features.profile.DsUserAdditionalInfo
 import com.example.features.registration.DsRegistration
 import com.example.features.settings.screen.SettingsScreen
 import com.example.features.weather.design.DsWeather
-import com.example.features.welcome.DsWelcome
 import com.example.features.weather.detailed.screen.WeatherDetailedScreen
 import com.example.features.welcome.screen.DsWelcome
 

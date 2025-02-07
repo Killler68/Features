@@ -6,11 +6,14 @@ import com.example.features.authorization.GetUserByLoginAndPassword
 import com.example.features.authorization.GetUserByLoginAndPasswordImpl
 import com.example.features.common.database.notes.NotesDatabase
 import com.example.features.common.database.profile.UserAdditionalInfoDatabase
+import com.example.features.common.database.task.TaskDatabase
 import com.example.features.common.database.user.UserDatabase
 import com.example.features.common.repository.UserRepository
 import com.example.features.common.repository.UserRepositoryImpl
 import com.example.features.common.repository.profile.UserAdditionalInfoRepository
 import com.example.features.common.repository.profile.UserAdditionalInfoRepositoryImpl
+import com.example.features.common.repository.task.TaskRepository
+import com.example.features.common.repository.task.TaskRepositoryImpl
 import com.example.features.common.sharedpreferences.LocalStorage
 import com.example.features.common.sharedpreferences.LocalStorageImpl
 import com.example.features.common.usecase.CheckLocaleUseCase
@@ -31,7 +34,12 @@ import com.example.features.notes.common.usecase.UpdateNoteUseCase
 import com.example.features.notes.noteadd.usecase.AddNoteUseCase
 import com.example.features.notes.noteadd.viewmodel.NoteAddViewModel
 import com.example.features.notes.notedetail.viewmodel.NoteDetailViewModel
+import com.example.features.notes.noteslist.usecase.DeleteTaskUseCase
+import com.example.features.notes.noteslist.usecase.GetTasksUseCase
+import com.example.features.notes.noteslist.usecase.UpdateTaskUseCase
 import com.example.features.notes.noteslist.viewmodel.NotesViewModel
+import com.example.features.notes.task.usecase.CreateTaskUseCase
+import com.example.features.notes.task.viewmodel.TaskViewModel
 import com.example.features.profile.usecase.CreateUserAdditionalInfoUseCaseImpl
 import com.example.features.profile.usecase.GetUserAdditionalInfoByIdUseCaseImpl
 import com.example.features.profile.usecase.UpdateUserAdditionalInfoUseCaseImpl
@@ -78,6 +86,7 @@ val appModule = module {
     single<NotesRepository> { NotesRepositoryImpl(get()) }
     single<UserRepository> { UserRepositoryImpl(get()) }
     single<UserAdditionalInfoRepository> { UserAdditionalInfoRepositoryImpl(get()) }
+    single<TaskRepository> { TaskRepositoryImpl(get()) }
 
     single {
         Room.databaseBuilder(
@@ -87,6 +96,15 @@ val appModule = module {
         ).build()
     }
     single { get<NotesDatabase>().notesDao() }
+
+    single {
+        Room.databaseBuilder(
+            get(),
+            TaskDatabase::class.java,
+            "task_database"
+        ).build()
+    }
+    single { get<TaskDatabase>().taskDao() }
 
     single {
         Room.databaseBuilder(
@@ -136,15 +154,21 @@ val appModule = module {
     factory { DeleteNoteUseCase(get()) }
     factory { UpdateNoteUseCase(get()) }
 
+    factory { GetTasksUseCase(get()) }
+    factory { DeleteTaskUseCase(get()) }
+    factory { UpdateTaskUseCase(get()) }
+    factory { CreateTaskUseCase(get()) }
+
     viewModel { MainViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
     viewModel { RegistrationViewModel(get(), get()) }
     viewModel { FeaturesViewModel(get(), get(), get(), get()) }
     viewModel { WeatherViewModel(get(), get(), get()) }
-    viewModel { NotesViewModel(get(), get(), get(), get()) }
+    viewModel { NotesViewModel(get(), get(), get(), get(), get()) }
     viewModel { UserAdditionalInfoViewModel(get(), get(), get()) }
     viewModel { NoteAddViewModel(get(), get()) }
     viewModel { NoteDetailViewModel(get(), get(), get(), get()) }
+    viewModel { TaskViewModel(get(), get()) }
     viewModel { SettingsViewModel(get()) }
     viewModel { WeatherDetailedViewModel(get(), get(), get()) }
 }

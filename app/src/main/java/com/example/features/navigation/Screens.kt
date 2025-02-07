@@ -13,6 +13,8 @@ sealed class Screens(val route: String) {
 
     data object NotesList : Screens("NotesList")
     data object NoteAddScreen : Screens("note_add_screen")
+    data object TaskScreen : Screens("task_screen")
+
     data object Features : Screens("Features/{userId}") {
         fun createRoute(userId: Int) = "Features/$userId"
     }

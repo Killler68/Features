@@ -15,6 +15,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.navigation.Screens
+import com.example.features.registration.model.RegistrationEvent
 import com.example.features.registration.viewmodel.RegistrationViewModel
 import com.example.features.ui.theme.Cyan
 import org.koin.androidx.compose.getViewModel
@@ -36,12 +38,21 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun DsRegistration(navController: NavController) {
 
-    val registrationViewModel: RegistrationViewModel = getViewModel()
+    val viewModel: RegistrationViewModel = getViewModel()
 
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     val interactionSource = remember { MutableInteractionSource() }
+
+    LaunchedEffect(viewModel.event) {
+        viewModel.event.collect { event ->
+            when (event) {
+                RegistrationEvent.CreateUser -> navController.navigate(Screens.Features.route)
+                RegistrationEvent.NavigateToAuthorization -> navController.navigate(Screens.Authorization.route)
+            }
+        }
+    }
 
     Column(
         Modifier
@@ -84,7 +95,7 @@ fun DsRegistration(navController: NavController) {
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null,
-                        onClick = { navController.navigate(Screens.Authorization.route) }
+                        onClick = { viewModel.dispatch(RegistrationEvent.NavigateToAuthorization) }
                     )
             )
         }
@@ -117,10 +128,11 @@ fun DsRegistration(navController: NavController) {
             Button(
                 onClick = {
                     if (login.isNotEmpty() && password.isNotEmpty()) {
-                        registrationViewModel.createUser(login, password) {
-                            navController.navigate(Screens.Features.route)
-
-                        }
+                        viewModel.dispatch(
+                            event = RegistrationEvent.CreateUser,
+                            login = login,
+                            password = password
+                        )
                     }
                 },
                 Modifier

@@ -8,8 +8,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
@@ -22,6 +26,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
+import com.example.features.welcome.models.WelcomeEvent
+import com.example.features.welcome.models.WelcomeNavigation
+import com.example.features.welcome.models.WelcomeState
 import com.example.features.welcome.viewmodel.WelcomeViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -29,6 +36,16 @@ import org.koin.androidx.compose.getViewModel
 fun DsWelcome(navController: NavController) {
 
     val viewModel: WelcomeViewModel = getViewModel()
+    val state by viewModel.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.onClick.collect { event ->
+            when (event) {
+                WelcomeNavigation.ToAuthorization -> navController.navigate(Screens.Authorization.route)
+                WelcomeNavigation.ToRegistration -> navController.navigate(Screens.Registration.route)
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -57,7 +74,11 @@ fun DsWelcome(navController: NavController) {
             )
         }
 
-        WelcomePager(viewModel.getPagerItems())
+        when (state) {
+            is WelcomeState.Loading -> CircularProgressIndicator()
+            is WelcomeState.Success -> WelcomePager((state as WelcomeState.Success).items)
+            is WelcomeState.Error -> ErrorMessage((state as WelcomeState.Error).message)
+        }
 
         Button(
             modifier = Modifier
@@ -65,7 +86,7 @@ fun DsWelcome(navController: NavController) {
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Cyan),
-            onClick = { navController.navigate(Screens.Registration.route) }
+            onClick = { viewModel.dispatch(WelcomeEvent.ToRegistration) }
 
         ) {
             Text(
@@ -78,7 +99,7 @@ fun DsWelcome(navController: NavController) {
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Cyan),
-            onClick = { navController.navigate(Screens.Authorization.route) }
+            onClick = { viewModel.dispatch(WelcomeEvent.ToAuthorization) }
         ) {
             Text(
                 text = "Авторизация",

@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -19,6 +20,7 @@ import com.example.features.R
 import com.example.features.common.design.TopBarScreen
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.navigation.Screens
+import com.example.features.settings.model.SettingsEvent
 import com.example.features.settings.viewmodel.SettingsViewModel
 import com.example.features.ui.theme.Cyan
 import org.koin.androidx.compose.getViewModel
@@ -31,6 +33,15 @@ fun SettingsScreen(navController: NavController) {
     val sharedViewModel: SharedViewModel = getViewModel()
     val user by sharedViewModel.currentUser.collectAsState()
 
+    LaunchedEffect(viewModel.event) {
+        viewModel.event.collect { event ->
+            when (event) {
+                SettingsEvent.DeleteUser -> navController.navigate(Screens.Registration.route)
+                SettingsEvent.OnBack -> navController.navigate(Screens.Features.route)
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -38,7 +49,7 @@ fun SettingsScreen(navController: NavController) {
                     TopBarScreen(
                         R.drawable.back,
                         "back",
-                        { navController.navigate(Screens.Features.route) },
+                        { viewModel.dispatch((SettingsEvent.OnBack)) },
                         "Настройки"
                     )
                 },
@@ -76,8 +87,7 @@ fun SettingsScreen(navController: NavController) {
                         .padding(horizontal = 20.dp, vertical = 10.dp)
                         .clickable {
                             user?.id?.let { userId ->
-                                viewModel.deleteUser(userId)
-                                navController.navigate(Screens.Registration.route)
+                                viewModel.dispatch(SettingsEvent.DeleteUser, userId )
                             }
                         }
                 )

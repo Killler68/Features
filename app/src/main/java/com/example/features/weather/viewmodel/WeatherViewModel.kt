@@ -1,15 +1,18 @@
 package com.example.features.weather.viewmodel
 
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.features.weather.model.DailyWeather
-import com.example.features.weather.model.HoursWeather
-import com.example.features.weather.model.PreviewBarWeather
-import com.example.features.weather.state.WeatherState
+import com.example.features.navigation.Screens
+import com.example.features.weather.model.WeatherEvent
+import com.example.features.weather.model.WeatherSideEffect
+import com.example.features.weather.model.WeatherState
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(
@@ -18,37 +21,51 @@ class WeatherViewModel(
     private val previewBarWeatherUseCase: PreviewBarWeatherUseCase
 ) : ViewModel() {
 
-    private val _previewBarWeather =
-        mutableStateOf(PreviewBarWeather("London", "", "", 0f, ""))
-    val previewBarWeather: State<PreviewBarWeather> = _previewBarWeather
+    private val _state = MutableStateFlow<WeatherState>(WeatherState.Loading)
+    val state: StateFlow<WeatherState> get() = _state.asStateFlow()
 
-    private val _hoursWeather = mutableStateOf<List<HoursWeather>>(emptyList())
-    val hoursWeather: State<List<HoursWeather>> = _hoursWeather
-
-    private val _dailyWeather = mutableStateOf<List<DailyWeather>>(emptyList())
-    val dailyWeather: State<List<DailyWeather>> = _dailyWeather
-
-    private val _state: MutableStateFlow<WeatherState> = MutableStateFlow(WeatherState.Loading)
-    val state: StateFlow<WeatherState> get() = _state
+    private val _effect = MutableSharedFlow<WeatherSideEffect>()
+    val effect: SharedFlow<WeatherSideEffect> get() = _effect.asSharedFlow()
 
     var isEnabled = mutableStateOf(false)
 
+    init {
+        dispatch(WeatherEvent.LoadData)
+    }
 
-    fun loadWeather() {
+    fun dispatch(event: WeatherEvent) {
+        when (event) {
+            WeatherEvent.LoadData -> loadWeather()
+            WeatherEvent.ToBack -> navigateTo(Screens.Features.route)
+            is WeatherEvent.ToWeatherDetailed -> navigateTo(
+                Screens.WeatherDetailedScreen.createRouter(
+                    event.weatherId
+                )
+            )
+        }
+    }
+
+    private fun loadWeather() {
         viewModelScope.launch {
-            _state.value = WeatherState.Loading
             try {
-                _dailyWeather.value = weatherUseCase()
-                _hoursWeather.value = hoursWeatherUseCase()
-                _previewBarWeather.value = previewBarWeatherUseCase()
-                _state.value = WeatherState.Content
+                val dailyWeather = weatherUseCase()
+                val hoursWeather = hoursWeatherUseCase()
+                val previewWeather = previewBarWeatherUseCase()
+
+                _state.value = WeatherState.Success(
+                    dayly = dailyWeather,
+                    hours = hoursWeather,
+                    preview = previewWeather,
+                )
             } catch (e: Exception) {
-                e.message?.let { onError(it) }
+                _state.value = WeatherState.Error(e.localizedMessage ?: "Ошибка загрузки данных")
             }
         }
     }
 
-     fun onError(message: String) {
-        _state.value = WeatherState.Error(message)
+    private fun navigateTo(router: String) {
+        viewModelScope.launch {
+            _effect.emit(WeatherSideEffect.NavigateTo(router))
+        }
     }
 }

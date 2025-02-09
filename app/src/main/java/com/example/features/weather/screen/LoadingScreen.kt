@@ -15,7 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.features.weather.state.WeatherState
+import com.example.features.weather.model.WeatherState
 import com.example.features.weather.viewmodel.WeatherViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,12 +24,13 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun LoadingScreen() {
     val viewModel: WeatherViewModel = getViewModel()
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
+
     var progress by remember { mutableFloatStateOf(0.0f) }
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(state.value) {
-        if (state.value is WeatherState.Loading) {
+    LaunchedEffect(state) {
+        if (state is WeatherState.Loading) {
             progress = 0f
             scope.launch {
                 while (progress < 1f) {

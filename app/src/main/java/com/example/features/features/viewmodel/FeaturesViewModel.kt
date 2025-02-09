@@ -1,15 +1,19 @@
 package com.example.features.features.viewmodel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.features.common.viewmodel.SharedViewModel
-import com.example.features.features.model.DrawerItems
-import com.example.features.notes.common.model.NotesModel
+import com.example.features.features.model.FeaturesEvent
+import com.example.features.features.model.FeaturesSideEffect
+import com.example.features.features.model.FeaturesState
+import com.example.features.navigation.Screens
 import com.example.features.notes.common.usecase.GetNotesUseCase
-import com.example.features.weather.model.PreviewBarWeather
 import com.example.features.weather.viewmodel.PreviewBarWeatherUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class FeaturesViewModel(
@@ -19,34 +23,50 @@ class FeaturesViewModel(
     private val notesUseCase: GetNotesUseCase
 ) : ViewModel() {
 
-    private val _drawer = mutableStateOf<List<DrawerItems>>(emptyList())
-    val drawer: State<List<DrawerItems>> get() = _drawer
+    private val _state = MutableStateFlow<FeaturesState>(FeaturesState.Loading)
+    val state: StateFlow<FeaturesState> get() = _state.asStateFlow()
 
-    private val _weather = mutableStateOf(PreviewBarWeather("London", "", "", 0.0f, ""))
-    val weather: State<PreviewBarWeather> get() = _weather
+    private val _effect = MutableSharedFlow<FeaturesSideEffect>()
+    val effect: SharedFlow<FeaturesSideEffect> get() = _effect.asSharedFlow()
 
-    private var _notes = mutableStateOf<List<NotesModel>>(emptyList())
-    val notes: State<List<NotesModel>> get() = _notes
+    fun dispatch(event: FeaturesEvent) {
+        when (event) {
+            FeaturesEvent.NavigateToAbout -> destination(Screens.AboutScreen.route)
+            is FeaturesEvent.NavigateToFeature -> destination(event.featureId)
+            is FeaturesEvent.NavigateToProfile -> destination(
+                Screens.UserAdditionalInfo.createRoute(
+                    event.userId
+                )
+            )
 
-    fun loadFeatures() = features()
-
-    fun getDrawerItems() {
-        viewModelScope.launch {
-            _drawer.value = drawerItems()
-
+            FeaturesEvent.NavigateToSettings -> destination(Screens.SettingsScreen.route)
+            is FeaturesEvent.LoadAllData -> loadData(event.userId)
         }
     }
 
-    fun loadWeather() {
+    private fun loadData(userId: Int) {
         viewModelScope.launch {
-            _weather.value = previewBarWeatherUseCase()
-        }
-    }
-
-    fun loadLastNotes(userId: Int) {
-        viewModelScope.launch {
-                _notes.value = notesUseCase(userId)
+            try {
+                val drawerItems = drawerItems()
+                val weather = previewBarWeatherUseCase()
+                val notes = notesUseCase(userId)
+                val features = features()
+                _state.value = FeaturesState.Success(
+                    itemDrawer = drawerItems,
+                    itemWeather = weather,
+                    itemNote = notes,
+                    itemFeature = features
+                )
+            } catch (e: Exception) {
+                _state.value = FeaturesState.Error(e.localizedMessage ?: "Ошибка загрузки данных")
             }
         }
     }
+
+    private fun destination(route: String) {
+        viewModelScope.launch {
+            _effect.emit(FeaturesSideEffect.NavigateTo(route))
+        }
+    }
+}
 

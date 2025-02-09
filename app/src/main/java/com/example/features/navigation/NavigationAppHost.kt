@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.features.about.AboutScreen
 import com.example.features.authorization.DsAuthorization
-import com.example.features.features.screen.DsFeatures
+import com.example.features.features.screen.FeaturesScreen
 import com.example.features.notes.noteadd.screen.NoteAddScreen
 import com.example.features.notes.notedetail.screen.DsNoteDetail
 import com.example.features.notes.noteslist.screen.NotesListScreen
@@ -31,7 +31,7 @@ fun NavigationAppHost(checkLocale: String) {
             composable(Screens.Authorization.route) { DsAuthorization(navHostController) }
             composable(Screens.Weather.route) { DsWeather(navHostController) }
             composable(Screens.NotesList.route) { NotesListScreen(navHostController) }
-            composable(Screens.Features.route) { DsFeatures(navHostController) }
+            composable(Screens.Features.route) { FeaturesScreen(navHostController) }
             composable(Screens.NoteAddScreen.route) { NoteAddScreen(navHostController) }
             composable(Screens.TaskScreen.route) { TaskScreen(navHostController) }
             composable(Screens.SettingsScreen.route) { SettingsScreen(navHostController) }

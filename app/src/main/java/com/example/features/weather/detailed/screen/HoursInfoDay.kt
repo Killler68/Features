@@ -18,15 +18,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.ui.theme.WeatherHoursBackground
-import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
-import org.koin.androidx.compose.getViewModel
+import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
 fun HoursInfoDay(
     description: String,
+    state: WeatherDetailedState.Success
 ) {
-
-    val viewModel: WeatherDetailedViewModel = getViewModel()
 
     Column(
         modifier = Modifier
@@ -52,7 +50,7 @@ fun HoursInfoDay(
         )
         LazyRow {
             itemsIndexed(
-                viewModel.hoursDay.value
+                state.hoursDay
             ) { _, item ->
                 WeatherDetailedHoursDayItem(hoursDay = item)
             }

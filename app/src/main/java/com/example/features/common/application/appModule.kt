@@ -2,6 +2,7 @@ package com.example.features.common.application
 
 import androidx.room.Room
 import com.example.features.MainViewModel
+import com.example.features.authorization.viewmodel.AuthorizationViewModel
 import com.example.features.authorization.GetUserByLoginAndPassword
 import com.example.features.authorization.GetUserByLoginAndPasswordImpl
 import com.example.features.common.database.notes.NotesDatabase
@@ -162,6 +163,7 @@ val appModule = module {
     viewModel { MainViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
     viewModel { RegistrationViewModel(get(), get()) }
+    viewModel { AuthorizationViewModel(get()) }
     viewModel { FeaturesViewModel(get(), get(), get(), get()) }
     viewModel { WeatherViewModel(get(), get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get(), get()) }

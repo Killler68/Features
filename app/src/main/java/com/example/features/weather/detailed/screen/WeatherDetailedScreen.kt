@@ -5,34 +5,55 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.common.design.TopBarScreen
-import com.example.features.navigation.Screens
 import com.example.features.ui.theme.WeatherBackground
+import com.example.features.weather.detailed.model.WeatherDetailedEvent
+import com.example.features.weather.detailed.model.WeatherDetailedSideEffect
+import com.example.features.weather.detailed.model.WeatherDetailedState
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
-import com.example.features.weather.repository.city
+import com.example.features.weather.screen.LoadingScreen
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherDetailedScreen(weatherId: Int, navController: NavController) {
 
     val viewModel: WeatherDetailedViewModel = getViewModel()
-    val weatherDetailed = viewModel.detailedDay.value
-    val weatherAdditionalInfoDay = viewModel.additionalInfoDay.value
+    val state by viewModel.state.collectAsState()
+    val effectFlow = viewModel.effect
 
     LaunchedEffect(Unit) {
-        viewModel.loadWeatherDetailedDay(weatherId)
-        viewModel.loadWeatherAdditionalInfoDay(weatherId)
-        viewModel.loadWeatherHoursDay(weatherId)
+        viewModel.dispatch(WeatherDetailedEvent.LoadData(weatherId = weatherId))
+        effectFlow.collect { effect ->
+            when (effect) {
+                is WeatherDetailedSideEffect.ToBack -> navController.popBackStack()
+            }
+        }
     }
+    when (state) {
+        WeatherDetailedState.Loading -> LoadingScreen()
+        is WeatherDetailedState.Success -> WeatherDetailedContent(state as WeatherDetailedState.Success)
+        is WeatherDetailedState.Error -> Text(("error"))
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun WeatherDetailedContent(
+    state: WeatherDetailedState.Success
+) {
+
+    val viewModel: WeatherDetailedViewModel = getViewModel()
 
     Scaffold(
         topBar = {
@@ -40,9 +61,9 @@ fun WeatherDetailedScreen(weatherId: Int, navController: NavController) {
                 title = {
                     TopBarScreen(
                         R.drawable.back,
-                        { navController.navigate(Screens.Weather.route) },
+                        { viewModel.dispatch(WeatherDetailedEvent.ToBack) },
                         "back",
-                        city = weatherDetailed.city,
+                        city = state.detailedDay.city,
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = WeatherBackground)
@@ -55,7 +76,7 @@ fun WeatherDetailedScreen(weatherId: Int, navController: NavController) {
                     .padding(it)
                     .padding(horizontal = 10.dp)
             ) {
-                weatherDetailed.apply {
+                state.detailedDay.apply {
                     TextPreview(
                         temp = temp,
                         description = descriptionWeather,
@@ -66,9 +87,10 @@ fun WeatherDetailedScreen(weatherId: Int, navController: NavController) {
                 }
 
                 HoursInfoDay(
-                    description = weatherDetailed.descriptionWeather
+                    description = state.detailedDay.descriptionWeather,
+                    state = state
                 )
-                weatherAdditionalInfoDay.apply {
+                state.additionalInfoDay.apply {
                     AdditionalInfoDay(
                         uvIndex = uvIndex,
                         humidity = humidity,

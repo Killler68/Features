@@ -53,34 +53,63 @@ import com.example.features.common.extension.extensionTemperatureWeather
 import com.example.features.common.extension.getRawNameFeaturesCityEngToRuExtension
 import com.example.features.common.utils.ExitBackStack
 import com.example.features.common.viewmodel.SharedViewModel
-import com.example.features.features.model.Features
+import com.example.features.features.model.FeaturesEvent
+import com.example.features.features.model.FeaturesSideEffect
+import com.example.features.features.model.FeaturesState
 import com.example.features.features.viewmodel.FeaturesViewModel
-import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
 import com.example.features.welcome.screen.PageIndicators
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DsFeatures(navController: NavController) {
+fun FeaturesScreen(navController: NavController) {
 
     val viewModel: FeaturesViewModel = getViewModel()
-
-    LaunchedEffect(Unit) {
-        viewModel.getDrawerItems()
-        viewModel.loadFeatures()
-        viewModel.loadWeather()
-    }
+    val state by viewModel.state.collectAsState()
+    val effectFlow = viewModel.effect
 
     val sharedViewModel: SharedViewModel = getViewModel()
     val user by sharedViewModel.currentUser.collectAsState()
 
-    val items = viewModel.drawer.value
+    LaunchedEffect(user?.id) {
+        user?.id?.let { userId ->
+            viewModel.dispatch(FeaturesEvent.LoadAllData(userId))
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        effectFlow.collect { effect ->
+            when (effect) {
+                is FeaturesSideEffect.NavigateTo -> navController.navigate(effect.route)
+            }
+        }
+    }
+
+    when (val currentState = state) {
+        FeaturesState.Loading -> Text("Loading")
+        is FeaturesState.Success -> FeaturesContent(currentState, viewModel::dispatch)
+        is FeaturesState.Error -> Text("Error: ${currentState.message}")
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FeaturesContent(
+    state: FeaturesState.Success,
+    dispatch: (FeaturesEvent) -> Unit
+) {
+
+    val viewModel: FeaturesViewModel = getViewModel()
+    val scope = rememberCoroutineScope()
+
+    val sharedViewModel: SharedViewModel = getViewModel()
+    val user by sharedViewModel.currentUser.collectAsState()
+
+    val items = state.itemDrawer
     val selectedItem = remember { mutableStateOf(items.getOrNull(0)) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
 
     ExitBackStack()
 
@@ -99,15 +128,11 @@ fun DsFeatures(navController: NavController) {
 
                             when (item.id) {
                                 0, 1 -> user?.id?.let {
-                                    navController.navigate(
-                                        Screens.UserAdditionalInfo.createRoute(
-                                            userId = user!!.id
-                                        )
-                                    )
+                                    viewModel.dispatch(FeaturesEvent.NavigateToProfile(it))
                                 }
 
-                                2 -> navController.navigate(Screens.SettingsScreen.route)
-                                3 -> navController.navigate(Screens.AboutScreen.route)
+                                2 -> viewModel.dispatch(FeaturesEvent.NavigateToSettings)
+                                3 -> viewModel.dispatch(FeaturesEvent.NavigateToAbout)
                             }
                         }
                     ) {
@@ -193,10 +218,7 @@ fun DsFeatures(navController: NavController) {
                             .fillMaxSize()
                     ) {
 
-                        FeaturesPager(
-                            items = viewModel.loadFeatures(),
-                            navController
-                        )
+                        FeaturesPager(state = state, dispatch = dispatch)
 
                         Box(
                             modifier = Modifier
@@ -220,26 +242,13 @@ fun DsFeatures(navController: NavController) {
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun FeaturesPager(
-    items: List<Features>,
-    navController: NavController
-) {
+fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Unit) {
 
-    val viewModel: FeaturesViewModel = getViewModel()
-    val weather = viewModel.weather.value
-    val notes = viewModel.notes.value
-
-    val sharedViewModel: SharedViewModel = getViewModel()
-    val user by sharedViewModel.currentUser.collectAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.loadWeather()
-        viewModel.loadLastNotes(user!!.id)
-    }
-    val pagerState = rememberPagerState(pageCount = { items.size })
+    val pagerState = rememberPagerState(pageCount = { state.itemFeature.size })
 
     HorizontalPager(pagerState) { page ->
         Column {
+            val items = state.itemFeature[page]
 
             Box(
                 modifier = Modifier
@@ -249,13 +258,13 @@ fun FeaturesPager(
                     .clip(RoundedCornerShape(12.dp))
                     .background(Cyan)
                     .clickable {
-                        navController.navigate(items[page].feature)
+                        dispatch(FeaturesEvent.NavigateToFeature(items.feature))
                     },
             ) {
 
                 when (page) {
                     0 -> {
-                        if (viewModel.notes.value.isNotEmpty()) {
+                        if (state.itemNote.isNotEmpty()) {
                             Column(
                                 modifier = Modifier
                                     .padding(horizontal = 10.dp, vertical = 10.dp)
@@ -269,7 +278,7 @@ fun FeaturesPager(
                                         .fillMaxWidth()
                                 )
                                 Text(
-                                    text = notes.last().title,
+                                    text = state.itemNote.last().title,
                                     fontSize = 16.sp,
                                     textAlign = TextAlign.Center,
                                     maxLines = 1,
@@ -279,7 +288,7 @@ fun FeaturesPager(
                                         .padding(vertical = 5.dp)
                                 )
                                 Text(
-                                    text = notes.last().description,
+                                    text = state.itemNote.last().description,
                                     fontSize = 12.sp,
                                     overflow = TextOverflow.Ellipsis,
                                     modifier = Modifier
@@ -307,9 +316,8 @@ fun FeaturesPager(
                             modifier = Modifier
                                 .padding(horizontal = 10.dp, vertical = 10.dp)
                         ) {
-
                             GlideImage(
-                                model = extensionConditionWeather(weather.description),
+                                model = extensionConditionWeather(state.itemWeather.description),
                                 contentDescription = "condition_weather",
                                 alignment = Alignment.Center,
                                 modifier = Modifier
@@ -317,7 +325,7 @@ fun FeaturesPager(
                                     .size(48.dp)
                             )
                             GlideImage(
-                                model = extensionTemperatureWeather(weather.temp),
+                                model = extensionTemperatureWeather(state.itemWeather.temp),
                                 contentDescription = "condition_weather",
                                 alignment = Alignment.Center,
                                 modifier = Modifier
@@ -327,7 +335,7 @@ fun FeaturesPager(
                             )
 
                             Text(
-                                text = "В ${weather.city.getRawNameFeaturesCityEngToRuExtension()} сегодня ",
+                                text = "В ${state.itemWeather.city.getRawNameFeaturesCityEngToRuExtension()} сегодня ",
                                 textAlign = TextAlign.Center,
                                 fontSize = 16.sp,
                                 modifier = Modifier
@@ -336,7 +344,7 @@ fun FeaturesPager(
                             )
 
                             Text(
-                                text = "${weather.temp.toInt()}°",
+                                text = "${state.itemWeather.temp.toInt()}°",
                                 textAlign = TextAlign.Center,
                                 fontSize = 24.sp,
                                 modifier = Modifier
@@ -348,9 +356,9 @@ fun FeaturesPager(
                 }
             }
 
-            if (notes.isNotEmpty()) {
+            if (state.itemNote.isNotEmpty()) {
                 Text(
-                    text = items[page].title,
+                    text = state.itemFeature[page].title,
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -359,7 +367,7 @@ fun FeaturesPager(
                 )
             } else {
                 Text(
-                    text = items[page].description,
+                    text = state.itemFeature[page].description,
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -372,7 +380,7 @@ fun FeaturesPager(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 20.dp),
-                count = items.size,
+                count = state.itemFeature.size,
                 currentPage = pagerState.currentPage
             )
         }

@@ -38,15 +38,17 @@ import com.example.features.R
 import com.example.features.common.extension.getRawNameCityEngToRuExtension
 import com.example.features.common.extension.getRawNameCityRuToEngExtension
 import com.example.features.common.extension.getRawNameWeatherExtension
-import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
 import com.example.features.weather.model.DailyWeather
 import com.example.features.weather.model.HoursWeather
+import com.example.features.weather.model.PreviewBarWeather
+import com.example.features.weather.model.WeatherEvent
+import com.example.features.weather.model.WeatherSideEffect
+import com.example.features.weather.model.WeatherState
 import com.example.features.weather.repository.city
 import com.example.features.weather.screen.ErrorScreen
 import com.example.features.weather.screen.LoadingScreen
-import com.example.features.weather.state.WeatherState
 import com.example.features.weather.viewmodel.WeatherViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -54,18 +56,20 @@ import org.koin.androidx.compose.getViewModel
 fun DsWeather(navController: NavController) {
 
     val viewModel: WeatherViewModel = getViewModel()
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
+    val effectFlow = viewModel.effect
 
     LaunchedEffect(Unit) {
-        viewModel.loadWeather()
+        effectFlow.collect { effect ->
+            when (effect) {
+                is WeatherSideEffect.NavigateTo -> navController.navigate(effect.route)
+            }
+        }
     }
 
-    when (state.value) {
+    when (state) {
         WeatherState.Loading -> LoadingScreen()
-        is WeatherState.Content -> Content(
-            viewModel,
-            navController
-        )
+        is WeatherState.Success -> WeatherContent(state as WeatherState.Success)
 
         is WeatherState.Error -> ErrorScreen(
             R.drawable.weather,
@@ -75,26 +79,24 @@ fun DsWeather(navController: NavController) {
 }
 
 @Composable
-fun Content(
-    viewModel: WeatherViewModel,
-    navController: NavController
-) {
+fun WeatherContent(state: WeatherState.Success) {
 
     Column(
         Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        DsWeatherActionBar(viewModel, navController)
-        DsWeatherPreviewBar(viewModel)
-        DsDailyWeatherPanel(viewModel, navController)
+        DsWeatherActionBar(state.preview)
+        DsWeatherPreviewBar(state.preview)
+        DsDailyWeatherPanel(state.dayly, state.hours)
     }
 }
 
 @Composable
-fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController) {
+fun DsWeatherActionBar(preview: PreviewBarWeather) {
 
-    var editCity by remember { mutableStateOf(viewModel.previewBarWeather.value.city) }
+    val viewModel: WeatherViewModel = getViewModel()
+    var editCity by remember { mutableStateOf(preview.city) }
 
     Row(
         Modifier
@@ -110,11 +112,11 @@ fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController
                 .clip(RoundedCornerShape(12.dp))
                 .background(LightGray)
                 .padding(7.dp)
-                .clickable { navController.navigate(Screens.Features.route) }
+                .clickable { viewModel.dispatch(WeatherEvent.ToBack) }
         )
 
         Text(
-            text = viewModel.previewBarWeather.value.city.getRawNameCityEngToRuExtension(),
+            text = preview.city.getRawNameCityEngToRuExtension(),
             modifier = Modifier
                 .padding(horizontal = 10.dp)
                 .weight(0.5f)
@@ -143,11 +145,11 @@ fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController
                     onCityChange = { editCity = it },
                     onDismiss = { viewModel.isEnabled.value = false },
                     onSave = {
-                        viewModel.previewBarWeather.value.city = editCity
+                        preview.city = editCity
 
                         city.value = editCity.getRawNameCityRuToEngExtension()
 
-                        viewModel.loadWeather()
+                        viewModel.dispatch(WeatherEvent.LoadData)
                         viewModel.isEnabled.value = false
                     }
                 )
@@ -157,7 +159,7 @@ fun DsWeatherActionBar(viewModel: WeatherViewModel, navController: NavController
 }
 
 @Composable
-fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
+fun DsWeatherPreviewBar(preview: PreviewBarWeather) {
 
 
     Column(
@@ -169,27 +171,27 @@ fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = viewModel.previewBarWeather.value.date,
+            text = preview.date,
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,
             color = Color.White
         )
         Image(
-            painter = rememberImagePainter(data = "https:" + viewModel.previewBarWeather.value.icon),
+            painter = rememberImagePainter(data = "https:" + preview.icon),
             contentDescription = "image",
             modifier = Modifier
                 .size(100.dp)
         )
         Text(
-            text = viewModel.previewBarWeather.value.temp.toString(),
+            text = preview.temp.toString(),
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 30.sp,
             color = Color.White
         )
         Text(
-            text = viewModel.previewBarWeather.value.description.getRawNameWeatherExtension(),
+            text = preview.description.getRawNameWeatherExtension(),
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,
@@ -199,16 +201,18 @@ fun DsWeatherPreviewBar(viewModel: WeatherViewModel) {
 }
 
 @Composable
-fun DsDailyWeatherPanel(viewModel: WeatherViewModel, navController: NavController) {
+fun DsDailyWeatherPanel(dailyWeather: List<DailyWeather>, hoursWeather: List<HoursWeather>) {
 
+    val viewModel: WeatherViewModel = getViewModel()
 
     LazyColumn {
         itemsIndexed(
-            viewModel.dailyWeather.value
+            dailyWeather
         ) { index, item ->
             DsDailyWeatherItem(
-                dailyWeather = item, viewModel
-            ) { navController.navigate(Screens.WeatherDetailedScreen.createRouter(index)) }
+                dailyWeather = item,
+                hoursWeather
+            ) { viewModel.dispatch(WeatherEvent.ToWeatherDetailed(index)) }
         }
     }
 }
@@ -216,9 +220,10 @@ fun DsDailyWeatherPanel(viewModel: WeatherViewModel, navController: NavControlle
 @Composable
 fun DsDailyWeatherItem(
     dailyWeather: DailyWeather,
-    viewModel: WeatherViewModel,
+    hoursWeather: List<HoursWeather>,
     onClick: () -> Unit
 ) {
+
     val integerValueMax = dailyWeather.maxTemp.toInt()
     val integerValueMin = dailyWeather.minTemp.toInt()
     Column(
@@ -283,7 +288,7 @@ fun DsDailyWeatherItem(
 
         ) {
             itemsIndexed(
-                viewModel.hoursWeather.value
+                hoursWeather
             ) { index, item ->
                 DsHourlyWeatherItem(hoursWeather = item)
             }

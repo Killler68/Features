@@ -32,16 +32,22 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.features.common.viewmodel.SharedViewModel
+import com.example.features.authorization.model.AuthorizationEvent
+import com.example.features.authorization.model.AuthorizationSideEffect
+import com.example.features.authorization.model.AuthorizationState
+import com.example.features.authorization.viewmodel.AuthorizationViewModel
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun DsAuthorization(navController: NavController) {
-    val sharedViewModel: SharedViewModel = getViewModel()
 
-    val errorMessage by sharedViewModel.error.collectAsState()
+    val viewModel: AuthorizationViewModel = getViewModel()
+    val state by viewModel.state.collectAsState()
+
+    val effectFlow = viewModel.effect
+
     val context = LocalContext.current
 
     var login by remember { mutableStateOf("") }
@@ -49,7 +55,17 @@ fun DsAuthorization(navController: NavController) {
     val interactionSource = remember { MutableInteractionSource() }
 
     LaunchedEffect(Unit) {
-        sharedViewModel.clearCurrentUser()
+        effectFlow.collect { effect ->
+            when (effect) {
+                is AuthorizationSideEffect.ToFeatures -> navController.navigate(
+                    Screens.Features.createRoute(
+                        effect.userId
+                    )
+                )
+
+                AuthorizationSideEffect.ToRegistration -> navController.navigate(Screens.Registration.route)
+            }
+        }
     }
 
     Column(
@@ -90,7 +106,7 @@ fun DsAuthorization(navController: NavController) {
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null,
-                        onClick = { navController.navigate(Screens.Registration.route) }
+                        onClick = { viewModel.dispatch(AuthorizationEvent.NavigateToRegistration) }
                     )
             )
         }
@@ -122,17 +138,7 @@ fun DsAuthorization(navController: NavController) {
             Button(
                 onClick = {
                     if (login.isNotEmpty() && password.isNotEmpty()) {
-                        sharedViewModel.getUser(login, password) { userFound, userId ->
-                            if (userFound) {
-                                navController.navigate(Screens.Features.createRoute(userId))
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "Неверный логин или пароль",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-                        }
+                        viewModel.dispatch(event = AuthorizationEvent.User(login, password))
                     } else {
                         Toast.makeText(context, "Введите логин и пароль", Toast.LENGTH_LONG).show()
                     }
@@ -146,12 +152,16 @@ fun DsAuthorization(navController: NavController) {
                 )
             }
         }
-
-        errorMessage?.let { message ->
-            LaunchedEffect(message) {
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                sharedViewModel.clearError()
+        when (state) {
+            is AuthorizationState.Error -> {
+                val message = (state as AuthorizationState.Error).message
+                LaunchedEffect(message) {
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                }
             }
+
+            AuthorizationState.Loading -> {}
+            AuthorizationState.Success -> {}
         }
         Box(modifier = Modifier.weight(0.2f))
     }

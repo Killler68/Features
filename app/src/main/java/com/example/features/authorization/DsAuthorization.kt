@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.authorization.model.AuthorizationEvent
+import com.example.features.authorization.model.AuthorizationSideEffect
 import com.example.features.authorization.model.AuthorizationState
 import com.example.features.authorization.viewmodel.AuthorizationViewModel
 import com.example.features.navigation.Screens
@@ -45,23 +46,24 @@ fun DsAuthorization(navController: NavController) {
     val viewModel: AuthorizationViewModel = getViewModel()
     val state by viewModel.state.collectAsState()
 
+    val effectFlow = viewModel.effect
+
     val context = LocalContext.current
 
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val interactionSource = remember { MutableInteractionSource() }
 
-    LaunchedEffect(viewModel.event) {
-        viewModel.event.collect { event ->
-            when (event) {
-                is AuthorizationEvent.NavigateToFeatures -> navController.navigate(
+    LaunchedEffect(Unit) {
+        effectFlow.collect { effect ->
+            when (effect) {
+                is AuthorizationSideEffect.ToFeatures -> navController.navigate(
                     Screens.Features.createRoute(
-                        event.userId
+                        effect.userId
                     )
                 )
 
-                AuthorizationEvent.NavigateToRegistration -> navController.navigate(Screens.Registration.route)
-                is AuthorizationEvent.User -> {}
+                AuthorizationSideEffect.ToRegistration -> navController.navigate(Screens.Registration.route)
             }
         }
     }

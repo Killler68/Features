@@ -27,7 +27,7 @@ import androidx.navigation.NavController
 import com.example.features.navigation.Screens
 import com.example.features.ui.theme.Cyan
 import com.example.features.welcome.models.WelcomeEvent
-import com.example.features.welcome.models.WelcomeNavigation
+import com.example.features.welcome.models.WelcomeSideEffect
 import com.example.features.welcome.models.WelcomeState
 import com.example.features.welcome.viewmodel.WelcomeViewModel
 import org.koin.androidx.compose.getViewModel
@@ -39,10 +39,10 @@ fun DsWelcome(navController: NavController) {
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.onClick.collect { event ->
+        viewModel.effect.collect { event ->
             when (event) {
-                WelcomeNavigation.ToAuthorization -> navController.navigate(Screens.Authorization.route)
-                WelcomeNavigation.ToRegistration -> navController.navigate(Screens.Registration.route)
+                WelcomeSideEffect.ToAuthorization -> navController.navigate(Screens.Authorization.route)
+                WelcomeSideEffect.ToRegistration -> navController.navigate(Screens.Registration.route)
             }
         }
     }

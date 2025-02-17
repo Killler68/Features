@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.welcome.models.WelcomeEvent
 import com.example.features.welcome.models.WelcomeNavigation
+import com.example.features.welcome.models.WelcomeSideEffect
 import com.example.features.welcome.models.WelcomeState
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,8 +21,8 @@ class WelcomeViewModel(
     private val _state = MutableStateFlow<WelcomeState>(WelcomeState.Loading)
     val state: StateFlow<WelcomeState> get() = _state.asStateFlow()
 
-    private val _onClick = MutableSharedFlow<WelcomeNavigation>()
-    val onClick: SharedFlow<WelcomeNavigation> get() = _onClick.asSharedFlow()
+    private val _effect = MutableSharedFlow<WelcomeSideEffect>()
+    val effect: SharedFlow<WelcomeSideEffect> get() = _effect.asSharedFlow()
 
     init {
         dispatch(WelcomeEvent.LoadPagerItem)
@@ -30,8 +31,8 @@ class WelcomeViewModel(
      fun dispatch(event: WelcomeEvent) {
         when (event) {
             WelcomeEvent.LoadPagerItem -> loadPagerItems()
-            WelcomeEvent.ToAuthorization -> navigateTo(WelcomeNavigation.ToAuthorization)
-            WelcomeEvent.ToRegistration -> navigateTo(WelcomeNavigation.ToRegistration)
+            WelcomeEvent.ToAuthorization -> navigateTo(WelcomeSideEffect.ToAuthorization)
+            WelcomeEvent.ToRegistration -> navigateTo(WelcomeSideEffect.ToRegistration)
         }
     }
 
@@ -44,9 +45,9 @@ class WelcomeViewModel(
         }
     }
 
-    private fun navigateTo(destination: WelcomeNavigation) {
+    private fun navigateTo(destination: WelcomeSideEffect) {
         viewModelScope.launch {
-            _onClick.emit(destination)
+            _effect.emit(destination)
         }
     }
 }

@@ -10,10 +10,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AdditionalInfoDay(
-    uvIndex: Float,
+    uvIndex: Double,
     humidity: Int,
-    wind: Float,
-    pressure: Float
+    wind: Double,
+    pressure: Int
 ) {
     Row(
         modifier = Modifier

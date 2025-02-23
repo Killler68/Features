@@ -6,7 +6,6 @@ import com.example.features.navigation.Screens
 import com.example.features.weather.detailed.model.WeatherDetailedEvent
 import com.example.features.weather.detailed.model.WeatherDetailedSideEffect
 import com.example.features.weather.detailed.model.WeatherDetailedState
-import com.example.features.weather.detailed.usecase.WeatherAdditionalInfoDayUseCase
 import com.example.features.weather.detailed.usecase.WeatherDetailedDayUseCase
 import com.example.features.weather.detailed.usecase.WeatherHoursDayUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,7 +18,6 @@ import kotlinx.coroutines.launch
 
 class WeatherDetailedViewModel(
     private val weatherDetailedDayUseCase: WeatherDetailedDayUseCase,
-    private val weatherAdditionalInfoDayUseCase: WeatherAdditionalInfoDayUseCase,
     private val weatherHoursDayUseCase: WeatherHoursDayUseCase
 ) : ViewModel() {
 
@@ -38,23 +36,18 @@ class WeatherDetailedViewModel(
 
     private fun loadData(weatherId: Int) {
         viewModelScope.launch {
-            _state.value = WeatherDetailedState.Loading
             try {
                 val detailedDay = weatherDetailedDayUseCase(weatherId)
-                val additionalInfoDay = weatherAdditionalInfoDayUseCase(weatherId)
                 val hoursDay = weatherHoursDayUseCase(weatherId)
-
-               _state.value = WeatherDetailedState.Success(
+                _state.value = WeatherDetailedState.Success(
                     weatherId = weatherId,
                     detailedDay = detailedDay,
-                    additionalInfoDay = additionalInfoDay,
                     hoursDay = hoursDay
                 )
             } catch (e: Exception) {
                 _state.value = WeatherDetailedState.Error(e.localizedMessage ?: "Ошибка")
             }
         }
-
     }
 
     private fun toBack(route: String) {

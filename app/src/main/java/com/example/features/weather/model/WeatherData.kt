@@ -3,6 +3,7 @@ package com.example.features.weather.model
 
 data class WeatherData(
     val day: Long,
+    val dtText: String,
     val temp: Double,
     val maxTemp: Double,
     val minTemp: Double,
@@ -13,6 +14,7 @@ fun Map<String, List<WeatherWeek>>.toWeatherData() =
     this.map {
         WeatherData(
             it.value.first().day,
+            it.value.first().dtText,
             it.value.first().temp,
             it.value.first().maxTemp,
             it.value.first().minTemp,

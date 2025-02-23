@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import com.example.features.common.api.WeatherRetrofitClient
 import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
 import com.example.features.weather.model.PreviewBarWeather
-import com.example.features.weather.model.WeatherAdditionalInfoDay
 import com.example.features.weather.model.WeatherDetailedDay
 import com.example.features.weather.model.WeatherHoursDay
 import com.example.features.weather.model.WeatherWeek
@@ -22,6 +21,7 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
             response.forecastList.map {
                 WeatherWeek(
                     it.dt,
+                    it.dtTxt,
                     it.main.temp,
                     it.main.tempMax,
                     it.main.tempMin,
@@ -43,53 +43,41 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
             )
         }
 
-    override suspend fun getWeatherDetailedDay(weatherId: Int): WeatherDetailedDay {
-        TODO()
-//        withContext(Dispatchers.IO) {
-//            val response =
-//                WeatherRetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, weatherId)
-//            WeatherDetailedDay(
-//                response.location.name,
-//                response.current.temp_c,
-//                response.current.condition.text,
-//                response.forecast.forecastday.first().day.maxtemp_c,
-//                response.forecast.forecastday.first().day.mintemp_c,
-//                response.forecast.forecastday.first().day.avgtemp_c
-//            )
-    }
+    override suspend fun getWeatherDetailedDay(weatherId: Int): WeatherDetailedDay =
+        withContext(Dispatchers.IO) {
+            val response = WeatherRetrofitClient.weatherApi.getWeather()
+            val forecast =
+                response.forecastList.find { it.dt == weatherId.toLong() }
+                    ?: throw Exception("Данные не найдены")
+            WeatherDetailedDay(
+                city = response.city.name,
+                temp = forecast.main.temp,
+                description = forecast.weather.first().description,
+                maxTemp = forecast.main.tempMax,
+                minTemp = forecast.main.tempMin,
+                feelingTemp = forecast.main.feelsLike,
+                pressure = forecast.main.pressure,
+                humidity = forecast.main.humidity,
+                windDirection = forecast.wind.deg,
+                windSpeed = forecast.wind.speed,
+                probabilityPrecipitation = forecast.pop,
+                partDay = forecast.sys.pod
+            )
+        }
 
-    override suspend fun getWeatherHoursDay(weatherId: Int): List<WeatherHoursDay> {
-        TODO()
-//        withContext(Dispatchers.IO) {
-//            val response =
-//                WeatherRetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, weatherId)
-//            val days = response.forecast.forecastday
-//            days.flatMap { day ->
-//                day.hour.map { hour ->
-//                    WeatherHoursDay(
-//                        hour.time.dateFormatHourly(),
-//                        hour.condition.icon,
-//                        hour.temp_c,
-//                        day.day.daily_chance_of_rain
-//                    )
-//                }
-//            }
-    }
-
-    override suspend fun getWeatherAdditionalInfoDay(weatherId: Int): WeatherAdditionalInfoDay {
-        TODO()
-
-//        withContext(Dispatchers.IO) {
-//            val response =
-//                WeatherRetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, weatherId)
-//            WeatherAdditionalInfoDay(
-//                response.current.temp_c,
-//                response.current.condition.text,
-//                response.uv,
-//                response.humidity,
-//                response.pressure_mb,
-//                response.wind_kph
-//            )
-//        }
-    }
+    override suspend fun getWeatherHoursDay(weatherId: Int): List<WeatherHoursDay> =
+        withContext(Dispatchers.IO) {
+            val response = WeatherRetrofitClient.weatherApi.getWeather()
+            response.forecastList
+                .filter { it.dt == weatherId.toLong() }
+                .map {
+                    WeatherHoursDay(
+                        it.dt,
+                        it.weather.first().icon,
+                        it.main.temp,
+                        it.pop
+                    )
+                }
+        }
 }
+

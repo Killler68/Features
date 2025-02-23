@@ -57,10 +57,10 @@ fun NavigationAppHost(checkLocale: String) {
 
             composable(
                 route = Screens.WeatherDetailedScreen.route,
-                arguments = listOf(navArgument("weatherId") { type = NavType.IntType })
+                arguments = listOf(navArgument("weatherId") { type = NavType.IntType }) // Int вместо String
             ) { backStackEntry ->
                 val weatherId = backStackEntry.arguments?.getInt("weatherId") ?: 0
-                WeatherDetailedScreen(weatherId = weatherId, navHostController)
+                WeatherDetailedScreen(weatherId, navHostController)
             }
         }
     }

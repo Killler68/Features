@@ -79,7 +79,7 @@ fun WeatherDetailedContent(
                 state.detailedDay.apply {
                     TextPreview(
                         temp = temp,
-                        description = descriptionWeather,
+                        description = description,
                         maxTemp = maxTemp,
                         minTemp = minTemp,
                         feelingTemp = feelingTemp
@@ -87,14 +87,14 @@ fun WeatherDetailedContent(
                 }
 
                 HoursInfoDay(
-                    description = state.detailedDay.descriptionWeather,
+                    description = state.detailedDay.description,
                     state = state
                 )
-                state.additionalInfoDay.apply {
+                state.detailedDay.apply {
                     AdditionalInfoDay(
-                        uvIndex = uvIndex,
+                        uvIndex = windSpeed,
                         humidity = humidity,
-                        wind = wind,
+                        wind = windSpeed,
                         pressure = pressure
                     )
                 }

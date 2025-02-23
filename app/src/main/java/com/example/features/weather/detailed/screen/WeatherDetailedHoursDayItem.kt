@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.features.R
+import com.example.features.common.extension.dateFormatHours
 import com.example.features.ui.theme.LightGray
 import com.example.features.weather.model.WeatherHoursDay
 
@@ -28,7 +29,7 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay) {
             .padding(horizontal = 10.dp)
     ) {
         Text(
-            text = hoursDay.hours,
+            text = hoursDay.hours.dateFormatHours(),
             fontSize = 14.sp,
             modifier = Modifier
                 .padding(vertical = 5.dp),

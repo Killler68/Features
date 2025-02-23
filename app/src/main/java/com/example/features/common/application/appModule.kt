@@ -2,9 +2,9 @@ package com.example.features.common.application
 
 import androidx.room.Room
 import com.example.features.MainViewModel
-import com.example.features.authorization.viewmodel.AuthorizationViewModel
 import com.example.features.authorization.GetUserByLoginAndPassword
 import com.example.features.authorization.GetUserByLoginAndPasswordImpl
+import com.example.features.authorization.viewmodel.AuthorizationViewModel
 import com.example.features.common.database.notes.NotesDatabase
 import com.example.features.common.database.profile.UserAdditionalInfoDatabase
 import com.example.features.common.database.task.TaskDatabase
@@ -53,7 +53,6 @@ import com.example.features.registration.viewmodel.CreateUserUseCase
 import com.example.features.registration.viewmodel.RegistrationViewModel
 import com.example.features.settings.usecase.DeleteUserUseCase
 import com.example.features.settings.viewmodel.SettingsViewModel
-import com.example.features.weather.detailed.usecase.WeatherAdditionalInfoDayUseCase
 import com.example.features.weather.detailed.usecase.WeatherDetailedDayUseCase
 import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
 import com.example.features.weather.detailed.usecase.WeatherHoursDayUseCase
@@ -138,7 +137,6 @@ val appModule = module {
     factory<PreviewBarWeatherUseCase> { PreviewBarWeatherUseCaseImpl(get()) }
 
     factory { WeatherDetailedDayUseCase(get()) }
-    factory { WeatherAdditionalInfoDayUseCase(get()) }
     factory { WeatherHoursDayUseCase(get()) }
 
     factory<CreateUserAdditionalInfoUseCase> { CreateUserAdditionalInfoUseCaseImpl(get()) }
@@ -169,5 +167,5 @@ val appModule = module {
     viewModel { NoteDetailViewModel(get(), get(), get(), get()) }
     viewModel { TaskViewModel(get(), get()) }
     viewModel { SettingsViewModel(get()) }
-    viewModel { WeatherDetailedViewModel(get(), get(), get()) }
+    viewModel { WeatherDetailedViewModel(get(), get()) }
 }

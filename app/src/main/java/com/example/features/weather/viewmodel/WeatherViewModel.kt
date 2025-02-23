@@ -36,11 +36,7 @@ class WeatherViewModel(
         when (event) {
             WeatherEvent.LoadData -> loadWeather()
             WeatherEvent.ToBack -> navigateTo(Screens.Features.route)
-            is WeatherEvent.ToWeatherDetailed -> navigateTo(
-                Screens.WeatherDetailedScreen.createRouter(
-                    event.weatherId
-                )
-            )
+            is WeatherEvent.ToWeatherDetailed -> navigateToDetailed(event.weatherId)
         }
     }
 
@@ -56,6 +52,11 @@ class WeatherViewModel(
             } catch (e: Exception) {
                 _state.value = WeatherState.Error(e.localizedMessage ?: "Ошибка загрузки данных")
             }
+        }
+    }
+    private fun navigateToDetailed(weatherId: Long) {
+        viewModelScope.launch {
+            _effect.emit(WeatherSideEffect.NavigateTo(Screens.WeatherDetailedScreen.createRouter(weatherId.toString()))) // Преобразуем в строку при передаче
         }
     }
 

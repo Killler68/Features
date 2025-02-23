@@ -1,4 +1,4 @@
-package com.example.features.weather.design
+package com.example.features.weather.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

@@ -76,7 +76,7 @@ fun extensionConditionWeather(condition: String): Int {
     }
 }
 
-fun extensionTemperatureWeather(float: Float): Int = when {
+fun extensionTemperatureWeather(float: Double): Int = when {
     float < 0 -> R.drawable.image_girl_ice
     float < 10 -> R.raw.image_cold_children
     float < 20 -> R.raw.image_child_warm

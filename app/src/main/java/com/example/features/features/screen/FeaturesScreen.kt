@@ -317,7 +317,7 @@ fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Uni
                                 .padding(horizontal = 10.dp, vertical = 10.dp)
                         ) {
                             GlideImage(
-                                model = extensionConditionWeather(state.itemWeather.description),
+                                model = state.itemWeather.description,
                                 contentDescription = "condition_weather",
                                 alignment = Alignment.Center,
                                 modifier = Modifier
@@ -325,7 +325,7 @@ fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Uni
                                     .size(48.dp)
                             )
                             GlideImage(
-                                model = extensionTemperatureWeather(state.itemWeather.temp),
+                                model = state.itemWeather.temp,
                                 contentDescription = "condition_weather",
                                 alignment = Alignment.Center,
                                 modifier = Modifier

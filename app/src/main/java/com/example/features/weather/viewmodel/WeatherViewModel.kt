@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 
 class WeatherViewModel(
     private val weatherUseCase: WeatherUseCase,
-    private val hoursWeatherUseCase: HoursWeatherUseCase,
     private val previewBarWeatherUseCase: PreviewBarWeatherUseCase
 ) : ViewModel() {
 
@@ -48,13 +47,10 @@ class WeatherViewModel(
     private fun loadWeather() {
         viewModelScope.launch {
             try {
-                val dailyWeather = weatherUseCase()
-                val hoursWeather = hoursWeatherUseCase()
+                val weatherWeek = weatherUseCase()
                 val previewWeather = previewBarWeatherUseCase()
-
                 _state.value = WeatherState.Success(
-                    dayly = dailyWeather,
-                    hours = hoursWeather,
+                    weatherWeek = weatherWeek,
                     preview = previewWeather,
                 )
             } catch (e: Exception) {

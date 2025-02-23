@@ -59,11 +59,9 @@ import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
 import com.example.features.weather.detailed.usecase.WeatherHoursDayUseCase
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
 import com.example.features.weather.repository.WeatherRepositoryImpl
-import com.example.features.weather.usecase.HoursWeatherUseCaseImpl
 import com.example.features.weather.usecase.PreviewBarWeatherUseCaseImpl
 import com.example.features.weather.usecase.WeatherRepository
 import com.example.features.weather.usecase.WeatherUseCaseImpl
-import com.example.features.weather.viewmodel.HoursWeatherUseCase
 import com.example.features.weather.viewmodel.PreviewBarWeatherUseCase
 import com.example.features.weather.viewmodel.WeatherUseCase
 import com.example.features.weather.viewmodel.WeatherViewModel
@@ -137,7 +135,6 @@ val appModule = module {
     factory<GetUserByLoginAndPassword> { GetUserByLoginAndPasswordImpl(get()) }
 
     factory<WeatherUseCase> { WeatherUseCaseImpl(get()) }
-    factory<HoursWeatherUseCase> { HoursWeatherUseCaseImpl(get()) }
     factory<PreviewBarWeatherUseCase> { PreviewBarWeatherUseCaseImpl(get()) }
 
     factory { WeatherDetailedDayUseCase(get()) }
@@ -165,7 +162,7 @@ val appModule = module {
     viewModel { RegistrationViewModel(get(), get()) }
     viewModel { AuthorizationViewModel(get()) }
     viewModel { FeaturesViewModel(get(), get(), get(), get()) }
-    viewModel { WeatherViewModel(get(), get(), get()) }
+    viewModel { WeatherViewModel(get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get(), get()) }
     viewModel { UserAdditionalInfoViewModel(get(), get(), get()) }
     viewModel { NoteAddViewModel(get(), get()) }

@@ -1,4 +1,4 @@
-package com.example.features.weather.design
+package com.example.features.weather.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,11 +9,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,32 +36,32 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.features.R
+import com.example.features.common.extension.dateFormatDays
+import com.example.features.common.extension.dateFormatHours
+import com.example.features.common.extension.dateFormatPreview
 import com.example.features.common.extension.getRawNameCityEngToRuExtension
 import com.example.features.common.extension.getRawNameCityRuToEngExtension
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
-import com.example.features.weather.model.DailyWeather
-import com.example.features.weather.model.HoursWeather
 import com.example.features.weather.model.PreviewBarWeather
+import com.example.features.weather.model.WeatherData
 import com.example.features.weather.model.WeatherEvent
 import com.example.features.weather.model.WeatherSideEffect
 import com.example.features.weather.model.WeatherState
+import com.example.features.weather.model.WeatherWeek
 import com.example.features.weather.repository.city
-import com.example.features.weather.screen.ErrorScreen
-import com.example.features.weather.screen.LoadingScreen
 import com.example.features.weather.viewmodel.WeatherViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun DsWeather(navController: NavController) {
+fun WeatherScreen(navController: NavController) {
 
     val viewModel: WeatherViewModel = getViewModel()
     val state by viewModel.state.collectAsState()
-    val effectFlow = viewModel.effect
 
-    LaunchedEffect(Unit) {
-        effectFlow.collect { effect ->
+    LaunchedEffect(viewModel.effect) {
+        viewModel.effect.collect { effect ->
             when (effect) {
                 is WeatherSideEffect.NavigateTo -> navController.navigate(effect.route)
             }
@@ -70,11 +71,7 @@ fun DsWeather(navController: NavController) {
     when (state) {
         WeatherState.Loading -> LoadingScreen()
         is WeatherState.Success -> WeatherContent(state as WeatherState.Success)
-
-        is WeatherState.Error -> ErrorScreen(
-            R.drawable.weather,
-            "Ошибка"
-        )
+        is WeatherState.Error -> ErrorScreen(R.drawable.weather, "Ошибка")
     }
 }
 
@@ -88,7 +85,7 @@ fun WeatherContent(state: WeatherState.Success) {
     ) {
         DsWeatherActionBar(state.preview)
         DsWeatherPreviewBar(state.preview)
-        DsDailyWeatherPanel(state.dayly, state.hours)
+        DsDailyWeatherPanel(state.weatherWeek)
     }
 }
 
@@ -161,6 +158,7 @@ fun DsWeatherActionBar(preview: PreviewBarWeather) {
 @Composable
 fun DsWeatherPreviewBar(preview: PreviewBarWeather) {
 
+    val temperature = "${preview.temp.toInt()}°"
 
     Column(
         Modifier
@@ -171,7 +169,7 @@ fun DsWeatherPreviewBar(preview: PreviewBarWeather) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = preview.date,
+            text = preview.date.dateFormatPreview(),
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,
@@ -184,7 +182,7 @@ fun DsWeatherPreviewBar(preview: PreviewBarWeather) {
                 .size(100.dp)
         )
         Text(
-            text = preview.temp.toString(),
+            text = temperature,
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 30.sp,
@@ -201,49 +199,45 @@ fun DsWeatherPreviewBar(preview: PreviewBarWeather) {
 }
 
 @Composable
-fun DsDailyWeatherPanel(dailyWeather: List<DailyWeather>, hoursWeather: List<HoursWeather>) {
-
+fun DsDailyWeatherPanel(weatherWeek: List<WeatherData>) {
     val viewModel: WeatherViewModel = getViewModel()
 
     LazyColumn {
-        itemsIndexed(
-            dailyWeather
-        ) { index, item ->
+        items(weatherWeek) { item ->
             DsDailyWeatherItem(
-                dailyWeather = item,
-                hoursWeather
-            ) { viewModel.dispatch(WeatherEvent.ToWeatherDetailed(index)) }
+                weatherWeek = item,
+                weather = item.listWeek
+            ) {
+//                viewModel.dispatch(WeatherEvent.ToWeatherDetailed(item.day.dateFormatUnixTime()))
+            }
         }
     }
 }
 
 @Composable
 fun DsDailyWeatherItem(
-    dailyWeather: DailyWeather,
-    hoursWeather: List<HoursWeather>,
+    weather: List<WeatherWeek>,
+    weatherWeek: WeatherData,
     onClick: () -> Unit
 ) {
+    val temperatureMax = "${weatherWeek.maxTemp.toInt()}°"
+    val temperatureMin = "${weatherWeek.minTemp.toInt()}°"
 
-    val integerValueMax = dailyWeather.maxTemp.toInt()
-    val integerValueMin = dailyWeather.minTemp.toInt()
     Column(
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 5.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(Color.Gray)
-            .clickable {
-                onClick()
-            }
+            .clickable { onClick() }
     ) {
         Row(
-            Modifier
-                .fillMaxWidth(),
+            Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = dailyWeather.dayOfWeek,
+                text = weatherWeek.day.dateFormatDays(),
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .weight(0.3f)
@@ -251,26 +245,23 @@ fun DsDailyWeatherItem(
             )
 
             Text(
-                text = "$integerValueMin°",
+                text = temperatureMin,
                 textAlign = TextAlign.End,
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
                     .weight(0.3f)
-
             )
-            Text(
-                text = "$integerValueMax°",
-                textAlign = TextAlign.End,
-                modifier = Modifier
-                    .padding(horizontal = 5.dp)
 
+            Text(
+                text = temperatureMax,
+                textAlign = TextAlign.End,
+                modifier = Modifier.padding(horizontal = 5.dp)
             )
 
             Image(
-                painter = rememberImagePainter(data = "https:" + dailyWeather.icon),
+                painter = rememberAsyncImagePainter("https:" + weatherWeek.icon),
                 contentDescription = "image",
-                modifier = Modifier
-                    .size(30.dp)
+                modifier = Modifier.size(30.dp)
             )
         }
 
@@ -279,27 +270,23 @@ fun DsDailyWeatherItem(
                 .padding(horizontal = 5.dp)
                 .fillMaxWidth()
                 .background(Color.White)
-                .size(0.dp, 1.dp)
+                .height(1.dp)
         )
 
         LazyRow(
-            Modifier
-                .clip(RoundedCornerShape(20.dp))
-
+            Modifier.clip(RoundedCornerShape(20.dp))
         ) {
-            itemsIndexed(
-                hoursWeather
-            ) { index, item ->
-                DsHourlyWeatherItem(hoursWeather = item)
+            items(weather) { item ->
+                DsHourlyWeatherItem(hourWeather = item)
             }
         }
     }
 }
 
 @Composable
-fun DsHourlyWeatherItem(hoursWeather: HoursWeather) {
+fun DsHourlyWeatherItem(hourWeather: WeatherWeek) {
+    val temperature = "${hourWeather.temp.toInt()}°"
 
-    val integerValue = hoursWeather.temp.toInt()
     Column(
         Modifier
             .padding(5.dp)
@@ -308,18 +295,18 @@ fun DsHourlyWeatherItem(hoursWeather: HoursWeather) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = hoursWeather.time,
+            text = hourWeather.day.dateFormatHours(),
             fontSize = 12.sp
         )
         Image(
-            painter = rememberAsyncImagePainter("https:" + hoursWeather.icon),
+            painter = rememberAsyncImagePainter("https:" + hourWeather.icon),
             contentDescription = "Weather Icon",
             modifier = Modifier
                 .size(50.dp)
                 .padding(8.dp)
         )
         Text(
-            text = "$integerValue°",
+            text = temperature,
             fontSize = 12.sp
         )
     }

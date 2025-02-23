@@ -23,11 +23,11 @@ import com.example.features.common.extension.getRawNameWeatherExtension
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun TextPreview(
-    temp: Float,
+    temp: Double,
     description: String,
-    maxTemp: Float,
-    minTemp: Float,
-    feelingTemp: Float
+    maxTemp: Double,
+    minTemp: Double,
+    feelingTemp: Double
 ) {
 
     Row {

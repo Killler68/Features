@@ -23,6 +23,7 @@ fun String.getRawNameWeatherExtension(): String {
         else -> this
     }
 }
+
 fun String.getRawNameCityRuToEngExtension(): String {
 
     return when (this) {
@@ -38,17 +39,18 @@ fun String.getRawNameCityEngToRuExtension(): String {
 
     return when (this) {
         "Voronezh" -> "Воронеж"
-        "Ottawa"  -> "Оттава"
+        "Ottawa" -> "Оттава"
         "London" -> "Лондон"
         "Moscow" -> "Москва"
         else -> this
     }
 }
+
 fun String.getRawNameFeaturesCityEngToRuExtension(): String {
 
     return when (this) {
         "Voronezh" -> "Воронеже"
-        "Ottawa"  -> "Оттаве"
+        "Ottawa" -> "Оттаве"
         "London" -> "Лондоне"
         "Moscow" -> "Москве"
         else -> this
@@ -57,24 +59,49 @@ fun String.getRawNameFeaturesCityEngToRuExtension(): String {
 
 fun extensionConditionWeather(condition: String): Int {
     return when (condition) {
-        "Overcast" -> R.raw.gif_clouds
-        "Mist" -> R.raw.gif_clouds
-        "Patchy rain nearby" -> R.raw.gif_rain
-        "Light snow showers" -> R.raw.gif_snow
-        "Cloudy " -> R.raw.gif_clouds
-        "Light snow" -> R.raw.gif_snow
-        "Heavy snow" -> R.raw.gif_snow
-        "Partly Cloudy " -> R.raw.gif_clouds
-        "Moderate rain " -> R.raw.gif_rain
-        "Light drizzle " -> R.raw.gif_rain
-        "Light rain " -> R.raw.gif_rain
-        "Blizzard " -> R.raw.gif_snow
-        "Light freezing rain " -> R.raw.gif_rain
-        "Moderate snow " -> R.raw.gif_snow
-        "Sunny " -> R.raw.gif_sun
+        "01d" -> R.raw.gif_clouds
+        "02d" -> R.raw.gif_clouds
+        "03d" -> R.raw.gif_rain
+        "04d" -> R.raw.gif_snow
+        "09d" -> R.raw.gif_clouds
+        "10d" -> R.raw.gif_snow
+        "11d" -> R.raw.gif_snow
+        "13d" -> R.raw.gif_clouds
+        "50d" -> R.raw.gif_rain
+        "01n" -> R.raw.gif_rain
+        "02n" -> R.raw.gif_rain
+        "03n" -> R.raw.gif_snow
+        "04n" -> R.raw.gif_rain
+        "09n" -> R.raw.gif_snow
+        "10n" -> R.raw.gif_sun
         else -> R.raw.gif_clouds
     }
 }
+
+fun String.imageWeatherExtension(): Int {
+    return when (this) {
+        "01d" -> R.drawable.sun
+        "02d" -> R.drawable.sun
+        "03d" -> R.drawable.sun
+        "04d" -> R.drawable.clouds_sun
+        "09d" -> R.drawable.heavy_rain
+        "10d" -> R.drawable.heavy_rain
+        "11d" -> R.drawable.thunder
+        "13d" -> R.drawable.snow
+        "50d" -> R.drawable.clouds_sun
+        "01n" -> R.drawable.sun
+        "02n" -> R.drawable.sun
+        "03n" -> R.drawable.clouds_sun
+        "04n" -> R.drawable.clouds_sun
+        "09n" -> R.drawable.heavy_rain
+        "10n" -> R.drawable.heavy_rain
+        "11n" -> R.drawable.thunder
+        "13n" -> R.drawable.snow
+        "50n" -> R.drawable.snow
+        else -> R.drawable.sun
+    }
+}
+
 
 fun extensionTemperatureWeather(float: Double): Int = when {
     float < 0 -> R.drawable.image_girl_ice

@@ -42,6 +42,7 @@ import com.example.features.common.extension.dateFormatPreview
 import com.example.features.common.extension.getRawNameCityEngToRuExtension
 import com.example.features.common.extension.getRawNameCityRuToEngExtension
 import com.example.features.common.extension.getRawNameWeatherExtension
+import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
 import com.example.features.weather.model.PreviewBarWeather
@@ -176,7 +177,7 @@ fun DsWeatherPreviewBar(preview: PreviewBarWeather) {
             color = Color.White
         )
         Image(
-            painter = rememberImagePainter(data = "https:" + preview.icon),
+            painter = painterResource(preview.icon.imageWeatherExtension()),
             contentDescription = "image",
             modifier = Modifier
                 .size(100.dp)
@@ -299,7 +300,7 @@ fun DsHourlyWeatherItem(hourWeather: WeatherWeek) {
             fontSize = 12.sp
         )
         Image(
-            painter = rememberAsyncImagePainter("https:" + hourWeather.icon),
+            painter = painterResource(hourWeather.icon.imageWeatherExtension()),
             contentDescription = "Weather Icon",
             modifier = Modifier
                 .size(50.dp)

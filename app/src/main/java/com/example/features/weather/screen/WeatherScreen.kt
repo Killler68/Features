@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,12 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.example.features.R
 import com.example.features.common.extension.dateFormatDays
 import com.example.features.common.extension.dateFormatHours
 import com.example.features.common.extension.dateFormatPreview
-import com.example.features.common.extension.dateFormatUnixTime
 import com.example.features.common.extension.getRawNameCityEngToRuExtension
 import com.example.features.common.extension.getRawNameCityRuToEngExtension
 import com.example.features.common.extension.getRawNameWeatherExtension
@@ -211,7 +208,7 @@ fun DsDailyWeatherPanel(weatherWeek: List<WeatherData>) {
                 weatherWeek = item,
                 weather = item.listWeek
             ) {
-                viewModel.dispatch(WeatherEvent.ToWeatherDetailed(item.day)) // Передаём `day`
+                viewModel.dispatch(WeatherEvent.ToWeatherDetailed(item.day))
             }
         }
     }

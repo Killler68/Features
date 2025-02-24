@@ -1,4 +1,4 @@
-package com.example.features.weather.model
+package com.example.features.weather.detailed.model
 
 data class WeatherHoursDay(
     val hours: Long,

@@ -2,10 +2,10 @@ package com.example.features.weather.repository
 
 import androidx.compose.runtime.mutableStateOf
 import com.example.features.common.api.WeatherRetrofitClient
+import com.example.features.weather.detailed.model.WeatherHoursDay
 import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
 import com.example.features.weather.model.PreviewBarWeather
 import com.example.features.weather.model.WeatherDetailedDay
-import com.example.features.weather.model.WeatherHoursDay
 import com.example.features.weather.model.WeatherWeek
 import com.example.features.weather.usecase.WeatherRepository
 import kotlinx.coroutines.Dispatchers
@@ -68,8 +68,13 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
     override suspend fun getWeatherHoursDay(weatherId: Int): List<WeatherHoursDay> =
         withContext(Dispatchers.IO) {
             val response = WeatherRetrofitClient.weatherApi.getWeather()
+
+            val selectedDate = response.forecastList
+                .find { it.dt == weatherId.toLong() }?.dtTxt?.substring(0, 10)
+                ?: throw Exception("Данные не найдены")
+
             response.forecastList
-                .filter { it.dt == weatherId.toLong() }
+                .filter { it.dtTxt.startsWith(selectedDate) }
                 .map {
                     WeatherHoursDay(
                         it.dt,

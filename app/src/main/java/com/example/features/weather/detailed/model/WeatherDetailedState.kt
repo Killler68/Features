@@ -1,7 +1,6 @@
 package com.example.features.weather.detailed.model
 
 import com.example.features.weather.model.WeatherDetailedDay
-import com.example.features.weather.model.WeatherHoursDay
 
 sealed class WeatherDetailedState {
 

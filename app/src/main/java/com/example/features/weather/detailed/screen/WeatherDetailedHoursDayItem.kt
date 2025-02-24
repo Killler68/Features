@@ -26,7 +26,7 @@ import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
 import com.example.features.ui.theme.LightGray
 import com.example.features.weather.detailed.model.WeatherDetailedState
-import com.example.features.weather.model.WeatherHoursDay
+import com.example.features.weather.detailed.model.WeatherHoursDay
 
 @Composable
 fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetailedState.Success) {

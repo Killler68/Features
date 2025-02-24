@@ -7,13 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
 fun AdditionalInfoDay(
     uvIndex: Double,
     humidity: Int,
     wind: Double,
-    pressure: Int
+    pressure: Int,
+    state: WeatherDetailedState.Success
 ) {
     Row(
         modifier = Modifier
@@ -26,7 +28,8 @@ fun AdditionalInfoDay(
             10.dp,
             5.dp,
             "УФ-индекс",
-            uvIndex.toInt().toString()
+            uvIndex.toInt().toString(),
+            state
         )
         CardAdditionalInfoDay(
             1f,
@@ -34,7 +37,8 @@ fun AdditionalInfoDay(
             5.dp,
             10.dp,
             "Влажность",
-            "$humidity%"
+            "$humidity%",
+            state
         )
     }
     Row(
@@ -48,7 +52,8 @@ fun AdditionalInfoDay(
             10.dp,
             5.dp,
             "Ветер",
-            "$wind км/ч"
+            "$wind км/ч",
+            state
         )
         CardAdditionalInfoDay(
             1f,
@@ -56,7 +61,8 @@ fun AdditionalInfoDay(
             5.dp,
             10.dp,
             "Давление",
-            "${pressure.toInt()} мбар"
+            "$pressure мбар",
+            state
         )
     }
 }

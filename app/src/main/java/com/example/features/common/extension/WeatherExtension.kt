@@ -1,6 +1,8 @@
 package com.example.features.common.extension
 
+import androidx.compose.ui.graphics.Color
 import com.example.features.R
+import com.example.features.common.utils.ColorCategory
 
 fun String.getRawNameWeatherExtension(): String {
 
@@ -109,4 +111,29 @@ fun extensionTemperatureWeather(float: Double): Int = when {
     float < 20 -> R.raw.image_child_warm
     float < 30 -> R.raw.gif_girl_sun
     else -> R.raw.image_child_warm
+}
+
+
+fun weatherColorExtension(condition: String, colorCategory: ColorCategory): Color {
+    return when (condition) {
+        "n" -> {
+            when (colorCategory) {
+                ColorCategory.BACKGROUND -> Color(0xFF87CEEB)
+                ColorCategory.CARD -> Color(0xFFADD8E6)
+                ColorCategory.TEXT -> Color.Black
+            }
+        }
+
+        "d" -> {
+            when (colorCategory) {
+                ColorCategory.BACKGROUND -> Color(0xFF1C1C3C)
+                ColorCategory.CARD -> Color(0xFF2A2A5A)
+                ColorCategory.TEXT -> Color.White
+            }
+        }
+
+        else -> {
+            Color.Red
+        }
+    }
 }

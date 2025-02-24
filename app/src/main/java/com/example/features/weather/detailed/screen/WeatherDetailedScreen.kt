@@ -17,7 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.common.design.TopBarScreen
-import com.example.features.ui.theme.WeatherBackground
+import com.example.features.common.extension.weatherColorExtension
+import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.detailed.model.WeatherDetailedEvent
 import com.example.features.weather.detailed.model.WeatherDetailedSideEffect
 import com.example.features.weather.detailed.model.WeatherDetailedState
@@ -60,13 +61,19 @@ fun WeatherDetailedContent(
             TopAppBar(
                 title = {
                     TopBarScreen(
-                        R.drawable.back,
-                        { viewModel.dispatch(WeatherDetailedEvent.ToBack) },
-                        "back",
+                        imageOnBack = R.drawable.back,
+                        onBack = { viewModel.dispatch(WeatherDetailedEvent.ToBack) },
+                        imageDescriptionOnBack = "back",
                         city = state.detailedDay.city,
+                        color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = WeatherBackground)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = weatherColorExtension(
+                        state.detailedDay.partDay,
+                        ColorCategory.BACKGROUND
+                    )
+                )
             )
         },
         content = {
@@ -82,7 +89,8 @@ fun WeatherDetailedContent(
                         description = description,
                         maxTemp = maxTemp,
                         minTemp = minTemp,
-                        feelingTemp = feelingTemp
+                        feelingTemp = feelingTemp,
+                        state
                     )
                 }
 
@@ -95,12 +103,13 @@ fun WeatherDetailedContent(
                         uvIndex = windSpeed,
                         humidity = humidity,
                         wind = windSpeed,
-                        pressure = pressure
+                        pressure = pressure,
+                        state
                     )
                 }
-                WeatherNameAPI()
+                WeatherNameAPI(state)
             }
         },
-        containerColor = WeatherBackground
+        containerColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.BACKGROUND)
     )
 }

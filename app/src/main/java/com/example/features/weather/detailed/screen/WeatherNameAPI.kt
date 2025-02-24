@@ -7,12 +7,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.common.extension.weatherColorExtension
+import com.example.features.common.utils.ColorCategory
+import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
-fun WeatherNameAPI() {
+fun WeatherNameAPI(state: WeatherDetailedState.Success) {
 
     Box(
         modifier = Modifier
@@ -21,9 +23,9 @@ fun WeatherNameAPI() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Interactive Weather",
+            text = "OpenWeatherMap",
             fontSize = 8.sp,
-            color = Color.White
+            color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
         )
     }
 }

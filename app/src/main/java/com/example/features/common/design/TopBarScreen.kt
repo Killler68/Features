@@ -67,6 +67,7 @@ fun TopBarScreen(
     onBack: () -> Unit,
     imageDescriptionOnBack: String,
     city: String,
+    color: Color
 ) {
     Column {
         Row {
@@ -78,14 +79,13 @@ fun TopBarScreen(
                     .padding(horizontal = 10.dp)
                     .size(32.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(WeatherHoursBackground)
                     .padding(7.dp)
                     .clickable { onBack() }
             )
             Text(
                 text = city.getRawNameCityEngToRuExtension(),
                 fontSize = 18.sp,
-                color = Color.White
+                color = color
             )
         }
     }

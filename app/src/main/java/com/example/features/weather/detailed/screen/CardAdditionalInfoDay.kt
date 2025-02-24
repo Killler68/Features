@@ -13,11 +13,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.features.ui.theme.WeatherHoursBackground
+import com.example.features.common.extension.weatherColorExtension
+import com.example.features.common.utils.ColorCategory
+import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
 fun CardAdditionalInfoDay(
@@ -26,8 +27,10 @@ fun CardAdditionalInfoDay(
     startPadding: Dp,
     endPadding: Dp,
     info: String,
-    subInfo: String
+    subInfo: String,
+    state: WeatherDetailedState.Success
 ) {
+
     Box(
         modifier = Modifier
             .fillMaxWidth(width),
@@ -38,7 +41,12 @@ fun CardAdditionalInfoDay(
                 .fillMaxWidth()
                 .padding(start = startPadding, end = endPadding)
                 .size(width = 1.dp, 100.dp),
-            colors = CardDefaults.cardColors(containerColor = WeatherHoursBackground)
+            colors = CardDefaults.cardColors(
+                containerColor = weatherColorExtension(
+                    state.detailedDay.partDay,
+                    ColorCategory.CARD
+                )
+            )
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -51,14 +59,14 @@ fun CardAdditionalInfoDay(
                     fontSize = 14.sp,
                     modifier = Modifier
                         .padding(horizontal = 10.dp, vertical = 5.dp),
-                    color = Color.White
+                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
                 )
                 Text(
                     text = subInfo,
                     fontSize = 18.sp,
                     modifier = Modifier
                         .padding(horizontal = 10.dp, vertical = 5.dp),
-                    color = Color.White
+                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
                 )
             }
         }

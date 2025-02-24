@@ -94,10 +94,8 @@ fun WeatherDetailedContent(
                     )
                 }
 
-                HoursInfoDay(
-                    description = state.detailedDay.description,
-                    state = state
-                )
+                HoursInfoDay(state = state)
+
                 state.detailedDay.apply {
                     AdditionalInfoDay(
                         uvIndex = windSpeed,

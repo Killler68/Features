@@ -15,16 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import com.example.features.R
 import com.example.features.common.extension.dateFormatHours
+import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
-import com.example.features.ui.theme.LightGray
 import com.example.features.weather.detailed.model.WeatherDetailedState
 import com.example.features.weather.detailed.model.WeatherHoursDay
 
@@ -35,10 +33,10 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 3.dp, end = 3.dp, top = 5.dp, bottom = 5.dp)
+            .padding(start = 3.dp, end = 3.dp, top = 5.dp, bottom = 10.dp)
             .background(weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD))
             .border(BorderStroke(width = 1.dp, Color.White), RoundedCornerShape(12.dp))
-            .padding(horizontal = 5.dp)
+            .padding(horizontal = 8.dp)
     ) {
         Text(
             text = hoursDay.hours.dateFormatHours(),
@@ -48,7 +46,7 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
             color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
         )
         Image(
-            painter = rememberAsyncImagePainter("https:" + hoursDay.icon),
+            painter = painterResource(hoursDay.icon.imageWeatherExtension()),
             contentDescription = "hours_weather",
             modifier = Modifier
                 .size(28.dp)
@@ -68,11 +66,10 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
                 modifier = Modifier
                     .padding(start = 3.dp, end = 3.dp, top = 5.dp, bottom = 10.dp)
                     .size(8.dp),
-                colorFilter = ColorFilter.tint(LightGray)
             )
 
             Text(
-                text = "${hoursDay.chanceRain}%",
+                text = "${(hoursDay.chanceRain * 100).toInt()}%",
                 fontSize = 10.sp,
                 color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
             )

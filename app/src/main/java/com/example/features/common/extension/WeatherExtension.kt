@@ -116,7 +116,7 @@ fun extensionTemperatureWeather(float: Double): Int = when {
 
 fun weatherColorExtension(condition: String, colorCategory: ColorCategory): Color {
     return when (condition) {
-        "n" -> {
+        "d" -> {
             when (colorCategory) {
                 ColorCategory.BACKGROUND -> Color(0xFF87CEEB)
                 ColorCategory.CARD -> Color(0xFFADD8E6)
@@ -124,7 +124,7 @@ fun weatherColorExtension(condition: String, colorCategory: ColorCategory): Colo
             }
         }
 
-        "d" -> {
+        "n" -> {
             when (colorCategory) {
                 ColorCategory.BACKGROUND -> Color(0xFF1C1C3C)
                 ColorCategory.CARD -> Color(0xFF2A2A5A)

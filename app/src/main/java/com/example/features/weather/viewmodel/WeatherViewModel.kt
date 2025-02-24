@@ -64,7 +64,7 @@ class WeatherViewModel(
                         weatherId.toString()
                     )
                 )
-            ) // Преобразуем в строку при передаче
+            )
         }
     }
 

@@ -104,6 +104,7 @@ fun WeatherDetailedContent(
                     TextPreview(
                         temp = temp,
                         description = description,
+                        image = state.hoursDay.first().icon,
                         maxTemp = maxTemp,
                         minTemp = minTemp,
                         feelingTemp = feelingTemp,

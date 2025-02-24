@@ -61,21 +61,24 @@ fun String.getRawNameFeaturesCityEngToRuExtension(): String {
 
 fun extensionConditionWeather(condition: String): Int {
     return when (condition) {
-        "01d" -> R.raw.gif_clouds
-        "02d" -> R.raw.gif_clouds
-        "03d" -> R.raw.gif_rain
-        "04d" -> R.raw.gif_snow
-        "09d" -> R.raw.gif_clouds
-        "10d" -> R.raw.gif_snow
-        "11d" -> R.raw.gif_snow
-        "13d" -> R.raw.gif_clouds
-        "50d" -> R.raw.gif_rain
-        "01n" -> R.raw.gif_rain
-        "02n" -> R.raw.gif_rain
-        "03n" -> R.raw.gif_snow
-        "04n" -> R.raw.gif_rain
-        "09n" -> R.raw.gif_snow
-        "10n" -> R.raw.gif_sun
+        "01d" -> R.raw.gif_sun
+        "02d" -> R.raw.gif_sun
+        "03d" -> R.raw.gif_sun
+        "04d" -> R.raw.gif_clouds
+        "09d" -> R.raw.gif_rain
+        "10d" -> R.raw.gif_rain
+        "11d" -> R.raw.gif_lightning
+        "13d" -> R.raw.gif_snow
+        "50d" -> R.raw.gif_clouds
+        "01n" -> R.raw.gif_sun
+        "02n" -> R.raw.gif_sun
+        "03n" -> R.raw.gif_clouds
+        "04n" -> R.raw.gif_clouds
+        "09n" -> R.raw.gif_rain
+        "10n" -> R.raw.gif_rain
+        "11n" -> R.raw.gif_lightning
+        "13n" -> R.raw.gif_snow
+        "50n" -> R.raw.gif_snow
         else -> R.raw.gif_clouds
     }
 }

@@ -26,6 +26,7 @@ import com.example.features.weather.detailed.model.WeatherDetailedState
 fun TextPreview(
     temp: Double,
     description: String,
+    image: String,
     maxTemp: Double,
     minTemp: Double,
     feelingTemp: Double,
@@ -63,7 +64,7 @@ fun TextPreview(
         Column {
 
             GlideImage(
-                model = extensionConditionWeather(description),
+                model = extensionConditionWeather(image),
                 contentDescription = "animated_gif_weather",
                 modifier = Modifier
                     .padding(bottom = 5.dp)

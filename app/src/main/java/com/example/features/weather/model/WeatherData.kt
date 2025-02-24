@@ -8,8 +8,10 @@ data class WeatherData(
     val maxTemp: Double,
     val minTemp: Double,
     val icon: String,
+    val partDay: String,
     val listWeek: List<WeatherWeek>
 )
+
 fun Map<String, List<WeatherWeek>>.toWeatherData() =
     this.map {
         WeatherData(
@@ -19,6 +21,7 @@ fun Map<String, List<WeatherWeek>>.toWeatherData() =
             it.value.first().maxTemp,
             it.value.first().minTemp,
             it.value.first().icon,
+            it.value.first().partDay,
             it.value
         )
     }

@@ -6,5 +6,6 @@ data class WeatherWeek(
     val temp: Double,
     val maxTemp: Double,
     val minTemp: Double,
-    val icon: String
+    val icon: String,
+    val partDay: String
 )

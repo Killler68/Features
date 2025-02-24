@@ -22,7 +22,8 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
                     it.main.temp,
                     it.main.tempMax,
                     it.main.tempMin,
-                    it.weather.first().icon
+                    it.weather.first().icon,
+                    it.sys.pod,
                 )
             }
         }

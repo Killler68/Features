@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,8 +42,8 @@ import com.example.features.common.extension.dateFormatPreview
 import com.example.features.common.extension.getRawNameCityEngToRuExtension
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.common.extension.imageWeatherExtension
-import com.example.features.ui.theme.Cyan
-import com.example.features.ui.theme.LightGray
+import com.example.features.common.extension.weatherColorExtension
+import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.model.PreviewBarWeather
 import com.example.features.weather.model.WeatherData
 import com.example.features.weather.model.WeatherEvent
@@ -79,16 +80,21 @@ fun WeatherContent(state: WeatherState.Success) {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(
+                weatherColorExtension(
+                    state.weatherWeek.first().partDay,
+                    ColorCategory.BACKGROUND
+                )
+            )
     ) {
-        DsWeatherActionBar(state.preview)
-        DsWeatherPreviewBar(state.preview)
-        DsDailyWeatherPanel(state.weatherWeek)
+        DsWeatherActionBar(state.preview, state)
+        DsWeatherPreviewBar(state.preview, state)
+        DsDailyWeatherPanel(state.weatherWeek, state)
     }
 }
 
 @Composable
-fun DsWeatherActionBar(preview: PreviewBarWeather) {
+fun DsWeatherActionBar(preview: PreviewBarWeather, state: WeatherState.Success) {
 
     val viewModel: WeatherViewModel = getViewModel()
     var editCity by remember { mutableStateOf(preview.city) }
@@ -96,22 +102,32 @@ fun DsWeatherActionBar(preview: PreviewBarWeather) {
     Row(
         Modifier
             .fillMaxWidth()
-            .background(Color.LightGray),
+            .background(
+                weatherColorExtension(
+                    state.weatherWeek.first().partDay,
+                    ColorCategory.BACKGROUND
+                )
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(R.drawable.back),
             contentDescription = "image_back",
+            colorFilter = ColorFilter.tint(
+                weatherColorExtension(
+                    state.weatherWeek.first().partDay,
+                    ColorCategory.IMAGE
+                )
+            ),
             modifier = Modifier
                 .size(32.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(LightGray)
                 .padding(7.dp)
                 .clickable { viewModel.dispatch(WeatherEvent.ToBack) }
         )
 
         Text(
             text = preview.city.getRawNameCityEngToRuExtension(),
+            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT),
             modifier = Modifier
                 .padding(horizontal = 10.dp)
                 .weight(0.5f)
@@ -126,10 +142,15 @@ fun DsWeatherActionBar(preview: PreviewBarWeather) {
             Image(
                 painter = painterResource(id = R.drawable.location),
                 contentDescription = "image_location",
+                colorFilter = ColorFilter.tint(
+                    weatherColorExtension(
+                        state.weatherWeek.first().partDay,
+                        ColorCategory.IMAGE
+                    )
+                ),
                 modifier = Modifier
+                    .padding(end = 10.dp)
                     .size(32.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(LightGray)
                     .padding(7.dp)
                     .clickable { viewModel.isEnabled.value = true }
             )
@@ -154,7 +175,7 @@ fun DsWeatherActionBar(preview: PreviewBarWeather) {
 }
 
 @Composable
-fun DsWeatherPreviewBar(preview: PreviewBarWeather) {
+fun DsWeatherPreviewBar(preview: PreviewBarWeather, state: WeatherState.Success) {
 
     val temperature = "${preview.temp.toInt()}°"
 
@@ -163,7 +184,12 @@ fun DsWeatherPreviewBar(preview: PreviewBarWeather) {
             .fillMaxWidth()
             .padding(10.dp)
             .clip(RoundedCornerShape(20.dp))
-            .background(Cyan),
+            .background(
+                weatherColorExtension(
+                    state.weatherWeek.first().partDay,
+                    ColorCategory.CARD
+                )
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -171,7 +197,7 @@ fun DsWeatherPreviewBar(preview: PreviewBarWeather) {
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,
-            color = Color.White
+            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT),
         )
         Image(
             painter = painterResource(preview.icon.imageWeatherExtension()),
@@ -184,27 +210,28 @@ fun DsWeatherPreviewBar(preview: PreviewBarWeather) {
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 30.sp,
-            color = Color.White
+            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT),
         )
         Text(
             text = preview.description.getRawNameWeatherExtension(),
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,
-            color = Color.White
+            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT),
         )
     }
 }
 
 @Composable
-fun DsDailyWeatherPanel(weatherWeek: List<WeatherData>) {
+fun DsDailyWeatherPanel(weatherWeek: List<WeatherData>, state: WeatherState.Success) {
     val viewModel: WeatherViewModel = getViewModel()
 
     LazyColumn {
         items(weatherWeek) { item ->
             DsDailyWeatherItem(
                 weatherWeek = item,
-                weather = item.listWeek
+                weather = item.listWeek,
+                state = state
             ) {
                 viewModel.dispatch(WeatherEvent.ToWeatherDetailed(item.day))
             }
@@ -216,6 +243,7 @@ fun DsDailyWeatherPanel(weatherWeek: List<WeatherData>) {
 fun DsDailyWeatherItem(
     weather: List<WeatherWeek>,
     weatherWeek: WeatherData,
+    state: WeatherState.Success,
     onClick: () -> Unit
 ) {
     val temperatureMax = "${weatherWeek.maxTemp.toInt()}°"
@@ -226,7 +254,12 @@ fun DsDailyWeatherItem(
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 5.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(Color.Gray)
+            .background(
+                weatherColorExtension(
+                    state.weatherWeek.first().partDay,
+                    ColorCategory.CARD
+                )
+            )
             .clickable { onClick() }
     ) {
         Row(
@@ -237,6 +270,10 @@ fun DsDailyWeatherItem(
             Text(
                 text = weatherWeek.day.dateFormatDays(),
                 textAlign = TextAlign.Start,
+                color = weatherColorExtension(
+                    state.weatherWeek.first().partDay,
+                    ColorCategory.TEXT
+                ),
                 modifier = Modifier
                     .weight(0.3f)
                     .padding(start = 10.dp)
@@ -245,6 +282,11 @@ fun DsDailyWeatherItem(
             Text(
                 text = temperatureMin,
                 textAlign = TextAlign.End,
+                color = weatherColorExtension(
+                    state.weatherWeek.first().partDay,
+                    ColorCategory.TEXT
+                ),
+
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
                     .weight(0.3f)
@@ -253,7 +295,9 @@ fun DsDailyWeatherItem(
             Text(
                 text = temperatureMax,
                 textAlign = TextAlign.End,
-                modifier = Modifier.padding(horizontal = 5.dp)
+                modifier = Modifier.padding(horizontal = 5.dp),
+                color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
+
             )
 
             Image(
@@ -275,26 +319,32 @@ fun DsDailyWeatherItem(
             Modifier.clip(RoundedCornerShape(20.dp))
         ) {
             items(weather) { item ->
-                DsHourlyWeatherItem(hourWeather = item)
+                DsHourlyWeatherItem(hourWeather = item, state)
             }
         }
     }
 }
 
 @Composable
-fun DsHourlyWeatherItem(hourWeather: WeatherWeek) {
+fun DsHourlyWeatherItem(hourWeather: WeatherWeek, state: WeatherState.Success) {
     val temperature = "${hourWeather.temp.toInt()}°"
 
     Column(
         Modifier
             .padding(5.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(Color.LightGray),
+            .background(
+                weatherColorExtension(
+                    state.weatherWeek.first().partDay,
+                    ColorCategory.CARD
+                )
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = hourWeather.day.dateFormatHours(),
-            fontSize = 12.sp
+            fontSize = 12.sp,
+            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
         )
         Image(
             painter = painterResource(hourWeather.icon.imageWeatherExtension()),
@@ -305,7 +355,8 @@ fun DsHourlyWeatherItem(hourWeather: WeatherWeek) {
         )
         Text(
             text = temperature,
-            fontSize = 12.sp
+            fontSize = 12.sp,
+            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
         )
     }
 }

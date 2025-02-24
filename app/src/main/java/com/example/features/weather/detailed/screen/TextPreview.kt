@@ -16,6 +16,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.features.common.extension.extensionConditionWeather
 import com.example.features.common.extension.extensionTemperatureWeather
+import com.example.features.common.extension.firstUppercaseString
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
@@ -46,7 +47,7 @@ fun TextPreview(
                 color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
             )
             Text(
-                text = description.getRawNameWeatherExtension(),
+                text = description.firstUppercaseString().getRawNameWeatherExtension(),
                 fontSize = 14.sp,
                 modifier = Modifier
                     .padding(start = 20.dp, end = 10.dp, bottom = 20.dp),

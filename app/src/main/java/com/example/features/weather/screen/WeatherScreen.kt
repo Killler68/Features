@@ -39,6 +39,7 @@ import com.example.features.R
 import com.example.features.common.extension.dateFormatDays
 import com.example.features.common.extension.dateFormatHours
 import com.example.features.common.extension.dateFormatPreview
+import com.example.features.common.extension.firstUppercaseString
 import com.example.features.common.extension.getRawNameCityEngToRuExtension
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.common.extension.imageWeatherExtension
@@ -211,7 +212,7 @@ fun DsWeatherPreviewBar(preview: PreviewBarWeather, state: WeatherState.Success)
             color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT),
         )
         Text(
-            text = preview.description.getRawNameWeatherExtension(),
+            text = preview.description.firstUppercaseString().getRawNameWeatherExtension(),
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,

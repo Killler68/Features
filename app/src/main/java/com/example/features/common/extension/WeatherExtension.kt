@@ -120,6 +120,7 @@ fun weatherColorExtension(condition: String, colorCategory: ColorCategory): Colo
             when (colorCategory) {
                 ColorCategory.BACKGROUND -> Color(0xFF87CEEB)
                 ColorCategory.CARD -> Color(0xFFADD8E6)
+                ColorCategory.IMAGE -> Color.Black
                 ColorCategory.TEXT -> Color.Black
             }
         }
@@ -128,6 +129,7 @@ fun weatherColorExtension(condition: String, colorCategory: ColorCategory): Colo
             when (colorCategory) {
                 ColorCategory.BACKGROUND -> Color(0xFF1C1C3C)
                 ColorCategory.CARD -> Color(0xFF2A2A5A)
+                ColorCategory.IMAGE -> Color.White
                 ColorCategory.TEXT -> Color.White
             }
         }

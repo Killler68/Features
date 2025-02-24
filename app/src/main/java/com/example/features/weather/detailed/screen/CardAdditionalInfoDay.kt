@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -69,6 +70,12 @@ fun CardAdditionalInfoDay(
                     Image(
                         painter = painterResource(image),
                         contentDescription = "additional_info",
+                        colorFilter = ColorFilter.tint(
+                            weatherColorExtension(
+                                state.detailedDay.partDay,
+                                ColorCategory.IMAGE
+                            )
+                        ),
                         modifier = Modifier
                             .padding(start = 5.dp, end = 5.dp, top = 3.dp)
                             .size(18.dp)

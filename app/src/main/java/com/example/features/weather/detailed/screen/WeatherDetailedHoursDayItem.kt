@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,6 +64,12 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
             Image(
                 painter = painterResource(R.drawable.rain_drop),
                 contentDescription = "rain_drop",
+                colorFilter = ColorFilter.tint(
+                    weatherColorExtension(
+                        state.detailedDay.partDay,
+                        ColorCategory.IMAGE
+                    )
+                ),
                 modifier = Modifier
                     .padding(start = 3.dp, end = 3.dp, top = 5.dp, bottom = 10.dp)
                     .size(8.dp),

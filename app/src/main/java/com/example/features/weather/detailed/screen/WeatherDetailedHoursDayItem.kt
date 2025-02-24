@@ -35,7 +35,7 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 10.dp, end = 3.dp, top = 5.dp, bottom = 5.dp)
+            .padding(start = 3.dp, end = 3.dp, top = 5.dp, bottom = 5.dp)
             .background(weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD))
             .border(BorderStroke(width = 1.dp, Color.White), RoundedCornerShape(12.dp))
             .padding(horizontal = 5.dp)

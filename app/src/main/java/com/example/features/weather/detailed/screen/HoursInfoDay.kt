@@ -49,7 +49,10 @@ fun HoursInfoDay(
                 .background(Color.White)
 
         )
-        LazyRow {
+        LazyRow(
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+        ) {
             itemsIndexed(
                 state.hoursDay
             ) { _, item ->

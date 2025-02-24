@@ -12,9 +12,9 @@ import kotlinx.coroutines.withContext
 
 class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
 
-    override suspend fun getWeatherWeek(): List<WeatherWeek> =
+    override suspend fun getWeatherWeek(city: String): List<WeatherWeek> =
         withContext(Dispatchers.IO) {
-            val response = WeatherRetrofitClient.weatherApi.getWeather()
+            val response = WeatherRetrofitClient.weatherApi.getWeather(city = city)
             response.forecastList.map {
                 WeatherWeek(
                     it.dt,
@@ -28,9 +28,9 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
             }
         }
 
-    override suspend fun previewBarWeather(): PreviewBarWeather =
+    override suspend fun previewBarWeather(city: String): PreviewBarWeather =
         withContext(Dispatchers.IO) {
-            val response = WeatherRetrofitClient.weatherApi.getWeather()
+            val response = WeatherRetrofitClient.weatherApi.getWeather(city = city)
             val firstForecast = response.forecastList.firstOrNull()
             PreviewBarWeather(
                 city = response.city.name,
@@ -41,9 +41,9 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
             )
         }
 
-    override suspend fun getWeatherDetailedDay(weatherId: Int): WeatherDetailedDay =
+    override suspend fun getWeatherDetailedDay(weatherId: Int, city: String): WeatherDetailedDay =
         withContext(Dispatchers.IO) {
-            val response = WeatherRetrofitClient.weatherApi.getWeather()
+            val response = WeatherRetrofitClient.weatherApi.getWeather(city = city)
             val forecast =
                 response.forecastList.find { it.dt == weatherId.toLong() }
                     ?: throw Exception("Данные не найдены")
@@ -66,9 +66,9 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
             )
         }
 
-    override suspend fun getWeatherHoursDay(weatherId: Int): List<WeatherHoursDay> =
+    override suspend fun getWeatherHoursDay(weatherId: Int, city: String): List<WeatherHoursDay> =
         withContext(Dispatchers.IO) {
-            val response = WeatherRetrofitClient.weatherApi.getWeather()
+            val response = WeatherRetrofitClient.weatherApi.getWeather(city = city)
 
             val selectedDate = response.forecastList
                 .find { it.dt == weatherId.toLong() }?.dtTxt?.substring(0, 10)

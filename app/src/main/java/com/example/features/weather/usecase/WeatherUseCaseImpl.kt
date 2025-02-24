@@ -12,8 +12,8 @@ class WeatherUseCaseImpl(
 
     private val weatherDays = mutableMapOf<String, MutableList<WeatherWeek>>()
 
-    override suspend fun invoke(): List<WeatherData> = coroutineScope {
-        repository.getWeatherWeek().forEach {
+    override suspend fun invoke(city: String): List<WeatherData> = coroutineScope {
+        repository.getWeatherWeek(city).forEach {
             if (weatherDays[it.day.dateFormatUnixTime()] != null)
                 weatherDays[it.day.dateFormatUnixTime()]?.add(it)
             else weatherDays[it.day.dateFormatUnixTime()] = mutableListOf(it)

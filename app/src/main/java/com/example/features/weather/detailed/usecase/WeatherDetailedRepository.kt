@@ -5,6 +5,6 @@ import com.example.features.weather.detailed.model.WeatherHoursDay
 
 interface WeatherDetailedRepository {
 
-    suspend fun getWeatherDetailedDay(weatherId: Int): WeatherDetailedDay
-    suspend fun getWeatherHoursDay(weatherId: Int): List<WeatherHoursDay>
+    suspend fun getWeatherDetailedDay(weatherId: Int, city: String): WeatherDetailedDay
+    suspend fun getWeatherHoursDay(weatherId: Int, city: String): List<WeatherHoursDay>
 }

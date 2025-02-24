@@ -2,6 +2,7 @@ package com.example.features.features.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.common.strings.city
 import com.example.features.features.model.FeaturesEvent
 import com.example.features.features.model.FeaturesSideEffect
 import com.example.features.features.model.FeaturesState
@@ -48,7 +49,7 @@ class FeaturesViewModel(
         viewModelScope.launch {
             try {
                 val drawerItems = drawerItems()
-                val weather = previewBarWeatherUseCase()
+                val weather = previewBarWeatherUseCase(city)
                 val notes = notesUseCase(userId)
                 val features = features()
                 _state.value = FeaturesState.Success(

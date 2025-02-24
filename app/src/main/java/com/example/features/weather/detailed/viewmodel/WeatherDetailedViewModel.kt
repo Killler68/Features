@@ -2,6 +2,7 @@ package com.example.features.weather.detailed.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.common.strings.city
 import com.example.features.navigation.Screens
 import com.example.features.weather.detailed.model.WeatherDetailedEvent
 import com.example.features.weather.detailed.model.WeatherDetailedSideEffect
@@ -27,6 +28,7 @@ class WeatherDetailedViewModel(
     private val _effect = MutableSharedFlow<WeatherDetailedSideEffect>()
     val effect: SharedFlow<WeatherDetailedSideEffect> get() = _effect.asSharedFlow()
 
+
     fun dispatch(event: WeatherDetailedEvent) {
         when (event) {
             is WeatherDetailedEvent.LoadData -> loadData(event.weatherId)
@@ -37,8 +39,8 @@ class WeatherDetailedViewModel(
     private fun loadData(weatherId: Int) {
         viewModelScope.launch {
             try {
-                val detailedDay = weatherDetailedDayUseCase(weatherId)
-                val hoursDay = weatherHoursDayUseCase(weatherId)
+                val detailedDay = weatherDetailedDayUseCase(weatherId, city)
+                val hoursDay = weatherHoursDayUseCase(weatherId, city)
                 _state.value = WeatherDetailedState.Success(
                     weatherId = weatherId,
                     detailedDay = detailedDay,

@@ -3,6 +3,7 @@ package com.example.features.weather.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.common.strings.city
 import com.example.features.navigation.Screens
 import com.example.features.weather.model.WeatherEvent
 import com.example.features.weather.model.WeatherSideEffect
@@ -34,17 +35,17 @@ class WeatherViewModel(
 
     fun dispatch(event: WeatherEvent) {
         when (event) {
-            WeatherEvent.LoadData -> loadWeather()
+            WeatherEvent.LoadData -> loadWeather(city)
             WeatherEvent.ToBack -> navigateTo(Screens.Features.route)
             is WeatherEvent.ToWeatherDetailed -> navigateToDetailed(event.weatherId)
         }
     }
 
-    private fun loadWeather() {
+    private fun loadWeather(city: String) {
         viewModelScope.launch {
             try {
-                val weatherWeek = weatherUseCase()
-                val previewWeather = previewBarWeatherUseCase()
+                val weatherWeek = weatherUseCase(city)
+                val previewWeather = previewBarWeatherUseCase(city)
                 _state.value = WeatherState.Success(
                     weatherWeek = weatherWeek,
                     preview = previewWeather,
@@ -54,9 +55,16 @@ class WeatherViewModel(
             }
         }
     }
+
     private fun navigateToDetailed(weatherId: Long) {
         viewModelScope.launch {
-            _effect.emit(WeatherSideEffect.NavigateTo(Screens.WeatherDetailedScreen.createRouter(weatherId.toString()))) // Преобразуем в строку при передаче
+            _effect.emit(
+                WeatherSideEffect.NavigateTo(
+                    Screens.WeatherDetailedScreen.createRouter(
+                        weatherId.toString()
+                    )
+                )
+            ) // Преобразуем в строку при передаче
         }
     }
 

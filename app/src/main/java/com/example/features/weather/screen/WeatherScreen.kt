@@ -43,6 +43,7 @@ import com.example.features.common.extension.getRawNameCityEngToRuExtension
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
+import com.example.features.common.strings.city
 import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.model.PreviewBarWeather
 import com.example.features.weather.model.WeatherData
@@ -161,10 +162,7 @@ fun DsWeatherActionBar(preview: PreviewBarWeather, state: WeatherState.Success) 
                     onCityChange = { editCity = it },
                     onDismiss = { viewModel.isEnabled.value = false },
                     onSave = {
-                        preview.city = editCity
-
-//                        city.value = editCity.getRawNameCityRuToEngExtension()
-
+                        city = editCity
                         viewModel.dispatch(WeatherEvent.LoadData)
                         viewModel.isEnabled.value = false
                     }

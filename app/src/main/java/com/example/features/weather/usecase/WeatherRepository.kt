@@ -6,6 +6,6 @@ import com.example.features.weather.model.PreviewBarWeather
 
 interface WeatherRepository {
 
-    suspend fun getWeatherWeek(): List<WeatherWeek>
-    suspend fun previewBarWeather(): PreviewBarWeather
+    suspend fun getWeatherWeek(city: String): List<WeatherWeek>
+    suspend fun previewBarWeather(city: String): PreviewBarWeather
 }

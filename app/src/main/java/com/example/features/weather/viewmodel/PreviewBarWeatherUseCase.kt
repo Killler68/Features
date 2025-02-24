@@ -4,5 +4,5 @@ import com.example.features.weather.model.PreviewBarWeather
 
 interface PreviewBarWeatherUseCase {
 
-    suspend operator fun invoke(): PreviewBarWeather
+    suspend operator fun invoke(city: String): PreviewBarWeather
 }

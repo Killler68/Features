@@ -6,5 +6,5 @@ import com.example.features.weather.viewmodel.PreviewBarWeatherUseCase
 class PreviewBarWeatherUseCaseImpl(private val repository: WeatherRepository) :
     PreviewBarWeatherUseCase {
 
-    override suspend fun invoke(): PreviewBarWeather = repository.previewBarWeather()
+    override suspend fun invoke(city: String): PreviewBarWeather = repository.previewBarWeather(city)
 }

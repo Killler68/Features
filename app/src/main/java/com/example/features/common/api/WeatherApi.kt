@@ -1,16 +1,23 @@
 package com.example.features.common.api
 
 import WeatherResponse
+import com.example.features.common.strings.OPEN_WEATHER_MAP
+import com.example.features.common.strings.WEATHER_API_KEY
+import com.example.features.common.strings.WEATHER_FORECAST
+import com.example.features.common.strings.WEATHER_LANGUAGES
+import com.example.features.common.strings.WEATHER_METRICS
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-const val WEATHER = "https://api.openweathermap.org/"
-const val API_KEY = "1fb564b0448c20cff8c8a08d408dba5b"
-
 interface WeatherApi {
-    @GET("data/2.5/forecast?&appid=1fb564b0448c20cff8c8a08d408dba5b&units=metric&lang=ru")
+    @GET(
+        WEATHER_FORECAST
+                + WEATHER_API_KEY
+                + WEATHER_METRICS
+                + WEATHER_LANGUAGES
+    )
     suspend fun getWeather(
         @Query("q") city: String
     ): WeatherResponse
@@ -18,7 +25,7 @@ interface WeatherApi {
 
 object WeatherRetrofitClient {
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(WEATHER)
+        .baseUrl(OPEN_WEATHER_MAP)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

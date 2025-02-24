@@ -12,7 +12,7 @@ import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
 fun AdditionalInfoDay(
-    uvIndex: Double,
+    visibility: String,
     humidity: Int,
     wind: Double,
     pressure: Int,
@@ -28,9 +28,9 @@ fun AdditionalInfoDay(
             Alignment.CenterStart,
             10.dp,
             5.dp,
-            "УФ-индекс",
-            uvIndex.toInt().toString(),
-            R.drawable.rain_drop,
+            "Видимость",
+            visibility,
+            R.drawable.visibility,
             state
         )
         CardAdditionalInfoDay(

@@ -39,7 +39,6 @@ import com.example.features.common.extension.dateFormatDays
 import com.example.features.common.extension.dateFormatHours
 import com.example.features.common.extension.dateFormatPreview
 import com.example.features.common.extension.getRawNameCityEngToRuExtension
-import com.example.features.common.extension.getRawNameCityRuToEngExtension
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.ui.theme.Cyan
@@ -50,7 +49,6 @@ import com.example.features.weather.model.WeatherEvent
 import com.example.features.weather.model.WeatherSideEffect
 import com.example.features.weather.model.WeatherState
 import com.example.features.weather.model.WeatherWeek
-import com.example.features.weather.repository.city
 import com.example.features.weather.viewmodel.WeatherViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -144,7 +142,7 @@ fun DsWeatherActionBar(preview: PreviewBarWeather) {
                     onSave = {
                         preview.city = editCity
 
-                        city.value = editCity.getRawNameCityRuToEngExtension()
+//                        city.value = editCity.getRawNameCityRuToEngExtension()
 
                         viewModel.dispatch(WeatherEvent.LoadData)
                         viewModel.isEnabled.value = false

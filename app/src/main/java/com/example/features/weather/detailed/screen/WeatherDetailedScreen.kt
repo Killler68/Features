@@ -18,6 +18,7 @@ import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.common.design.TopBarScreen
 import com.example.features.common.extension.weatherColorExtension
+import com.example.features.common.extension.weatherVisibilityExtension
 import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.detailed.model.WeatherDetailedEvent
 import com.example.features.weather.detailed.model.WeatherDetailedSideEffect
@@ -98,7 +99,7 @@ fun WeatherDetailedContent(
 
                 state.detailedDay.apply {
                     AdditionalInfoDay(
-                        uvIndex = windSpeed,
+                        visibility = weatherVisibilityExtension(visibility),
                         humidity = humidity,
                         wind = windSpeed,
                         pressure = pressure,

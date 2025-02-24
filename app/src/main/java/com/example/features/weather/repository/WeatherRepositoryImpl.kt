@@ -1,6 +1,5 @@
 package com.example.features.weather.repository
 
-import androidx.compose.runtime.mutableStateOf
 import com.example.features.common.api.WeatherRetrofitClient
 import com.example.features.weather.detailed.model.WeatherHoursDay
 import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
@@ -10,8 +9,6 @@ import com.example.features.weather.model.WeatherWeek
 import com.example.features.weather.usecase.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-
-var city = mutableStateOf("London   ")
 
 class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
 
@@ -57,11 +54,14 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
                 minTemp = forecast.main.tempMin,
                 feelingTemp = forecast.main.feelsLike,
                 pressure = forecast.main.pressure,
+                visibility = forecast.visibility,
                 humidity = forecast.main.humidity,
                 windDirection = forecast.wind.deg,
                 windSpeed = forecast.wind.speed,
                 probabilityPrecipitation = forecast.pop,
-                partDay = forecast.sys.pod
+                partDay = forecast.sys.pod,
+                sunSet = response.city.sunset,
+                sunRise = response.city.sunrise
             )
         }
 

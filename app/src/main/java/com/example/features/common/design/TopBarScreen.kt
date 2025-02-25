@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -22,8 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.common.extension.getRawNameCityEngToRuExtension
+import com.example.features.common.extension.weatherColorExtension
 import com.example.features.ui.theme.LightGray
-import com.example.features.ui.theme.WeatherHoursBackground
 
 
 @Composable
@@ -61,6 +61,7 @@ fun TopBarScreen(
         )
     }
 }
+
 @Composable
 fun TopBarScreen(
     @DrawableRes imageOnBack: Int,
@@ -87,6 +88,61 @@ fun TopBarScreen(
                 fontSize = 18.sp,
                 color = color
             )
+        }
+    }
+}
+
+@Composable
+fun TopBarScreen(
+    @DrawableRes imageOnBack: Int,
+    onBack: () -> Unit,
+    imageDescriptionOnBack: String,
+    city: String,
+    imageColor: Color,
+    textColor: Color,
+    @DrawableRes image: Int,
+    imageDescription: String,
+    onClick: () -> Unit
+) {
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Image(
+                painter = painterResource(imageOnBack),
+                contentDescription = imageDescriptionOnBack,
+                colorFilter = ColorFilter.tint(imageColor),
+                modifier = Modifier
+                    .size(32.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .padding(7.dp)
+                    .clickable { onBack() }
+            )
+            Text(
+                text = city.getRawNameCityEngToRuExtension(),
+                fontSize = 18.sp,
+                color = textColor,
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+            )
+
+            Box(
+                contentAlignment = Alignment.CenterEnd,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Image(
+                    painter = painterResource(image),
+                    contentDescription = imageDescription,
+                    colorFilter = ColorFilter.tint(imageColor),
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .size(32.dp)
+                        .padding(6.dp)
+                        .clickable { onClick() }
+                )
+            }
         }
     }
 }

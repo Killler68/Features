@@ -16,7 +16,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -36,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.features.R
+import com.example.features.common.design.TopBarScreen
 import com.example.features.common.extension.dateFormatDays
 import com.example.features.common.extension.dateFormatHours
 import com.example.features.common.extension.dateFormatPreview
@@ -76,101 +80,74 @@ fun WeatherScreen(navController: NavController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherContent(state: WeatherState.Success) {
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(
-                weatherColorExtension(
-                    state.weatherWeek.first().partDay,
-                    ColorCategory.BACKGROUND
-                )
-            )
-    ) {
-        DsWeatherActionBar(state.preview, state)
-        DsWeatherPreviewBar(state.preview, state)
-        DsDailyWeatherPanel(state.weatherWeek, state)
-    }
-}
-
-@Composable
-fun DsWeatherActionBar(preview: PreviewBarWeather, state: WeatherState.Success) {
-
     val viewModel: WeatherViewModel = getViewModel()
-    var editCity by remember { mutableStateOf(preview.city) }
+    var editCity by remember { mutableStateOf(state.preview.city) }
 
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .background(
-                weatherColorExtension(
-                    state.weatherWeek.first().partDay,
-                    ColorCategory.BACKGROUND
-                )
-            ),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(R.drawable.back),
-            contentDescription = "image_back",
-            colorFilter = ColorFilter.tint(
-                weatherColorExtension(
-                    state.weatherWeek.first().partDay,
-                    ColorCategory.IMAGE
-                )
-            ),
-            modifier = Modifier
-                .size(32.dp)
-                .padding(7.dp)
-                .clickable { viewModel.dispatch(WeatherEvent.ToBack) }
+    if (viewModel.isEnabled.value) {
+        DsChangeLocation(
+            title = editCity.getRawNameCityEngToRuExtension(),
+            onCityChange = { editCity = it },
+            onDismiss = { viewModel.isEnabled.value = false },
+            onSave = {
+                city = editCity
+                viewModel.dispatch(WeatherEvent.LoadData)
+                viewModel.isEnabled.value = false
+            }
         )
-
-        Text(
-            text = preview.city.getRawNameCityEngToRuExtension(),
-            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT),
-            modifier = Modifier
-                .padding(horizontal = 10.dp)
-                .weight(0.5f)
-        )
-
-        Box(
-            modifier = Modifier
-                .size(50.dp)
-                .weight(0.1f),
-            contentAlignment = Alignment.CenterEnd
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.location),
-                contentDescription = "image_location",
-                colorFilter = ColorFilter.tint(
-                    weatherColorExtension(
-                        state.weatherWeek.first().partDay,
-                        ColorCategory.IMAGE
+    }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    TopBarScreen(
+                        imageOnBack = R.drawable.back,
+                        onBack = { viewModel.dispatch(WeatherEvent.ToBack) },
+                        imageDescriptionOnBack = "back",
+                        imageColor = weatherColorExtension(
+                            state.weatherWeek.first().partDay,
+                            ColorCategory.IMAGE
+                        ),
+                        city = city,
+                        textColor = weatherColorExtension(
+                            state.weatherWeek.first().partDay,
+                            ColorCategory.TEXT
+                        ),
+                        image = R.drawable.location,
+                        imageDescription = "city",
+                        onClick = {
+                            viewModel.isEnabled.value = true
+                        }
                     )
-                ),
-                modifier = Modifier
-                    .padding(end = 10.dp)
-                    .size(32.dp)
-                    .padding(7.dp)
-                    .clickable { viewModel.isEnabled.value = true }
-            )
-
-            if (viewModel.isEnabled.value) {
-                DsChangeLocation(
-                    title = editCity.getRawNameCityEngToRuExtension(),
-                    onCityChange = { editCity = it },
-                    onDismiss = { viewModel.isEnabled.value = false },
-                    onSave = {
-                        city = editCity
-                        viewModel.dispatch(WeatherEvent.LoadData)
-                        viewModel.isEnabled.value = false
-                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = weatherColorExtension(
+                        state.weatherWeek.first().partDay,
+                        ColorCategory.BACKGROUND
+                    )
                 )
+            )
+        },
+        content = {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .padding(it)
+                    .background(
+                        weatherColorExtension(
+                            state.weatherWeek.first().partDay,
+                            ColorCategory.BACKGROUND
+                        )
+                    )
+            ) {
+                DsWeatherPreviewBar(state.preview, state)
+                DsDailyWeatherPanel(state.weatherWeek, state)
             }
         }
-    }
+    )
 }
 
 @Composable

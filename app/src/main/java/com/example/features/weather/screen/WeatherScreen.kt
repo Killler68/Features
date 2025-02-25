@@ -32,17 +32,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.features.R
 import com.example.features.common.design.TopBarScreen
 import com.example.features.common.extension.dateFormatDays
 import com.example.features.common.extension.dateFormatHours
 import com.example.features.common.extension.dateFormatPreview
+import com.example.features.common.extension.extensionConditionWeather
 import com.example.features.common.extension.firstUppercaseString
 import com.example.features.common.extension.getRawNameCityEngToRuExtension
 import com.example.features.common.extension.getRawNameWeatherExtension
@@ -159,6 +163,7 @@ fun WeatherContent(state: WeatherState.Success) {
     )
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun DsWeatherPreviewBar(preview: PreviewBarWeather, state: WeatherState.Success) {
 
@@ -184,11 +189,14 @@ fun DsWeatherPreviewBar(preview: PreviewBarWeather, state: WeatherState.Success)
             fontSize = 20.sp,
             color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT),
         )
-        Image(
-            painter = painterResource(preview.icon.imageWeatherExtension()),
-            contentDescription = "image",
+
+        GlideImage(
+            model = preview.icon.extensionConditionWeather(state.weatherWeek.first().partDay),
+            contentDescription = "animated_gif_weather",
             modifier = Modifier
-                .size(100.dp)
+                .padding(bottom = 5.dp)
+                .size(100.dp),
+            contentScale = ContentScale.Inside
         )
         Text(
             text = temperature,
@@ -315,7 +323,7 @@ fun DsHourlyWeatherItem(hourWeather: WeatherWeek, state: WeatherState.Success) {
             color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
         )
         Image(
-            painter = painterResource(hourWeather.icon.imageWeatherExtension()),
+            painter = painterResource(hourWeather.icon.imageWeatherExtension(state.weatherWeek.first().partDay)),
             contentDescription = "Weather Icon",
             modifier = Modifier
                 .size(50.dp)

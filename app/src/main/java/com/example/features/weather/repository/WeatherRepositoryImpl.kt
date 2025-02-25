@@ -37,7 +37,8 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
                 date = firstForecast?.dt ?: 0,
                 icon = firstForecast?.weather?.firstOrNull()?.icon ?: "",
                 temp = firstForecast?.main?.temp ?: 0.0,
-                description = firstForecast?.weather?.firstOrNull()?.description ?: ""
+                description = firstForecast?.weather?.firstOrNull()?.description ?: "",
+                partDay = firstForecast?.sys?.pod ?: ""
             )
         }
 

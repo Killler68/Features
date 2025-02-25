@@ -5,5 +5,6 @@ data class PreviewBarWeather(
     val date: Long,
     val icon: String,
     val temp: Double,
-    val description: String
+    val description: String,
+    val partDay: String
 )

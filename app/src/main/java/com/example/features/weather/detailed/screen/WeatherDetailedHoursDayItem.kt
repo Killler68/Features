@@ -42,7 +42,7 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
             color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
         )
         Image(
-            painter = painterResource(hoursDay.icon.imageWeatherExtension()),
+            painter = painterResource(hoursDay.icon.imageWeatherExtension(state.detailedDay.partDay)),
             contentDescription = "hours_weather",
             modifier = Modifier
                 .size(28.dp)

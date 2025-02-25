@@ -51,6 +51,7 @@ import com.example.features.common.design.TopBarScreen
 import com.example.features.common.extension.extensionConditionWeather
 import com.example.features.common.extension.extensionTemperatureWeather
 import com.example.features.common.extension.getRawNameFeaturesCityEngToRuExtension
+import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.common.utils.ExitBackStack
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.model.FeaturesEvent
@@ -317,7 +318,7 @@ fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Uni
                                 .padding(horizontal = 10.dp, vertical = 10.dp)
                         ) {
                             GlideImage(
-                                model = extensionConditionWeather(state.itemWeather.icon),
+                                model = state.itemWeather.icon.imageWeatherExtension(state.itemWeather.partDay),
                                 contentDescription = "condition_weather",
                                 alignment = Alignment.Center,
                                 modifier = Modifier

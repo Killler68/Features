@@ -65,7 +65,7 @@ fun TextPreview(
         Column {
 
             GlideImage(
-                model = extensionConditionWeather(image),
+                model = image.extensionConditionWeather(state.detailedDay.partDay),
                 contentDescription = "animated_gif_weather",
                 modifier = Modifier
                     .padding(bottom = 5.dp)

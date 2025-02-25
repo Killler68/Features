@@ -99,6 +99,7 @@ fun WeatherContent(state: WeatherState.Success) {
             }
         )
     }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -131,22 +132,30 @@ fun WeatherContent(state: WeatherState.Success) {
                 )
             )
         },
-        content = {
-            Column(
+        content = { paddingValues ->
+            LazyColumn(
                 Modifier
                     .fillMaxSize()
-                    .padding(it)
-                    .background(
-                        weatherColorExtension(
-                            state.weatherWeek.first().partDay,
-                            ColorCategory.BACKGROUND
-                        )
-                    )
+                    .padding(paddingValues)
             ) {
-                DsWeatherPreviewBar(state.preview, state)
-                DsDailyWeatherPanel(state.weatherWeek, state)
+                item {
+                    DsWeatherPreviewBar(state.preview, state)
+                }
+                items(state.weatherWeek) { weatherData ->
+                    DsDailyWeatherItem(
+                        weatherWeek = weatherData,
+                        weather = weatherData.listWeek,
+                        state = state
+                    ) {
+                        viewModel.dispatch(WeatherEvent.ToWeatherDetailed(weatherData.day))
+                    }
+                }
             }
-        }
+        },
+        containerColor = weatherColorExtension(
+            state.weatherWeek.first().partDay,
+            ColorCategory.BACKGROUND
+        )
     )
 }
 
@@ -195,23 +204,6 @@ fun DsWeatherPreviewBar(preview: PreviewBarWeather, state: WeatherState.Success)
             fontSize = 20.sp,
             color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT),
         )
-    }
-}
-
-@Composable
-fun DsDailyWeatherPanel(weatherWeek: List<WeatherData>, state: WeatherState.Success) {
-    val viewModel: WeatherViewModel = getViewModel()
-
-    LazyColumn {
-        items(weatherWeek) { item ->
-            DsDailyWeatherItem(
-                weatherWeek = item,
-                weather = item.listWeek,
-                state = state
-            ) {
-                viewModel.dispatch(WeatherEvent.ToWeatherDetailed(item.day))
-            }
-        }
     }
 }
 

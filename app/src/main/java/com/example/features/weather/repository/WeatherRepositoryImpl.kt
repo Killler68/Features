@@ -35,6 +35,7 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
             PreviewBarWeather(
                 city = response.city.name,
                 date = firstForecast?.dt ?: 0,
+                dtText = firstForecast?.dtTxt ?: "",
                 icon = firstForecast?.weather?.firstOrNull()?.icon ?: "",
                 temp = firstForecast?.main?.temp ?: 0.0,
                 description = firstForecast?.weather?.firstOrNull()?.description ?: "",
@@ -50,6 +51,7 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
                     ?: throw Exception("Данные не найдены")
             WeatherDetailedDay(
                 city = response.city.name,
+                dtText = forecast.dt,
                 temp = forecast.main.temp,
                 description = forecast.weather.first().description,
                 maxTemp = forecast.main.tempMax,

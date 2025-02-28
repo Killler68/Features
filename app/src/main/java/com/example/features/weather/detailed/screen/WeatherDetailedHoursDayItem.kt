@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -25,6 +26,9 @@ import com.example.features.weather.detailed.model.WeatherHoursDay
 
 @Composable
 fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetailedState.Success) {
+    val iconRes = remember(hoursDay.icon, hoursDay.hours) {
+        hoursDay.icon.imageWeatherExtension(hoursDay.hours)
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -37,21 +41,20 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
         Text(
             text = hoursDay.hours.dateFormatHours(),
             fontSize = 14.sp,
-            modifier = Modifier
-                .padding(vertical = 5.dp),
+            modifier = Modifier.padding(vertical = 5.dp),
             color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
         )
+
         Image(
-            painter = painterResource(hoursDay.icon.imageWeatherExtension(state.detailedDay.partDay)),
+            painter = painterResource(iconRes),
             contentDescription = "hours_weather",
-            modifier = Modifier
-                .size(28.dp)
+            modifier = Modifier.size(28.dp)
         )
+
         Text(
             text = "${hoursDay.temp.toInt()}°",
             fontSize = 14.sp,
-            modifier = Modifier
-                .padding(horizontal = 10.dp, vertical = 5.dp),
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
             color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
         )
 
@@ -60,10 +63,7 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
                 painter = painterResource(R.drawable.rain_drop),
                 contentDescription = "rain_drop",
                 colorFilter = ColorFilter.tint(
-                    weatherColorExtension(
-                        state.detailedDay.partDay,
-                        ColorCategory.IMAGE
-                    )
+                    weatherColorExtension(state.detailedDay.partDay, ColorCategory.IMAGE)
                 ),
                 modifier = Modifier
                     .padding(start = 3.dp, end = 3.dp, top = 5.dp, bottom = 10.dp)

@@ -30,7 +30,7 @@ class WeatherViewModel(
     var isEnabled = mutableStateOf(false)
 
     init {
-        dispatch(WeatherEvent.LoadData)
+        loadWeather(city)
     }
 
     fun dispatch(event: WeatherEvent) {
@@ -38,6 +38,7 @@ class WeatherViewModel(
             WeatherEvent.LoadData -> loadWeather(city)
             WeatherEvent.ToBack -> navigateTo(Screens.Features.route)
             is WeatherEvent.ToWeatherDetailed -> navigateToDetailed(event.weatherId)
+            WeatherEvent.RefreshData -> loadWeather(city)
         }
     }
 

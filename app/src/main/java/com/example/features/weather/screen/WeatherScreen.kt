@@ -96,6 +96,7 @@ fun WeatherContent(state: WeatherState.Success) {
             title = editCity.getRawNameCityEngToRuExtension(),
             onCityChange = { editCity = it },
             onDismiss = { viewModel.isEnabled.value = false },
+            state = state,
             onSave = {
                 city = editCity
                 viewModel.dispatch(WeatherEvent.LoadData)
@@ -300,7 +301,6 @@ fun DsDailyWeatherItem(
         }
     }
 }
-
 @Composable
 fun DsHourlyWeatherItem(hourWeather: WeatherWeek, state: WeatherState.Success) {
     val temperature = "${hourWeather.temp.toInt()}°"
@@ -323,7 +323,7 @@ fun DsHourlyWeatherItem(hourWeather: WeatherWeek, state: WeatherState.Success) {
             color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
         )
         Image(
-            painter = painterResource(hourWeather.icon.imageWeatherExtension(state.weatherWeek.first().partDay)),
+            painter = painterResource(hourWeather.icon.imageWeatherExtension(hourWeather.day)),
             contentDescription = "Weather Icon",
             modifier = Modifier
                 .size(50.dp)

@@ -48,7 +48,6 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.features.R
 import com.example.features.common.design.TopBarScreen
-import com.example.features.common.extension.extensionConditionWeather
 import com.example.features.common.extension.extensionTemperatureWeather
 import com.example.features.common.extension.getRawNameFeaturesCityEngToRuExtension
 import com.example.features.common.extension.imageWeatherExtension
@@ -247,6 +246,9 @@ fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Uni
 
     val pagerState = rememberPagerState(pageCount = { state.itemFeature.size })
 
+    val iconRes = remember(state.itemWeather.icon, state.itemWeather.date) {
+        state.itemWeather.icon.imageWeatherExtension(state.itemWeather.date)
+    }
     HorizontalPager(pagerState) { page ->
         Column {
             val items = state.itemFeature[page]
@@ -317,8 +319,9 @@ fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Uni
                             modifier = Modifier
                                 .padding(horizontal = 10.dp, vertical = 10.dp)
                         ) {
-                            GlideImage(
-                                model = state.itemWeather.icon.imageWeatherExtension(state.itemWeather.partDay),
+
+                            Image(
+                                painter = painterResource(iconRes),
                                 contentDescription = "condition_weather",
                                 alignment = Alignment.Center,
                                 modifier = Modifier

@@ -4,6 +4,8 @@ import androidx.compose.ui.graphics.Color
 import com.example.features.R
 import com.example.features.common.utils.ColorCategory
 import com.example.features.common.utils.DayAndNight
+import java.util.Calendar
+import java.util.TimeZone
 
 fun String.getRawNameWeatherExtension(): String {
 
@@ -114,67 +116,54 @@ fun String.extensionConditionWeather(condition: String): Int {
             R.raw.gif_clouds
         }
     }
-
-
 }
 
-fun String.imageWeatherExtension(condition: String): Int {
+fun Long.getHourOfDay(): Int {
+    val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
+        timeInMillis = this@getHourOfDay * 1000
+    }
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    return hour
+}
 
-    return when (condition) {
-        DayAndNight.DAY.condition -> {
-            return when (this) {
-                "01d" -> R.drawable.sun
-                "02d" -> R.drawable.sun
-                "03d" -> R.drawable.sun
-                "04d" -> R.drawable.clouds_sun
-                "09d" -> R.drawable.heavy_rain
-                "10d" -> R.drawable.heavy_rain
-                "11d" -> R.drawable.thunder
-                "13d" -> R.drawable.snow
-                "50d" -> R.drawable.clouds_sun
-                "01n" -> R.drawable.sun
-                "02n" -> R.drawable.sun
-                "03n" -> R.drawable.clouds_sun
-                "04n" -> R.drawable.clouds_sun
-                "09n" -> R.drawable.heavy_rain
-                "10n" -> R.drawable.heavy_rain
-                "11n" -> R.drawable.thunder
-                "13n" -> R.drawable.snow
-                "50n" -> R.drawable.snow
+sealed class IconWeather {
+    data object SunAndMoon : IconWeather()
+    data object CloudAndMoonCloud : IconWeather()
+}
+
+fun Long.isIcon(iconWeather: IconWeather): Int {
+    val hour = this.getHourOfDay()
+
+    return when (iconWeather) {
+        IconWeather.CloudAndMoonCloud -> {
+            when (hour) {
+                in 0..5, in 18..23 -> R.drawable.moon_cloud
+                in 6..17 -> R.drawable.clouds_sun
+                else -> R.drawable.clouds_sun
+            }
+        }
+
+        IconWeather.SunAndMoon -> {
+            when (hour) {
+                in 0..5, in 18..23 -> R.drawable.moon
+                in 6..17 -> R.drawable.sun
                 else -> R.drawable.sun
             }
-        }
-
-        DayAndNight.NIGHT.condition -> {
-            return when (this) {
-                "01d" -> R.drawable.moon
-                "02d" -> R.drawable.moon
-                "03d" -> R.drawable.moon
-                "04d" -> R.drawable.clouds_sun
-                "09d" -> R.drawable.heavy_rain
-                "10d" -> R.drawable.heavy_rain
-                "11d" -> R.drawable.thunder
-                "13d" -> R.drawable.snow
-                "50d" -> R.drawable.clouds_sun
-                "01n" -> R.drawable.moon
-                "02n" -> R.drawable.moon
-                "03n" -> R.drawable.clouds_sun
-                "04n" -> R.drawable.clouds_sun
-                "09n" -> R.drawable.heavy_rain
-                "10n" -> R.drawable.heavy_rain
-                "11n" -> R.drawable.thunder
-                "13n" -> R.drawable.snow
-                "50n" -> R.drawable.snow
-                else -> R.drawable.moon
-            }
-        }
-
-        else -> {
-            R.drawable.sun
         }
     }
 }
 
+fun String.imageWeatherExtension(dtText: Long): Int {
+    return when (this) {
+        "01d", "02d", "01n", "02n" -> dtText.isIcon(IconWeather.SunAndMoon)
+        "03d", "03n", "04d", "04n" -> dtText.isIcon(IconWeather.CloudAndMoonCloud)
+        "09d", "09n", "10d", "10n" -> R.drawable.heavy_rain
+        "11d", "11n" -> R.drawable.thunder
+        "13d", "13n" -> R.drawable.snow
+        "50d", "50n" -> R.drawable.snow
+        else -> dtText.isIcon(IconWeather.SunAndMoon)
+    }
+}
 
 fun extensionTemperatureWeather(float: Double): Int = when {
     float < 0 -> R.drawable.image_girl_ice
@@ -189,8 +178,9 @@ fun weatherColorExtension(condition: String, colorCategory: ColorCategory): Colo
     return when (condition) {
         DayAndNight.DAY.condition -> {
             when (colorCategory) {
-                ColorCategory.BACKGROUND -> Color(0xFF87CEEB)
+                ColorCategory.BACKGROUND -> Color(0xFF89CFEC)
                 ColorCategory.CARD -> Color(0xFFADD8E6)
+                ColorCategory.DIALOG -> Color(0xFF84C4DA)
                 ColorCategory.IMAGE -> Color.Black
                 ColorCategory.TEXT -> Color.Black
             }
@@ -198,8 +188,9 @@ fun weatherColorExtension(condition: String, colorCategory: ColorCategory): Colo
 
         DayAndNight.NIGHT.condition -> {
             when (colorCategory) {
-                ColorCategory.BACKGROUND -> Color(0xFF1C1C3C)
+                ColorCategory.BACKGROUND -> Color(0xFF212142)
                 ColorCategory.CARD -> Color(0xFF2A2A5A)
+                ColorCategory.DIALOG -> Color(0xFF343469)
                 ColorCategory.IMAGE -> Color.White
                 ColorCategory.TEXT -> Color.White
             }

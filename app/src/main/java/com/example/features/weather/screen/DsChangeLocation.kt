@@ -13,19 +13,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.example.features.ui.theme.Cyan
-import com.example.features.ui.theme.LightGray
+import com.example.features.common.extension.weatherColorExtension
+import com.example.features.common.utils.ColorCategory
+import com.example.features.weather.model.WeatherState
 
 @Composable
 fun DsChangeLocation(
     title: String,
     onCityChange: (String) -> Unit,
     onDismiss: () -> Unit,
-    onSave: () -> Unit,
+    state: WeatherState.Success,
+    onSave: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Выберите город") },
+        title = {
+            Text(
+                "Выберите город",
+                color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
+            )
+        },
         text = {
             Column {
                 TextField(
@@ -33,31 +40,67 @@ fun DsChangeLocation(
                     onValueChange = onCityChange,
                     label = { Text("Выберите город") },
                     colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedContainerColor = LightGray,
-                        focusedContainerColor = LightGray
+                        unfocusedContainerColor = weatherColorExtension(
+                            state.weatherWeek.first().partDay,
+                            ColorCategory.CARD
+                        ),
+                        focusedContainerColor = weatherColorExtension(
+                            state.weatherWeek.first().partDay,
+                            ColorCategory.CARD
+                        ),
+                        focusedTextColor = weatherColorExtension(
+                            state.weatherWeek.first().partDay,
+                            ColorCategory.TEXT
+                        ),
+                        unfocusedTextColor = weatherColorExtension(
+                            state.weatherWeek.first().partDay,
+                            ColorCategory.TEXT
+                        ),
                     ),
                     modifier = Modifier
                         .padding(vertical = 10.dp)
-                        .clip(RoundedCornerShape(12.dp))
+                        .clip(RoundedCornerShape(12.dp)),
                 )
             }
         },
         confirmButton = {
             Button(
                 onClick = onSave,
-                colors = ButtonDefaults.buttonColors(containerColor = Cyan)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor =
+                    weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.CARD)
+                )
             ) {
-                Text("Добавить")
+                Text(
+                    "Добавить",
+                    color = weatherColorExtension(
+                        state.weatherWeek.first().partDay,
+                        ColorCategory.TEXT
+                    )
+                )
             }
         },
         dismissButton = {
             Button(
                 onClick = onDismiss,
-                colors = ButtonDefaults.buttonColors(containerColor = Cyan)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor =
+                    weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.CARD)
+                )
             ) {
-                Text("Отмена")
+                Text(
+                    "Отмена",
+                    color = weatherColorExtension(
+                        state.weatherWeek.first().partDay,
+                        ColorCategory.TEXT
+                    )
+                )
             }
-        }
+        },
+        containerColor = weatherColorExtension(
+            state.weatherWeek.first().partDay,
+            ColorCategory.DIALOG
+        )
     )
 }
 

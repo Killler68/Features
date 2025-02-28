@@ -51,7 +51,8 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
                     ?: throw Exception("Данные не найдены")
             WeatherDetailedDay(
                 city = response.city.name,
-                dtText = forecast.dt,
+                dt = forecast.dt,
+                dtText = forecast.dtTxt,
                 temp = forecast.main.temp,
                 description = forecast.weather.first().description,
                 maxTemp = forecast.main.tempMax,

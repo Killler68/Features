@@ -19,9 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +39,9 @@ import com.example.features.weather.detailed.model.WeatherDetailedState
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
 import com.example.features.weather.screen.LoadingScreen
 import org.koin.androidx.compose.getViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun WeatherDetailedScreen(weatherId: Int, navController: NavController) {
@@ -134,8 +135,28 @@ fun WeatherDetailedContent(
 
 @Composable
 fun ConditionDay(state: WeatherDetailedState.Success) {
+    val today = remember { SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()) }
+    val selectedDate = remember {
+        SimpleDateFormat(
+            "yyyy-MM-dd",
+            Locale.getDefault()
+        ).format(Date(state.detailedDay.dt * 1000))
+    }
+    val isToday = today == selectedDate
 
-    var progress by remember { mutableStateOf(0.3f) }
+    val currentTime = remember { System.currentTimeMillis() / 1000 }
+    val sunrise = state.detailedDay.sunRise
+    val sunset = state.detailedDay.sunSet
+
+    val progress = if (isToday) {
+        when {
+            currentTime <= sunrise -> 0f
+            currentTime >= sunset -> 1f
+            else -> (currentTime - sunrise).toFloat() / (sunset - sunrise).toFloat()
+        }
+    } else {
+        0f
+    }
 
     Column(
         modifier = Modifier
@@ -144,11 +165,9 @@ fun ConditionDay(state: WeatherDetailedState.Success) {
             .clip(RoundedCornerShape(12.dp))
             .background(weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD))
     ) {
-
         SemiCircularProgress(
             progress = progress,
-            modifier = Modifier
-                .padding(10.dp)
+            modifier = Modifier.padding(10.dp)
         )
 
         Row(
@@ -156,9 +175,7 @@ fun ConditionDay(state: WeatherDetailedState.Success) {
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp)
         ) {
-            Box(
-                contentAlignment = Alignment.CenterStart,
-            ) {
+            Box(contentAlignment = Alignment.CenterStart) {
                 Text(
                     "Восход",
                     fontSize = 18.sp,
@@ -174,7 +191,6 @@ fun ConditionDay(state: WeatherDetailedState.Success) {
                     fontSize = 18.sp,
                     color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
                 )
-
             }
         }
 
@@ -183,9 +199,7 @@ fun ConditionDay(state: WeatherDetailedState.Success) {
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
-            Box(
-                contentAlignment = Alignment.CenterStart
-            ) {
+            Box(contentAlignment = Alignment.CenterStart) {
                 Text(
                     state.detailedDay.sunRise.dateFormatHours(),
                     fontSize = 18.sp,

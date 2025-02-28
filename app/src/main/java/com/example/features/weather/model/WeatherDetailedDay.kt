@@ -2,7 +2,8 @@ package com.example.features.weather.model
 
 data class WeatherDetailedDay(
     val city: String,
-    val dtText: Long,
+    val dt: Long,
+    val dtText: String,
     val temp: Double,
     val description: String,
     val maxTemp: Double,

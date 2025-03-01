@@ -36,7 +36,7 @@ fun SemiCircularProgress(progress: Float, modifier: Modifier = Modifier) {
         )
 
         drawArc(
-            color = Color.Gray,
+            color = Color.Yellow,
             startAngle = 180f,
             sweepAngle = 180f * progress,
             useCenter = false,
@@ -54,7 +54,7 @@ fun SemiCircularProgress(progress: Float, modifier: Modifier = Modifier) {
         )
 
         drawLine(
-            color = Color.Gray,
+            color = Color.Yellow,
             start = Offset(startX, centerY),
             end = Offset(progressEndX, centerY),
             strokeWidth = strokeWidth,

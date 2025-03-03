@@ -42,8 +42,9 @@ class WeatherViewModel(
         }
     }
 
-    private fun loadWeather(city: String) {
+     fun loadWeather(city: String) {
         viewModelScope.launch {
+            _state.value = WeatherState.Loading
             try {
                 val weatherWeek = weatherUseCase(city)
                 val previewWeather = previewBarWeatherUseCase(city)

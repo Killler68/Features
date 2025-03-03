@@ -99,7 +99,7 @@ fun WeatherContent(state: WeatherState.Success) {
             state = state,
             onSave = {
                 city = editCity.trim()
-                viewModel.dispatch(WeatherEvent.LoadData)
+                viewModel.loadWeather(city)
                 viewModel.isEnabled.value = false
             }
         )

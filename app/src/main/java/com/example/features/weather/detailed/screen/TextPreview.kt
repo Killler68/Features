@@ -54,7 +54,7 @@ fun TextPreview(
                 color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
             )
             Text(
-                text = "${maxTemp.toInt()}° / ${minTemp.toInt()}° Ощущается как ${feelingTemp.toInt()}°",
+                text = "${minTemp.toInt()}° / ${maxTemp.toInt()}° Ощущается как ${feelingTemp.toInt()}°",
                 fontSize = 12.sp,
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 20.dp),

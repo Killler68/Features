@@ -13,15 +13,15 @@ data class WeatherData(
 )
 
 fun Map<String, List<WeatherWeek>>.toWeatherData() =
-    this.map {
+    this.map { (date, weatherList) ->
         WeatherData(
-            it.value.first().day,
-            it.value.first().dtText,
-            it.value.first().temp,
-            it.value.first().maxTemp,
-            it.value.first().minTemp,
-            it.value.first().icon,
-            it.value.first().partDay,
-            it.value
+            day = weatherList.first().day,
+            dtText = date,
+            temp = weatherList.first().temp, // Средняя температура может быть заменена, если нужно
+            maxTemp = weatherList.maxOf { it.maxTemp }, // Максимальная температура за день
+            minTemp = weatherList.minOf { it.minTemp }, // Минимальная температура за день
+            icon = weatherList.first().icon,
+            partDay = weatherList.first().partDay,
+            listWeek = weatherList
         )
     }

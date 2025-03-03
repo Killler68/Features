@@ -8,7 +8,8 @@ sealed class WeatherDetailedState {
     data class Success(
         val weatherId: Int,
         val detailedDay: WeatherDetailedDay,
-        val hoursDay: List<WeatherHoursDay>
+        val hoursDay: List<WeatherHoursDay>,
+        val itemPager: List<ItemTemperature>
     ) : WeatherDetailedState()
 
     data class Error(val message: String) : WeatherDetailedState()

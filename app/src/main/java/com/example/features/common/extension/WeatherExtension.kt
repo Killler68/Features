@@ -173,7 +173,6 @@ fun extensionTemperatureWeather(float: Double): Int = when {
     else -> R.raw.image_child_warm
 }
 
-
 fun weatherColorExtension(condition: String, colorCategory: ColorCategory): Color {
     return when (condition) {
         DayAndNight.DAY.condition -> {
@@ -181,6 +180,7 @@ fun weatherColorExtension(condition: String, colorCategory: ColorCategory): Colo
                 ColorCategory.BACKGROUND -> Color(0xFF89CFEC)
                 ColorCategory.CARD -> Color(0xFFADD8E6)
                 ColorCategory.DIALOG -> Color(0xFF84C4DA)
+                ColorCategory.INDICATORS -> Color.White
                 ColorCategory.IMAGE -> Color.Black
                 ColorCategory.TEXT -> Color.Black
             }
@@ -191,6 +191,7 @@ fun weatherColorExtension(condition: String, colorCategory: ColorCategory): Colo
                 ColorCategory.BACKGROUND -> Color(0xFF212142)
                 ColorCategory.CARD -> Color(0xFF2A2A5A)
                 ColorCategory.DIALOG -> Color(0xFF343469)
+                ColorCategory.INDICATORS -> Color.LightGray
                 ColorCategory.IMAGE -> Color.White
                 ColorCategory.TEXT -> Color.White
             }

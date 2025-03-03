@@ -7,6 +7,7 @@ import com.example.features.navigation.Screens
 import com.example.features.weather.detailed.model.WeatherDetailedEvent
 import com.example.features.weather.detailed.model.WeatherDetailedSideEffect
 import com.example.features.weather.detailed.model.WeatherDetailedState
+import com.example.features.weather.detailed.usecase.ItemTemperatureUseCase
 import com.example.features.weather.detailed.usecase.WeatherDetailedDayUseCase
 import com.example.features.weather.detailed.usecase.WeatherHoursDayUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,9 +18,12 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+private const val ONE_DAY_MILLIS = 86_400_000L
+
 class WeatherDetailedViewModel(
     private val weatherDetailedDayUseCase: WeatherDetailedDayUseCase,
-    private val weatherHoursDayUseCase: WeatherHoursDayUseCase
+    private val weatherHoursDayUseCase: WeatherHoursDayUseCase,
+    private val itemTemperature: ItemTemperatureUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<WeatherDetailedState>(WeatherDetailedState.Loading)
@@ -39,12 +43,31 @@ class WeatherDetailedViewModel(
     private fun loadData(weatherId: Int) {
         viewModelScope.launch {
             try {
+                val todayDt = weatherId.toLong() * 1000
+                val yesterdayDt = todayDt - ONE_DAY_MILLIS
+                val tomorrowDt = todayDt + ONE_DAY_MILLIS
+
                 val detailedDay = weatherDetailedDayUseCase(weatherId, city)
-                val hoursDay = weatherHoursDayUseCase(weatherId, city)
+
+                val yesterdayWeather = runCatching {
+                    weatherDetailedDayUseCase((yesterdayDt / 1000).toInt(), city)
+                }.getOrNull()
+
+                val tomorrowWeather = runCatching {
+                    weatherDetailedDayUseCase((tomorrowDt / 1000).toInt(), city)
+                }.getOrNull()
+
+                val itemPager = itemTemperature(
+                    todayWeather = detailedDay,
+                    yesterdayWeather = yesterdayWeather,
+                    tomorrowWeather = tomorrowWeather
+                )
+
                 _state.value = WeatherDetailedState.Success(
                     weatherId = weatherId,
                     detailedDay = detailedDay,
-                    hoursDay = hoursDay
+                    hoursDay = weatherHoursDayUseCase(weatherId, city = city),
+                    itemPager = itemPager
                 )
             } catch (e: Exception) {
                 _state.value = WeatherDetailedState.Error(e.localizedMessage ?: "Ошибка")

@@ -385,7 +385,9 @@ fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Uni
                     .fillMaxWidth()
                     .padding(vertical = 20.dp),
                 count = state.itemFeature.size,
-                currentPage = pagerState.currentPage
+                currentPage = pagerState.currentPage,
+                Cyan,
+                Color.LightGray
             )
         }
     }

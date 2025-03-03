@@ -69,38 +69,48 @@ fun WeatherScreen(navController: NavController) {
     val viewModel: WeatherViewModel = getViewModel()
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(viewModel.effect) {
-        viewModel.effect.collect { effect ->
-            when (effect) {
-                is WeatherSideEffect.NavigateTo -> navController.navigate(effect.route)
-            }
-        }
-    }
-
     when (state) {
         WeatherState.Loading -> LoadingScreen()
-        is WeatherState.Success -> WeatherContent(state as WeatherState.Success)
+        is WeatherState.Success -> WeatherContent(
+            state as WeatherState.Success,
+            navController
+        )
+
         is WeatherState.Error -> ErrorScreen(R.drawable.weather, "Ошибка")
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WeatherContent(state: WeatherState.Success) {
-
+fun WeatherContent(
+    state: WeatherState.Success,
+    navController: NavController
+) {
     val viewModel: WeatherViewModel = getViewModel()
     var editCity by remember { mutableStateOf(state.preview.city) }
+    var isDialogVisible by remember { mutableStateOf(false) }
 
-    if (viewModel.isEnabled.value) {
+    LaunchedEffect(viewModel.effect) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is WeatherSideEffect.NavigateTo -> navController.navigate(effect.route)
+
+                WeatherSideEffect.Popup -> isDialogVisible = true
+                WeatherSideEffect.None -> isDialogVisible = false
+            }
+        }
+    }
+
+    if (isDialogVisible) {
         DsChangeLocation(
             title = editCity.getRawNameCityEngToRuExtension(),
             onCityChange = { editCity = it },
-            onDismiss = { viewModel.isEnabled.value = false },
+            onDismiss = { viewModel.dispatch(WeatherEvent.OnCloseShowDialogChangeCity) },
             state = state,
             onSave = {
-                city = editCity.trim()
+                city = editCity.trim().firstUppercaseString()
                 viewModel.loadWeather(city)
-                viewModel.isEnabled.value = false
+                viewModel.dispatch(WeatherEvent.OnCloseShowDialogChangeCity)
             }
         )
     }
@@ -125,7 +135,7 @@ fun WeatherContent(state: WeatherState.Success) {
                         image = R.drawable.location,
                         imageDescription = "city",
                         onClick = {
-                            viewModel.isEnabled.value = true
+                            viewModel.dispatch(WeatherEvent.OnShowDialogChangeCity)
                         }
                     )
                 },
@@ -301,6 +311,7 @@ fun DsDailyWeatherItem(
         }
     }
 }
+
 @Composable
 fun DsHourlyWeatherItem(hourWeather: WeatherWeek, state: WeatherState.Success) {
     val temperature = "${hourWeather.temp.toInt()}°"

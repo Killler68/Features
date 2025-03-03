@@ -1,6 +1,5 @@
 package com.example.features.weather.viewmodel
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.strings.city
@@ -27,8 +26,6 @@ class WeatherViewModel(
     private val _effect = MutableSharedFlow<WeatherSideEffect>()
     val effect: SharedFlow<WeatherSideEffect> get() = _effect.asSharedFlow()
 
-    var isEnabled = mutableStateOf(false)
-
     init {
         loadWeather(city)
     }
@@ -38,11 +35,12 @@ class WeatherViewModel(
             WeatherEvent.LoadData -> loadWeather(city)
             WeatherEvent.ToBack -> navigateTo(Screens.Features.route)
             is WeatherEvent.ToWeatherDetailed -> navigateToDetailed(event.weatherId)
-            WeatherEvent.RefreshData -> loadWeather(city)
+            WeatherEvent.OnShowDialogChangeCity -> showDialog()
+            WeatherEvent.OnCloseShowDialogChangeCity -> clearSideEffects()
         }
     }
 
-     fun loadWeather(city: String) {
+    fun loadWeather(city: String) {
         viewModelScope.launch {
             _state.value = WeatherState.Loading
             try {
@@ -73,6 +71,18 @@ class WeatherViewModel(
     private fun navigateTo(router: String) {
         viewModelScope.launch {
             _effect.emit(WeatherSideEffect.NavigateTo(router))
+        }
+    }
+
+    private fun showDialog() {
+        viewModelScope.launch {
+            _effect.emit(WeatherSideEffect.Popup)
+        }
+    }
+
+    private fun clearSideEffects() {
+        viewModelScope.launch {
+            _effect.emit(WeatherSideEffect.None)
         }
     }
 }

@@ -5,7 +5,7 @@ import com.example.features.weather.model.WeatherDetailedDay
 class WeatherDetailedDayUseCase(private val repository: WeatherDetailedRepository) {
 
     suspend operator fun invoke(weatherId: Int, city: String): WeatherDetailedDay {
-        val forecasts = repository.getWeatherHoursDay(weatherId, city) // Получаем все прогнозы за день
+        val forecasts = repository.getWeatherHoursDay(weatherId, city)
 
         if (forecasts.isEmpty()) {
             throw Exception("Данные за день не найдены")

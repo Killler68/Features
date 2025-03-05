@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FeaturesViewModel(
@@ -49,17 +50,33 @@ class FeaturesViewModel(
         viewModelScope.launch {
             try {
                 val drawerItems = drawerItems()
-                val weather = previewBarWeatherUseCase(city)
-                val notes = notesUseCase(userId)
-                val features = features()
                 _state.value = FeaturesState.Success(
                     itemDrawer = drawerItems,
-                    itemWeather = weather,
-                    itemNote = notes,
-                    itemFeature = features
+                    itemWeather = null,
+                    itemNote = emptyList(),
+                    itemFeature = features(),
+                    isNotesLoading = true,
+                    isWeatherLoading = true
                 )
+
+                val notes = notesUseCase(userId)
+                _state.update {
+                    (it as? FeaturesState.Success)?.copy(
+                        itemNote = notes,
+                        isNotesLoading = false
+                    ) ?: it
+                }
+
+                val weather = previewBarWeatherUseCase(city)
+                _state.update {
+                    (it as? FeaturesState.Success)?.copy(
+                        itemWeather = weather,
+                        isWeatherLoading = false
+                    ) ?: it
+                }
+
             } catch (e: Exception) {
-                _state.value = FeaturesState.Error(e.localizedMessage ?: "Ошибка загрузки данных")
+                _state.value = _state.value
             }
         }
     }

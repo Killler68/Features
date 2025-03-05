@@ -59,9 +59,12 @@ import com.example.features.features.model.FeaturesState
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
+import com.example.features.weather.screen.LoadingScreen
+import com.example.features.weather.screen.ShimmerEffect
 import com.example.features.welcome.screen.PageIndicators
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+
 
 @Composable
 fun FeaturesScreen(navController: NavController) {
@@ -88,7 +91,7 @@ fun FeaturesScreen(navController: NavController) {
     }
 
     when (val currentState = state) {
-        FeaturesState.Loading -> Text("Loading")
+        FeaturesState.Loading -> LoadingScreen()
         is FeaturesState.Success -> FeaturesContent(currentState, viewModel::dispatch)
         is FeaturesState.Error -> Text("Error: ${currentState.message}")
     }
@@ -211,7 +214,6 @@ fun FeaturesContent(
                     )
                 },
                 content = {
-
                     Column(
                         modifier = Modifier
                             .padding(it)
@@ -246,10 +248,8 @@ fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Uni
 
     val pagerState = rememberPagerState(pageCount = { state.itemFeature.size })
 
-    val iconRes = remember(state.itemWeather.icon, state.itemWeather.date) {
-        state.itemWeather.icon.imageWeatherExtension(state.itemWeather.date)
-    }
     HorizontalPager(pagerState) { page ->
+
         Column {
             val items = state.itemFeature[page]
 
@@ -267,7 +267,10 @@ fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Uni
 
                 when (page) {
                     0 -> {
-                        if (state.itemNote.isNotEmpty()) {
+
+                        if (state.isNotesLoading) {
+                            ShimmerEffect()
+                        } else if (state.itemNote.isNotEmpty()) {
                             Column(
                                 modifier = Modifier
                                     .padding(horizontal = 10.dp, vertical = 10.dp)
@@ -315,80 +318,110 @@ fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Uni
                     }
 
                     1 -> {
-                        Column(
-                            modifier = Modifier
-                                .padding(horizontal = 10.dp, vertical = 10.dp)
-                        ) {
+                        if (state.isWeatherLoading) {
+                            ShimmerEffect()
+                        } else {
+                            Column(
+                                modifier = Modifier
+                                    .padding(horizontal = 10.dp, vertical = 10.dp)
+                            ) {
+                                if (state.itemWeather != null) {
+                                    val iconRes =
+                                        remember(
+                                            state.itemWeather.icon,
+                                            state.itemWeather.date
+                                        ) {
+                                            state.itemWeather.icon.imageWeatherExtension(state.itemWeather.date)
+                                        }
 
-                            Image(
-                                painter = painterResource(iconRes),
-                                contentDescription = "condition_weather",
-                                alignment = Alignment.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .size(48.dp)
-                            )
-                            GlideImage(
-                                model = extensionTemperatureWeather(state.itemWeather.temp),
-                                contentDescription = "condition_weather",
-                                alignment = Alignment.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 3.dp)
-                                    .size(width = 100.dp, height = 160.dp)
-                            )
 
-                            Text(
-                                text = "В ${state.itemWeather.city.getRawNameFeaturesCityEngToRuExtension()} сегодня ",
-                                textAlign = TextAlign.Center,
-                                fontSize = 16.sp,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 10.dp)
-                            )
+                                    Image(
+                                        painter = painterResource(iconRes),
+                                        contentDescription = "condition_weather",
+                                        alignment = Alignment.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .size(48.dp)
+                                    )
 
-                            Text(
-                                text = "${state.itemWeather.temp.toInt()}°",
-                                textAlign = TextAlign.Center,
-                                fontSize = 24.sp,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 10.dp)
-                            )
+                                    GlideImage(
+                                        model = extensionTemperatureWeather(
+                                            state.itemWeather.temp
+                                        ),
+                                        contentDescription = "condition_weather",
+                                        alignment = Alignment.Center,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 3.dp)
+                                            .size(width = 100.dp, height = 160.dp)
+                                    )
+
+                                    Text(
+                                        text = "В ${state.itemWeather.city.getRawNameFeaturesCityEngToRuExtension()} сегодня ",
+                                        textAlign = TextAlign.Center,
+                                        fontSize = 16.sp,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(top = 10.dp)
+                                    )
+
+                                    Text(
+                                        text = "${state.itemWeather.temp.toInt()}°",
+                                        textAlign = TextAlign.Center,
+                                        fontSize = 24.sp,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(top = 10.dp)
+                                    )
+
+                                    if (state.itemNote.isNotEmpty()) {
+                                        Text(
+                                            text = state.itemFeature[page].title,
+                                            fontSize = 16.sp,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(horizontal = 10.dp, vertical = 5.dp)
+                                        )
+                                    } else {
+                                        Text(
+                                            text = state.itemFeature[page].description,
+                                            fontSize = 16.sp,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(horizontal = 10.dp, vertical = 5.dp)
+                                        )
+                                    }
+                                } else {
+                                    Box(
+                                        contentAlignment = Alignment.Center,
+                                        modifier = Modifier.fillMaxSize()
+                                    ) {
+                                        Text(
+                                            text = "Погода не обнаружена",
+                                            textAlign = TextAlign.Center,
+                                            fontSize = 16.sp,
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(top = 10.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
-
-            if (state.itemNote.isNotEmpty()) {
-                Text(
-                    text = state.itemFeature[page].title,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp, vertical = 5.dp)
-                )
-            } else {
-                Text(
-                    text = state.itemFeature[page].description,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp, vertical = 5.dp)
-                )
-            }
-
-            PageIndicators(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 20.dp),
-                count = state.itemFeature.size,
-                currentPage = pagerState.currentPage,
-                Cyan,
-                Color.LightGray
-            )
         }
     }
+    PageIndicators(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 20.dp),
+        count = state.itemFeature.size,
+        currentPage = pagerState.currentPage,
+        Cyan,
+        Color.LightGray
+    )
 }

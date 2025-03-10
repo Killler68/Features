@@ -20,18 +20,18 @@ import com.example.features.R
 import com.example.features.common.design.TopBarScreen
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
+import com.example.features.common.view.ErrorScreen
+import com.example.features.common.view.LoadingScreen
 import com.example.features.weather.detailed.model.WeatherDetailedEvent
 import com.example.features.weather.detailed.model.WeatherDetailedSideEffect
 import com.example.features.weather.detailed.model.WeatherDetailedState
 import com.example.features.weather.detailed.screen.view.AdditionalInfoDayView
+import com.example.features.weather.detailed.screen.view.BottomNameView
 import com.example.features.weather.detailed.screen.view.ConditionDayView
 import com.example.features.weather.detailed.screen.view.HoursInfoDayView
 import com.example.features.weather.detailed.screen.view.TemperaturesPager
 import com.example.features.weather.detailed.screen.view.WeatherDetailedPreview
-import com.example.features.weather.detailed.screen.view.WeatherNameAPIView
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
-import com.example.features.common.view.ErrorScreen
-import com.example.features.common.view.LoadingScreen
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -105,7 +105,10 @@ fun WeatherDetailedContent(
 
                 ConditionDayView(state = state)
 
-                WeatherNameAPIView(state = state)
+                BottomNameView(
+                    name = "OpenWeatherMap",
+                    textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+                )
             }
         },
         containerColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.BACKGROUND)

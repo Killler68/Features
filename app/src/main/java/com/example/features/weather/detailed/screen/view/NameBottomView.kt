@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.common.extension.weatherColorExtension
@@ -14,18 +15,18 @@ import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
-fun WeatherNameAPIView(state: WeatherDetailedState.Success) {
+fun BottomNameView(name: String, textColor: Color) {
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = 10.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.BottomCenter
     ) {
         Text(
-            text = "OpenWeatherMap",
+            text = name,
             fontSize = 8.sp,
-            color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+            color = textColor
         )
     }
 }

@@ -1,54 +1,38 @@
 package com.example.features.weather.detailed.screen
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.common.design.TopBarScreen
-import com.example.features.common.extension.dateFormatDays
-import com.example.features.common.extension.dateFormatHours
-import com.example.features.common.extension.firstUppercaseString
 import com.example.features.common.extension.weatherColorExtension
-import com.example.features.common.extension.weatherVisibilityExtension
 import com.example.features.common.utils.ColorCategory
-import com.example.features.common.utils.SemiCircularProgress
 import com.example.features.weather.detailed.model.WeatherDetailedEvent
 import com.example.features.weather.detailed.model.WeatherDetailedSideEffect
 import com.example.features.weather.detailed.model.WeatherDetailedState
+import com.example.features.weather.detailed.screen.view.AdditionalInfoDayView
+import com.example.features.weather.detailed.screen.view.ConditionDayView
+import com.example.features.weather.detailed.screen.view.HoursInfoDayView
+import com.example.features.weather.detailed.screen.view.TemperaturesPager
+import com.example.features.weather.detailed.screen.view.WeatherDetailedPreview
+import com.example.features.weather.detailed.screen.view.WeatherNameAPIView
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
+import com.example.features.weather.screen.ErrorScreen
 import com.example.features.weather.screen.LoadingScreen
-import com.example.features.welcome.screen.PageIndicators
 import org.koin.androidx.compose.getViewModel
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
 fun WeatherDetailedScreen(weatherId: Int, navController: NavController) {
@@ -68,7 +52,7 @@ fun WeatherDetailedScreen(weatherId: Int, navController: NavController) {
     when (state) {
         WeatherDetailedState.Loading -> LoadingScreen()
         is WeatherDetailedState.Success -> WeatherDetailedContent(state as WeatherDetailedState.Success)
-        is WeatherDetailedState.Error -> Text(("error"))
+        is WeatherDetailedState.Error -> ErrorScreen(R.drawable.weather, "Ошибка")
     }
 }
 
@@ -89,7 +73,10 @@ fun WeatherDetailedContent(
                         onBack = { viewModel.dispatch(WeatherDetailedEvent.ToBack) },
                         imageDescriptionOnBack = "back",
                         city = state.detailedDay.city,
-                        color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+                        textColor = weatherColorExtension(
+                            state.detailedDay.partDay,
+                            ColorCategory.TEXT
+                        )
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -108,172 +95,19 @@ fun WeatherDetailedContent(
                     .padding(horizontal = 10.dp)
                     .verticalScroll(rememberScrollState())
             ) {
-                state.detailedDay.apply {
-                    TextPreview(
-                        temp = temp,
-                        description = description,
-                        image = state.hoursDay.first().icon,
-                        maxTemp = maxTemp,
-                        minTemp = minTemp,
-                        feelingTemp = feelingTemp,
-                        state
-                    )
-                }
+                WeatherDetailedPreview(state = state)
 
-                HoursInfoDay(state = state)
+                HoursInfoDayView(state = state)
 
                 TemperaturesPager(state = state)
 
-                state.detailedDay.apply {
-                    AdditionalInfoDay(
-                        visibility = weatherVisibilityExtension(visibility),
-                        humidity = humidity,
-                        wind = windSpeed,
-                        pressure = pressure,
-                        state
-                    )
-                }
+                AdditionalInfoDayView(state = state)
 
-                ConditionDay(state)
-                WeatherNameAPI(state)
+                ConditionDayView(state = state)
+
+                WeatherNameAPIView(state = state)
             }
         },
         containerColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.BACKGROUND)
     )
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun TemperaturesPager(
-    state: WeatherDetailedState.Success
-) {
-
-    val pagerState = rememberPagerState(pageCount = { state.itemPager.size })
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD))
-            .padding(horizontal = 10.dp, vertical = 10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        HorizontalPager(pagerState) { page ->
-            val item = state.itemPager[page]
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp, bottom = 10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = item.date.dateFormatDays(),
-                    fontSize = 16.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
-                )
-                Text(
-                    text = item.differenceText.firstUppercaseString(),
-                    fontSize = 12.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT),
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            }
-        }
-        PageIndicators(
-            modifier = Modifier
-                .padding(top = 10.dp, bottom = 10.dp),
-            count = state.itemPager.size,
-            currentPage = pagerState.currentPage,
-            weatherColorExtension(state.detailedDay.partDay, ColorCategory.INDICATORS),
-            Color.Gray
-        )
-    }
-}
-
-@Composable
-fun ConditionDay(state: WeatherDetailedState.Success) {
-    val today = remember { SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()) }
-    val selectedDate = remember {
-        SimpleDateFormat(
-            "yyyy-MM-dd",
-            Locale.getDefault()
-        ).format(Date(state.detailedDay.dt * 1000))
-    }
-    val isToday = today == selectedDate
-
-    val currentTime = remember { System.currentTimeMillis() / 1000 }
-    val sunrise = state.detailedDay.sunRise
-    val sunset = state.detailedDay.sunSet
-
-    val progress = if (isToday) {
-        when {
-            currentTime <= sunrise -> 0f
-            currentTime >= sunset -> 1f
-            else -> (currentTime - sunrise).toFloat() / (sunset - sunrise).toFloat()
-        }
-    } else {
-        0f
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 10.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD))
-    ) {
-        SemiCircularProgress(
-            progress = progress,
-            modifier = Modifier.padding(10.dp)
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp)
-        ) {
-            Box(contentAlignment = Alignment.CenterStart) {
-                Text(
-                    "Восход",
-                    fontSize = 18.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
-                )
-            }
-            Box(
-                contentAlignment = Alignment.CenterEnd,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    "Закат",
-                    fontSize = 18.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
-                )
-            }
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 10.dp)
-        ) {
-            Box(contentAlignment = Alignment.CenterStart) {
-                Text(
-                    state.detailedDay.sunRise.dateFormatHours(),
-                    fontSize = 18.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
-                )
-            }
-            Box(
-                contentAlignment = Alignment.CenterEnd,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    state.detailedDay.sunSet.dateFormatHours(),
-                    fontSize = 18.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
-                )
-            }
-        }
-    }
 }

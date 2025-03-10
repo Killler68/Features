@@ -17,9 +17,9 @@ fun Map<String, List<WeatherWeek>>.toWeatherData() =
         WeatherData(
             day = weatherList.first().day,
             dtText = date,
-            temp = weatherList.first().temp, // Средняя температура может быть заменена, если нужно
-            maxTemp = weatherList.maxOf { it.maxTemp }, // Максимальная температура за день
-            minTemp = weatherList.minOf { it.minTemp }, // Минимальная температура за день
+            temp = weatherList.first().temp,
+            maxTemp = weatherList.maxOf { it.maxTemp },
+            minTemp = weatherList.minOf { it.minTemp },
             icon = weatherList.first().icon,
             partDay = weatherList.first().partDay,
             listWeek = weatherList

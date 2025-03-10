@@ -22,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.common.extension.getRawNameCityEngToRuExtension
-import com.example.features.common.extension.weatherColorExtension
 import com.example.features.ui.theme.LightGray
 
 
@@ -68,7 +67,7 @@ fun TopBarScreen(
     onBack: () -> Unit,
     imageDescriptionOnBack: String,
     city: String,
-    color: Color
+    textColor: Color
 ) {
     Column {
         Row {
@@ -86,7 +85,7 @@ fun TopBarScreen(
             Text(
                 text = city.getRawNameCityEngToRuExtension(),
                 fontSize = 18.sp,
-                color = color
+                color = textColor
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.example.features.weather.detailed.screen
+package com.example.features.weather.detailed.screen.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,15 +24,7 @@ import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun TextPreview(
-    temp: Double,
-    description: String,
-    image: String,
-    maxTemp: Double,
-    minTemp: Double,
-    feelingTemp: Double,
-    state: WeatherDetailedState.Success
-) {
+fun WeatherDetailedPreview(state: WeatherDetailedState.Success) {
 
     Row {
         Column(
@@ -40,21 +32,22 @@ fun TextPreview(
                 .fillMaxWidth(0.7f)
         ) {
             Text(
-                text = "${temp.toInt()}°",
+                text = "${state.detailedDay.temp.toInt()}°",
                 fontSize = 50.sp,
                 modifier = Modifier
                     .padding(start = 20.dp, end = 10.dp, top = 10.dp, bottom = 20.dp),
                 color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
             )
             Text(
-                text = description.firstUppercaseString().getRawNameWeatherExtension(),
+                text = state.detailedDay.description.firstUppercaseString()
+                    .getRawNameWeatherExtension(),
                 fontSize = 14.sp,
                 modifier = Modifier
                     .padding(start = 20.dp, end = 10.dp, bottom = 20.dp),
                 color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
             )
             Text(
-                text = "${minTemp.toInt()}° / ${maxTemp.toInt()}° Ощущается как ${feelingTemp.toInt()}°",
+                text = "${state.detailedDay.minTemp.toInt()}° / ${state.detailedDay.maxTemp.toInt()}° Ощущается как ${state.detailedDay.feelingTemp.toInt()}°",
                 fontSize = 12.sp,
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 20.dp),
@@ -63,9 +56,8 @@ fun TextPreview(
         }
 
         Column {
-
             GlideImage(
-                model = image.extensionConditionWeather(state.detailedDay.partDay),
+                model = state.hoursDay.first().icon.extensionConditionWeather(state.detailedDay.partDay),
                 contentDescription = "animated_gif_weather",
                 modifier = Modifier
                     .padding(bottom = 5.dp)
@@ -74,7 +66,7 @@ fun TextPreview(
                 contentScale = ContentScale.Inside
             )
             GlideImage(
-                model = extensionTemperatureWeather(temp),
+                model = extensionTemperatureWeather(state.detailedDay.temp),
                 contentDescription = "animated_gif_children",
                 modifier = Modifier
                     .height(150.dp)

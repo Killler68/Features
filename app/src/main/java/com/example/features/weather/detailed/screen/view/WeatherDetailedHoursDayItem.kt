@@ -1,4 +1,4 @@
-package com.example.features.weather.detailed.screen
+package com.example.features.weather.detailed.screen.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

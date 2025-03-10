@@ -1,4 +1,4 @@
-package com.example.features.weather.detailed.screen
+package com.example.features.weather.detailed.screen.view
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +14,7 @@ import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
-fun WeatherNameAPI(state: WeatherDetailedState.Success) {
+fun WeatherNameAPIView(state: WeatherDetailedState.Success) {
 
     Box(
         modifier = Modifier

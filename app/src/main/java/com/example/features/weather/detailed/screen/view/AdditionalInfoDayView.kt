@@ -1,4 +1,4 @@
-package com.example.features.weather.detailed.screen
+package com.example.features.weather.detailed.screen.view
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,16 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.features.R
+import com.example.features.common.extension.weatherVisibilityExtension
 import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
-fun AdditionalInfoDay(
-    visibility: String,
-    humidity: Int,
-    wind: Double,
-    pressure: Int,
-    state: WeatherDetailedState.Success
-) {
+fun AdditionalInfoDayView(state: WeatherDetailedState.Success) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -29,7 +24,7 @@ fun AdditionalInfoDay(
             10.dp,
             5.dp,
             "Видимость",
-            visibility,
+            weatherVisibilityExtension(state.detailedDay.visibility),
             R.drawable.visibility,
             state
         )
@@ -39,7 +34,7 @@ fun AdditionalInfoDay(
             5.dp,
             10.dp,
             "Влажность",
-            "$humidity%",
+            "${state.detailedDay.humidity}%",
             R.drawable.humidity,
             state
         )
@@ -55,7 +50,7 @@ fun AdditionalInfoDay(
             10.dp,
             5.dp,
             "Ветер",
-            "$wind км/ч",
+            "${state.detailedDay.windSpeed} м/с",
             R.drawable.wind,
             state
         )
@@ -65,7 +60,7 @@ fun AdditionalInfoDay(
             5.dp,
             10.dp,
             "Давление",
-            "$pressure мбар",
+            "${state.detailedDay.pressure} мбар",
             R.drawable.barometer,
             state
         )

@@ -30,8 +30,8 @@ import com.example.features.weather.detailed.screen.view.TemperaturesPager
 import com.example.features.weather.detailed.screen.view.WeatherDetailedPreview
 import com.example.features.weather.detailed.screen.view.WeatherNameAPIView
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
-import com.example.features.weather.screen.ErrorScreen
-import com.example.features.weather.screen.LoadingScreen
+import com.example.features.common.view.ErrorScreen
+import com.example.features.common.view.LoadingScreen
 import org.koin.androidx.compose.getViewModel
 
 @Composable

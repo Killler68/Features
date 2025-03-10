@@ -22,9 +22,7 @@ import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
-fun HoursInfoDayView(
-    state: WeatherDetailedState.Success
-) {
+fun HoursInfoDayView(state: WeatherDetailedState.Success) {
 
     Column(
         modifier = Modifier

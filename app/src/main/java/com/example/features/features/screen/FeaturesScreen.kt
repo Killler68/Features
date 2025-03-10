@@ -52,6 +52,8 @@ import com.example.features.common.extension.extensionTemperatureWeather
 import com.example.features.common.extension.getRawNameFeaturesCityEngToRuExtension
 import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.common.utils.ExitBackStack
+import com.example.features.common.view.ErrorScreen
+import com.example.features.common.view.LoadingScreen
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.model.FeaturesEvent
 import com.example.features.features.model.FeaturesSideEffect
@@ -59,7 +61,6 @@ import com.example.features.features.model.FeaturesState
 import com.example.features.features.viewmodel.FeaturesViewModel
 import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
-import com.example.features.weather.screen.LoadingScreen
 import com.example.features.weather.screen.ShimmerEffect
 import com.example.features.welcome.screen.PageIndicators
 import kotlinx.coroutines.launch
@@ -93,7 +94,7 @@ fun FeaturesScreen(navController: NavController) {
     when (val currentState = state) {
         FeaturesState.Loading -> LoadingScreen()
         is FeaturesState.Success -> FeaturesContent(currentState, viewModel::dispatch)
-        is FeaturesState.Error -> Text("Error: ${currentState.message}")
+        is FeaturesState.Error -> ErrorScreen(R.drawable.loading, "Error: ${currentState.message}")
     }
 }
 

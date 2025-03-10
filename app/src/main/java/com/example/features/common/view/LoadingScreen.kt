@@ -1,4 +1,4 @@
-package com.example.features.weather.screen
+package com.example.features.common.view
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode

@@ -1,4 +1,4 @@
-package com.example.features.weather.screen
+package com.example.features.weather.screen.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -18,7 +18,7 @@ import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.model.WeatherState
 
 @Composable
-fun DsChangeLocation(
+fun ChangeLocation(
     title: String,
     onCityChange: (String) -> Unit,
     onDismiss: () -> Unit,

@@ -33,6 +33,7 @@ import com.example.features.navigation.Screens
 import com.example.features.registration.model.RegistrationEvent
 import com.example.features.registration.viewmodel.RegistrationViewModel
 import com.example.features.ui.theme.Cyan
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -45,11 +46,18 @@ fun DsRegistration(navController: NavController) {
 
     val interactionSource = remember { MutableInteractionSource() }
 
-    LaunchedEffect(viewModel.event) {
-        viewModel.event.collect { event ->
+    LaunchedEffect(Unit) {
+        viewModel.event.collectLatest { event ->
             when (event) {
-                RegistrationEvent.CreateUser -> navController.navigate(Screens.Features.route)
-                RegistrationEvent.NavigateToAuthorization -> navController.navigate(Screens.Authorization.route)
+                RegistrationEvent.CreateUser -> {
+                    navController.navigate(Screens.Features.route) {
+                        popUpTo(Screens.Registration.route) { inclusive = true }
+                    }
+                }
+
+                RegistrationEvent.NavigateToAuthorization -> {
+                    navController.navigate(Screens.Authorization.route)
+                }
             }
         }
     }

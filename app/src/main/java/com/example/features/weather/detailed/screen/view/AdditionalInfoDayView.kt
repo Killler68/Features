@@ -1,4 +1,4 @@
-package com.example.features.weather.detailed.screen
+package com.example.features.weather.detailed.screen.view
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,14 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.features.R
+import com.example.features.common.extension.weatherVisibilityExtension
+import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
-fun AdditionalInfoDay(
-    uvIndex: Float,
-    humidity: Int,
-    wind: Float,
-    pressure: Float
-) {
+fun AdditionalInfoDayView(state: WeatherDetailedState.Success) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -25,8 +23,10 @@ fun AdditionalInfoDay(
             Alignment.CenterStart,
             10.dp,
             5.dp,
-            "УФ-индекс",
-            uvIndex.toInt().toString()
+            "Видимость",
+            weatherVisibilityExtension(state.detailedDay.visibility),
+            R.drawable.visibility,
+            state
         )
         CardAdditionalInfoDay(
             1f,
@@ -34,7 +34,9 @@ fun AdditionalInfoDay(
             5.dp,
             10.dp,
             "Влажность",
-            "$humidity%"
+            "${state.detailedDay.humidity}%",
+            R.drawable.humidity,
+            state
         )
     }
     Row(
@@ -48,7 +50,9 @@ fun AdditionalInfoDay(
             10.dp,
             5.dp,
             "Ветер",
-            "$wind км/ч"
+            "${state.detailedDay.windSpeed} м/с",
+            R.drawable.wind,
+            state
         )
         CardAdditionalInfoDay(
             1f,
@@ -56,7 +60,9 @@ fun AdditionalInfoDay(
             5.dp,
             10.dp,
             "Давление",
-            "${pressure.toInt()} мбар"
+            "${state.detailedDay.pressure} мбар",
+            R.drawable.barometer,
+            state
         )
     }
 }

@@ -2,9 +2,9 @@ package com.example.features.common.application
 
 import androidx.room.Room
 import com.example.features.MainViewModel
-import com.example.features.authorization.viewmodel.AuthorizationViewModel
 import com.example.features.authorization.GetUserByLoginAndPassword
 import com.example.features.authorization.GetUserByLoginAndPasswordImpl
+import com.example.features.authorization.viewmodel.AuthorizationViewModel
 import com.example.features.common.database.notes.NotesDatabase
 import com.example.features.common.database.profile.UserAdditionalInfoDatabase
 import com.example.features.common.database.task.TaskDatabase
@@ -53,17 +53,15 @@ import com.example.features.registration.viewmodel.CreateUserUseCase
 import com.example.features.registration.viewmodel.RegistrationViewModel
 import com.example.features.settings.usecase.DeleteUserUseCase
 import com.example.features.settings.viewmodel.SettingsViewModel
-import com.example.features.weather.detailed.usecase.WeatherAdditionalInfoDayUseCase
+import com.example.features.weather.detailed.usecase.ItemTemperatureUseCase
 import com.example.features.weather.detailed.usecase.WeatherDetailedDayUseCase
 import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
 import com.example.features.weather.detailed.usecase.WeatherHoursDayUseCase
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
 import com.example.features.weather.repository.WeatherRepositoryImpl
-import com.example.features.weather.usecase.HoursWeatherUseCaseImpl
 import com.example.features.weather.usecase.PreviewBarWeatherUseCaseImpl
 import com.example.features.weather.usecase.WeatherRepository
 import com.example.features.weather.usecase.WeatherUseCaseImpl
-import com.example.features.weather.viewmodel.HoursWeatherUseCase
 import com.example.features.weather.viewmodel.PreviewBarWeatherUseCase
 import com.example.features.weather.viewmodel.WeatherUseCase
 import com.example.features.weather.viewmodel.WeatherViewModel
@@ -137,11 +135,10 @@ val appModule = module {
     factory<GetUserByLoginAndPassword> { GetUserByLoginAndPasswordImpl(get()) }
 
     factory<WeatherUseCase> { WeatherUseCaseImpl(get()) }
-    factory<HoursWeatherUseCase> { HoursWeatherUseCaseImpl(get()) }
     factory<PreviewBarWeatherUseCase> { PreviewBarWeatherUseCaseImpl(get()) }
+    factory { ItemTemperatureUseCase() }
 
     factory { WeatherDetailedDayUseCase(get()) }
-    factory { WeatherAdditionalInfoDayUseCase(get()) }
     factory { WeatherHoursDayUseCase(get()) }
 
     factory<CreateUserAdditionalInfoUseCase> { CreateUserAdditionalInfoUseCaseImpl(get()) }
@@ -165,7 +162,7 @@ val appModule = module {
     viewModel { RegistrationViewModel(get(), get()) }
     viewModel { AuthorizationViewModel(get()) }
     viewModel { FeaturesViewModel(get(), get(), get(), get()) }
-    viewModel { WeatherViewModel(get(), get(), get()) }
+    viewModel { WeatherViewModel(get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get(), get()) }
     viewModel { UserAdditionalInfoViewModel(get(), get(), get()) }
     viewModel { NoteAddViewModel(get(), get()) }

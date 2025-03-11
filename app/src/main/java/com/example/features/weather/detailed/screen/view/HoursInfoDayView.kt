@@ -1,4 +1,4 @@
-package com.example.features.weather.detailed.screen
+package com.example.features.weather.detailed.screen.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -16,29 +16,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.features.common.extension.getRawNameWeatherExtension
-import com.example.features.ui.theme.WeatherHoursBackground
+import com.example.features.common.extension.dateFormatDays
+import com.example.features.common.extension.weatherColorExtension
+import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
-fun HoursInfoDay(
-    description: String,
-    state: WeatherDetailedState.Success
-) {
+fun HoursInfoDayView(state: WeatherDetailedState.Success) {
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 5.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(WeatherHoursBackground)
+            .background(weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD))
     ) {
         Text(
-            text = description.getRawNameWeatherExtension(),
+            text = state.hoursDay.first().hours.dateFormatDays(),
             fontSize = 14.sp,
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp),
-            color = Color.White
+            color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
         )
         Box(
             modifier = Modifier
@@ -48,11 +46,14 @@ fun HoursInfoDay(
                 .background(Color.White)
 
         )
-        LazyRow {
+        LazyRow(
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+        ) {
             itemsIndexed(
                 state.hoursDay
             ) { _, item ->
-                WeatherDetailedHoursDayItem(hoursDay = item)
+                WeatherDetailedHoursDayItem(hoursDay = item, state)
             }
         }
     }

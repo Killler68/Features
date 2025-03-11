@@ -1,12 +1,10 @@
 package com.example.features.weather.detailed.usecase
 
-import com.example.features.weather.model.WeatherAdditionalInfoDay
+import com.example.features.weather.detailed.model.WeatherHoursDay
 import com.example.features.weather.model.WeatherDetailedDay
-import com.example.features.weather.model.WeatherHoursDay
 
 interface WeatherDetailedRepository {
 
-    suspend fun getWeatherDetailedDay(weatherId: Int): WeatherDetailedDay
-    suspend fun getWeatherHoursDay(weatherId: Int): List<WeatherHoursDay>
-    suspend fun getWeatherAdditionalInfoDay(weatherId: Int): WeatherAdditionalInfoDay
+    suspend fun getWeatherDetailedDay(weatherId: Int, city: String): WeatherDetailedDay
+    suspend fun getWeatherHoursDay(weatherId: Int, city: String): List<WeatherHoursDay>
 }

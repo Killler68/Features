@@ -4,8 +4,7 @@ sealed class WeatherState {
 
     data object Loading : WeatherState()
     data class Success(
-        val dayly: List<DailyWeather>,
-        val hours: List<HoursWeather>,
+        val weatherWeek: List<WeatherData>,
         val preview: PreviewBarWeather
     ) : WeatherState()
 

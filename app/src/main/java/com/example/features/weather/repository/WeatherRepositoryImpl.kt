@@ -1,104 +1,93 @@
 package com.example.features.weather.repository
 
-import androidx.compose.runtime.mutableStateOf
-import com.example.features.common.api.RetrofitClient
-import com.example.features.common.api.WEATHER_API_KEY
-import com.example.features.common.extension.dateFormatDaily
-import com.example.features.common.extension.dateFormatHourly
-import com.example.features.common.extension.dateFormatPreview
+import com.example.features.common.api.WeatherRetrofitClient
+import com.example.features.weather.detailed.model.WeatherHoursDay
 import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
-import com.example.features.weather.model.DailyWeather
-import com.example.features.weather.model.HoursWeather
 import com.example.features.weather.model.PreviewBarWeather
-import com.example.features.weather.model.WeatherAdditionalInfoDay
 import com.example.features.weather.model.WeatherDetailedDay
-import com.example.features.weather.model.WeatherHoursDay
+import com.example.features.weather.model.WeatherWeek
 import com.example.features.weather.usecase.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-var city = mutableStateOf("London   ")
-const val days = 1
-
 class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
-    override suspend fun getHoursWeather(): List<HoursWeather> =
-        withContext(Dispatchers.IO) {
-            val response = RetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, days)
-            response.forecast.forecastday.flatMap { forecastDay ->
-                forecastDay.hour.map { hour ->
-                    HoursWeather(
-                        hour.time.dateFormatHourly(),
-                        hour.temp_c,
-                        hour.condition.icon
-                    )
-                }
-            }
-        }
 
-    override suspend fun getDailyWeather(): List<DailyWeather> =
+    override suspend fun getWeatherWeek(city: String): List<WeatherWeek> =
         withContext(Dispatchers.IO) {
-            val response = RetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, 7)
-            response.forecast.forecastday.map { days ->
-                DailyWeather(
-                    days.date.dateFormatDaily(),
-                    days.day.maxtemp_c,
-                    days.day.mintemp_c,
-                    days.day.condition.icon
+            val response = WeatherRetrofitClient.weatherApi.getWeather(city = city)
+            response.forecastList.map {
+                WeatherWeek(
+                    it.dt,
+                    it.dtTxt,
+                    it.main.temp,
+                    it.main.tempMax,
+                    it.main.tempMin,
+                    it.weather.first().icon,
+                    it.sys.pod,
                 )
             }
         }
 
-    override suspend fun previewBarWeather(): PreviewBarWeather =
+    override suspend fun previewBarWeather(city: String): PreviewBarWeather =
         withContext(Dispatchers.IO) {
-            val response = RetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, days)
+            val response = WeatherRetrofitClient.weatherApi.getWeather(city = city)
+            val firstForecast = response.forecastList.firstOrNull()
             PreviewBarWeather(
-                response.location.name,
-                response.current.last_updated.dateFormatPreview(),
-                response.current.condition.icon,
-                response.current.temp_c,
-                response.current.condition.text
+                city = response.city.name,
+                date = firstForecast?.dt ?: 0,
+                dtText = firstForecast?.dtTxt ?: "",
+                icon = firstForecast?.weather?.firstOrNull()?.icon ?: "",
+                temp = firstForecast?.main?.temp ?: 0.0,
+                description = firstForecast?.weather?.firstOrNull()?.description ?: "",
+                partDay = firstForecast?.sys?.pod ?: ""
             )
         }
 
-    override suspend fun getWeatherDetailedDay(weatherId: Int): WeatherDetailedDay =
+    override suspend fun getWeatherDetailedDay(weatherId: Int, city: String): WeatherDetailedDay =
         withContext(Dispatchers.IO) {
-            val response = RetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, weatherId)
+            val response = WeatherRetrofitClient.weatherApi.getWeather(city = city)
+            val forecast =
+                response.forecastList.find { it.dt == weatherId.toLong() }
+                    ?: throw Exception("Данные не найдены")
             WeatherDetailedDay(
-                response.location.name,
-                response.current.temp_c,
-                response.current.condition.text,
-                response.forecast.forecastday.first().day.maxtemp_c,
-                response.forecast.forecastday.first().day.mintemp_c,
-                response.forecast.forecastday.first().day.avgtemp_c
+                city = response.city.name,
+                dt = forecast.dt,
+                dtText = forecast.dtTxt,
+                temp = forecast.main.temp,
+                description = forecast.weather.first().description,
+                maxTemp = forecast.main.tempMax,
+                minTemp = forecast.main.tempMin,
+                feelingTemp = forecast.main.feelsLike,
+                pressure = forecast.main.pressure,
+                visibility = forecast.visibility,
+                humidity = forecast.main.humidity,
+                windDirection = forecast.wind.deg,
+                windSpeed = forecast.wind.speed,
+                probabilityPrecipitation = forecast.pop,
+                partDay = forecast.sys.pod,
+                sunSet = response.city.sunset,
+                sunRise = response.city.sunrise
             )
         }
 
-    override suspend fun getWeatherHoursDay(weatherId: Int): List<WeatherHoursDay> =
+    override suspend fun getWeatherHoursDay(weatherId: Int, city: String): List<WeatherHoursDay> =
         withContext(Dispatchers.IO) {
-            val response = RetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, weatherId)
-            val days = response.forecast.forecastday
-            days.flatMap { day ->
-                day.hour.map { hour ->
+            val response = WeatherRetrofitClient.weatherApi.getWeather(city = city)
+
+            val selectedDate = response.forecastList
+                .find { it.dt == weatherId.toLong() }?.dtTxt?.substring(0, 10)
+                ?: throw Exception("Данные не найдены")
+
+            response.forecastList
+                .filter { it.dtTxt.startsWith(selectedDate) }
+                .map {
                     WeatherHoursDay(
-                        hour.time.dateFormatHourly(),
-                        hour.condition.icon,
-                        hour.temp_c,
-                        day.day.daily_chance_of_rain
+                        it.dt,
+                        it.weather.first().icon,
+                        it.main.temp,
+                        it.pop
                     )
                 }
-            }
-        }
-
-    override suspend fun getWeatherAdditionalInfoDay(weatherId: Int): WeatherAdditionalInfoDay =
-        withContext(Dispatchers.IO) {
-            val response = RetrofitClient.weatherApi.getWeather(WEATHER_API_KEY, city, weatherId)
-            WeatherAdditionalInfoDay(
-                response.current.temp_c,
-                response.current.condition.text,
-                response.uv,
-                response.humidity,
-                response.pressure_mb,
-                response.wind_kph
-            )
         }
 }
+

@@ -2,8 +2,10 @@ package com.example.features.weather.model
 
 data class PreviewBarWeather(
     var city: String = "London",
-    val date: String,
+    val date: Long,
+    val dtText: String,
     val icon: String,
-    val temp: Float,
-    val description: String
+    val temp: Double,
+    val description: String,
+    val partDay: String
 )

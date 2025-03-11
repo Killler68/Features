@@ -12,13 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.features.ui.theme.Cyan
 
 @Composable
 fun PageIndicators(
     modifier: Modifier = Modifier,
     count: Int,
-    currentPage: Int
+    currentPage: Int,
+    colorCurrent: Color,
+    colorNotCurrent: Color
 ) {
     Row(
         modifier = modifier,
@@ -34,7 +35,7 @@ fun PageIndicators(
                     )
                     .clip(RoundedCornerShape(6.dp))
                     .background(
-                        if (index == currentPage) Cyan else Color.LightGray
+                        if (index == currentPage) colorCurrent else colorNotCurrent
                     )
             )
         }

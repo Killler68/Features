@@ -1,8 +1,8 @@
 package com.example.features.weather.viewmodel
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.common.strings.city
 import com.example.features.navigation.Screens
 import com.example.features.weather.model.WeatherEvent
 import com.example.features.weather.model.WeatherSideEffect
@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 
 class WeatherViewModel(
     private val weatherUseCase: WeatherUseCase,
-    private val hoursWeatherUseCase: HoursWeatherUseCase,
     private val previewBarWeatherUseCase: PreviewBarWeatherUseCase
 ) : ViewModel() {
 
@@ -27,34 +26,28 @@ class WeatherViewModel(
     private val _effect = MutableSharedFlow<WeatherSideEffect>()
     val effect: SharedFlow<WeatherSideEffect> get() = _effect.asSharedFlow()
 
-    var isEnabled = mutableStateOf(false)
-
     init {
-        dispatch(WeatherEvent.LoadData)
+        loadWeather(city)
     }
 
     fun dispatch(event: WeatherEvent) {
         when (event) {
-            WeatherEvent.LoadData -> loadWeather()
+            WeatherEvent.LoadData -> loadWeather(city)
             WeatherEvent.ToBack -> navigateTo(Screens.Features.route)
-            is WeatherEvent.ToWeatherDetailed -> navigateTo(
-                Screens.WeatherDetailedScreen.createRouter(
-                    event.weatherId
-                )
-            )
+            is WeatherEvent.ToWeatherDetailed -> navigateToDetailed(event.weatherId)
+            WeatherEvent.OnShowDialogChangeCity -> showDialog()
+            WeatherEvent.OnCloseShowDialogChangeCity -> clearSideEffects()
         }
     }
 
-    private fun loadWeather() {
+    fun loadWeather(city: String) {
         viewModelScope.launch {
+            _state.value = WeatherState.Loading
             try {
-                val dailyWeather = weatherUseCase()
-                val hoursWeather = hoursWeatherUseCase()
-                val previewWeather = previewBarWeatherUseCase()
-
+                val weatherWeek = weatherUseCase(city)
+                val previewWeather = previewBarWeatherUseCase(city)
                 _state.value = WeatherState.Success(
-                    dayly = dailyWeather,
-                    hours = hoursWeather,
+                    weatherWeek = weatherWeek,
                     preview = previewWeather,
                 )
             } catch (e: Exception) {
@@ -63,9 +56,33 @@ class WeatherViewModel(
         }
     }
 
+    private fun navigateToDetailed(weatherId: Long) {
+        viewModelScope.launch {
+            _effect.emit(
+                WeatherSideEffect.NavigateTo(
+                    Screens.WeatherDetailedScreen.createRouter(
+                        weatherId.toString()
+                    )
+                )
+            )
+        }
+    }
+
     private fun navigateTo(router: String) {
         viewModelScope.launch {
             _effect.emit(WeatherSideEffect.NavigateTo(router))
+        }
+    }
+
+    private fun showDialog() {
+        viewModelScope.launch {
+            _effect.emit(WeatherSideEffect.Popup)
+        }
+    }
+
+    private fun clearSideEffects() {
+        viewModelScope.launch {
+            _effect.emit(WeatherSideEffect.None)
         }
     }
 }

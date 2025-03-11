@@ -1,4 +1,4 @@
-package com.example.features.weather.detailed.screen
+package com.example.features.weather.detailed.screen.view
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,20 +10,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.common.extension.weatherColorExtension
+import com.example.features.common.utils.ColorCategory
+import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
-fun WeatherNameAPI() {
+fun BottomNameView(name: String, textColor: Color) {
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = 10.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.BottomCenter
     ) {
         Text(
-            text = "Interactive Weather",
+            text = name,
             fontSize = 8.sp,
-            color = Color.White
+            color = textColor
         )
     }
 }

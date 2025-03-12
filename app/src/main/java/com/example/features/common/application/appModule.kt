@@ -49,6 +49,7 @@ import com.example.features.profile.viewmodel.GetUserAdditionalInfoByIdUseCase
 import com.example.features.profile.viewmodel.UpdateUserAdditionalInfoUseCase
 import com.example.features.profile.viewmodel.UserAdditionalInfoViewModel
 import com.example.features.registration.usecase.CreateUserUseCaseImpl
+import com.example.features.registration.usecase.GetUserByLoginUseCase
 import com.example.features.registration.viewmodel.CreateUserUseCase
 import com.example.features.registration.viewmodel.RegistrationViewModel
 import com.example.features.settings.usecase.DeleteUserUseCase
@@ -156,10 +157,11 @@ val appModule = module {
     factory { DeleteTaskUseCase(get()) }
     factory { UpdateTaskUseCase(get()) }
     factory { CreateTaskUseCase(get()) }
+    factory { GetUserByLoginUseCase(get()) }
 
     viewModel { MainViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
-    viewModel { RegistrationViewModel(get(), get()) }
+    viewModel { RegistrationViewModel(get(), get(), get()) }
     viewModel { AuthorizationViewModel(get()) }
     viewModel { FeaturesViewModel(get(), get(), get(), get()) }
     viewModel { WeatherViewModel(get(), get()) }

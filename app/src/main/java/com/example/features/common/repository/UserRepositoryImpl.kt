@@ -30,16 +30,17 @@ class UserRepositoryImpl(
             user ?: throw Exception("User $login or $password not found")
         }
 
-    override suspend fun createUser(login: String, password: String): User =
+    override suspend fun getUserByLogin(login: String): User? = withContext(Dispatchers.IO) {
+        val user = userDao.getUserByLogin(login)?.toUser()
+        user
+    }
+
+
+    override suspend fun createUser(login: String, password: String): Int =
         withContext(Dispatchers.IO) {
-            userDao.createUser(
-                CreateUserTuple(
-                    login = login,
-                    password = password
-                )
-            )
-            val createUser = userDao.getUsers().last().toUser()
-            createUser
+            val userId =
+                userDao.createUser(CreateUserTuple(login = login, password = password)).toInt()
+            userId
         }
 
     override suspend fun deleteUser(userId: Int) =

@@ -19,8 +19,8 @@ sealed class Screens(val route: String) {
         fun createRoute(userId: Int) = "Features/$userId"
     }
 
-    data object UserAdditionalInfo : Screens("UserAdditionalInfo/{userId}") {
-        fun createRoute(userId: Int) = "UserAdditionalInfo/$userId"
+    data object Profile : Screens("Profile/{userId}") {
+        fun createRoute(userId: Int) = "Profile/$userId"
     }
 
     data object NotesDetail : Screens("note_detail/{noteId}") {

@@ -1,6 +1,6 @@
 package com.example.features.common.database.profile.tuple
 
-data class CreateUserAdditionalInfoTuple(
+data class CreateProfileTuple(
     val userId: Int,
     val email: String,
     val name: String,

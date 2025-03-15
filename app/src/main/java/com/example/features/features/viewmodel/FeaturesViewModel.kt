@@ -36,7 +36,7 @@ class FeaturesViewModel(
             FeaturesEvent.NavigateToAbout -> destination(Screens.AboutScreen.route)
             is FeaturesEvent.NavigateToFeature -> destination(event.featureId)
             is FeaturesEvent.NavigateToProfile -> destination(
-                Screens.UserAdditionalInfo.createRoute(
+                Screens.Profile.createRoute(
                     event.userId
                 )
             )

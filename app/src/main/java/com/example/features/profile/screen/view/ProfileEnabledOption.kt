@@ -14,7 +14,6 @@ fun ProfileIsEnabledOption(profile: Profile, state: ProfileState, viewModel: Pro
         is Option.Enabled -> {
             ProfileEditingAdditionalInfo(state, viewModel)
             BottomEditingButtons(viewModel)
-
         }
 
         is Option.Off -> {

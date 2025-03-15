@@ -24,8 +24,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun ProfilePreviewInfo(profile: Profile) {
     val sharedViewModel: SharedViewModel = getViewModel()
-    val currentState = sharedViewModel.currentUser.collectAsState()
-    val login = currentState.value?.login
+    val login = sharedViewModel.currentUser.collectAsState().value?.login
 
     Box(
         contentAlignment = Alignment.Center,
@@ -40,7 +39,6 @@ fun ProfilePreviewInfo(profile: Profile) {
                 color = Cyan
             )
         }
-
     }
     if (profile.email.isNotEmpty()) {
         Box(

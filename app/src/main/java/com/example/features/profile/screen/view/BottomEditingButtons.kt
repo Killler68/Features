@@ -3,7 +3,6 @@ package com.example.features.profile.screen.view
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -17,10 +16,8 @@ import com.example.features.profile.model.ProfileEvent
 import com.example.features.profile.viewmodel.ProfileViewModel
 import com.example.features.ui.theme.Cyan
 
-
 @Composable
 fun BottomEditingButtons(viewModel: ProfileViewModel) {
-
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier = Modifier
@@ -28,54 +25,28 @@ fun BottomEditingButtons(viewModel: ProfileViewModel) {
             .padding(bottom = 30.dp)
     ) {
         Row {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.5f)
-                    .padding(start = 10.dp, end = 5.dp),
-                onClick = {
-                    viewModel.dispatch(
-                        ProfileEvent.OnClickCancel
-                    )
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Cyan)
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Отменить",
-                        fontSize = 14.sp
-                    )
-                }
+            EditingButton(
+                text = "Отменить",
+                onClick = { viewModel.dispatch(ProfileEvent.OnClickCancel) }
+            )
+            EditingButton(
+                text = "Подтвердить",
+                onClick = { viewModel.dispatch(ProfileEvent.OnClickApply) }
+            )
+        }
+    }
+}
 
-            }
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.5f)
-                    .padding(start = 10.dp, end = 5.dp),
-                onClick = {
-                    viewModel.dispatch(
-                        ProfileEvent.OnClickApply
-                    )
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Cyan)
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Подтвердить",
-                        fontSize = 14.sp
-                    )
-                }
-
-            }
+@Composable
+fun EditingButton(text: String, onClick: () -> Unit) {
+    Button(
+        modifier = Modifier
+            .padding(horizontal = 5.dp),
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(containerColor = Cyan)
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Text(text = text, fontSize = 14.sp)
         }
     }
 }

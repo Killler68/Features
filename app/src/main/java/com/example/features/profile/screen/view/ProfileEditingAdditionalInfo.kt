@@ -20,140 +20,54 @@ import com.example.features.profile.model.ProfileEvent
 import com.example.features.profile.model.ProfileState
 import com.example.features.profile.viewmodel.ProfileViewModel
 
-
 @Composable
 fun ProfileEditingAdditionalInfo(state: ProfileState, viewModel: ProfileViewModel) {
-    TextField(
+    ProfileTextField(
+        label = "Имя",
         value = state.editName,
-        onValueChange = { viewModel.dispatch(ProfileEvent.OnNameChange(it)) },
-        label = {
-            Text(
-                text = "Имя",
-                fontSize = 10.sp,
-                modifier = Modifier.padding(vertical = 5.dp)
-            )
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 5.dp)
-            .border(
-                BorderStroke(1.dp, Color.LightGray),
-                shape = RoundedCornerShape(6.dp)
-            ),
-        textStyle = TextStyle(
-            fontSize = 14.sp
-        ),
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.White,
-            unfocusedContainerColor = Color.White,
-            focusedIndicatorColor = Color.White,
-            unfocusedIndicatorColor = Color.White,
-            focusedLabelColor = Color.LightGray,
-            unfocusedLabelColor = Color.LightGray
-        )
-
+        onValueChange = { viewModel.dispatch(ProfileEvent.OnNameChange(it)) }
     )
-    TextField(
+    ProfileTextField(
+        label = "Возраст",
         value = state.editAge,
         onValueChange = { viewModel.dispatch(ProfileEvent.OnAgeChange(it)) },
-        label = {
-            Text(
-                text = "Возраст",
-                fontSize = 10.sp,
-                modifier = Modifier.padding(bottom = 5.dp)
-            )
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 5.dp)
-            .border(
-                BorderStroke(1.dp, Color.LightGray),
-                shape = RoundedCornerShape(6.dp)
-            ),
-        textStyle = TextStyle(
-            fontSize = 14.sp
-        ),
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.White,
-            unfocusedContainerColor = Color.White,
-            focusedIndicatorColor = Color.White,
-            unfocusedIndicatorColor = Color.White,
-            focusedLabelColor = Color.LightGray,
-            unfocusedLabelColor = Color.LightGray
-        ),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        keyboardType = KeyboardType.Number
     )
-    TextField(
+    ProfileTextField(
+        label = "Город",
         value = state.editCity,
-        onValueChange = { viewModel.dispatch(ProfileEvent.OnCityChange(it)) },
-        label = {
-            Text(
-                text = "Город",
-                fontSize = 10.sp,
-                modifier = Modifier.padding(bottom = 5.dp)
-            )
-        },
-        textStyle = TextStyle(
-            fontSize = 14.sp
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 5.dp)
-            .border(
-                BorderStroke(1.dp, Color.LightGray),
-                shape = RoundedCornerShape(6.dp)
-            ),
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.White,
-            unfocusedContainerColor = Color.White,
-            focusedIndicatorColor = Color.White,
-            unfocusedIndicatorColor = Color.White,
-            focusedLabelColor = Color.LightGray,
-            unfocusedLabelColor = Color.LightGray
-        )
+        onValueChange = { viewModel.dispatch(ProfileEvent.OnCityChange(it)) }
     )
-    TextField(
+    ProfileTextField(
+        label = "Национальность",
         value = state.editNationality,
-        onValueChange = { viewModel.dispatch(ProfileEvent.OnNationalityChange(it)) },
-        label = {
-            Text(
-                text = "Национальность",
-                fontSize = 10.sp,
-                modifier = Modifier.padding(bottom = 5.dp)
-            )
-        },
-        textStyle = TextStyle(
-            fontSize = 14.sp
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 5.dp)
-            .border(
-                BorderStroke(1.dp, Color.LightGray),
-                shape = RoundedCornerShape(6.dp)
-            ),
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.White,
-            unfocusedContainerColor = Color.White,
-            focusedIndicatorColor = Color.White,
-            unfocusedIndicatorColor = Color.White,
-            focusedLabelColor = Color.LightGray,
-            unfocusedLabelColor = Color.LightGray
-        )
+        onValueChange = { viewModel.dispatch(ProfileEvent.OnNationalityChange(it)) }
     )
-    TextField(
+    ProfileTextField(
+        label = "email",
         value = state.editEmail,
-        onValueChange = { viewModel.dispatch(ProfileEvent.OnEmailChange(it)) },
+        onValueChange = { viewModel.dispatch(ProfileEvent.OnEmailChange(it)) }
+    )
+}
+
+@Composable
+fun ProfileTextField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    keyboardType: KeyboardType = KeyboardType.Text
+) {
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
         label = {
             Text(
-                text = "email",
+                text = label,
                 fontSize = 10.sp,
                 modifier = Modifier.padding(bottom = 5.dp)
             )
         },
-        textStyle = TextStyle(
-            fontSize = 14.sp
-        ),
+        textStyle = TextStyle(fontSize = 14.sp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 5.dp)
@@ -168,6 +82,7 @@ fun ProfileEditingAdditionalInfo(state: ProfileState, viewModel: ProfileViewMode
             unfocusedIndicatorColor = Color.White,
             focusedLabelColor = Color.LightGray,
             unfocusedLabelColor = Color.LightGray
-        )
+        ),
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType)
     )
 }

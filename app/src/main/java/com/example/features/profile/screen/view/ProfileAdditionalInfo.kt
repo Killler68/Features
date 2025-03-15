@@ -16,85 +16,42 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.common.database.profile.model.Profile
 
-
 @Composable
 fun ProfileAdditionalInfo(profile: Profile) {
+    profile.name.takeIf { it.isNotEmpty() }?.let {
+        ProfileInfoItem(label = "Имя", value = it)
+    }
+    profile.age.takeIf { it.isNotEmpty() }?.let {
+        ProfileInfoItem(label = "Возраст", value = it)
+    }
+    profile.nationality.takeIf { it.isNotEmpty() }?.let {
+        ProfileInfoItem(label = "Национальность", value = it)
+    }
+}
 
+@Composable
+fun ProfileInfoItem(label: String, value: String) {
     Text(
-        text = "Имя",
+        text = label,
         fontSize = 16.sp,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(bottom = 4.dp)
     )
     Box(
         contentAlignment = Alignment.CenterStart,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp)
+            .padding(vertical = 6.dp)
             .border(
-                BorderStroke(width = 1.dp, Color.LightGray),
+                BorderStroke(1.dp, Color.LightGray),
                 shape = RoundedCornerShape(6.dp)
             )
+            .padding(10.dp)
     ) {
         Text(
-            text = profile.name,
+            text = value,
             fontSize = 14.sp,
-            color = Color.DarkGray,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp),
-        )
-
-    }
-    Text(
-        text = "Возраст",
-        fontSize = 16.sp,
-        fontWeight = FontWeight.Bold
-
-    )
-    Box(
-        contentAlignment = Alignment.CenterStart,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 10.dp)
-            .border(
-                BorderStroke(width = 1.dp, Color.LightGray),
-                shape = RoundedCornerShape(6.dp)
-            )
-    ) {
-        Text(
-            text = profile.age,
-            color = Color.DarkGray,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp),
-        )
-
-    }
-    Text(
-        text = "Национальность",
-        fontSize = 16.sp,
-        fontWeight = FontWeight.Bold
-
-    )
-    Box(
-        contentAlignment = Alignment.CenterStart,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 10.dp)
-            .border(
-                BorderStroke(width = 1.dp, Color.LightGray),
-                shape = RoundedCornerShape(6.dp)
-            )
-    ) {
-        Text(
-            text = profile.nationality,
-            color = Color.DarkGray,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp),
+            color = Color.DarkGray
         )
     }
 }

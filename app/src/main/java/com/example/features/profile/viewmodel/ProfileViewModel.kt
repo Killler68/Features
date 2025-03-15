@@ -6,18 +6,16 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.database.profile.model.Profile
+import com.example.features.navigation.Screens
+import com.example.features.profile.model.Option
+import com.example.features.profile.model.ProfileEvent
+import com.example.features.profile.model.ProfileSideEffect
+import com.example.features.profile.model.ProfileState
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-data class ProfileUiState(
-    val profile: Profile? = null,
-    val isEditing: Boolean = false,
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null,
-    val editName: String = "",
-    val editAge: String = "",
-    val editCity: String = "",
-    val editNationality: String = ""
-)
 
 class ProfileViewModel(
     private val getProfileByIdUseCase: GetProfileByIdUseCase,
@@ -25,12 +23,31 @@ class ProfileViewModel(
     private val addProfileUseCase: CreateProfileUseCase
 ) : ViewModel() {
 
-    var uiState by mutableStateOf(ProfileUiState())
+    var state by mutableStateOf(ProfileState())
         private set
 
-    fun loadProfile(userId: Int) {
+    private val _effect = MutableSharedFlow<ProfileSideEffect>()
+    val effect: SharedFlow<ProfileSideEffect> get() = _effect.asSharedFlow()
+
+    fun handleEvent(event: ProfileEvent) {
+        when (event) {
+            is ProfileEvent.LoadProfile -> loadProfile(event.userId)
+            ProfileEvent.OnClickSettings -> onClickSettings()
+            ProfileEvent.OnClickCancel -> state = state.copy(isEditing = Option.Off(false))
+            ProfileEvent.OnClickApply -> onApplyClick()
+            ProfileEvent.OnClickBack -> onBack(Screens.Features.route)
+            ProfileEvent.OnClickExit -> onBack(Screens.Features.route)
+            is ProfileEvent.OnNameChange -> state = state.copy(editName = event.value)
+            is ProfileEvent.OnAgeChange -> state = state.copy(editAge = event.value)
+            is ProfileEvent.OnCityChange -> state = state.copy(editCity = event.value)
+            is ProfileEvent.OnNationalityChange -> state = state.copy(editNationality = event.value)
+            is ProfileEvent.OnEmailChange -> state = state.copy(editEmail = event.value)
+        }
+    }
+
+    private fun loadProfile(userId: Int) {
         viewModelScope.launch {
-            uiState = uiState.copy(isLoading = true)
+            state = state.copy(isLoading = true)
             val profile = getProfileByIdUseCase(userId)
 
             if (profile == null) {
@@ -38,76 +55,60 @@ class ProfileViewModel(
                     id = 0,
                     userId = userId,
                     email = "",
-                    name = "Новый пользователь",
+                    name = "",
                     age = "",
                     city = "",
                     nationality = ""
                 )
                 val createdProfile = addProfileUseCase(newProfile)
 
-                uiState = uiState.copy(
+                state = state.copy(
                     profile = createdProfile,
                     editName = createdProfile.name,
                     editAge = createdProfile.age,
                     editCity = createdProfile.city,
                     editNationality = createdProfile.nationality,
+                    editEmail = createdProfile.email,
                     isLoading = false
                 )
             } else {
-                uiState = uiState.copy(
+                state = state.copy(
                     profile = profile,
                     editName = profile.name,
                     editAge = profile.age,
                     editCity = profile.city,
                     editNationality = profile.nationality,
+                    editEmail = profile.email,
                     isLoading = false
                 )
             }
         }
     }
 
-    fun onEditClick() {
-        uiState = uiState.copy(isEditing = true)
-    }
-
-    fun onCancelClick() {
-        uiState = uiState.copy(isEditing = false)
-    }
-
-    fun onApplyClick() {
+    private fun onApplyClick() {
         viewModelScope.launch {
-            uiState.profile?.let { profile ->
+            state.profile?.let { profile ->
                 val updatedProfile = profile.copy(
-                    name = uiState.editName,
-                    age = uiState.editAge,
-                    city = uiState.editCity,
-                    nationality = uiState.editNationality
+                    name = state.editName,
+                    age = state.editAge,
+                    city = state.editCity,
+                    nationality = state.editNationality,
+                    email = state.editEmail
                 )
-
                 updateProfileUseCase(updatedProfile)
-
-                uiState = uiState.copy(
-                    profile = updatedProfile,
-                    isEditing = false
-                )
+                state = state.copy(profile = updatedProfile, isEditing = Option.Off(false))
             }
         }
     }
 
-    fun onNameChange(value: String) {
-        uiState = uiState.copy(editName = value)
+    private fun onClickSettings() {
+        state = state.copy(isEditing = Option.Enabled(true))
     }
 
-    fun onAgeChange(value: String) {
-        uiState = uiState.copy(editAge = value)
-    }
-
-    fun onCityChange(value: String) {
-        uiState = uiState.copy(editCity = value)
-    }
-
-    fun onNationalityChange(value: String) {
-        uiState = uiState.copy(editNationality = value)
+    private fun onBack(route: String) {
+        viewModelScope.launch {
+            _effect.emit(ProfileSideEffect.NavigateTo(route))
+        }
     }
 }
 

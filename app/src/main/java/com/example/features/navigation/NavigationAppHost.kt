@@ -13,7 +13,7 @@ import com.example.features.notes.noteadd.screen.NoteAddScreen
 import com.example.features.notes.notedetail.screen.DsNoteDetail
 import com.example.features.notes.noteslist.screen.NotesListScreen
 import com.example.features.notes.task.screen.TaskScreen
-import com.example.features.profile.ProfileScreen
+import com.example.features.profile.screen.ProfileScreen
 import com.example.features.registration.DsRegistration
 import com.example.features.settings.screen.SettingsScreen
 import com.example.features.weather.detailed.screen.WeatherDetailedScreen
@@ -44,7 +44,7 @@ fun NavigationAppHost(checkLocale: String) {
                 })
             ) { backStackEntry ->
                 val userId = backStackEntry.arguments?.getInt("userId") ?: -1
-                ProfileScreen(userId)
+                ProfileScreen(userId, navHostController)
             }
 
             composable(

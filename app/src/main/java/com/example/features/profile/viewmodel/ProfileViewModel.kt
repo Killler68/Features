@@ -29,14 +29,14 @@ class ProfileViewModel(
     private val _effect = MutableSharedFlow<ProfileSideEffect>()
     val effect: SharedFlow<ProfileSideEffect> get() = _effect.asSharedFlow()
 
-    fun handleEvent(event: ProfileEvent) {
+    fun dispatch(event: ProfileEvent) {
         when (event) {
             is ProfileEvent.LoadProfile -> loadProfile(event.userId)
             ProfileEvent.OnClickSettings -> onClickSettings()
             ProfileEvent.OnClickCancel -> state = state.copy(isEditing = Option.Off(false))
             ProfileEvent.OnClickApply -> onApplyClick()
-            ProfileEvent.OnClickBack -> onBack(Screens.Features.route)
-            ProfileEvent.OnClickExit -> onBack(Screens.Features.route)
+            ProfileEvent.OnClickBack -> navigateTo(Screens.Features.route)
+            ProfileEvent.OnClickExit -> navigateTo(Screens.Authorization.route)
             is ProfileEvent.OnNameChange -> state = state.copy(editName = event.value)
             is ProfileEvent.OnAgeChange -> state = state.copy(editAge = event.value)
             is ProfileEvent.OnCityChange -> state = state.copy(editCity = event.value)
@@ -105,7 +105,7 @@ class ProfileViewModel(
         state = state.copy(isEditing = Option.Enabled(true))
     }
 
-    private fun onBack(route: String) {
+    private fun navigateTo(route: String) {
         viewModelScope.launch {
             _effect.emit(ProfileSideEffect.NavigateTo(route))
         }

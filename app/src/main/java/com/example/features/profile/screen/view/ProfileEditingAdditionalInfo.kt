@@ -25,7 +25,7 @@ import com.example.features.profile.viewmodel.ProfileViewModel
 fun ProfileEditingAdditionalInfo(state: ProfileState, viewModel: ProfileViewModel) {
     TextField(
         value = state.editName,
-        onValueChange = { viewModel.handleEvent(ProfileEvent.OnNameChange(it)) },
+        onValueChange = { viewModel.dispatch(ProfileEvent.OnNameChange(it)) },
         label = {
             Text(
                 text = "Имя",
@@ -55,7 +55,7 @@ fun ProfileEditingAdditionalInfo(state: ProfileState, viewModel: ProfileViewMode
     )
     TextField(
         value = state.editAge,
-        onValueChange = { viewModel.handleEvent(ProfileEvent.OnAgeChange(it)) },
+        onValueChange = { viewModel.dispatch(ProfileEvent.OnAgeChange(it)) },
         label = {
             Text(
                 text = "Возраст",
@@ -85,7 +85,7 @@ fun ProfileEditingAdditionalInfo(state: ProfileState, viewModel: ProfileViewMode
     )
     TextField(
         value = state.editCity,
-        onValueChange = { viewModel.handleEvent(ProfileEvent.OnCityChange(it)) },
+        onValueChange = { viewModel.dispatch(ProfileEvent.OnCityChange(it)) },
         label = {
             Text(
                 text = "Город",
@@ -114,7 +114,7 @@ fun ProfileEditingAdditionalInfo(state: ProfileState, viewModel: ProfileViewMode
     )
     TextField(
         value = state.editNationality,
-        onValueChange = { viewModel.handleEvent(ProfileEvent.OnNationalityChange(it)) },
+        onValueChange = { viewModel.dispatch(ProfileEvent.OnNationalityChange(it)) },
         label = {
             Text(
                 text = "Национальность",
@@ -143,7 +143,7 @@ fun ProfileEditingAdditionalInfo(state: ProfileState, viewModel: ProfileViewMode
     )
     TextField(
         value = state.editEmail,
-        onValueChange = { viewModel.handleEvent(ProfileEvent.OnEmailChange(it)) },
+        onValueChange = { viewModel.dispatch(ProfileEvent.OnEmailChange(it)) },
         label = {
             Text(
                 text = "email",

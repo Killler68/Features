@@ -34,7 +34,7 @@ fun BottomEditingButtons(viewModel: ProfileViewModel) {
                     .weight(0.5f)
                     .padding(start = 10.dp, end = 5.dp),
                 onClick = {
-                    viewModel.handleEvent(
+                    viewModel.dispatch(
                         ProfileEvent.OnClickCancel
                     )
                 },
@@ -58,7 +58,7 @@ fun BottomEditingButtons(viewModel: ProfileViewModel) {
                     .weight(0.5f)
                     .padding(start = 10.dp, end = 5.dp),
                 onClick = {
-                    viewModel.handleEvent(
+                    viewModel.dispatch(
                         ProfileEvent.OnClickApply
                     )
                 },

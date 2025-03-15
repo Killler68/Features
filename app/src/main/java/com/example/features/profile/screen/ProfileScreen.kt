@@ -37,7 +37,7 @@ fun ProfileScreen(userId: Int, navController: NavController) {
     val viewModel: ProfileViewModel = getViewModel()
 
     LaunchedEffect(userId) {
-        viewModel.handleEvent(ProfileEvent.LoadProfile(userId))
+        viewModel.dispatch(ProfileEvent.LoadProfile(userId))
     }
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
@@ -54,9 +54,9 @@ fun ProfileScreen(userId: Int, navController: NavController) {
                     TopBarScreen(
                         R.drawable.back,
                         "back",
-                        { viewModel.handleEvent((ProfileEvent.OnClickBack)) },
-                        { viewModel.handleEvent(ProfileEvent.OnClickSettings) },
-                        { viewModel.handleEvent(ProfileEvent.OnClickBack) }
+                        { viewModel.dispatch((ProfileEvent.OnClickBack)) },
+                        { viewModel.dispatch(ProfileEvent.OnClickSettings) },
+                        { viewModel.dispatch(ProfileEvent.OnClickExit) }
                     )
                 },
             )

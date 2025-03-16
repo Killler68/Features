@@ -10,7 +10,7 @@ import com.example.features.profile.viewmodel.ProfileViewModel
 @Composable
 fun ProfileIsEnabledOption(profile: Profile, state: ProfileState, viewModel: ProfileViewModel) {
 
-    when (state.isEditing) {
+    when (state.isOption) {
         is Option.Enabled -> {
             ProfileEditingAdditionalInfo(state, viewModel)
             BottomEditingButtons(viewModel)

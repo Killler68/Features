@@ -4,7 +4,7 @@ import com.example.features.common.database.profile.model.Profile
 
 data class ProfileState(
     val profile: Profile? = null,
-    val isEditing: Option = Option.Off(false),
+    val isOption: Option = Option.Off(false),
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val editName: String = "",

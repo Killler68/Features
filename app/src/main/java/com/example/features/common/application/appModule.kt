@@ -6,13 +6,13 @@ import com.example.features.authorization.GetUserByLoginAndPassword
 import com.example.features.authorization.GetUserByLoginAndPasswordImpl
 import com.example.features.authorization.viewmodel.AuthorizationViewModel
 import com.example.features.common.database.notes.NotesDatabase
-import com.example.features.common.database.profile.UserAdditionalInfoDatabase
+import com.example.features.common.database.profile.ProfileDatabase
 import com.example.features.common.database.task.TaskDatabase
 import com.example.features.common.database.user.UserDatabase
 import com.example.features.common.repository.UserRepository
 import com.example.features.common.repository.UserRepositoryImpl
-import com.example.features.common.repository.profile.UserAdditionalInfoRepository
-import com.example.features.common.repository.profile.UserAdditionalInfoRepositoryImpl
+import com.example.features.common.repository.profile.ProfileRepository
+import com.example.features.common.repository.profile.ProfileRepositoryImpl
 import com.example.features.common.repository.task.TaskRepository
 import com.example.features.common.repository.task.TaskRepositoryImpl
 import com.example.features.common.sharedpreferences.LocalStorage
@@ -41,13 +41,13 @@ import com.example.features.notes.noteslist.usecase.UpdateTaskUseCase
 import com.example.features.notes.noteslist.viewmodel.NotesViewModel
 import com.example.features.notes.task.usecase.CreateTaskUseCase
 import com.example.features.notes.task.viewmodel.TaskViewModel
-import com.example.features.profile.usecase.CreateUserAdditionalInfoUseCaseImpl
-import com.example.features.profile.usecase.GetUserAdditionalInfoByIdUseCaseImpl
-import com.example.features.profile.usecase.UpdateUserAdditionalInfoUseCaseImpl
-import com.example.features.profile.viewmodel.CreateUserAdditionalInfoUseCase
-import com.example.features.profile.viewmodel.GetUserAdditionalInfoByIdUseCase
-import com.example.features.profile.viewmodel.UpdateUserAdditionalInfoUseCase
-import com.example.features.profile.viewmodel.UserAdditionalInfoViewModel
+import com.example.features.profile.usecase.CreateProfileUseCaseImpl
+import com.example.features.profile.usecase.GetProfileByIdUseCaseImpl
+import com.example.features.profile.usecase.UpdateProfileUseCaseImpl
+import com.example.features.profile.viewmodel.CreateProfileUseCase
+import com.example.features.profile.viewmodel.GetProfileByIdUseCase
+import com.example.features.profile.viewmodel.UpdateProfileUseCase
+import com.example.features.profile.viewmodel.ProfileViewModel
 import com.example.features.registration.usecase.CreateUserUseCaseImpl
 import com.example.features.registration.usecase.GetUserByLoginUseCase
 import com.example.features.registration.viewmodel.CreateUserUseCase
@@ -85,7 +85,7 @@ val appModule = module {
     single<WeatherDetailedRepository> { WeatherRepositoryImpl() }
     single<NotesRepository> { NotesRepositoryImpl(get()) }
     single<UserRepository> { UserRepositoryImpl(get()) }
-    single<UserAdditionalInfoRepository> { UserAdditionalInfoRepositoryImpl(get()) }
+    single<ProfileRepository> { ProfileRepositoryImpl(get()) }
     single<TaskRepository> { TaskRepositoryImpl(get()) }
 
     single {
@@ -117,14 +117,14 @@ val appModule = module {
     single {
         Room.databaseBuilder(
             get(),
-            UserAdditionalInfoDatabase::class.java,
-            "user_additional_info_database"
+            ProfileDatabase::class.java,
+            "profile_database"
         ).build()
     }
 
     factory<LocalStorage> { LocalStorageImpl(get()) }
 
-    single { get<UserAdditionalInfoDatabase>().userAdditionalInfoDao() }
+    single { get<ProfileDatabase>().profileDao() }
     single { get<UserDatabase>().userDao() }
 
 
@@ -142,9 +142,9 @@ val appModule = module {
     factory { WeatherDetailedDayUseCase(get()) }
     factory { WeatherHoursDayUseCase(get()) }
 
-    factory<CreateUserAdditionalInfoUseCase> { CreateUserAdditionalInfoUseCaseImpl(get()) }
-    factory<GetUserAdditionalInfoByIdUseCase> { GetUserAdditionalInfoByIdUseCaseImpl(get()) }
-    factory<UpdateUserAdditionalInfoUseCase> { UpdateUserAdditionalInfoUseCaseImpl(get()) }
+    factory<CreateProfileUseCase> { CreateProfileUseCaseImpl(get()) }
+    factory<GetProfileByIdUseCase> { GetProfileByIdUseCaseImpl(get()) }
+    factory<UpdateProfileUseCase> { UpdateProfileUseCaseImpl(get()) }
 
     factory { DeleteUserUseCase(get()) }
 
@@ -166,7 +166,7 @@ val appModule = module {
     viewModel { FeaturesViewModel(get(), get(), get(), get()) }
     viewModel { WeatherViewModel(get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get(), get()) }
-    viewModel { UserAdditionalInfoViewModel(get(), get(), get()) }
+    viewModel { ProfileViewModel(get(), get(), get()) }
     viewModel { NoteAddViewModel(get(), get()) }
     viewModel { NoteDetailViewModel(get(), get(), get(), get()) }
     viewModel { TaskViewModel(get(), get()) }

@@ -1,6 +1,6 @@
 package com.example.features.common.database.profile.model
 
-data class UserAdditionalInfo(
+data class Profile(
     val id: Int,
     val userId: Int,
     val email: String,
@@ -10,10 +10,9 @@ data class UserAdditionalInfo(
     val nationality: String
 )
 
-//val emptyUserAdditionalInfo = UserAdditionalInfo(0, 0,"", "", "","", "")
 
 
-fun UserAdditionalInfoData.toUserAdditionalInfo() = UserAdditionalInfo(
+fun ProfileData.toProfile() = Profile(
     id, userId, email, name, age, city, nationality
 )
 

@@ -3,7 +3,6 @@ package com.example.features.welcome.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.welcome.models.WelcomeEvent
-import com.example.features.welcome.models.WelcomeNavigation
 import com.example.features.welcome.models.WelcomeSideEffect
 import com.example.features.welcome.models.WelcomeState
 import kotlinx.coroutines.flow.MutableSharedFlow

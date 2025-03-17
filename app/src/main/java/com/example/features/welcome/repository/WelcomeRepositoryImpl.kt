@@ -6,23 +6,23 @@ import com.example.features.welcome.usecase.WelcomeRepository
 
 class WelcomeRepositoryImpl : WelcomeRepository {
 
-    override fun getPagerItem(): List<PagerItems> = test
+    override fun getPagerItem(): List<PagerItems> = pagerItems
 
-    private val test = listOf(
+    private val pagerItems = listOf(
         PagerItems(
-            R.drawable.book,
-            "Заметки",
-            "Создание заметок с подробным описанием"
+            image = R.drawable.book,
+            title = "Заметки",
+            subTitle = "Создание заметок с подробным описанием"
         ),
         PagerItems(
-            R.drawable.weather_forecast,
-            "Погода",
-            "Узнайте погоду в любой точке мира!"
+            image = R.drawable.weather_forecast,
+            title = "Погода",
+            subTitle = "Узнайте погоду в любой точке мира!"
         ),
         PagerItems(
-            R.drawable.trash_bucket,
-            "В стадии разработки",
-            ""
+            image = R.drawable.trash_bucket,
+            title = "В стадии разработки",
+            subTitle = ""
         ),
     )
 }

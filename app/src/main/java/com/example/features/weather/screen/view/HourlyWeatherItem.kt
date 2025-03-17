@@ -24,28 +24,27 @@ import com.example.features.weather.model.WeatherWeek
 
 @Composable
 fun HourlyWeatherItem(hourWeather: WeatherWeek, state: WeatherState.Success) {
+
     val temperature = "${hourWeather.temp.toInt()}°"
+    val textColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
+    val cardColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.CARD)
+    val image = hourWeather.icon.imageWeatherExtension(hourWeather.day)
 
     Column(
         Modifier
             .padding(5.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(
-                weatherColorExtension(
-                    state.weatherWeek.first().partDay,
-                    ColorCategory.CARD
-                )
-            ),
+            .background(cardColor),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = hourWeather.day.dateFormatHours(),
             fontSize = 12.sp,
-            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
+            color = textColor
         )
         Image(
-            painter = painterResource(hourWeather.icon.imageWeatherExtension(hourWeather.day)),
-            contentDescription = "Weather Icon",
+            painter = painterResource(image),
+            contentDescription = "weather",
             modifier = Modifier
                 .size(50.dp)
                 .padding(8.dp)
@@ -53,7 +52,7 @@ fun HourlyWeatherItem(hourWeather: WeatherWeek, state: WeatherState.Success) {
         Text(
             text = temperature,
             fontSize = 12.sp,
-            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
+            color = textColor
         )
     }
 }

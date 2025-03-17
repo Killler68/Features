@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.features.model.FeaturesState
-import com.example.features.weather.screen.ShimmerEffect
+import com.example.features.common.view.ShimmerEffect
 
 
 @Composable

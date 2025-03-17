@@ -20,7 +20,7 @@ import com.example.features.common.extension.extensionTemperatureWeather
 import com.example.features.common.extension.getRawNameFeaturesCityEngToRuExtension
 import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.features.model.FeaturesState
-import com.example.features.weather.screen.ShimmerEffect
+import com.example.features.common.view.ShimmerEffect
 
 
 @OptIn(ExperimentalGlideComposeApi::class)

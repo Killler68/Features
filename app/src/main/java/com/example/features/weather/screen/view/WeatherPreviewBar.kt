@@ -31,18 +31,17 @@ import com.example.features.weather.model.WeatherState
 fun WeatherPreviewBar(preview: PreviewBarWeather, state: WeatherState.Success) {
 
     val temperature = "${preview.temp.toInt()}°"
+    val textColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
+    val cardColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.CARD)
+    val image = preview.icon.extensionConditionWeather(state.weatherWeek.first().partDay)
+    val description = preview.description.firstUppercaseString().getRawNameWeatherExtension()
 
     Column(
         Modifier
             .fillMaxWidth()
             .padding(10.dp)
             .clip(RoundedCornerShape(20.dp))
-            .background(
-                weatherColorExtension(
-                    state.weatherWeek.first().partDay,
-                    ColorCategory.CARD
-                )
-            ),
+            .background(cardColor),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -50,12 +49,12 @@ fun WeatherPreviewBar(preview: PreviewBarWeather, state: WeatherState.Success) {
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,
-            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT),
+            color = textColor,
         )
 
         GlideImage(
-            model = preview.icon.extensionConditionWeather(state.weatherWeek.first().partDay),
-            contentDescription = "animated_gif_weather",
+            model = image,
+            contentDescription = "animated_gif",
             modifier = Modifier
                 .padding(bottom = 5.dp)
                 .size(100.dp),
@@ -66,14 +65,14 @@ fun WeatherPreviewBar(preview: PreviewBarWeather, state: WeatherState.Success) {
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 30.sp,
-            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT),
+            color = textColor,
         )
         Text(
-            text = preview.description.firstUppercaseString().getRawNameWeatherExtension(),
+            text = description,
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 20.sp,
-            color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT),
+            color = textColor,
         )
     }
 }

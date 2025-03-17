@@ -10,13 +10,14 @@ import androidx.compose.ui.Modifier
 import com.example.features.weather.model.WeatherEvent
 import com.example.features.weather.model.WeatherState
 import com.example.features.weather.viewmodel.WeatherViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun WeatherList(
     paddingValues: PaddingValues,
     state: WeatherState.Success,
-    viewModel: WeatherViewModel
 ) {
+    val viewModel: WeatherViewModel = getViewModel()
 
     LazyColumn(
         Modifier
@@ -29,10 +30,9 @@ fun WeatherList(
         items(state.weatherWeek) { weatherData ->
             DailyWeatherItem(
                 weatherWeek = weatherData,
-                state = state
-            ) {
-                viewModel.dispatch(WeatherEvent.ToWeatherDetailed(weatherData.day))
-            }
+                state = state,
+                onClick = { viewModel.dispatch(WeatherEvent.ToWeatherDetailed(weatherData.day)) }
+            )
         }
     }
 }

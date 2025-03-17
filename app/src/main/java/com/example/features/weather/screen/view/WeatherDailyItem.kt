@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,17 +40,17 @@ fun DailyWeatherItem(
     val temperatureMax = "${weatherWeek.maxTemp.toInt()}°"
     val temperatureMin = "${weatherWeek.minTemp.toInt()}°"
 
+    val textColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
+    val cardColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.CARD)
+    val image = weatherWeek.icon.imageWeatherExtension(weatherWeek.day)
+    val day = weatherWeek.day.dateFormatDays()
+
     Column(
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 5.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(
-                weatherColorExtension(
-                    state.weatherWeek.first().partDay,
-                    ColorCategory.CARD
-                )
-            )
+            .background(cardColor)
             .clickable { onClick() }
     ) {
         Row(
@@ -57,12 +59,9 @@ fun DailyWeatherItem(
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = weatherWeek.day.dateFormatDays(),
+                text = day,
                 textAlign = TextAlign.Start,
-                color = weatherColorExtension(
-                    state.weatherWeek.first().partDay,
-                    ColorCategory.TEXT
-                ),
+                color = textColor,
                 modifier = Modifier
                     .weight(0.3f)
                     .padding(start = 10.dp)
@@ -71,11 +70,7 @@ fun DailyWeatherItem(
             Text(
                 text = temperatureMin,
                 textAlign = TextAlign.End,
-                color = weatherColorExtension(
-                    state.weatherWeek.first().partDay,
-                    ColorCategory.TEXT
-                ),
-
+                color = textColor,
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
                     .weight(0.3f)
@@ -85,12 +80,11 @@ fun DailyWeatherItem(
                 text = temperatureMax,
                 textAlign = TextAlign.End,
                 modifier = Modifier.padding(horizontal = 5.dp),
-                color = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
-
+                color = textColor
             )
 
             Image(
-                painter = painterResource(weatherWeek.icon.imageWeatherExtension(weatherWeek.day)),
+                painter = painterResource(image),
                 contentDescription = "image",
                 modifier = Modifier
                     .padding(start = 5.dp, end = 10.dp, top = 5.dp, bottom = 5.dp)
@@ -106,9 +100,6 @@ fun DailyWeatherItem(
                 .height(1.dp)
         )
 
-        ListHoursWeather(
-            weather = weatherWeek,
-            state = state
-        )
+        LazyRow { items(weatherWeek.listWeek) { item -> HourlyWeatherItem(item, state) } }
     }
 }

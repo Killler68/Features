@@ -170,6 +170,6 @@ val appModule = module {
     viewModel { NoteAddViewModel(get(), get()) }
     viewModel { NoteDetailViewModel(get(), get(), get(), get()) }
     viewModel { TaskViewModel(get(), get()) }
-    viewModel { SettingsViewModel(get()) }
+    viewModel { SettingsViewModel(get(), get()) }
     viewModel { WeatherDetailedViewModel(get(), get(), get()) }
 }

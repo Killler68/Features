@@ -1,4 +1,4 @@
-package com.example.features.settings.screen
+package com.example.features.settings.screen.view
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -23,7 +23,7 @@ import com.example.features.ui.theme.Cyan
 
 
 @Composable
-fun SettingsCard(
+fun SettingsCardView(
     @DrawableRes imageCard: Int,
     imageDescription: String,
     title: String,

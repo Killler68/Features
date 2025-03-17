@@ -27,13 +27,9 @@ class RegistrationViewModel(
     private val _event = MutableSharedFlow<RegistrationEvent>()
     val event: SharedFlow<RegistrationEvent> get() = _event.asSharedFlow()
 
-    fun dispatch(
-        event: RegistrationEvent,
-        login: String = "",
-        password: String = "",
-    ) {
+    fun dispatch(event: RegistrationEvent) {
         when (event) {
-            RegistrationEvent.CreateUser -> createUser(login, password)
+            is RegistrationEvent.CreateUser -> createUser(event.login, event.password)
             RegistrationEvent.NavigateToAuthorization -> navigateToAuthorization()
         }
     }
@@ -53,7 +49,7 @@ class RegistrationViewModel(
                 sharedViewModel.setCurrentUser(User(userId, login, password))
 
                 _state.value = RegistrationState.Success
-                _event.emit(RegistrationEvent.CreateUser)
+                _event.emit(RegistrationEvent.CreateUser(login, password))
             } catch (e: Exception) {
                 _state.value = RegistrationState.Error(e.localizedMessage ?: "Ошибка регистрации")
             }

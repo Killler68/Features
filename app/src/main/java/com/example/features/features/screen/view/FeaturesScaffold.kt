@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.features.features.model.FeaturesEvent
 import com.example.features.features.model.FeaturesState
-import com.example.features.weather.detailed.screen.view.BottomNameView
+import com.example.features.common.view.BottomNameView
 
 
 @Composable

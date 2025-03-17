@@ -19,24 +19,24 @@ fun AdditionalInfoDayView(state: WeatherDetailedState.Success) {
             .padding(vertical = 5.dp)
     ) {
         CardAdditionalInfoDay(
-            0.5f,
-            Alignment.CenterStart,
-            10.dp,
-            5.dp,
-            "Видимость",
-            weatherVisibilityExtension(state.detailedDay.visibility),
-            R.drawable.visibility,
-            state
+            width = 0.5f,
+            alignment = Alignment.CenterStart,
+            startPadding = 10.dp,
+            endPadding = 5.dp,
+            info = "Видимость",
+            subInfo = weatherVisibilityExtension(state.detailedDay.visibility),
+            image = R.drawable.visibility,
+            state = state
         )
         CardAdditionalInfoDay(
-            1f,
-            Alignment.CenterEnd,
-            5.dp,
-            10.dp,
-            "Влажность",
-            "${state.detailedDay.humidity}%",
-            R.drawable.humidity,
-            state
+            width = 1f,
+            alignment = Alignment.CenterEnd,
+            startPadding = 5.dp,
+            endPadding = 10.dp,
+            info = "Влажность",
+            subInfo = "${state.detailedDay.humidity}%",
+            image = R.drawable.humidity,
+            state = state
         )
     }
     Row(
@@ -45,24 +45,24 @@ fun AdditionalInfoDayView(state: WeatherDetailedState.Success) {
             .padding(vertical = 5.dp)
     ) {
         CardAdditionalInfoDay(
-            0.5f,
-            Alignment.CenterStart,
-            10.dp,
-            5.dp,
-            "Ветер",
-            "${state.detailedDay.windSpeed} м/с",
-            R.drawable.wind,
-            state
+            width = 0.5f,
+            alignment = Alignment.CenterStart,
+            startPadding = 10.dp,
+            endPadding = 5.dp,
+            info = "Ветер",
+            subInfo = "${state.detailedDay.windSpeed} м/с",
+            image = R.drawable.wind,
+            state = state
         )
         CardAdditionalInfoDay(
-            1f,
-            Alignment.CenterEnd,
-            5.dp,
-            10.dp,
-            "Давление",
-            "${state.detailedDay.pressure} мбар",
-            R.drawable.barometer,
-            state
+            width = 1f,
+            alignment = Alignment.CenterEnd,
+            startPadding = 5.dp,
+            endPadding = 10.dp,
+            info = "Давление",
+            subInfo = "${state.detailedDay.pressure} мбар",
+            image = R.drawable.barometer,
+            state = state
         )
     }
 }

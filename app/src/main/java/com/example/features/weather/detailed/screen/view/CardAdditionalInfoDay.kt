@@ -35,6 +35,9 @@ fun CardAdditionalInfoDay(
     image: Int,
     state: WeatherDetailedState.Success
 ) {
+    val cardColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD)
+    val imageColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.IMAGE)
+    val textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
 
     Box(
         modifier = Modifier
@@ -47,10 +50,7 @@ fun CardAdditionalInfoDay(
                 .padding(start = startPadding, end = endPadding)
                 .size(width = 1.dp, 100.dp),
             colors = CardDefaults.cardColors(
-                containerColor = weatherColorExtension(
-                    state.detailedDay.partDay,
-                    ColorCategory.CARD
-                )
+                containerColor = cardColor
             )
         ) {
             Column(
@@ -70,12 +70,7 @@ fun CardAdditionalInfoDay(
                     Image(
                         painter = painterResource(image),
                         contentDescription = "additional_info",
-                        colorFilter = ColorFilter.tint(
-                            weatherColorExtension(
-                                state.detailedDay.partDay,
-                                ColorCategory.IMAGE
-                            )
-                        ),
+                        colorFilter = ColorFilter.tint(imageColor),
                         modifier = Modifier
                             .padding(start = 5.dp, end = 5.dp, top = 3.dp)
                             .size(18.dp)
@@ -86,7 +81,7 @@ fun CardAdditionalInfoDay(
                         fontSize = 14.sp,
                         modifier = Modifier
                             .padding(horizontal = 5.dp, vertical = 5.dp),
-                        color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+                        color = textColor
                     )
                 }
 
@@ -95,7 +90,7 @@ fun CardAdditionalInfoDay(
                     fontSize = 18.sp,
                     modifier = Modifier
                         .padding(horizontal = 10.dp, vertical = 5.dp),
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+                    color = textColor
                 )
             }
         }

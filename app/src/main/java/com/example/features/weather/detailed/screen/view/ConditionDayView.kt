@@ -27,6 +27,12 @@ import java.util.Locale
 
 @Composable
 fun ConditionDayView(state: WeatherDetailedState.Success) {
+
+    val textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+    val cardColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD)
+
+    val sunRiseTime = state.detailedDay.sunRise.dateFormatHours()
+    val sunSetTime = state.detailedDay.sunSet.dateFormatHours()
     val today = remember { SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()) }
     val selectedDate = remember {
         SimpleDateFormat(
@@ -55,7 +61,7 @@ fun ConditionDayView(state: WeatherDetailedState.Success) {
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 10.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD))
+            .background(cardColor)
     ) {
         SemiCircularProgress(
             progress = progress,
@@ -71,7 +77,7 @@ fun ConditionDayView(state: WeatherDetailedState.Success) {
                 Text(
                     "Восход",
                     fontSize = 18.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+                    color = textColor
                 )
             }
             Box(
@@ -81,7 +87,7 @@ fun ConditionDayView(state: WeatherDetailedState.Success) {
                 Text(
                     "Закат",
                     fontSize = 18.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+                    color = textColor
                 )
             }
         }
@@ -93,9 +99,9 @@ fun ConditionDayView(state: WeatherDetailedState.Success) {
         ) {
             Box(contentAlignment = Alignment.CenterStart) {
                 Text(
-                    state.detailedDay.sunRise.dateFormatHours(),
+                    sunRiseTime,
                     fontSize = 18.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+                    color = textColor
                 )
             }
             Box(
@@ -103,9 +109,9 @@ fun ConditionDayView(state: WeatherDetailedState.Success) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    state.detailedDay.sunSet.dateFormatHours(),
+                    sunSetTime,
                     fontSize = 18.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+                    color = textColor
                 )
             }
         }

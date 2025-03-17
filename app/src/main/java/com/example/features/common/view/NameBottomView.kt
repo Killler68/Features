@@ -1,4 +1,4 @@
-package com.example.features.weather.detailed.screen.view
+package com.example.features.common.view
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,9 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.features.common.extension.weatherColorExtension
-import com.example.features.common.utils.ColorCategory
-import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
 fun BottomNameView(name: String, textColor: Color) {

@@ -3,7 +3,6 @@ package com.example.features.weather.detailed.screen.view
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -12,11 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.features.R
 import com.example.features.common.extension.dateFormatHours
 import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
@@ -26,6 +23,12 @@ import com.example.features.weather.detailed.model.WeatherHoursDay
 
 @Composable
 fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetailedState.Success) {
+
+    val cardColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD)
+    val textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+
+    val hours = hoursDay.hours.dateFormatHours()
+    val temp = "${hoursDay.temp.toInt()}°"
     val iconRes = remember(hoursDay.icon, hoursDay.hours) {
         hoursDay.icon.imageWeatherExtension(hoursDay.hours)
     }
@@ -35,14 +38,14 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 3.dp, end = 3.dp, top = 5.dp, bottom = 10.dp)
-            .background(weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD))
+            .background(cardColor)
             .padding(horizontal = 8.dp)
     ) {
         Text(
-            text = hoursDay.hours.dateFormatHours(),
+            text = hours,
             fontSize = 14.sp,
             modifier = Modifier.padding(vertical = 5.dp),
-            color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+            color = textColor
         )
 
         Image(
@@ -52,29 +55,12 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
         )
 
         Text(
-            text = "${hoursDay.temp.toInt()}°",
+            text = temp,
             fontSize = 14.sp,
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
-            color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+            color = textColor
         )
 
-        Row {
-            Image(
-                painter = painterResource(R.drawable.rain_drop),
-                contentDescription = "rain_drop",
-                colorFilter = ColorFilter.tint(
-                    weatherColorExtension(state.detailedDay.partDay, ColorCategory.IMAGE)
-                ),
-                modifier = Modifier
-                    .padding(start = 3.dp, end = 3.dp, top = 5.dp, bottom = 10.dp)
-                    .size(8.dp),
-            )
-
-            Text(
-                text = "${(hoursDay.chanceRain * 100).toInt()}%",
-                fontSize = 10.sp,
-                color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
-            )
-        }
+        WeatherDetailedRainDrop(state, hoursDay)
     }
 }

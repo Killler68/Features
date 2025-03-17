@@ -8,20 +8,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.features.common.extension.dateFormatDays
-import com.example.features.common.extension.firstUppercaseString
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
-import com.example.features.weather.detailed.model.WeatherDetailedState
 import com.example.features.common.view.PageIndicatorsView
+import com.example.features.weather.detailed.model.WeatherDetailedState
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -41,25 +37,8 @@ fun TemperaturesPager(state: WeatherDetailedState.Success) {
     ) {
 
         HorizontalPager(pagerState) { page ->
-            val item = state.itemPager[page]
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp, bottom = 10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = item.date.dateFormatDays(),
-                    fontSize = 16.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
-                )
-                Text(
-                    text = item.differenceText.firstUppercaseString(),
-                    fontSize = 12.sp,
-                    color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT),
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            }
+            val itemTemperature = state.itemPager[page]
+            TemperaturesPagerItem(itemTemperature, state)
         }
 
         PageIndicatorsView(

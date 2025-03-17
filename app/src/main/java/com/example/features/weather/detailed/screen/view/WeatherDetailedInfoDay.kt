@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,21 +20,25 @@ import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.detailed.model.WeatherDetailedState
 
 @Composable
-fun HoursInfoDayView(state: WeatherDetailedState.Success) {
+fun WeatherDetailedInfoDay(state: WeatherDetailedState.Success) {
+
+    val backgroundColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD)
+    val textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+    val day = state.detailedDay.dt.dateFormatDays()
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 5.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD))
+            .background(backgroundColor)
     ) {
         Text(
-            text = state.hoursDay.first().hours.dateFormatDays(),
+            text = day,
             fontSize = 14.sp,
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp),
-            color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+            color = textColor
         )
         Box(
             modifier = Modifier
@@ -46,15 +48,6 @@ fun HoursInfoDayView(state: WeatherDetailedState.Success) {
                 .background(Color.White)
 
         )
-        LazyRow(
-            modifier = Modifier
-                .padding(horizontal = 10.dp)
-        ) {
-            itemsIndexed(
-                state.hoursDay
-            ) { _, item ->
-                WeatherDetailedHoursDayItem(hoursDay = item, state)
-            }
-        }
+        WeatherDetailedListHours(state)
     }
 }

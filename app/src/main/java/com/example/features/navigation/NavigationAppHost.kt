@@ -14,7 +14,7 @@ import com.example.features.notes.notedetail.screen.DsNoteDetail
 import com.example.features.notes.noteslist.screen.NotesListScreen
 import com.example.features.notes.task.screen.TaskScreen
 import com.example.features.profile.screen.ProfileScreen
-import com.example.features.registration.DsRegistration
+import com.example.features.registration.screen.RegistrationScreen
 import com.example.features.settings.screen.SettingsScreen
 import com.example.features.weather.detailed.screen.WeatherDetailedScreen
 import com.example.features.weather.screen.WeatherScreen
@@ -27,7 +27,7 @@ fun NavigationAppHost(checkLocale: String) {
     if (checkLocale.isNotEmpty()) {
         NavHost(navController = navHostController, startDestination = checkLocale) {
             composable(Screens.Welcome.route) { WelcomeScreen(navHostController) }
-            composable(Screens.Registration.route) { DsRegistration(navHostController) }
+            composable(Screens.Registration.route) { RegistrationScreen(navHostController) }
             composable(Screens.Authorization.route) { DsAuthorization(navHostController) }
             composable(Screens.Weather.route) { WeatherScreen(navHostController) }
             composable(Screens.NotesList.route) { NotesListScreen(navHostController) }

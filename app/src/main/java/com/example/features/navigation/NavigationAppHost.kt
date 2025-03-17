@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.features.about.AboutScreen
-import com.example.features.authorization.DsAuthorization
+import com.example.features.authorization.screen.AuthorizationScreen
 import com.example.features.features.screen.FeaturesScreen
 import com.example.features.notes.noteadd.screen.NoteAddScreen
 import com.example.features.notes.notedetail.screen.DsNoteDetail
@@ -28,7 +28,7 @@ fun NavigationAppHost(checkLocale: String) {
         NavHost(navController = navHostController, startDestination = checkLocale) {
             composable(Screens.Welcome.route) { WelcomeScreen(navHostController) }
             composable(Screens.Registration.route) { RegistrationScreen(navHostController) }
-            composable(Screens.Authorization.route) { DsAuthorization(navHostController) }
+            composable(Screens.Authorization.route) { AuthorizationScreen(navHostController) }
             composable(Screens.Weather.route) { WeatherScreen(navHostController) }
             composable(Screens.NotesList.route) { NotesListScreen(navHostController) }
             composable(Screens.Features.route) { FeaturesScreen(navHostController) }

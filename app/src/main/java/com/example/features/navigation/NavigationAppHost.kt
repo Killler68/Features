@@ -18,7 +18,7 @@ import com.example.features.registration.DsRegistration
 import com.example.features.settings.screen.SettingsScreen
 import com.example.features.weather.detailed.screen.WeatherDetailedScreen
 import com.example.features.weather.screen.WeatherScreen
-import com.example.features.welcome.screen.DsWelcome
+import com.example.features.welcome.screen.WelcomeScreen
 
 @Composable
 fun NavigationAppHost(checkLocale: String) {
@@ -26,7 +26,7 @@ fun NavigationAppHost(checkLocale: String) {
 
     if (checkLocale.isNotEmpty()) {
         NavHost(navController = navHostController, startDestination = checkLocale) {
-            composable(Screens.Welcome.route) { DsWelcome(navHostController) }
+            composable(Screens.Welcome.route) { WelcomeScreen(navHostController) }
             composable(Screens.Registration.route) { DsRegistration(navHostController) }
             composable(Screens.Authorization.route) { DsAuthorization(navHostController) }
             composable(Screens.Weather.route) { WeatherScreen(navHostController) }

@@ -21,7 +21,7 @@ import com.example.features.common.extension.firstUppercaseString
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.detailed.model.WeatherDetailedState
-import com.example.features.welcome.screen.PageIndicators
+import com.example.features.common.view.PageIndicatorsView
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -62,7 +62,7 @@ fun TemperaturesPager(state: WeatherDetailedState.Success) {
             }
         }
 
-        PageIndicators(
+        PageIndicatorsView(
             modifier = Modifier
                 .padding(top = 10.dp, bottom = 10.dp),
             count = state.itemPager.size,

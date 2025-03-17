@@ -20,7 +20,7 @@ import com.example.features.features.model.FeaturesEvent
 import com.example.features.features.model.FeaturesItemPager
 import com.example.features.features.model.FeaturesState
 import com.example.features.ui.theme.Cyan
-import com.example.features.welcome.screen.PageIndicators
+import com.example.features.common.view.PageIndicatorsView
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -58,7 +58,7 @@ fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Uni
             }
         }
     }
-    PageIndicators(
+    PageIndicatorsView(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 20.dp),

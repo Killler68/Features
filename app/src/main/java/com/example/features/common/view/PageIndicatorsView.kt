@@ -1,4 +1,4 @@
-package com.example.features.welcome.screen
+package com.example.features.common.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PageIndicators(
+fun PageIndicatorsView(
     modifier: Modifier = Modifier,
     count: Int,
     currentPage: Int,

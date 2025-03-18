@@ -2,14 +2,14 @@ package com.example.features.common.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.features.authorization.GetUserByLoginAndPassword
+import com.example.features.authorization.usecase.GetUserByLoginAndPasswordUseCase
 import com.example.features.common.database.user.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SharedViewModel(
-    private val getUserByLoginAndPassword: GetUserByLoginAndPassword
+    private val getUserByLoginAndPasswordUseCase: GetUserByLoginAndPasswordUseCase
 ) : ViewModel() {
 
 
@@ -24,7 +24,7 @@ class SharedViewModel(
     fun getUser(login: String, password: String, callback: (Boolean, Int) -> Unit) {
         viewModelScope.launch {
             try {
-                val user = getUserByLoginAndPassword(login, password)
+                val user = getUserByLoginAndPasswordUseCase(login, password)
                 if (user != null) {
                     _currentUser.value = user
                     _error.value = null

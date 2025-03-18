@@ -2,8 +2,7 @@ package com.example.features.common.application
 
 import androidx.room.Room
 import com.example.features.MainViewModel
-import com.example.features.authorization.GetUserByLoginAndPassword
-import com.example.features.authorization.GetUserByLoginAndPasswordImpl
+import com.example.features.authorization.usecase.GetUserByLoginAndPasswordUseCase
 import com.example.features.authorization.viewmodel.AuthorizationViewModel
 import com.example.features.common.database.notes.NotesDatabase
 import com.example.features.common.database.profile.ProfileDatabase
@@ -124,7 +123,7 @@ val appModule = module {
     factory { CreateUserUseCase(get()) }
     factory { FeaturesUseCase(get()) }
     factory { GetDrawerItemsUseCase(get()) }
-    factory<GetUserByLoginAndPassword> { GetUserByLoginAndPasswordImpl(get()) }
+    factory { GetUserByLoginAndPasswordUseCase(get()) }
 
     factory { WeatherUseCase(get()) }
     factory { WeatherPreviewBarUseCase(get()) }

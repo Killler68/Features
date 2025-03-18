@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.database.user.model.User
 import com.example.features.common.viewmodel.SharedViewModel
+import com.example.features.navigation.Screens
 import com.example.features.registration.model.RegistrationEvent
+import com.example.features.registration.model.RegistrationSideEffect
 import com.example.features.registration.model.RegistrationState
+import com.example.features.registration.usecase.CreateUserUseCase
 import com.example.features.registration.usecase.GetUserByLoginUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,13 +27,13 @@ class RegistrationViewModel(
     private val _state = MutableStateFlow<RegistrationState>(RegistrationState.Loading)
     val state: StateFlow<RegistrationState> get() = _state.asStateFlow()
 
-    private val _event = MutableSharedFlow<RegistrationEvent>()
-    val event: SharedFlow<RegistrationEvent> get() = _event.asSharedFlow()
+    private val _effect = MutableSharedFlow<RegistrationSideEffect>()
+    val effect: SharedFlow<RegistrationSideEffect> get() = _effect.asSharedFlow()
 
     fun dispatch(event: RegistrationEvent) {
         when (event) {
             is RegistrationEvent.CreateUser -> createUser(event.login, event.password)
-            RegistrationEvent.NavigateToAuthorization -> navigateToAuthorization()
+            RegistrationEvent.NavigateToAuthorization -> navigateTo(Screens.Authorization.route)
         }
     }
 
@@ -49,16 +52,16 @@ class RegistrationViewModel(
                 sharedViewModel.setCurrentUser(User(userId, login, password))
 
                 _state.value = RegistrationState.Success
-                _event.emit(RegistrationEvent.CreateUser(login, password))
+                navigateTo(Screens.Features.route)
             } catch (e: Exception) {
                 _state.value = RegistrationState.Error(e.localizedMessage ?: "Ошибка регистрации")
             }
         }
     }
 
-    private fun navigateToAuthorization() {
+    private fun navigateTo(route: String) {
         viewModelScope.launch {
-            _event.emit(RegistrationEvent.NavigateToAuthorization)
+            _effect.emit(RegistrationSideEffect.NavigateTo(route))
         }
     }
 }

@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.example.features.common.view.ButtonNavigateToView
 import com.example.features.common.view.InputField
-import com.example.features.navigation.Screens
 import com.example.features.registration.model.RegistrationEvent
+import com.example.features.registration.model.RegistrationSideEffect
 import com.example.features.registration.screen.view.RegistrationPreview
 import com.example.features.registration.viewmodel.RegistrationViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -27,15 +27,9 @@ fun RegistrationScreen(navController: NavController) {
     val viewModel: RegistrationViewModel = getViewModel()
 
     LaunchedEffect(Unit) {
-        viewModel.event.collectLatest { event ->
-            val route = when (event) {
-                is RegistrationEvent.CreateUser -> Screens.Features.route
-                RegistrationEvent.NavigateToAuthorization -> Screens.Authorization.route
-            }
-            navController.navigate(route) {
-                if (event is RegistrationEvent.CreateUser) popUpTo(Screens.Registration.route) {
-                    inclusive = true
-                }
+        viewModel.effect.collectLatest { event ->
+            when (event) {
+                is RegistrationSideEffect.NavigateTo -> navController.navigate(event.route)
             }
         }
     }

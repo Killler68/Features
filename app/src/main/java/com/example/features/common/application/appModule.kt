@@ -48,9 +48,8 @@ import com.example.features.profile.viewmodel.CreateProfileUseCase
 import com.example.features.profile.viewmodel.GetProfileByIdUseCase
 import com.example.features.profile.viewmodel.ProfileViewModel
 import com.example.features.profile.viewmodel.UpdateProfileUseCase
-import com.example.features.registration.usecase.CreateUserUseCaseImpl
+import com.example.features.registration.usecase.CreateUserUseCase
 import com.example.features.registration.usecase.GetUserByLoginUseCase
-import com.example.features.registration.viewmodel.CreateUserUseCase
 import com.example.features.registration.viewmodel.RegistrationViewModel
 import com.example.features.settings.usecase.DeleteUserUseCase
 import com.example.features.settings.viewmodel.SettingsViewModel
@@ -127,7 +126,7 @@ val appModule = module {
 
     factory { WelcomeUseCase(get()) }
 
-    factory<CreateUserUseCase> { CreateUserUseCaseImpl(get()) }
+    factory { CreateUserUseCase(get()) }
     factory<FeaturesUseCase> { FeaturesUseCaseImpl(get()) }
     factory<GetDrawerItems> { GetDrawerItemsImpl(get()) }
     factory<GetUserByLoginAndPassword> { GetUserByLoginAndPasswordImpl(get()) }

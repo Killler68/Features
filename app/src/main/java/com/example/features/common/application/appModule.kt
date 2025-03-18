@@ -41,13 +41,10 @@ import com.example.features.notes.noteslist.usecase.UpdateTaskUseCase
 import com.example.features.notes.noteslist.viewmodel.NotesViewModel
 import com.example.features.notes.task.usecase.CreateTaskUseCase
 import com.example.features.notes.task.viewmodel.TaskViewModel
-import com.example.features.profile.usecase.CreateProfileUseCaseImpl
-import com.example.features.profile.usecase.GetProfileByIdUseCaseImpl
-import com.example.features.profile.usecase.UpdateProfileUseCaseImpl
-import com.example.features.profile.viewmodel.CreateProfileUseCase
-import com.example.features.profile.viewmodel.GetProfileByIdUseCase
+import com.example.features.profile.usecase.CreateProfileUseCase
+import com.example.features.profile.usecase.GetProfileByIdUseCase
+import com.example.features.profile.usecase.UpdateProfileUseCase
 import com.example.features.profile.viewmodel.ProfileViewModel
-import com.example.features.profile.viewmodel.UpdateProfileUseCase
 import com.example.features.registration.usecase.CreateUserUseCase
 import com.example.features.registration.usecase.GetUserByLoginUseCase
 import com.example.features.registration.viewmodel.RegistrationViewModel
@@ -138,9 +135,9 @@ val appModule = module {
     factory { WeatherDetailedUseCase(get(), get(), get()) }
     factory { WeatherHoursDayUseCase(get()) }
 
-    factory<CreateProfileUseCase> { CreateProfileUseCaseImpl(get()) }
-    factory<GetProfileByIdUseCase> { GetProfileByIdUseCaseImpl(get()) }
-    factory<UpdateProfileUseCase> { UpdateProfileUseCaseImpl(get()) }
+    factory { CreateProfileUseCase(get()) }
+    factory { GetProfileByIdUseCase(get()) }
+    factory { UpdateProfileUseCase(get()) }
 
     factory { DeleteUserUseCase(get()) }
 

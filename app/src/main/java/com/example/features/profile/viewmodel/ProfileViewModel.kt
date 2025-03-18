@@ -8,6 +8,9 @@ import com.example.features.profile.model.Option
 import com.example.features.profile.model.ProfileEvent
 import com.example.features.profile.model.ProfileSideEffect
 import com.example.features.profile.model.ProfileState
+import com.example.features.profile.usecase.CreateProfileUseCase
+import com.example.features.profile.usecase.GetProfileByIdUseCase
+import com.example.features.profile.usecase.UpdateProfileUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -99,13 +102,13 @@ class ProfileViewModel(
         updateState { copy(isOption = Option.Off(false)) }
     }
 
+    private fun updateState(transform: ProfileState.() -> ProfileState) {
+        _state.value = _state.value.transform()
+    }
+
     private fun navigateTo(route: String) {
         viewModelScope.launch {
             _effect.emit(ProfileSideEffect.NavigateTo(route))
         }
-    }
-
-    private fun updateState(transform: ProfileState.() -> ProfileState) {
-        _state.value = _state.value.transform()
     }
 }

@@ -8,7 +8,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
-import com.example.features.ui.theme.Cyan
 import java.util.Locale
 
 fun String.firstUppercaseString(): String =

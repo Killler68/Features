@@ -23,6 +23,6 @@ class WelcomeRepositoryImpl : WelcomeRepository {
             image = R.drawable.trash_bucket,
             title = "В стадии разработки",
             subTitle = ""
-        ),
+        )
     )
 }

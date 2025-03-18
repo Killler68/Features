@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.example.features.common.view.ButtonsApply
 import com.example.features.common.view.ErrorMessageView
-import com.example.features.navigation.Screens
 import com.example.features.welcome.models.WelcomeEvent
 import com.example.features.welcome.models.WelcomeSideEffect
 import com.example.features.welcome.models.WelcomeState
@@ -30,8 +29,7 @@ fun WelcomeScreen(navController: NavController) {
     LaunchedEffect(Unit) {
         viewModel.effect.collect { event ->
             when (event) {
-                WelcomeSideEffect.ToAuthorization -> navController.navigate(Screens.Authorization.route)
-                WelcomeSideEffect.ToRegistration -> navController.navigate(Screens.Registration.route)
+                is WelcomeSideEffect.NavigateTo -> navController.navigate(event.router)
             }
         }
     }

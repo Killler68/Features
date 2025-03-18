@@ -68,8 +68,7 @@ import com.example.features.weather.viewmodel.WeatherUseCase
 import com.example.features.weather.viewmodel.WeatherViewModel
 import com.example.features.welcome.repository.WelcomeRepositoryImpl
 import com.example.features.welcome.usecase.WelcomeRepository
-import com.example.features.welcome.usecase.WelcomeUseCaseImpl
-import com.example.features.welcome.viewmodel.WelcomeUseCase
+import com.example.features.welcome.usecase.WelcomeUseCase
 import com.example.features.welcome.viewmodel.WelcomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -128,7 +127,7 @@ val appModule = module {
     single { get<UserDatabase>().userDao() }
 
 
-    factory<WelcomeUseCase> { WelcomeUseCaseImpl(get()) }
+    factory { WelcomeUseCase(get()) }
 
     factory<CreateUserUseCase> { CreateUserUseCaseImpl(get()) }
     factory<FeaturesUseCase> { FeaturesUseCaseImpl(get()) }

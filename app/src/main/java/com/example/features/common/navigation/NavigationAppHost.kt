@@ -1,4 +1,4 @@
-package com.example.features.navigation
+package com.example.features.common.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType

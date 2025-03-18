@@ -2,7 +2,7 @@ package com.example.features.weather.detailed.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.features.navigation.Screens
+import com.example.features.common.navigation.Screens
 import com.example.features.weather.detailed.model.WeatherDetailedEvent
 import com.example.features.weather.detailed.model.WeatherDetailedSideEffect
 import com.example.features.weather.detailed.model.WeatherDetailedState

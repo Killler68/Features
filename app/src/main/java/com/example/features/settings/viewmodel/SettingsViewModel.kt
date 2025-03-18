@@ -3,7 +3,7 @@ package com.example.features.settings.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.viewmodel.SharedViewModel
-import com.example.features.navigation.Screens
+import com.example.features.common.navigation.Screens
 import com.example.features.settings.model.SettingsEvent
 import com.example.features.settings.model.SettingsSideEffect
 import com.example.features.settings.model.SettingsState

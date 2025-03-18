@@ -23,7 +23,7 @@ import com.example.features.authorization.viewmodel.AuthorizationViewModel
 import com.example.features.common.strings.toast
 import com.example.features.common.view.ButtonNavigateToView
 import com.example.features.common.view.InputField
-import com.example.features.navigation.Screens
+import com.example.features.common.navigation.Screens
 import org.koin.androidx.compose.getViewModel
 
 @Composable

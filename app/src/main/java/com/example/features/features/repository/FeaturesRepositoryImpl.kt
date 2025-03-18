@@ -5,7 +5,7 @@ import com.example.features.features.model.DrawerItems
 import com.example.features.features.model.Features
 import com.example.features.features.model.FeaturesItemDrawer
 import com.example.features.features.usecase.FeaturesRepository
-import com.example.features.navigation.Screens
+import com.example.features.common.navigation.Screens
 
 class FeaturesRepositoryImpl : FeaturesRepository {
 

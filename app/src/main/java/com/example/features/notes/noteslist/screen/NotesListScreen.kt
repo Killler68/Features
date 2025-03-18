@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.R
-import com.example.features.navigation.Screens
+import com.example.features.common.navigation.Screens
 import com.example.features.notes.noteslist.viewmodel.NotesViewModel
 import com.example.features.notes.task.viewmodel.TaskViewModel
 import com.example.features.ui.theme.Cyan

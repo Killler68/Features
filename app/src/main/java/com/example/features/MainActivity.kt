@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import com.example.features.navigation.NavigationAppHost
+import com.example.features.common.navigation.NavigationAppHost
 import org.koin.androidx.compose.getViewModel
 
 class MainActivity : ComponentActivity() {

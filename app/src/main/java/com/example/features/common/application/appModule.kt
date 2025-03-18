@@ -22,11 +22,9 @@ import com.example.features.common.usecase.CheckLocaleUseCaseImpl
 import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.repository.FeaturesRepositoryImpl
 import com.example.features.features.usecase.FeaturesRepository
-import com.example.features.features.usecase.FeaturesUseCaseImpl
-import com.example.features.features.usecase.GetDrawerItemsImpl
-import com.example.features.features.viewmodel.FeaturesUseCase
+import com.example.features.features.usecase.FeaturesUseCase
+import com.example.features.features.usecase.GetDrawerItemsUseCase
 import com.example.features.features.viewmodel.FeaturesViewModel
-import com.example.features.features.viewmodel.GetDrawerItems
 import com.example.features.notes.common.repository.NotesRepositoryImpl
 import com.example.features.notes.common.usecase.DeleteNoteUseCase
 import com.example.features.notes.common.usecase.GetNotesUseCase
@@ -124,8 +122,8 @@ val appModule = module {
     factory { WelcomeUseCase(get()) }
 
     factory { CreateUserUseCase(get()) }
-    factory<FeaturesUseCase> { FeaturesUseCaseImpl(get()) }
-    factory<GetDrawerItems> { GetDrawerItemsImpl(get()) }
+    factory { FeaturesUseCase(get()) }
+    factory { GetDrawerItemsUseCase(get()) }
     factory<GetUserByLoginAndPassword> { GetUserByLoginAndPasswordImpl(get()) }
 
     factory { WeatherUseCase(get()) }

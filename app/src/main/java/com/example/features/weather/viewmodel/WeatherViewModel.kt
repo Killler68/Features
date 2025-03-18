@@ -3,7 +3,7 @@ package com.example.features.weather.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.strings.city
-import com.example.features.navigation.Screens
+import com.example.features.common.navigation.Screens
 import com.example.features.weather.model.WeatherEvent
 import com.example.features.weather.model.WeatherSideEffect
 import com.example.features.weather.model.WeatherState

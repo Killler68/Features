@@ -3,7 +3,7 @@ package com.example.features.profile.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.database.profile.model.Profile
-import com.example.features.navigation.Screens
+import com.example.features.common.navigation.Screens
 import com.example.features.profile.model.Option
 import com.example.features.profile.model.ProfileEvent
 import com.example.features.profile.model.ProfileSideEffect

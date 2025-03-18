@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.features.R
-import com.example.features.navigation.Screens
+import com.example.features.common.navigation.Screens
 import com.example.features.notes.noteslist.viewmodel.NotesViewModel
 import com.example.features.notes.task.model.TaskModel
 import org.koin.androidx.compose.getViewModel

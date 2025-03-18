@@ -3,7 +3,9 @@ package com.example.features.settings.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.viewmodel.SharedViewModel
+import com.example.features.navigation.Screens
 import com.example.features.settings.model.SettingsEvent
+import com.example.features.settings.model.SettingsSideEffect
 import com.example.features.settings.model.SettingsState
 import com.example.features.settings.usecase.DeleteUserUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,8 +21,8 @@ class SettingsViewModel(
     private val sharedViewModel: SharedViewModel
 ) : ViewModel() {
 
-    private val _event = MutableSharedFlow<SettingsEvent>()
-    val event: SharedFlow<SettingsEvent> get() = _event.asSharedFlow()
+    private val _effect = MutableSharedFlow<SettingsSideEffect>()
+    val effect: SharedFlow<SettingsSideEffect> get() = _effect.asSharedFlow()
 
     private val _state = MutableStateFlow<SettingsState>(SettingsState.Loading)
     val state: StateFlow<SettingsState> get() = _state.asStateFlow()
@@ -28,7 +30,7 @@ class SettingsViewModel(
     fun dispatch(event: SettingsEvent) {
         when (event) {
             SettingsEvent.DeleteUser -> deleteUser()
-            SettingsEvent.OnBack -> navigateBack()
+            SettingsEvent.OnBack -> navigateTo(Screens.Features.route)
         }
     }
 
@@ -40,15 +42,15 @@ class SettingsViewModel(
                 userId?.let { deleteUserUseCase(it) }
 
                 _state.value = SettingsState.Success
-                _event.emit(SettingsEvent.DeleteUser)
+                navigateTo(Screens.Registration.route)
             } catch (e: Exception) {
                 _state.value = SettingsState.Error(e.localizedMessage ?: "Error")
             }
         }
 
-    private fun navigateBack() {
+    private fun navigateTo(route: String) {
         viewModelScope.launch {
-            _event.emit(SettingsEvent.OnBack)
+            _effect.emit(SettingsSideEffect.NavigateTo(route))
         }
     }
 }

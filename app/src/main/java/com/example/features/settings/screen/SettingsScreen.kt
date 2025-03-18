@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.R
-import com.example.features.navigation.Screens
 import com.example.features.settings.model.SettingsEvent
+import com.example.features.settings.model.SettingsSideEffect
 import com.example.features.settings.screen.view.SettingsCardView
 import com.example.features.settings.screen.view.SettingsTopBar
 import com.example.features.settings.viewmodel.SettingsViewModel
@@ -26,11 +26,10 @@ fun SettingsScreen(navController: NavController) {
 
     val viewModel: SettingsViewModel = getViewModel()
 
-    LaunchedEffect(viewModel.event) {
-        viewModel.event.collect { event ->
+    LaunchedEffect(viewModel.effect) {
+        viewModel.effect.collect { event ->
             when (event) {
-                SettingsEvent.DeleteUser -> navController.navigate(Screens.Registration.route)
-                SettingsEvent.OnBack -> navController.navigate(Screens.Features.route)
+                is SettingsSideEffect.NavigateTo -> navController.navigate(event.route)
             }
         }
     }

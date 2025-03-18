@@ -8,7 +8,7 @@ import com.example.features.features.model.FeaturesSideEffect
 import com.example.features.features.model.FeaturesState
 import com.example.features.navigation.Screens
 import com.example.features.notes.common.usecase.GetNotesUseCase
-import com.example.features.weather.viewmodel.PreviewBarWeatherUseCase
+import com.example.features.weather.usecase.WeatherPreviewBarUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 class FeaturesViewModel(
     private val features: FeaturesUseCase,
     private val drawerItems: GetDrawerItems,
-    private val previewBarWeatherUseCase: PreviewBarWeatherUseCase,
+    private val weatherPreviewBarUseCase: WeatherPreviewBarUseCase,
     private val notesUseCase: GetNotesUseCase
 ) : ViewModel() {
 
@@ -67,7 +67,7 @@ class FeaturesViewModel(
                     ) ?: it
                 }
 
-                val weather = previewBarWeatherUseCase(city)
+                val weather = weatherPreviewBarUseCase(city)
                 _state.update {
                     (it as? FeaturesState.Success)?.copy(
                         itemWeather = weather,

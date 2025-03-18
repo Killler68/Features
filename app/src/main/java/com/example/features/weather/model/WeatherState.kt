@@ -5,7 +5,7 @@ sealed class WeatherState {
     data object Loading : WeatherState()
     data class Success(
         val weatherWeek: List<WeatherData>,
-        val preview: PreviewBarWeather
+        val preview: WeatherPreviewBar
     ) : WeatherState()
 
     data class Error(val message: String) : WeatherState()

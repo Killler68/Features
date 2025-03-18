@@ -46,8 +46,8 @@ import com.example.features.profile.usecase.GetProfileByIdUseCaseImpl
 import com.example.features.profile.usecase.UpdateProfileUseCaseImpl
 import com.example.features.profile.viewmodel.CreateProfileUseCase
 import com.example.features.profile.viewmodel.GetProfileByIdUseCase
-import com.example.features.profile.viewmodel.UpdateProfileUseCase
 import com.example.features.profile.viewmodel.ProfileViewModel
+import com.example.features.profile.viewmodel.UpdateProfileUseCase
 import com.example.features.registration.usecase.CreateUserUseCaseImpl
 import com.example.features.registration.usecase.GetUserByLoginUseCase
 import com.example.features.registration.viewmodel.CreateUserUseCase
@@ -60,11 +60,9 @@ import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
 import com.example.features.weather.detailed.usecase.WeatherHoursDayUseCase
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
 import com.example.features.weather.repository.WeatherRepositoryImpl
-import com.example.features.weather.usecase.PreviewBarWeatherUseCaseImpl
+import com.example.features.weather.usecase.WeatherPreviewBarUseCase
 import com.example.features.weather.usecase.WeatherRepository
-import com.example.features.weather.usecase.WeatherUseCaseImpl
-import com.example.features.weather.viewmodel.PreviewBarWeatherUseCase
-import com.example.features.weather.viewmodel.WeatherUseCase
+import com.example.features.weather.usecase.WeatherUseCase
 import com.example.features.weather.viewmodel.WeatherViewModel
 import com.example.features.welcome.repository.WelcomeRepositoryImpl
 import com.example.features.welcome.usecase.WelcomeRepository
@@ -134,8 +132,8 @@ val appModule = module {
     factory<GetDrawerItems> { GetDrawerItemsImpl(get()) }
     factory<GetUserByLoginAndPassword> { GetUserByLoginAndPasswordImpl(get()) }
 
-    factory<WeatherUseCase> { WeatherUseCaseImpl(get()) }
-    factory<PreviewBarWeatherUseCase> { PreviewBarWeatherUseCaseImpl(get()) }
+    factory { WeatherUseCase(get()) }
+    factory { WeatherPreviewBarUseCase(get()) }
     factory { ItemTemperatureUseCase() }
 
     factory { WeatherDetailedDayUseCase(get()) }

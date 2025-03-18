@@ -22,13 +22,13 @@ import com.example.features.common.extension.firstUppercaseString
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
-import com.example.features.weather.model.PreviewBarWeather
+import com.example.features.weather.model.WeatherPreviewBar
 import com.example.features.weather.model.WeatherState
 
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun WeatherPreviewBar(preview: PreviewBarWeather, state: WeatherState.Success) {
+fun WeatherPreviewBar(preview: WeatherPreviewBar, state: WeatherState.Success) {
 
     val temperature = "${preview.temp.toInt()}°"
     val textColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)

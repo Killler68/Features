@@ -7,6 +7,8 @@ import com.example.features.navigation.Screens
 import com.example.features.weather.model.WeatherEvent
 import com.example.features.weather.model.WeatherSideEffect
 import com.example.features.weather.model.WeatherState
+import com.example.features.weather.usecase.WeatherPreviewBarUseCase
+import com.example.features.weather.usecase.WeatherUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -17,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class WeatherViewModel(
     private val weatherUseCase: WeatherUseCase,
-    private val previewBarWeatherUseCase: PreviewBarWeatherUseCase
+    private val weatherPreviewBarUseCase: WeatherPreviewBarUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<WeatherState>(WeatherState.Loading)
@@ -34,9 +36,9 @@ class WeatherViewModel(
         when (event) {
             WeatherEvent.LoadData -> loadWeather(city)
             WeatherEvent.ToBack -> navigateTo(Screens.Features.route)
-            is WeatherEvent.ToWeatherDetailed -> navigateToDetailed(event.weatherId)
             WeatherEvent.OnShowDialogChangeCity -> showDialog()
             WeatherEvent.OnCloseShowDialogChangeCity -> clearSideEffects()
+            is WeatherEvent.ToWeatherDetailed -> navigateToDetailed(event.weatherId)
         }
     }
 
@@ -45,7 +47,7 @@ class WeatherViewModel(
             _state.value = WeatherState.Loading
             try {
                 val weatherWeek = weatherUseCase(city)
-                val previewWeather = previewBarWeatherUseCase(city)
+                val previewWeather = weatherPreviewBarUseCase(city)
                 _state.value = WeatherState.Success(
                     weatherWeek = weatherWeek,
                     preview = previewWeather,

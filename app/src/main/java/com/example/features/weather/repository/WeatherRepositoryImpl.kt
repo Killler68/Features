@@ -3,7 +3,7 @@ package com.example.features.weather.repository
 import com.example.features.common.api.WeatherRetrofitClient
 import com.example.features.weather.detailed.model.WeatherHoursDay
 import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
-import com.example.features.weather.model.PreviewBarWeather
+import com.example.features.weather.model.WeatherPreviewBar
 import com.example.features.weather.model.WeatherDetailedDay
 import com.example.features.weather.model.WeatherWeek
 import com.example.features.weather.usecase.WeatherRepository
@@ -28,11 +28,11 @@ class WeatherRepositoryImpl : WeatherRepository, WeatherDetailedRepository {
             }
         }
 
-    override suspend fun previewBarWeather(city: String): PreviewBarWeather =
+    override suspend fun weatherPreviewBar(city: String): WeatherPreviewBar =
         withContext(Dispatchers.IO) {
             val response = WeatherRetrofitClient.weatherApi.getWeather(city = city)
             val firstForecast = response.forecastList.firstOrNull()
-            PreviewBarWeather(
+            WeatherPreviewBar(
                 city = response.city.name,
                 date = firstForecast?.dt ?: 0,
                 dtText = firstForecast?.dtTxt ?: "",

@@ -3,13 +3,12 @@ package com.example.features.weather.usecase
 import com.example.features.weather.model.WeatherData
 import com.example.features.weather.model.WeatherWeek
 import com.example.features.weather.model.toWeatherData
-import com.example.features.weather.viewmodel.WeatherUseCase
 
-class WeatherUseCaseImpl(
+class WeatherUseCase(
     private val repository: WeatherRepository
-) : WeatherUseCase {
+) {
 
-    override suspend operator fun invoke(city: String): List<WeatherData> {
+    suspend operator fun invoke(city: String): List<WeatherData> {
         val weatherWeek: List<WeatherWeek> = repository.getWeatherWeek(city)
 
         if (weatherWeek.isEmpty()) return emptyList()

@@ -2,14 +2,11 @@ package com.example.features.weather.detailed.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.features.common.strings.city
 import com.example.features.navigation.Screens
 import com.example.features.weather.detailed.model.WeatherDetailedEvent
 import com.example.features.weather.detailed.model.WeatherDetailedSideEffect
 import com.example.features.weather.detailed.model.WeatherDetailedState
-import com.example.features.weather.detailed.usecase.ItemTemperatureUseCase
-import com.example.features.weather.detailed.usecase.WeatherDetailedDayUseCase
-import com.example.features.weather.detailed.usecase.WeatherHoursDayUseCase
+import com.example.features.weather.detailed.usecase.WeatherDetailedUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -18,12 +15,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-private const val ONE_DAY_MILLIS = 86_400_000L
 
 class WeatherDetailedViewModel(
-    private val weatherDetailedDayUseCase: WeatherDetailedDayUseCase,
-    private val weatherHoursDayUseCase: WeatherHoursDayUseCase,
-    private val itemTemperature: ItemTemperatureUseCase
+    private val weatherDetailedUseCase: WeatherDetailedUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<WeatherDetailedState>(WeatherDetailedState.Loading)
@@ -31,7 +25,6 @@ class WeatherDetailedViewModel(
 
     private val _effect = MutableSharedFlow<WeatherDetailedSideEffect>()
     val effect: SharedFlow<WeatherDetailedSideEffect> get() = _effect.asSharedFlow()
-
 
     fun dispatch(event: WeatherDetailedEvent) {
         when (event) {
@@ -43,31 +36,12 @@ class WeatherDetailedViewModel(
     private fun loadData(weatherId: Int) {
         viewModelScope.launch {
             try {
-                val todayDt = weatherId.toLong() * 1000
-                val yesterdayDt = todayDt - ONE_DAY_MILLIS
-                val tomorrowDt = todayDt + ONE_DAY_MILLIS
-
-                val detailedDay = weatherDetailedDayUseCase(weatherId, city)
-
-                val yesterdayWeather = runCatching {
-                    weatherDetailedDayUseCase((yesterdayDt / 1000).toInt(), city)
-                }.getOrNull()
-
-                val tomorrowWeather = runCatching {
-                    weatherDetailedDayUseCase((tomorrowDt / 1000).toInt(), city)
-                }.getOrNull()
-
-                val itemPager = itemTemperature(
-                    todayWeather = detailedDay,
-                    yesterdayWeather = yesterdayWeather,
-                    tomorrowWeather = tomorrowWeather
-                )
-
+                val result = weatherDetailedUseCase.getWeatherDetails(weatherId)
                 _state.value = WeatherDetailedState.Success(
                     weatherId = weatherId,
-                    detailedDay = detailedDay,
-                    hoursDay = weatherHoursDayUseCase(weatherId, city = city),
-                    itemPager = itemPager
+                    detailedDay = result.detailedDay,
+                    hoursDay = result.hoursDay,
+                    itemPager = result.itemPager
                 )
             } catch (e: Exception) {
                 _state.value = WeatherDetailedState.Error(e.localizedMessage ?: "Ошибка")

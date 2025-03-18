@@ -55,8 +55,8 @@ import com.example.features.registration.viewmodel.RegistrationViewModel
 import com.example.features.settings.usecase.DeleteUserUseCase
 import com.example.features.settings.viewmodel.SettingsViewModel
 import com.example.features.weather.detailed.usecase.ItemTemperatureUseCase
-import com.example.features.weather.detailed.usecase.WeatherDetailedDayUseCase
 import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
+import com.example.features.weather.detailed.usecase.WeatherDetailedUseCase
 import com.example.features.weather.detailed.usecase.WeatherHoursDayUseCase
 import com.example.features.weather.detailed.viewmodel.WeatherDetailedViewModel
 import com.example.features.weather.repository.WeatherRepositoryImpl
@@ -136,7 +136,7 @@ val appModule = module {
     factory { WeatherPreviewBarUseCase(get()) }
     factory { ItemTemperatureUseCase() }
 
-    factory { WeatherDetailedDayUseCase(get()) }
+    factory { WeatherDetailedUseCase(get(), get(), get()) }
     factory { WeatherHoursDayUseCase(get()) }
 
     factory<CreateProfileUseCase> { CreateProfileUseCaseImpl(get()) }
@@ -168,5 +168,5 @@ val appModule = module {
     viewModel { NoteDetailViewModel(get(), get(), get(), get()) }
     viewModel { TaskViewModel(get(), get()) }
     viewModel { SettingsViewModel(get(), get()) }
-    viewModel { WeatherDetailedViewModel(get(), get(), get()) }
+    viewModel { WeatherDetailedViewModel(get()) }
 }

@@ -1,10 +1,11 @@
-package com.example.features
+package com.example.features.common.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import com.example.features.common.activity.viewmodel.MainViewModel
 import com.example.features.common.navigation.NavigationAppHost
 import org.koin.androidx.compose.getViewModel
 

@@ -1,4 +1,4 @@
-package com.example.features
+package com.example.features.common.activity.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

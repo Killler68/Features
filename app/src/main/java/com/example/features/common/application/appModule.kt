@@ -1,7 +1,7 @@
 package com.example.features.common.application
 
 import androidx.room.Room
-import com.example.features.MainViewModel
+import com.example.features.common.activity.viewmodel.MainViewModel
 import com.example.features.authorization.usecase.GetUserByLoginAndPasswordUseCase
 import com.example.features.authorization.viewmodel.AuthorizationViewModel
 import com.example.features.common.database.notes.NotesDatabase

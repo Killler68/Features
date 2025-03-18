@@ -1,4 +1,4 @@
-package com.example.features.common.design
+package com.example.features.common.view
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image

@@ -5,7 +5,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.example.features.R
-import com.example.features.common.design.TopBarScreen
+import com.example.features.common.view.TopBarScreen
 
 
 @OptIn(ExperimentalMaterial3Api::class)

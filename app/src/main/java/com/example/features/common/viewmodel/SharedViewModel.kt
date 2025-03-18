@@ -12,7 +12,6 @@ class SharedViewModel(
     private val getUserByLoginAndPasswordUseCase: GetUserByLoginAndPasswordUseCase
 ) : ViewModel() {
 
-
     private val _currentUser = MutableStateFlow<User?>(null)
     val currentUser: StateFlow<User?> get() = _currentUser
 
@@ -43,18 +42,5 @@ class SharedViewModel(
     fun setCurrentUser(user: User?) {
         isManualUserSet = true
         _currentUser.value = user
-    }
-
-    fun clearCurrentUser() {
-        isManualUserSet = false
-        _currentUser.value = null
-    }
-
-    fun clearError() {
-        _error.value = null
-    }
-
-    fun isUserManuallySet(): Boolean {
-        return isManualUserSet
     }
 }

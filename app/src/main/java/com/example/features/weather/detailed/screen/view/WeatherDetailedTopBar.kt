@@ -5,7 +5,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import com.example.features.R
-import com.example.features.common.design.TopBarScreen
+import com.example.features.common.view.TopBarScreen
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.detailed.model.WeatherDetailedState

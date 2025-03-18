@@ -29,14 +29,27 @@ fun NavigationAppHost(checkLocale: String) {
             composable(Screens.Welcome.route) { WelcomeScreen(navHostController) }
             composable(Screens.Registration.route) { RegistrationScreen(navHostController) }
             composable(Screens.Authorization.route) { AuthorizationScreen(navHostController) }
-            composable(Screens.Weather.route) { WeatherScreen(navHostController) }
             composable(Screens.NotesList.route) { NotesListScreen(navHostController) }
-            composable(Screens.Features.route) { FeaturesScreen(navHostController) }
             composable(Screens.NoteAddScreen.route) { NoteAddScreen(navHostController) }
             composable(Screens.TaskScreen.route) { TaskScreen(navHostController) }
-            composable(Screens.SettingsScreen.route) { SettingsScreen(navHostController) }
             composable(Screens.AboutScreen.route) { AboutScreen(navHostController) }
+            composable(Screens.Weather.route) { WeatherScreen(navHostController) }
 
+            composable(
+                Screens.SettingsScreen.route,
+                arguments = listOf(navArgument("userId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val userId = backStackEntry.arguments?.getInt("userId") ?: 0
+                SettingsScreen(navHostController, userId)
+            }
+
+            composable(
+                route= Screens.Features.route,
+                arguments = listOf(navArgument("userId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val userId = backStackEntry.arguments?.getInt("userId") ?: 0
+                FeaturesScreen(navHostController, userId)
+            }
             composable(
                 route = Screens.Profile.route,
                 arguments = listOf(navArgument("userId") {

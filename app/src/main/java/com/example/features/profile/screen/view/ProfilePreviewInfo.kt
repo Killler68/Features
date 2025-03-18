@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -16,15 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.R
 import com.example.features.common.database.profile.model.Profile
-import com.example.features.common.viewmodel.SharedViewModel
-import com.example.features.ui.theme.Cyan
-import org.koin.androidx.compose.getViewModel
 
 
 @Composable
 fun ProfilePreviewInfo(profile: Profile) {
-    val sharedViewModel: SharedViewModel = getViewModel()
-    val login = sharedViewModel.currentUser.collectAsState().value?.login
 
     Box(
         contentAlignment = Alignment.Center,
@@ -32,13 +26,15 @@ fun ProfilePreviewInfo(profile: Profile) {
             .fillMaxWidth()
             .padding(vertical = 5.dp)
     ) {
-        login?.let {
-            Text(
-                text = it,
-                fontSize = 20.sp,
-                color = Cyan
-            )
-        }
+//        login?.let {
+//            Text(
+//                text = it,
+//                fontSize = 20.sp,
+//                color = Cyan
+//            )
+//        }
+
+        Text(text = "LOGIN")
     }
     if (profile.email.isNotEmpty()) {
         Box(

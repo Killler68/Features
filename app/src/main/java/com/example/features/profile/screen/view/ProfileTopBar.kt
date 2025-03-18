@@ -11,13 +11,13 @@ import com.example.features.profile.viewmodel.ProfileViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileTopBar(viewModel: ProfileViewModel) {
+fun ProfileTopBar(viewModel: ProfileViewModel, userId: Int) {
     TopAppBar(
         title = {
             TopBarScreen(
                 imageOnBack = R.drawable.back,
                 imageDescriptionOnBack = "back",
-                onBack = { viewModel.dispatch(ProfileEvent.OnClickBack) },
+                onBack = { viewModel.dispatch(ProfileEvent.OnClickBack(userId)) },
                 onClick = { viewModel.dispatch(ProfileEvent.OnClickSettings) },
                 onExit = { viewModel.dispatch(ProfileEvent.OnClickExit) }
             )

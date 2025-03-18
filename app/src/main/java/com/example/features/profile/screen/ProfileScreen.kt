@@ -41,7 +41,7 @@ fun ProfileScreen(userId: Int, navController: NavController) {
     }
 
     Scaffold(
-        topBar = { ProfileTopBar(viewModel) },
+        topBar = { ProfileTopBar(viewModel, userId) },
         content = { ProfileContent(paddingValues = it, viewModel = viewModel) }
     )
 }

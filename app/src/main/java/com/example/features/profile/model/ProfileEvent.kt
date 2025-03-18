@@ -4,7 +4,7 @@ sealed class ProfileEvent {
     data object OnClickSettings : ProfileEvent()
     data object OnClickCancel : ProfileEvent()
     data object OnClickApply : ProfileEvent()
-    data object OnClickBack : ProfileEvent()
+    data class OnClickBack(val userId: Int) : ProfileEvent()
     data object OnClickExit : ProfileEvent()
     data class OnNameChange(val value: String) : ProfileEvent()
     data class OnAgeChange(val value: String) : ProfileEvent()

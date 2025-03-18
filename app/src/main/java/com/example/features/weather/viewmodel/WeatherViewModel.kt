@@ -2,8 +2,8 @@ package com.example.features.weather.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.features.common.strings.city
 import com.example.features.common.navigation.Screens
+import com.example.features.common.strings.city
 import com.example.features.weather.model.WeatherEvent
 import com.example.features.weather.model.WeatherSideEffect
 import com.example.features.weather.model.WeatherState
@@ -35,9 +35,9 @@ class WeatherViewModel(
     fun dispatch(event: WeatherEvent) {
         when (event) {
             WeatherEvent.LoadData -> loadWeather(city)
-            WeatherEvent.ToBack -> navigateTo(Screens.Features.route)
             WeatherEvent.OnShowDialogChangeCity -> showDialog()
             WeatherEvent.OnCloseShowDialogChangeCity -> clearSideEffects()
+            is WeatherEvent.ToBack -> toBack()
             is WeatherEvent.ToWeatherDetailed -> navigateToDetailed(event.weatherId)
         }
     }
@@ -70,9 +70,15 @@ class WeatherViewModel(
         }
     }
 
-    private fun navigateTo(router: String) {
+    private fun navigateTo(route: String) {
         viewModelScope.launch {
-            _effect.emit(WeatherSideEffect.NavigateTo(router))
+            _effect.emit(WeatherSideEffect.NavigateTo(route))
+        }
+    }
+
+    private fun toBack() {
+        viewModelScope.launch {
+            _effect.emit(WeatherSideEffect.ToBack)
         }
     }
 

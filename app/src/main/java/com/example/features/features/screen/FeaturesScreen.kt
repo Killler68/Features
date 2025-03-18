@@ -14,7 +14,6 @@ import com.example.features.R
 import com.example.features.common.utils.ExitBackStack
 import com.example.features.common.view.ErrorScreen
 import com.example.features.common.view.LoadingScreen
-import com.example.features.common.viewmodel.SharedViewModel
 import com.example.features.features.model.FeaturesEvent
 import com.example.features.features.model.FeaturesSideEffect
 import com.example.features.features.model.FeaturesState
@@ -22,41 +21,37 @@ import com.example.features.features.screen.view.FeaturesDrawerSheet
 import com.example.features.features.screen.view.FeaturesScaffold
 import com.example.features.features.viewmodel.FeaturesViewModel
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 
 @Composable
-fun FeaturesScreen(navController: NavController) {
-
-    val viewModel: FeaturesViewModel = getViewModel()
+fun FeaturesScreen(navController: NavController, userId: Int) {
+    val viewModel: FeaturesViewModel = getViewModel { parametersOf(userId) }
     val state by viewModel.state.collectAsState()
     val effectFlow = viewModel.effect
 
-    val sharedViewModel: SharedViewModel = getViewModel()
-    val user by sharedViewModel.currentUser.collectAsState()
-
-    LaunchedEffect(user?.id) {
-        user?.id?.let { userId ->
-            viewModel.dispatch(FeaturesEvent.LoadAllData(userId))
-        }
+    LaunchedEffect(userId) {
+        viewModel.dispatch(FeaturesEvent.LoadAllData(userId))
     }
 
     LaunchedEffect(Unit) {
         effectFlow.collect { effect ->
             when (effect) {
                 is FeaturesSideEffect.NavigateTo -> navController.navigate(effect.route)
+                is FeaturesSideEffect.NavigateToFeature -> navController.navigate(effect.route)
             }
         }
     }
 
     when (val currentState = state) {
         FeaturesState.Loading -> LoadingScreen()
-        is FeaturesState.Success -> FeaturesContent(currentState, viewModel::dispatch)
+        is FeaturesState.Success -> FeaturesContent(currentState, viewModel::dispatch, userId)
         is FeaturesState.Error -> ErrorScreen(R.drawable.loading, currentState.message)
     }
 }
 
 @Composable
-fun FeaturesContent(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Unit) {
+fun FeaturesContent(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Unit, userId: Int) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
@@ -69,7 +64,7 @@ fun FeaturesContent(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> U
                 drawerContainerColor = Color.DarkGray,
                 drawerContentColor = Color.LightGray
             ) {
-                FeaturesDrawerSheet(state)
+                FeaturesDrawerSheet(state, userId)
             }
         },
         content = { FeaturesScaffold(drawerState, state, dispatch) }

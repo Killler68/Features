@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.features.authorization.model.AuthorizationEvent
 import com.example.features.authorization.model.AuthorizationSideEffect
 import com.example.features.authorization.model.AuthorizationState
-import com.example.features.common.viewmodel.SharedViewModel
+import com.example.features.authorization.usecase.GetUserByLoginAndPasswordUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AuthorizationViewModel(
-    private val sharedViewModel: SharedViewModel
+    private val getUserUseCase: GetUserByLoginAndPasswordUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<AuthorizationState>(AuthorizationState.Loading)
@@ -35,22 +35,18 @@ class AuthorizationViewModel(
         viewModelScope.launch {
             _state.value = AuthorizationState.Loading
             try {
-                sharedViewModel.getUser(login, password) { userFound, userId ->
-                    viewModelScope.launch {
-                        if (userFound) {
-                            navigateTo(AuthorizationSideEffect.ToFeatures(userId))
-                            _state.value = AuthorizationState.Success
-                        } else {
-                            _state.value = AuthorizationState.Error("Неверный логин или пароль")
-                        }
-                    }
+                val userId = getUserUseCase(login, password)?.id
+                if (userId != null) {
+                    navigateTo(AuthorizationSideEffect.ToFeatures(userId))
+                    _state.value = AuthorizationState.Success
+                } else {
+                    _state.value = AuthorizationState.Error("Неверный логин или пароль")
                 }
             } catch (e: Exception) {
-                AuthorizationState.Error(e.localizedMessage ?: "Ошибка авторизации")
+                _state.value = AuthorizationState.Error(e.localizedMessage ?: "Ошибка авторизации")
             }
         }
     }
-
 
     private fun navigateTo(destination: AuthorizationSideEffect) {
         viewModelScope.launch {

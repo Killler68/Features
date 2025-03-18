@@ -10,12 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.features.R
 import com.example.features.ui.theme.LightGray
 
 @Composable
-fun DrawerImagePreview(image: Int) {
+fun DrawerImagePreview() {
     Image(
-        painter = painterResource(image),
+        painter = painterResource(R.drawable.profile),
         contentDescription = "profile",
         colorFilter = ColorFilter.tint(LightGray),
         modifier = Modifier

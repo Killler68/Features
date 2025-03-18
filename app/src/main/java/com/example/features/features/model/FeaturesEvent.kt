@@ -5,5 +5,5 @@ sealed class FeaturesEvent {
     data object NavigateToAbout : FeaturesEvent()
     data class NavigateToFeature(val featureId: String) : FeaturesEvent()
     data class NavigateToProfile(val userId: Int) : FeaturesEvent()
-    data object NavigateToSettings : FeaturesEvent()
+    data class NavigateToSettings(val userId: Int) : FeaturesEvent()
 }

@@ -36,8 +36,8 @@ class ProfileViewModel(
             ProfileEvent.OnClickSettings -> enableEditing()
             ProfileEvent.OnClickCancel -> cancelEditing()
             ProfileEvent.OnClickApply -> applyChanges()
-            ProfileEvent.OnClickBack -> navigateTo(Screens.Features.route)
             ProfileEvent.OnClickExit -> navigateTo(Screens.Authorization.route)
+            is ProfileEvent.OnClickBack -> navigateTo(Screens.Features.createRoute(event.userId))
             is ProfileEvent.LoadProfile -> loadProfile(event.userId)
             is ProfileEvent.OnNameChange -> updateState { copy(editName = event.value) }
             is ProfileEvent.OnAgeChange -> updateState { copy(editAge = event.value) }

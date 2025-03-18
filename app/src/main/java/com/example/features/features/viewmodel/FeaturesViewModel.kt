@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FeaturesViewModel(
+    private val userId: Int,
     private val features: FeaturesUseCase,
     private val drawerItems: GetDrawerItemsUseCase,
     private val weatherPreviewBarUseCase: WeatherPreviewBarUseCase,
@@ -33,15 +34,17 @@ class FeaturesViewModel(
     private val _effect = MutableSharedFlow<FeaturesSideEffect>()
     val effect: SharedFlow<FeaturesSideEffect> get() = _effect.asSharedFlow()
 
+    init {
+        loadData(userId)
+    }
+
     fun dispatch(event: FeaturesEvent) {
         when (event) {
             FeaturesEvent.NavigateToAbout -> destination(Screens.AboutScreen.route)
-            FeaturesEvent.NavigateToSettings -> destination(Screens.SettingsScreen.route)
+            is FeaturesEvent.NavigateToSettings -> destination(Screens.SettingsScreen.createRouter(event.userId))
             is FeaturesEvent.NavigateToFeature -> destination(event.featureId)
+            is FeaturesEvent.NavigateToProfile -> destination(Screens.Profile.createRoute(userId))
             is FeaturesEvent.LoadAllData -> loadData(event.userId)
-            is FeaturesEvent.NavigateToProfile -> destination(
-                Screens.Profile.createRoute(event.userId)
-            )
         }
     }
 
@@ -73,9 +76,8 @@ class FeaturesViewModel(
                         isWeatherLoading = false
                     ) ?: it
                 }
-
             } catch (e: Exception) {
-                _state.value = _state.value
+                _state.value = FeaturesState.Error("Ошибка загрузки данных")
             }
         }
     }
@@ -86,4 +88,3 @@ class FeaturesViewModel(
         }
     }
 }
-

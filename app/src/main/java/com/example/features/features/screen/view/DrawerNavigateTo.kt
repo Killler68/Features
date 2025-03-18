@@ -11,7 +11,12 @@ fun drawerNavigateTo(drawerItem: DrawerItems, userId: Int?, viewModel: FeaturesV
             viewModel.dispatch(FeaturesEvent.NavigateToProfile(it))
         }
 
-        FeaturesItemDrawer.SETTINGS -> viewModel.dispatch(FeaturesEvent.NavigateToSettings)
+        FeaturesItemDrawer.SETTINGS -> userId?.let {
+            FeaturesEvent.NavigateToSettings(
+                it
+            )
+        }?.let { viewModel.dispatch(it) }
+
         FeaturesItemDrawer.ABOUT -> viewModel.dispatch(FeaturesEvent.NavigateToAbout)
     }
 }

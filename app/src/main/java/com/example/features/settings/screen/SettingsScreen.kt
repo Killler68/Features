@@ -22,7 +22,7 @@ import com.example.features.ui.theme.Cyan
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun SettingsScreen(navController: NavController) {
+fun SettingsScreen(navController: NavController, userId: Int) {
 
     val viewModel: SettingsViewModel = getViewModel()
 
@@ -33,14 +33,14 @@ fun SettingsScreen(navController: NavController) {
             }
         }
     }
-    SettingsContent(viewModel)
+    SettingsContent(viewModel, userId)
 }
 
 @Composable
-fun SettingsContent(viewModel: SettingsViewModel) {
+fun SettingsContent(viewModel: SettingsViewModel, userId: Int) {
 
     Scaffold(
-        topBar = { SettingsTopBar(viewModel) },
+        topBar = { SettingsTopBar(viewModel, userId) },
         content = {
             Column(
                 modifier = Modifier
@@ -71,7 +71,7 @@ fun SettingsContent(viewModel: SettingsViewModel) {
                     color = Cyan,
                     modifier = Modifier
                         .padding(horizontal = 20.dp, vertical = 10.dp)
-                        .clickable { viewModel.dispatch(SettingsEvent.DeleteUser) }
+                        .clickable { viewModel.dispatch(SettingsEvent.DeleteUser(userId)) }
                 )
             }
         }

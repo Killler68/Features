@@ -11,14 +11,14 @@ import com.example.features.settings.viewmodel.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsTopBar(viewModel: SettingsViewModel) {
+fun SettingsTopBar(viewModel: SettingsViewModel, userId: Int) {
 
     TopAppBar(
         title = {
             TopBarScreen(
                 R.drawable.back,
                 "back",
-                { viewModel.dispatch((SettingsEvent.OnBack)) },
+                { viewModel.dispatch((SettingsEvent.OnBack(userId))) },
                 "Настройки"
             )
         }

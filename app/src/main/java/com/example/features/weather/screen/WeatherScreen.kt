@@ -36,13 +36,17 @@ fun WeatherScreen(navController: NavController) {
 
                 WeatherSideEffect.Popup -> isDialogVisible = true
                 WeatherSideEffect.None -> isDialogVisible = false
+                WeatherSideEffect.ToBack -> navController.popBackStack()
             }
         }
     }
 
     when (state) {
         WeatherState.Loading -> LoadingScreen()
-        is WeatherState.Success -> WeatherContent(state as WeatherState.Success, isDialogVisible)
+        is WeatherState.Success -> WeatherContent(
+            state as WeatherState.Success,
+            isDialogVisible
+        )
 
         is WeatherState.Error -> ErrorScreen(R.drawable.weather, "Ошибка")
     }

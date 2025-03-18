@@ -46,6 +46,7 @@ import com.example.features.registration.usecase.CreateUserUseCase
 import com.example.features.registration.usecase.GetUserByLoginUseCase
 import com.example.features.registration.viewmodel.RegistrationViewModel
 import com.example.features.settings.usecase.DeleteUserUseCase
+import com.example.features.settings.usecase.GetUserByIdUseCase
 import com.example.features.settings.viewmodel.SettingsViewModel
 import com.example.features.weather.detailed.usecase.ItemTemperatureUseCase
 import com.example.features.weather.detailed.usecase.WeatherDetailedRepository
@@ -148,18 +149,19 @@ val appModule = module {
     factory { UpdateTaskUseCase(get()) }
     factory { CreateTaskUseCase(get()) }
     factory { GetUserByLoginUseCase(get()) }
+    factory { GetUserByIdUseCase(get()) }
 
     viewModel { MainViewModel(get()) }
     viewModel { WelcomeViewModel(get()) }
     viewModel { RegistrationViewModel(get(), get(), get()) }
     viewModel { AuthorizationViewModel(get()) }
-    viewModel { FeaturesViewModel(get(), get(), get(), get()) }
+    viewModel { FeaturesViewModel(get(), get(), get(), get(), get()) }
     viewModel { WeatherViewModel(get(), get()) }
     viewModel { NotesViewModel(get(), get(), get(), get(), get()) }
     viewModel { ProfileViewModel(get(), get(), get()) }
     viewModel { NoteAddViewModel(get(), get()) }
     viewModel { NoteDetailViewModel(get(), get(), get(), get()) }
     viewModel { TaskViewModel(get(), get()) }
-    viewModel { SettingsViewModel(get(), get()) }
+    viewModel { SettingsViewModel(get()) }
     viewModel { WeatherDetailedViewModel(get()) }
 }

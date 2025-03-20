@@ -7,5 +7,6 @@ data class WeatherWeek(
     val maxTemp: Double,
     val minTemp: Double,
     val icon: String,
-    val partDay: String
+    val partDay: String,
+    val hourlyList: List<WeatherWeek> = emptyList()
 )

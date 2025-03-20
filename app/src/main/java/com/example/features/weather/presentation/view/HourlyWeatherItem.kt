@@ -18,8 +18,8 @@ import com.example.features.common.extension.dateFormatHours
 import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
-import com.example.features.weather.presentation.models.WeatherState
 import com.example.features.weather.domain.entities.WeatherWeek
+import com.example.features.weather.presentation.models.WeatherState
 
 
 @Composable

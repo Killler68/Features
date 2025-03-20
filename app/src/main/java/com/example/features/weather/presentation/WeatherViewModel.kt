@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.navigation.Screens
 import com.example.features.common.strings.city
+import com.example.features.weather.domain.usecase.WeatherPreviewBarUseCase
+import com.example.features.weather.domain.usecase.WeatherUseCase
 import com.example.features.weather.presentation.models.WeatherEvent
 import com.example.features.weather.presentation.models.WeatherSideEffect
 import com.example.features.weather.presentation.models.WeatherState
-import com.example.features.weather.domain.usecase.WeatherPreviewBarUseCase
-import com.example.features.weather.domain.usecase.WeatherUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -67,12 +67,6 @@ class WeatherViewModel(
                     )
                 )
             )
-        }
-    }
-
-    private fun navigateTo(route: String) {
-        viewModelScope.launch {
-            _effect.emit(WeatherSideEffect.NavigateTo(route))
         }
     }
 

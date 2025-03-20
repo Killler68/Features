@@ -27,13 +27,13 @@ import com.example.features.common.extension.dateFormatDays
 import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
-import com.example.features.weather.domain.entities.WeatherData
+import com.example.features.weather.domain.entities.WeatherWeek
 import com.example.features.weather.presentation.models.WeatherState
 
 
 @Composable
 fun DailyWeatherItem(
-    weatherWeek: WeatherData,
+    weatherWeek: WeatherWeek,
     state: WeatherState.Success,
     onClick: () -> Unit
 ) {
@@ -100,6 +100,8 @@ fun DailyWeatherItem(
                 .height(1.dp)
         )
 
-        LazyRow { items(weatherWeek.listWeek) { item -> HourlyWeatherItem(item, state) } }
+        LazyRow {
+            items(weatherWeek.hourlyList) { item -> HourlyWeatherItem(item, state) }
+        }
     }
 }

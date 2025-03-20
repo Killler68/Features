@@ -2,7 +2,7 @@ package com.example.features.common.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.features.authorization.usecase.GetUserByLoginAndPasswordUseCase
+import com.example.features.authorization.domain.GetUserByLoginAndPasswordUseCase
 import com.example.features.common.database.user.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

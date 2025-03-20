@@ -2,7 +2,6 @@ package com.example.features.common.module
 
 import androidx.room.Room
 import com.example.features.common.database.notes.NotesDatabase
-import com.example.features.common.database.profile.ProfileDatabase
 import com.example.features.common.database.task.TaskDatabase
 import com.example.features.common.database.user.UserDatabase
 import org.koin.dsl.module
@@ -36,16 +35,6 @@ object DatabaseModule {
             ).build()
         }
         single { get<UserDatabase>().userDao() }
-
-        single {
-            Room.databaseBuilder(
-                get(),
-                ProfileDatabase::class.java,
-                "profile_database"
-            ).build()
-        }
-
-        single { get<ProfileDatabase>().profileDao() }
 
     }
 }

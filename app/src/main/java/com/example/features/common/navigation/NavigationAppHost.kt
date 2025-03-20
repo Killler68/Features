@@ -7,18 +7,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.features.about.AboutScreen
-import com.example.features.authorization.screen.AuthorizationScreen
-import com.example.features.features.screen.FeaturesScreen
+import com.example.features.authorization.presentation.AuthorizationScreen
+import com.example.features.features.presentation.FeaturesScreen
 import com.example.features.notes.noteadd.screen.NoteAddScreen
 import com.example.features.notes.notedetail.screen.DsNoteDetail
 import com.example.features.notes.noteslist.screen.NotesListScreen
 import com.example.features.notes.task.screen.TaskScreen
-import com.example.features.profile.screen.ProfileScreen
-import com.example.features.registration.screen.RegistrationScreen
-import com.example.features.settings.screen.SettingsScreen
-import com.example.features.weather.detailed.screen.WeatherDetailedScreen
-import com.example.features.weather.screen.WeatherScreen
-import com.example.features.welcome.screen.WelcomeScreen
+import com.example.features.profile.presentation.ProfileScreen
+import com.example.features.registration.presentation.RegistrationScreen
+import com.example.features.settings.presentation.SettingsScreen
+import com.example.features.weatherdetailed.presentation.WeatherDetailedScreen
+import com.example.features.weather.presentation.WeatherScreen
+import com.example.features.welcome.presentation.WelcomeScreen
 
 @Composable
 fun NavigationAppHost(checkLocale: String) {

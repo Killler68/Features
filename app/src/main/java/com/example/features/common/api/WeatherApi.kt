@@ -1,6 +1,6 @@
 package com.example.features.common.api
 
-import WeatherResponse
+import com.example.features.weather.domain.entities.WeatherResponse
 import com.example.features.common.strings.OPEN_WEATHER_MAP
 import com.example.features.common.strings.WEATHER_API
 import retrofit2.Retrofit

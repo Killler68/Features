@@ -10,7 +10,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.example.features.R
 import com.example.features.common.view.ButtonsApply
 import com.example.features.common.view.ErrorMessageView
 import com.example.features.welcome.presentation.models.WelcomeEvent
@@ -50,17 +52,17 @@ fun WelcomeContent(viewModel: WelcomeViewModel) {
 
         when (state) {
             is WelcomeState.Loading -> CircularProgressIndicator()
-            is WelcomeState.Success -> WelcomePagerView((state as WelcomeState.Success).items)
+            is WelcomeState.Success -> WelcomePagerView((state as WelcomeState.Success).item)
             is WelcomeState.Error -> ErrorMessageView((state as WelcomeState.Error).message)
         }
 
         ButtonsApply(
             onClick = { viewModel.dispatch(event = WelcomeEvent.ToRegistration) },
-            textButton = "Создать аккаунт",
+            textButton = stringResource(R.string.create_account),
         )
         ButtonsApply(
             onClick = { viewModel.dispatch(event = WelcomeEvent.ToAuthorization) },
-            textButton = "Авторизация",
+            textButton = stringResource(R.string.authorization),
         )
     }
 }

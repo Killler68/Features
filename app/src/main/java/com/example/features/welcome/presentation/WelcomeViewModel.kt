@@ -2,11 +2,12 @@ package com.example.features.welcome.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.R
 import com.example.features.common.navigation.Screens
+import com.example.features.welcome.domain.usecase.WelcomeUseCase
 import com.example.features.welcome.presentation.models.WelcomeEvent
 import com.example.features.welcome.presentation.models.WelcomeSideEffect
 import com.example.features.welcome.presentation.models.WelcomeState
-import com.example.features.welcome.domain.usecase.WelcomeUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -42,7 +43,7 @@ class WelcomeViewModel(
             val itemPager = welcomeUseCase()
             _state.value = WelcomeState.Success(itemPager)
         } catch (e: Exception) {
-            _state.value = WelcomeState.Error(e.localizedMessage ?: "Error load")
+            _state.value = WelcomeState.Error(R.string.error_load)
         }
     }
 

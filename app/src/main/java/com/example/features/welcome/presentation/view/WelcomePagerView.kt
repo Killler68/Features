@@ -11,25 +11,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.features.common.view.PageIndicatorsView
 import com.example.features.ui.theme.Cyan
-import com.example.features.welcome.domain.entities.PagerItems
+import com.example.features.welcome.domain.entities.PagerItem
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WelcomePagerView(items: List<PagerItems>) {
+fun WelcomePagerView(item: List<PagerItem>) {
 
-    val pagerState = rememberPagerState(pageCount = { items.size })
+    val pagerState = rememberPagerState(pageCount = { item.size })
 
     HorizontalPager(
         state = pagerState
     ) { page ->
-        WelcomePagerItemView(items, page)
+        WelcomePagerItemView(item[page])
     }
     PageIndicatorsView(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 20.dp),
-        count = items.size,
+        count = item.size,
         currentPage = pagerState.currentPage,
         Cyan,
         Color.LightGray

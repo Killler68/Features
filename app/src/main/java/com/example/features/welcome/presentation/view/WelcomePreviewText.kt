@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.R
 import com.example.features.common.extension.annotatedString
 
 
@@ -22,8 +24,8 @@ fun WelcomePreviewText() {
     ) {
         Text(
             annotatedString(
-                changedText = "Приветствую в ",
-                notChangedText = "Сборнике приложений",
+                changedText = stringResource(R.string.welcome_title),
+                notChangedText = stringResource(R.string.welcome_subtitle),
                 fontWeight = FontWeight.Bold,
                 fonStyle = FontStyle.Italic,
                 fontSize = 24.sp

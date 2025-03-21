@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Features</string>
+
+    <string name="notes_title">Заметки</string>
+    <string name="notes_subtitle">Создание заметок с подробным описанием</string>
+    <string name="weather_title">Погода</string>
+    <string name="weather_subtitle">Узнайте погоду в любой точке мира!</string>
+    <string name="empty_title">В стадии разработки</string>
+    <string name="empty_subtitle">Скоро появится</string>
+    <string name="create_account">Создать аккаунт</string>
+    <string name="authorization">Авторизоваться</string>
+    <string name="welcome_title">Приветствую в </string>
+    <string name="welcome_subtitle">Сборнике приложений</string>
+
+
+
+    <string name="error_load">Error load</string>
+
+
+
 </resources>

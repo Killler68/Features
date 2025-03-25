@@ -14,7 +14,7 @@ object WeatherDetailedModule {
         single<WeatherDetailedRepository> { WeatherDetailedRepositoryImpl() }
 
         factory { ItemTemperatureUseCase() }
-        factory { WeatherDetailedUseCase(get(), get(), get()) }
+        factory { WeatherDetailedUseCase(get(), get(), get(), get()) }
         factory { WeatherHoursDayUseCase(get()) }
 
         viewModel { WeatherDetailedViewModel(get()) }

@@ -2,6 +2,7 @@ package com.example.features.weatherdetailed.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.R
 import com.example.features.common.navigation.Screens
 import com.example.features.weatherdetailed.presentation.models.WeatherDetailedEvent
 import com.example.features.weatherdetailed.presentation.models.WeatherDetailedSideEffect
@@ -44,7 +45,7 @@ class WeatherDetailedViewModel(
                     itemPager = result.itemPager
                 )
             } catch (e: Exception) {
-                _state.value = WeatherDetailedState.Error(e.localizedMessage ?: "Ошибка")
+                _state.value = WeatherDetailedState.Error(R.string.error_load)
             }
         }
     }

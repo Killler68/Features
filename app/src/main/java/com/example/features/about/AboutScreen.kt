@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.features.R
@@ -31,8 +32,8 @@ fun AboutContent(paddingValues: PaddingValues) {
             .padding(paddingValues)
             .padding(20.dp)
     ) {
-        CenteredImage(R.drawable.tree, "tree", 128.dp, LightGreen)
-        InfoRow("Название приложения", "Features")
-        InfoRow("Версия", "V1.0.0")
+        CenteredImage(R.drawable.tree, stringResource(R.string.tree), 128.dp, LightGreen)
+        InfoRow(stringResource(R.string.name_project), stringResource(R.string.features))
+        InfoRow(stringResource(R.string.version_text), stringResource(R.string.version))
     }
 }

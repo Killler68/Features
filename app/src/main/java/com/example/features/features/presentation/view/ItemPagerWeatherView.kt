@@ -10,11 +10,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.features.R
 import com.example.features.common.extension.extensionTemperatureWeather
 import com.example.features.common.extension.getRawNameFeaturesCityEngToRuExtension
 import com.example.features.common.extension.imageWeatherExtension
@@ -38,7 +40,7 @@ fun ItemPagerWeatherView(state: FeaturesState.Success) {
 
         Image(
             painter = painterResource(iconRes),
-            contentDescription = "condition_weather",
+            contentDescription = stringResource(R.string.condition_image_description),
             alignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxWidth()
@@ -47,7 +49,7 @@ fun ItemPagerWeatherView(state: FeaturesState.Success) {
 
         GlideImage(
             model = temperatureImage,
-            contentDescription = "condition_weather",
+            contentDescription = stringResource(R.string.temperature_image_description),
             alignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxWidth()
@@ -56,7 +58,7 @@ fun ItemPagerWeatherView(state: FeaturesState.Success) {
         )
 
         Text(
-            text = "В $city сегодня ",
+            text = stringResource(R.string.today_weather, city),
             textAlign = TextAlign.Center,
             fontSize = 16.sp,
             modifier = Modifier
@@ -65,12 +67,12 @@ fun ItemPagerWeatherView(state: FeaturesState.Success) {
         )
 
         Text(
-            text = "${temperature}°",
+            text = stringResource(R.string.celsius_degree, temperature),
             textAlign = TextAlign.Center,
             fontSize = 24.sp,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 10.dp)
         )
-    } else NotFound("Погода не обнаружена")
+    } else NotFound(stringResource(R.string.weather_not_found))
 }

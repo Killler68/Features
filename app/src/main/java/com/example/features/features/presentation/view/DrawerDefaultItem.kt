@@ -12,8 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.R
 import com.example.features.features.domain.entities.DrawerItems
 import com.example.features.ui.theme.LightGray
 
@@ -22,7 +24,7 @@ fun DrawerDefaultItem(item: DrawerItems) {
     Row {
         Image(
             painter = painterResource(item.image),
-            contentDescription = "drawer",
+            contentDescription = stringResource(R.string.drawer_image_description),
             modifier = Modifier
                 .size(42.dp)
                 .clip(RoundedCornerShape(12.dp))

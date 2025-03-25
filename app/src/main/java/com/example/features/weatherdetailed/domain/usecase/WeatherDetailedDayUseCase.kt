@@ -1,8 +1,9 @@
 package com.example.features.weatherdetailed.domain.usecase
 
+import android.content.Context
 import com.example.features.common.strings.city
-import com.example.features.weatherdetailed.domain.entities.WeatherDetailsResult
 import com.example.features.weather.domain.entities.WeatherDetailedDay
+import com.example.features.weatherdetailed.domain.entities.WeatherDetailsResult
 
 
 private const val ONE_DAY_MILLIS = 86_400_000L
@@ -10,7 +11,8 @@ private const val ONE_DAY_MILLIS = 86_400_000L
 class WeatherDetailedUseCase(
     private val repository: WeatherDetailedRepository,
     private val itemTemperature: ItemTemperatureUseCase,
-    private val weatherHoursDayUseCase: WeatherHoursDayUseCase
+    private val weatherHoursDayUseCase: WeatherHoursDayUseCase,
+    private val context: Context
 ) {
 
     suspend fun getWeatherDetails(weatherId: Int): WeatherDetailsResult {
@@ -28,7 +30,8 @@ class WeatherDetailedUseCase(
             itemPager = itemTemperature(
                 todayWeather = detailedDay,
                 yesterdayWeather = yesterdayWeather,
-                tomorrowWeather = tomorrowWeather
+                tomorrowWeather = tomorrowWeather,
+                context = context
             )
         )
     }

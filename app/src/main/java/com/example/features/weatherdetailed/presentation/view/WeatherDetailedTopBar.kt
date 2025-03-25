@@ -4,6 +4,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import com.example.features.R
 import com.example.features.common.view.TopBarScreen
 import com.example.features.common.extension.weatherColorExtension
@@ -26,7 +27,7 @@ fun WeatherDetailedTopBar(
             TopBarScreen(
                 imageOnBack = R.drawable.back,
                 onBack = { onBack() },
-                imageDescriptionOnBack = "back",
+                imageDescriptionOnBack = stringResource(R.string.back_image_description),
                 city = city,
                 textColor = textColor
             )

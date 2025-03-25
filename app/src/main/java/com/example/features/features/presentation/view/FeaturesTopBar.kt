@@ -5,6 +5,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.res.stringResource
 import com.example.features.R
 import com.example.features.common.view.TopBarScreen
 import kotlinx.coroutines.launch
@@ -18,7 +19,7 @@ fun FeaturesTopBar(drawerState: DrawerState) {
         title = {
             TopBarScreen(
                 R.drawable.menu,
-                "menu",
+                stringResource(R.string.menu_image_description),
                 { scope.launch { drawerState.open() } },
                 ""
             )

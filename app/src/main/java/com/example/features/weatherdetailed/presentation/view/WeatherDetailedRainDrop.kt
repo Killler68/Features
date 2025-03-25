@@ -9,33 +9,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.R
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
-import com.example.features.weatherdetailed.presentation.models.WeatherDetailedState
 import com.example.features.weatherdetailed.domain.entities.WeatherHoursDay
+import com.example.features.weatherdetailed.presentation.models.WeatherDetailedState
 
 
 @Composable
 fun WeatherDetailedRainDrop(state: WeatherDetailedState.Success, hoursDay: WeatherHoursDay) {
+
+    val chanceRain = (hoursDay.chanceRain).toInt()
+    val imageColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.IMAGE)
+    val textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
     Row {
         Image(
             painter = painterResource(R.drawable.rain_drop),
-            contentDescription = "rain_drop",
-            colorFilter = ColorFilter.tint(
-                weatherColorExtension(state.detailedDay.partDay, ColorCategory.IMAGE)
-            ),
+            contentDescription = stringResource(R.string.rain_drop),
+            colorFilter = ColorFilter.tint(imageColor),
             modifier = Modifier
                 .padding(start = 3.dp, end = 3.dp, top = 5.dp, bottom = 10.dp)
                 .size(8.dp),
         )
 
         Text(
-            text = "${(hoursDay.chanceRain * 100).toInt()}%",
+            text = stringResource(R.string.percent, chanceRain),
             fontSize = 10.sp,
-            color = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+            color = textColor
         )
     }
 }

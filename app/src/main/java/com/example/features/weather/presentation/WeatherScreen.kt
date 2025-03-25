@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.common.extension.weatherColorExtension
@@ -47,7 +48,10 @@ fun WeatherScreen(navController: NavController) {
             isDialogVisible
         )
 
-        is WeatherState.Error -> ErrorScreen(R.drawable.weather, "Ошибка")
+        is WeatherState.Error -> ErrorScreen(
+            R.drawable.weather,
+            stringResource(R.string.error_load)
+        )
     }
 }
 

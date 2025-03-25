@@ -13,9 +13,110 @@
     <string name="welcome_subtitle">Сборнике приложений</string>
 
 
+    <string name="visibility">Видимость</string>
+    <string name="humidity">Влажность</string>
+    <string name="wind">Ветер</string>
+    <string name="wind_unit">%1$s м/с</string>
+    <string name="pressure">Давление</string>
+    <string name="pressure_unit">%1$s мбар</string>
+    <string name="feeling">ощущается как </string>
+    <string name="celsius_degree">%1$d°</string>
+    <string name="hours_weather">hours_weather</string>
+    <string name="rain_drop">rain_drop</string>
+    <string name="open_weather_map">OpenWeatherMap</string>
+    <string name="state_weather">state_weather</string>
+    <string name="children">children</string>
+    <string name="sun_rise">Восход</string>
+    <string name="sun_set">Закат</string>
+    <string name="additional_info">additional_info</string>
+    <string name="temperature_details">%1$d° / %2$d° Ощущается как %3$d°</string>
+    <string name="temp_was_hotter">Было на %1$d° теплее</string>
+    <string name="temp_was_colder">Было на %1$d° прохладнее</string>
+    <string name="temp_same">Температура такая же</string>
+    <string name="weather_today">%1$s и температура воздуха %2$d°</string>
+    <string name="temp_will_be_hotter">Будет на %1$d° теплее</string>
+    <string name="temp_will_be_colder">Будет на %1$d° прохладнее</string>
+    <string name="temp_expected_same">Ожидается такая же температура</string>
+    <string name="select_city">Выберите город</string>
 
-    <string name="error_load">Error load</string>
+
+    <string name="theme">Тема</string>
+    <string name="light_theme">Светлая тема</string>
+    <string name="change_languages">Смена языка</string>
+    <string name="russian_languages">Русский</string>
+    <string name="text_size">Размер текста</string>
+    <string name="ordinary">Обычный</string>
+    <string name="delete_user">Удалить пользователя</string>
+    <string name="settings">Настройки</string>
 
 
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="edit_login_and_password">Введите логин и пароль</string>
+    <string name="apply">ГОТОВО</string>
+    <string name="registration">Регистрация</string>
+    <string name="is_registered">Уже есть учетная запись?\n</string>
+    <string name="log_in">\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Войти</string>
+    <string name="is_creator_account">Войти</string>
+    <string name="account_already_created">Пользователь с таким логином уже существует</string>
+    <string name="error_create_account">Ошибка при создании пользователя</string>
+
+
+    <string name="error_login_and_password">Неверный логин или пароль</string>
+    <string name="welcome">Добро пожаловать</string>
+    <string name="is_not_account">Нет учетной записи?\n</string>
+    <string name="register">Зарегистрироваться</string>
+
+
+    <string name="name_project">Название приложения</string>
+    <string name="features">Features</string>
+    <string name="tree">tree</string>
+    <string name="version_text">Версия</string>
+    <string name="version">V1.0.0</string>
+    <string name="about_project">О приложении</string>
+
+
+    <string name="name">Имя</string>
+    <string name="age">Возвраст</string>
+    <string name="city">Город</string>
+    <string name="email">Email</string>
+    <string name="nationality">Национальность</string>
+
+
+    <string name="features_name">Сборник приложений</string>
+    <string name="notes_not_found">Заметок не обнаружено</string>
+    <string name="last_notes">Последняя заметка</string>
+    <string name="weather_not_found">Погода не обнаружена</string>
+    <string name="today_weather">В %1$s сегодня </string>
+
+
+    <string name="error_load">Ошибка загрузки</string>
+    <string name="percent">%1$d%%</string>
+    <string name="fraction"> / </string>
+    <string name="data_not_found">Данные не найдены</string>
+    <string name="add">Добавить</string>
+    <string name="cancel">Отменить</string>
+    <string name="loading_data">Загружаем данные…</string>
+    <string name="edit">Редактировать</string>
+    <string name="exit">Выйти</string>
+    <string name="confirm">Подтвердить</string>
+
+    <string name="back_image_description">back</string>
+    <string name="city_image_description">city</string>
+    <string name="daily_weather_image_description">daily_weather</string>
+    <string name="hourly_weather_image_description">hourly_weather</string>
+    <string name="animated_gif">animated_gif</string>
+    <string name="theme_image_description">theme</string>
+    <string name="languages_image_description">languages</string>
+    <string name="dimension_image_description">dimension</string>
+    <string name="error_image_description">error</string>
+    <string name="loading_image_description">loading</string>
+    <string name="option_image_description">option</string>
+    <string name="profile_image_description">option</string>
+    <string name="location_image_description">option</string>
+    <string name="drawer_image_description">option</string>
+    <string name="menu_image_description">option</string>
+    <string name="condition_image_description">option</string>
+    <string name="temperature_image_description">option</string>
 
 </resources>

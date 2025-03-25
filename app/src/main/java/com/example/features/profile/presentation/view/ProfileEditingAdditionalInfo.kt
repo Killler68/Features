@@ -12,10 +12,12 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.R
 import com.example.features.profile.presentation.models.ProfileEvent
 import com.example.features.profile.presentation.models.ProfileState
 import com.example.features.profile.presentation.ProfileViewModel
@@ -23,28 +25,28 @@ import com.example.features.profile.presentation.ProfileViewModel
 @Composable
 fun ProfileEditingAdditionalInfo(state: ProfileState, viewModel: ProfileViewModel) {
     ProfileTextField(
-        label = "Имя",
+        label = stringResource(R.string.name),
         value = state.editName,
         onValueChange = { viewModel.dispatch(ProfileEvent.OnNameChange(it)) }
     )
     ProfileTextField(
-        label = "Возраст",
+        label = stringResource(R.string.age),
         value = state.editAge,
         onValueChange = { viewModel.dispatch(ProfileEvent.OnAgeChange(it)) },
         keyboardType = KeyboardType.Number
     )
     ProfileTextField(
-        label = "Город",
+        label = stringResource(R.string.city),
         value = state.editCity,
         onValueChange = { viewModel.dispatch(ProfileEvent.OnCityChange(it)) }
     )
     ProfileTextField(
-        label = "Национальность",
+        label = stringResource(R.string.nationality),
         value = state.editNationality,
         onValueChange = { viewModel.dispatch(ProfileEvent.OnNationalityChange(it)) }
     )
     ProfileTextField(
-        label = "email",
+        label = stringResource(R.string.email),
         value = state.editEmail,
         onValueChange = { viewModel.dispatch(ProfileEvent.OnEmailChange(it)) }
     )

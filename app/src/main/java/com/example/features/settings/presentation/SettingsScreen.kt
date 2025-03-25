@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -48,24 +49,24 @@ fun SettingsContent(viewModel: SettingsViewModel, userId: Int) {
             ) {
                 SettingsCardView(
                     R.drawable.trash_bucket,
-                    "theme",
-                    "Тема",
-                    "Светлая тема"
+                    stringResource(R.string.theme_image_description),
+                    stringResource(R.string.theme),
+                    stringResource(R.string.light_theme)
                 )
                 SettingsCardView(
                     R.drawable.trash_bucket,
-                    "languages",
-                    "Смена языка",
-                    "Русский"
+                    stringResource(R.string.languages_image_description),
+                    stringResource(R.string.change_languages),
+                    stringResource(R.string.russian_languages)
                 )
                 SettingsCardView(
                     R.drawable.trash_bucket,
-                    "dimensions",
-                    "Размеры текстов",
-                    "Обычный"
+                    stringResource(R.string.dimension_image_description),
+                    stringResource(R.string.text_size),
+                    stringResource(R.string.ordinary)
                 )
                 Text(
-                    text = "Удалить пользователя",
+                    text = stringResource(R.string.delete_user),
                     fontSize = 18.sp,
                     color = Cyan,
                     modifier = Modifier

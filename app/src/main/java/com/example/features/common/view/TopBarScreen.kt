@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -80,9 +81,10 @@ fun TopBarScreen(
 ) {
 
     var expanded by remember { mutableStateOf(false) }
-    val items = listOf("Редактировать", "Выйти")
+    val items = listOf(stringResource(R.string.edit), stringResource(R.string.exit))
     var selectedItem by remember { mutableStateOf("") }
-
+    val editText = stringResource(R.string.edit)
+    val exitText = stringResource(R.string.exit)
 
     Column {
         Row(
@@ -106,7 +108,7 @@ fun TopBarScreen(
             Box {
                 Image(
                     painter = painterResource(R.drawable.option),
-                    contentDescription = "options",
+                    contentDescription = stringResource(R.string.option_image_description),
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
                         .size(32.dp)
@@ -129,9 +131,8 @@ fun TopBarScreen(
                             onClick = {
                                 selectedItem = item
                                 when (item) {
-                                    "Редактировать" -> onClick()
-                                    "Выйти" -> onExit()
-                                    else -> onClick()
+                                    editText -> onClick()
+                                    exitText -> onExit()
                                 }
                                 expanded = false
                             }

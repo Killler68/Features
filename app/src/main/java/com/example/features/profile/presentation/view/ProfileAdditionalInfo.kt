@@ -11,21 +11,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.R
 import com.example.features.profile.data.database.model.Profile
 
 @Composable
 fun ProfileAdditionalInfo(profile: Profile) {
     profile.name.takeIf { it.isNotEmpty() }?.let {
-        ProfileInfoItem(label = "Имя", value = it)
+        ProfileInfoItem(label = stringResource(R.string.name), value = it)
     }
     profile.age.takeIf { it.isNotEmpty() }?.let {
-        ProfileInfoItem(label = "Возраст", value = it)
+        ProfileInfoItem(label = stringResource(R.string.age), value = it)
     }
     profile.nationality.takeIf { it.isNotEmpty() }?.let {
-        ProfileInfoItem(label = "Национальность", value = it)
+        ProfileInfoItem(label = stringResource(R.string.nationality), value = it)
     }
 }
 

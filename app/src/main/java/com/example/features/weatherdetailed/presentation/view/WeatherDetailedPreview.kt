@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.R
 import com.example.features.common.extension.firstUppercaseString
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
@@ -32,7 +34,7 @@ fun WeatherDetailedPreview(state: WeatherDetailedState.Success) {
                 .fillMaxWidth(0.7f)
         ) {
             Text(
-                text = "${temp}°",
+                text = stringResource(R.string.celsius_degree, temp),
                 fontSize = 50.sp,
                 modifier = Modifier
                     .padding(start = 20.dp, end = 10.dp, top = 10.dp, bottom = 20.dp),
@@ -46,7 +48,7 @@ fun WeatherDetailedPreview(state: WeatherDetailedState.Success) {
                 color = textColor
             )
             Text(
-                text = "${minTemp}° / ${maxTemp}° Ощущается как ${feelingTemp}°",
+                text = stringResource(R.string.temperature_details, minTemp, maxTemp, feelingTemp),
                 fontSize = 12.sp,
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 20.dp),

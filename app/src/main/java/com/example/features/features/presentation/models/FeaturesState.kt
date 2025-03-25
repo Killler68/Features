@@ -17,5 +17,5 @@ sealed class FeaturesState {
         val isWeatherLoading: Boolean = true
     ) : FeaturesState()
 
-    data class Error(val message: String) : FeaturesState()
+    data class Error(val message: Int) : FeaturesState()
 }

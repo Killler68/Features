@@ -11,5 +11,5 @@ sealed class WeatherState {
         val preview: WeatherPreviewBar
     ) : WeatherState()
 
-    data class Error(val message: String) : WeatherState()
+    data class Error(val message: Int) : WeatherState()
 }

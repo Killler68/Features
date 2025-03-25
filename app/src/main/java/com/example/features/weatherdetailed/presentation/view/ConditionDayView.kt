@@ -13,8 +13,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.R
 import com.example.features.common.extension.dateFormatHours
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
@@ -75,7 +77,7 @@ fun ConditionDayView(state: WeatherDetailedState.Success) {
         ) {
             Box(contentAlignment = Alignment.CenterStart) {
                 Text(
-                    "Восход",
+                    stringResource(R.string.sun_rise),
                     fontSize = 18.sp,
                     color = textColor
                 )
@@ -85,7 +87,7 @@ fun ConditionDayView(state: WeatherDetailedState.Success) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    "Закат",
+                    stringResource(R.string.sun_set),
                     fontSize = 18.sp,
                     color = textColor
                 )

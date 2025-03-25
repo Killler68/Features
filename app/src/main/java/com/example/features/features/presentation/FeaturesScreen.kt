@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.common.utils.ExitBackStack
@@ -45,7 +46,10 @@ fun FeaturesScreen(navController: NavController, userId: Int) {
     when (val currentState = state) {
         FeaturesState.Loading -> LoadingScreen()
         is FeaturesState.Success -> FeaturesContent(currentState, viewModel::dispatch, userId)
-        is FeaturesState.Error -> ErrorScreen(R.drawable.loading, currentState.message)
+        is FeaturesState.Error -> ErrorScreen(
+            R.drawable.loading,
+            stringResource(R.string.error_load)
+        )
     }
 }
 

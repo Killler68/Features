@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.features.R
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
 import com.example.features.weather.presentation.models.WeatherState
@@ -34,28 +36,40 @@ fun ChangeLocationDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Выберите город", color = textColor) },
+        title = { Text(stringResource(R.string.select_city), color = textColor) },
         text = {
             Column {
                 TextField(
                     value = title,
                     onValueChange = onCityChange,
-                    label = { Text("Выберите город") },
+                    label = { Text(stringResource(R.string.select_city)) },
                     colors = OutlinedTextFieldDefaults.colors(
                         unfocusedContainerColor = cardColor,
                         focusedContainerColor = cardColor,
                         focusedTextColor = textColor,
                         unfocusedTextColor = textColor
                     ),
-                    modifier = Modifier.padding(vertical = 10.dp).clip(RoundedCornerShape(12.dp))
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                        .clip(RoundedCornerShape(12.dp))
                 )
             }
         },
         confirmButton = {
-            DialogButton(text = "Добавить", onClick = onSave, color = cardColor, textColor = textColor)
+            DialogButton(
+                text = stringResource(R.string.add),
+                onClick = onSave,
+                color = cardColor,
+                textColor = textColor
+            )
         },
         dismissButton = {
-            DialogButton(text = "Отмена", onClick = onDismiss, color = cardColor, textColor = textColor)
+            DialogButton(
+                text = stringResource(R.string.cancel),
+                onClick = onDismiss,
+                color = cardColor,
+                textColor = textColor
+            )
         },
         containerColor = dialogColor
     )

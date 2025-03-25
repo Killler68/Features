@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.features.R
 import com.example.features.common.extension.extensionConditionWeather
 import com.example.features.common.extension.extensionTemperatureWeather
 import com.example.features.weatherdetailed.presentation.models.WeatherDetailedState
@@ -25,7 +27,7 @@ fun WeatherDetailedImagesView(state: WeatherDetailedState.Success) {
     Column {
         GlideImage(
             model = imageCondition,
-            contentDescription = "state_weather",
+            contentDescription = stringResource(R.string.state_weather),
             modifier = Modifier
                 .padding(bottom = 5.dp)
                 .height(50.dp)
@@ -34,7 +36,7 @@ fun WeatherDetailedImagesView(state: WeatherDetailedState.Success) {
         )
         GlideImage(
             model = imageTemperature,
-            contentDescription = "children",
+            contentDescription = stringResource(R.string.children),
             modifier = Modifier
                 .height(150.dp)
                 .width(100.dp),

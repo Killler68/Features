@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.common.extension.weatherColorExtension
@@ -12,10 +13,10 @@ import com.example.features.common.utils.ColorCategory
 import com.example.features.common.view.ErrorScreen
 import com.example.features.common.view.LoadingScreen
 import com.example.features.weatherdetailed.presentation.models.WeatherDetailedEvent
+import com.example.features.weatherdetailed.presentation.models.WeatherDetailedSideEffect
 import com.example.features.weatherdetailed.presentation.models.WeatherDetailedState
 import com.example.features.weatherdetailed.presentation.view.WeatherDetailedScaffoldContent
 import com.example.features.weatherdetailed.presentation.view.WeatherDetailedTopBar
-import com.example.features.weatherdetailed.presentation.models.WeatherDetailedSideEffect
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -36,7 +37,10 @@ fun WeatherDetailedScreen(weatherId: Int, navController: NavController) {
     when (state) {
         WeatherDetailedState.Loading -> LoadingScreen()
         is WeatherDetailedState.Success -> WeatherDetailedContent(state as WeatherDetailedState.Success)
-        is WeatherDetailedState.Error -> ErrorScreen(R.drawable.weather, "Ошибка")
+        is WeatherDetailedState.Error -> ErrorScreen(
+            R.drawable.weather,
+            stringResource(R.string.error_load)
+        )
     }
 }
 

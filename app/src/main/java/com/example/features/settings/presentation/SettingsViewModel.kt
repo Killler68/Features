@@ -2,6 +2,7 @@ package com.example.features.settings.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.R
 import com.example.features.common.navigation.Screens
 import com.example.features.settings.presentation.models.SettingsEvent
 import com.example.features.settings.presentation.models.SettingsSideEffect
@@ -41,7 +42,7 @@ class SettingsViewModel(
                 _state.value = SettingsState.Success
                 navigateTo(Screens.Registration.route)
             } catch (e: Exception) {
-                _state.value = SettingsState.Error(e.localizedMessage ?: "Error")
+                _state.value = SettingsState.Error(R.string.error_load)
             }
         }
 

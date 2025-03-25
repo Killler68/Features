@@ -2,6 +2,7 @@ package com.example.features.weather.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.R
 import com.example.features.common.navigation.Screens
 import com.example.features.common.strings.city
 import com.example.features.weather.domain.usecase.WeatherPreviewBarUseCase
@@ -53,7 +54,7 @@ class WeatherViewModel(
                     preview = previewWeather,
                 )
             } catch (e: Exception) {
-                _state.value = WeatherState.Error(e.localizedMessage ?: "Ошибка загрузки данных")
+                _state.value = WeatherState.Error(R.string.error_load)
             }
         }
     }

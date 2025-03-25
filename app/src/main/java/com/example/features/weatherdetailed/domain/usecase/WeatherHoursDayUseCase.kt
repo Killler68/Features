@@ -6,5 +6,7 @@ class WeatherHoursDayUseCase(
     private val repository: WeatherDetailedRepository
 ) {
     suspend operator fun invoke(weatherId: Int, city: String): List<WeatherHoursDay> =
-        repository.getWeatherHoursDay(weatherId, city)
+        repository.getWeatherHoursDay(weatherId, city).map { forecast ->
+            forecast.copy(chanceRain = forecast.chanceRain * 100)
+        }
 }

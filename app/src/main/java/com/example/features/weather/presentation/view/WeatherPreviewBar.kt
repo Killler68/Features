@@ -12,10 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.features.R
 import com.example.features.common.extension.dateFormatPreview
 import com.example.features.common.extension.extensionConditionWeather
 import com.example.features.common.extension.firstUppercaseString
@@ -30,7 +32,7 @@ import com.example.features.weather.presentation.models.WeatherState
 @Composable
 fun WeatherPreviewBar(preview: WeatherPreviewBar, state: WeatherState.Success) {
 
-    val temperature = "${preview.temp.toInt()}°"
+    val temperature = preview.temp.toInt()
     val textColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
     val cardColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.CARD)
     val image = preview.icon.extensionConditionWeather(state.weatherWeek.first().partDay)
@@ -54,14 +56,14 @@ fun WeatherPreviewBar(preview: WeatherPreviewBar, state: WeatherState.Success) {
 
         GlideImage(
             model = image,
-            contentDescription = "animated_gif",
+            contentDescription = stringResource(R.string.animated_gif),
             modifier = Modifier
                 .padding(bottom = 5.dp)
                 .size(100.dp),
             contentScale = ContentScale.Inside
         )
         Text(
-            text = temperature,
+            text = stringResource(R.string.celsius_degree, temperature),
             modifier = Modifier
                 .padding(10.dp),
             fontSize = 30.sp,

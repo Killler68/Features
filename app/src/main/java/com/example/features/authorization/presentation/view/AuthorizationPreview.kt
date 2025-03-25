@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import com.example.features.authorization.presentation.models.AuthorizationEvent
+import com.example.features.R
 import com.example.features.authorization.presentation.AuthorizationViewModel
+import com.example.features.authorization.presentation.models.AuthorizationEvent
 import com.example.features.common.view.TextNavigateToView
 
 @Composable
@@ -20,12 +22,12 @@ fun AuthorizationPreview(viewModel: AuthorizationViewModel) {
             .fillMaxHeight(0.2f),
     )
     Text(
-        text = "Добро пожаловать",
+        text = stringResource(R.string.welcome),
         fontSize = 30.sp
     )
     TextNavigateToView(
-        title = "Нет учетной записи? \n",
-        subTitle = "Зарегистрироваться",
+        title = stringResource(R.string.is_not_account),
+        subTitle = stringResource(R.string.register),
         onClick = { viewModel.dispatch(AuthorizationEvent.NavigateToRegistration) }
     )
 }

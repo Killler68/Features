@@ -14,15 +14,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.example.features.R
 import com.example.features.authorization.presentation.models.AuthorizationEvent
 import com.example.features.authorization.presentation.models.AuthorizationSideEffect
 import com.example.features.authorization.presentation.models.AuthorizationState
 import com.example.features.authorization.presentation.view.AuthorizationPreview
+import com.example.features.common.navigation.Screens
 import com.example.features.common.strings.toast
 import com.example.features.common.view.ButtonNavigateToView
 import com.example.features.common.view.InputField
-import com.example.features.common.navigation.Screens
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -71,8 +73,8 @@ fun AuthorizationContent(viewModel: AuthorizationViewModel) {
 
         AuthorizationPreview(viewModel)
 
-        InputField("Логин", login) { login = it }
-        InputField("Пароль", password) { password = it }
+        InputField(stringResource(R.string.login), login) { login = it }
+        InputField(stringResource(R.string.password), password) { password = it }
 
         ButtonNavigateToView(
             enabled = login.isNotEmpty() && password.isNotEmpty(),

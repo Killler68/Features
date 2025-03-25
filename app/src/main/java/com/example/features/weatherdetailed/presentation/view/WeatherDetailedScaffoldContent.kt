@@ -8,7 +8,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.features.R
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
 import com.example.features.common.view.BottomNameView
@@ -20,6 +22,7 @@ fun WeatherDetailedScaffoldContent(
     paddingValues: PaddingValues,
     state: WeatherDetailedState.Success
 ) {
+    val textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,8 +41,8 @@ fun WeatherDetailedScaffoldContent(
         ConditionDayView(state = state)
 
         BottomNameView(
-            name = "OpenWeatherMap",
-            textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
+            name = stringResource(R.string.open_weather_map),
+            textColor = textColor
         )
     }
 }

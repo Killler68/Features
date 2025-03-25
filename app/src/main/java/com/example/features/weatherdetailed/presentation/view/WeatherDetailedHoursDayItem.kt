@@ -12,14 +12,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.R
 import com.example.features.common.extension.dateFormatHours
 import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
-import com.example.features.weatherdetailed.presentation.models.WeatherDetailedState
 import com.example.features.weatherdetailed.domain.entities.WeatherHoursDay
+import com.example.features.weatherdetailed.presentation.models.WeatherDetailedState
 
 @Composable
 fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetailedState.Success) {
@@ -28,7 +30,7 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
     val textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
 
     val hours = hoursDay.hours.dateFormatHours()
-    val temp = "${hoursDay.temp.toInt()}°"
+    val temp = hoursDay.temp.toInt()
     val iconRes = remember(hoursDay.icon, hoursDay.hours) {
         hoursDay.icon.imageWeatherExtension(hoursDay.hours)
     }
@@ -50,12 +52,12 @@ fun WeatherDetailedHoursDayItem(hoursDay: WeatherHoursDay, state: WeatherDetaile
 
         Image(
             painter = painterResource(iconRes),
-            contentDescription = "hours_weather",
+            contentDescription = stringResource(R.string.hours_weather),
             modifier = Modifier.size(28.dp)
         )
 
         Text(
-            text = temp,
+            text = stringResource(R.string.celsius_degree, temp),
             fontSize = 14.sp,
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
             color = textColor

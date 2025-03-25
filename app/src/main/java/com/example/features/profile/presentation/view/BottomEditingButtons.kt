@@ -10,10 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.features.profile.presentation.models.ProfileEvent
+import com.example.features.R
 import com.example.features.profile.presentation.ProfileViewModel
+import com.example.features.profile.presentation.models.ProfileEvent
 import com.example.features.ui.theme.Cyan
 
 @Composable
@@ -26,11 +28,11 @@ fun BottomEditingButtons(viewModel: ProfileViewModel) {
     ) {
         Row {
             EditingButton(
-                text = "Отменить",
+                text = stringResource(R.string.cancel),
                 onClick = { viewModel.dispatch(ProfileEvent.OnClickCancel) }
             )
             EditingButton(
-                text = "Подтвердить",
+                text = stringResource(R.string.confirm),
                 onClick = { viewModel.dispatch(ProfileEvent.OnClickApply) }
             )
         }

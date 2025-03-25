@@ -2,10 +2,11 @@ package com.example.features.authorization.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.R
+import com.example.features.authorization.domain.GetUserByLoginAndPasswordUseCase
 import com.example.features.authorization.presentation.models.AuthorizationEvent
 import com.example.features.authorization.presentation.models.AuthorizationSideEffect
 import com.example.features.authorization.presentation.models.AuthorizationState
-import com.example.features.authorization.domain.GetUserByLoginAndPasswordUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -40,10 +41,10 @@ class AuthorizationViewModel(
                     navigateTo(AuthorizationSideEffect.ToFeatures(userId))
                     _state.value = AuthorizationState.Success
                 } else {
-                    _state.value = AuthorizationState.Error("Неверный логин или пароль")
+                    _state.value = AuthorizationState.Error(R.string.error_load)
                 }
             } catch (e: Exception) {
-                _state.value = AuthorizationState.Error(e.localizedMessage ?: "Ошибка авторизации")
+                _state.value = AuthorizationState.Error(R.string.error_login_and_password)
             }
         }
     }

@@ -2,14 +2,15 @@ package com.example.features.registration.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.R
 import com.example.features.authorization.domain.GetUserByLoginAndPasswordUseCase
 import com.example.features.common.database.user.model.User
 import com.example.features.common.navigation.Screens
+import com.example.features.registration.domain.CreateUserUseCase
+import com.example.features.registration.domain.GetUserByLoginUseCase
 import com.example.features.registration.presentation.models.RegistrationEvent
 import com.example.features.registration.presentation.models.RegistrationSideEffect
 import com.example.features.registration.presentation.models.RegistrationState
-import com.example.features.registration.domain.CreateUserUseCase
-import com.example.features.registration.domain.GetUserByLoginUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -46,7 +47,7 @@ class RegistrationViewModel(
             try {
                 val existingUser = getUserByLoginUseCase(login)
                 if (existingUser != null) {
-                    _state.value = RegistrationState.Error("Пользователь с таким логином уже существует")
+                    _state.value = RegistrationState.Error(R.string.account_already_created)
                     return@launch
                 }
 
@@ -54,7 +55,7 @@ class RegistrationViewModel(
 
                 val newUser = getUserByLoginAndPasswordUseCase(login, password)
                 if (newUser == null) {
-                    _state.value = RegistrationState.Error("Ошибка при создании пользователя")
+                    _state.value = RegistrationState.Error(R.string.error_create_account)
                     return@launch
                 }
 
@@ -63,7 +64,7 @@ class RegistrationViewModel(
 
                 _state.value = RegistrationState.Success
             } catch (e: Exception) {
-                _state.value = RegistrationState.Error(e.localizedMessage ?: "Ошибка регистрации")
+                _state.value = RegistrationState.Error(R.string.error_load)
             }
         }
     }

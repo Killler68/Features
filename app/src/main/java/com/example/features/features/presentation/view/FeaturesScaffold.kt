@@ -8,6 +8,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import com.example.features.R
 import com.example.features.features.presentation.models.FeaturesEvent
 import com.example.features.features.presentation.models.FeaturesState
 import com.example.features.common.view.BottomNameView
@@ -30,7 +32,7 @@ fun FeaturesScaffold(
 
                 FeaturesPager(state = state, dispatch = dispatch)
 
-                BottomNameView(name = "Сборник приложений", textColor = Color.Black)
+                BottomNameView(name = stringResource(R.string.features_name), textColor = Color.Black)
             }
         }
     )

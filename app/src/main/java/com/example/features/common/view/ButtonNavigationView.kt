@@ -8,8 +8,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.R
 import com.example.features.common.strings.toast
 import com.example.features.ui.theme.Cyan
 
@@ -20,9 +22,8 @@ fun ButtonNavigateToView(enabled: Boolean, onClick: () -> Unit) {
 
     Button(
         onClick = {
-            if (enabled) {
-                onClick()
-            } else toast(context, "Введите логин и пароль")
+            if (enabled) onClick()
+            else toast(context, R.string.edit_login_and_password)
         },
         Modifier
             .padding(top = 20.dp)
@@ -30,7 +31,7 @@ fun ButtonNavigateToView(enabled: Boolean, onClick: () -> Unit) {
         colors = ButtonDefaults.buttonColors(containerColor = Cyan),
     ) {
         Text(
-            text = "ГОТОВО",
+            text = stringResource(R.string.apply),
             fontSize = 20.sp
         )
     }

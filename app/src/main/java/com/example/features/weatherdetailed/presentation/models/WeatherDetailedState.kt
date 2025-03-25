@@ -14,6 +14,6 @@ sealed class WeatherDetailedState {
         val itemPager: List<ItemTemperature>
     ) : WeatherDetailedState()
 
-    data class Error(val message: String) : WeatherDetailedState()
+    data class Error(val message: Int) : WeatherDetailedState()
 
 }

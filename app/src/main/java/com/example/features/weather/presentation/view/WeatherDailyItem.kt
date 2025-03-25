@@ -21,8 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.features.R
 import com.example.features.common.extension.dateFormatDays
 import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
@@ -37,12 +39,12 @@ fun DailyWeatherItem(
     state: WeatherState.Success,
     onClick: () -> Unit
 ) {
-    val temperatureMax = "${weatherWeek.maxTemp.toInt()}°"
-    val temperatureMin = "${weatherWeek.minTemp.toInt()}°"
+    val temperatureMax = weatherWeek.maxTemp.toInt()
+    val temperatureMin = weatherWeek.minTemp.toInt()
 
     val textColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
     val cardColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.CARD)
-    val image = weatherWeek.icon.imageWeatherExtension(weatherWeek.day)
+    val dailyImage = weatherWeek.icon.imageWeatherExtension(weatherWeek.day)
     val day = weatherWeek.day.dateFormatDays()
 
     Column(
@@ -68,7 +70,7 @@ fun DailyWeatherItem(
             )
 
             Text(
-                text = temperatureMin,
+                text = stringResource(R.string.celsius_degree, temperatureMin),
                 textAlign = TextAlign.End,
                 color = textColor,
                 modifier = Modifier
@@ -77,15 +79,15 @@ fun DailyWeatherItem(
             )
 
             Text(
-                text = temperatureMax,
+                text = stringResource(R.string.celsius_degree, temperatureMax),
                 textAlign = TextAlign.End,
                 modifier = Modifier.padding(horizontal = 5.dp),
                 color = textColor
             )
 
             Image(
-                painter = painterResource(image),
-                contentDescription = "image",
+                painter = painterResource(dailyImage),
+                contentDescription = stringResource(R.string.daily_weather_image_description),
                 modifier = Modifier
                     .padding(start = 5.dp, end = 10.dp, top = 5.dp, bottom = 5.dp)
                     .size(18.dp)

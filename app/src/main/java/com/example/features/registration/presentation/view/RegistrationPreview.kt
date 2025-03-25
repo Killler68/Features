@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import com.example.features.R
 import com.example.features.common.view.TextNavigateToView
-import com.example.features.registration.presentation.models.RegistrationEvent
 import com.example.features.registration.presentation.RegistrationViewModel
+import com.example.features.registration.presentation.models.RegistrationEvent
 import org.koin.androidx.compose.getViewModel
 
 
@@ -21,10 +23,10 @@ fun RegistrationPreview() {
             .fillMaxWidth()
             .fillMaxHeight(0.2f),
     )
-    Text("Регистрация", fontSize = 30.sp)
+    Text(stringResource(R.string.registration), fontSize = 30.sp)
     TextNavigateToView(
-        title = "Уже есть учетная запись?\n",
-        subTitle = "                   Войти",
+        title = stringResource(R.string.is_registered),
+        subTitle = stringResource(R.string.log_in),
         onClick = { viewModel.dispatch(RegistrationEvent.NavigateToAuthorization) }
     )
 }

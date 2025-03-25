@@ -1,7 +1,9 @@
 package com.example.features.weatherdetailed.domain.usecase
 
-import com.example.features.weatherdetailed.domain.entities.ItemTemperature
+import android.content.Context
+import com.example.features.R
 import com.example.features.weather.domain.entities.WeatherDetailedDay
+import com.example.features.weatherdetailed.domain.entities.ItemTemperature
 import kotlin.math.abs
 
 class ItemTemperatureUseCase {
@@ -9,7 +11,8 @@ class ItemTemperatureUseCase {
     operator fun invoke(
         todayWeather: WeatherDetailedDay?,
         yesterdayWeather: WeatherDetailedDay?,
-        tomorrowWeather: WeatherDetailedDay?
+        tomorrowWeather: WeatherDetailedDay?,
+        context: Context
     ): List<ItemTemperature> {
         val items = mutableListOf<ItemTemperature>()
 
@@ -18,14 +21,22 @@ class ItemTemperatureUseCase {
                 items.add(
                     ItemTemperature(
                         yesterday.dt,
-                        if (today.temp.toInt() > yesterday.temp.toInt()) {
-                            "Было на ${abs(today.temp.toInt() - yesterday.temp.toInt())}° теплее"
-                        } else if (today.temp.toInt() == yesterday.temp.toInt()) {
-                            "Температура такая же"
-                        } else {
-                            "Было на ${abs(today.temp.toInt() - yesterday.temp.toInt())}° прохладнее"
-                        }
+                        when {
+                            today.temp.toInt() > yesterday.temp.toInt() ->
+                                context.getString(
+                                    R.string.temp_was_hotter,
+                                    abs(today.temp.toInt() - yesterday.temp.toInt())
+                                )
 
+                            today.temp.toInt() == yesterday.temp.toInt() ->
+                                context.getString(R.string.temp_same)
+
+                            else ->
+                                context.getString(
+                                    R.string.temp_was_colder,
+                                    abs(today.temp.toInt() - yesterday.temp.toInt())
+                                )
+                        }
                     )
                 )
             }
@@ -33,7 +44,7 @@ class ItemTemperatureUseCase {
             items.add(
                 ItemTemperature(
                     today.dt,
-                    "${today.description} и температура воздуха ${today.temp.toInt()}°"
+                    context.getString(R.string.weather_today, today.description, today.temp.toInt())
                 )
             )
 
@@ -41,12 +52,21 @@ class ItemTemperatureUseCase {
                 items.add(
                     ItemTemperature(
                         tomorrow.dt,
-                        if (today.temp.toInt() > tomorrow.temp.toInt()) {
-                            "Будет на ${abs(today.temp.toInt() - tomorrow.temp.toInt())}° теплее"
-                        } else if (today.temp.toInt() == tomorrow.temp.toInt()) {
-                            "Ожидается такая же температура"
-                        } else {
-                            "Будет на ${abs(today.temp.toInt() - tomorrow.temp.toInt())}° прохладнее"
+                        when {
+                            today.temp.toInt() > tomorrow.temp.toInt() ->
+                                context.getString(
+                                    R.string.temp_will_be_hotter,
+                                    abs(today.temp.toInt() - tomorrow.temp.toInt())
+                                )
+
+                            today.temp.toInt() == tomorrow.temp.toInt() ->
+                                context.getString(R.string.temp_expected_same)
+
+                            else ->
+                                context.getString(
+                                    R.string.temp_will_be_colder,
+                                    abs(today.temp.toInt() - tomorrow.temp.toInt())
+                                )
                         }
                     )
                 )

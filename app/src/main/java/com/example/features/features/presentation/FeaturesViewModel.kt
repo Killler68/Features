@@ -2,6 +2,7 @@ package com.example.features.features.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.features.R
 import com.example.features.common.navigation.Screens
 import com.example.features.common.strings.city
 import com.example.features.features.presentation.models.FeaturesEvent
@@ -77,7 +78,7 @@ class FeaturesViewModel(
                     ) ?: it
                 }
             } catch (e: Exception) {
-                _state.value = FeaturesState.Error("Ошибка загрузки данных")
+                _state.value = FeaturesState.Error(R.string.error_load)
             }
         }
     }

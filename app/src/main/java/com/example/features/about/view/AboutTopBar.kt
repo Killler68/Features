@@ -3,6 +3,7 @@ package com.example.features.about.view
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.common.view.TopBarScreen
@@ -15,9 +16,9 @@ fun AboutTopBar(navController: NavController) {
         title = {
             TopBarScreen(
                 R.drawable.back,
-                "back",
+                stringResource(R.string.back_image_description),
                 { navController.popBackStack() },
-                "О приложении"
+                stringResource(R.string.about_project)
             )
         }
     )

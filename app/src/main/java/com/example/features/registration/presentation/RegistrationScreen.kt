@@ -12,7 +12,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.example.features.R
 import com.example.features.common.view.ButtonNavigateToView
 import com.example.features.common.view.InputField
 import com.example.features.registration.presentation.models.RegistrationEvent
@@ -48,8 +50,8 @@ fun RegistrationContent(viewModel: RegistrationViewModel) {
     ) {
         RegistrationPreview()
 
-        InputField("Логин", login) { login = it }
-        InputField("Пароль", password) { password = it }
+        InputField(stringResource(R.string.login), login) { login = it }
+        InputField(stringResource(R.string.password), password) { password = it }
 
         ButtonNavigateToView(
             enabled = login.isNotEmpty() && password.isNotEmpty(),

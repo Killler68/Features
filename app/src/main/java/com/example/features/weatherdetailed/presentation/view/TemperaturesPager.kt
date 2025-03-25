@@ -25,13 +25,15 @@ import com.example.features.weatherdetailed.presentation.models.WeatherDetailedS
 fun TemperaturesPager(state: WeatherDetailedState.Success) {
 
     val pagerState = rememberPagerState(pageCount = { state.itemPager.size })
+    val cardColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD)
+    val indicatorColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.INDICATORS)
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD))
+            .background(cardColor)
             .padding(horizontal = 10.dp, vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -46,7 +48,7 @@ fun TemperaturesPager(state: WeatherDetailedState.Success) {
                 .padding(top = 10.dp, bottom = 10.dp),
             count = state.itemPager.size,
             currentPage = pagerState.currentPage,
-            weatherColorExtension(state.detailedDay.partDay, ColorCategory.INDICATORS),
+            indicatorColor,
             Color.Gray
         )
     }

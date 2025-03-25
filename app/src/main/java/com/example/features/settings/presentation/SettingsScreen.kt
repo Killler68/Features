@@ -25,11 +25,11 @@ import org.koin.androidx.compose.getViewModel
 fun SettingsScreen(navController: NavController, userId: Int) {
 
     val viewModel: SettingsViewModel = getViewModel()
-
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { event ->
             when (event) {
                 is SettingsSideEffect.NavigateTo -> navController.navigate(event.route)
+                is SettingsSideEffect.ErrorMessage -> event.message
             }
         }
     }

@@ -12,9 +12,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.features.R
+import com.example.features.common.strings.toast
 import com.example.features.common.view.ButtonNavigateToView
 import com.example.features.common.view.InputField
 import com.example.features.registration.presentation.models.RegistrationEvent
@@ -26,11 +28,13 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun RegistrationScreen(navController: NavController) {
     val viewModel: RegistrationViewModel = getViewModel()
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.effect.collectLatest { event ->
-            when (event) {
-                is RegistrationSideEffect.NavigateTo -> navController.navigate(event.route)
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                is RegistrationSideEffect.NavigateTo -> navController.navigate(effect.route)
+                is RegistrationSideEffect.ErrorMessage -> toast(context, effect.message)
             }
         }
     }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,7 +18,6 @@ import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.authorization.presentation.models.AuthorizationEvent
 import com.example.features.authorization.presentation.models.AuthorizationSideEffect
-import com.example.features.authorization.presentation.models.AuthorizationState
 import com.example.features.authorization.presentation.view.AuthorizationPreview
 import com.example.features.common.navigation.Screens
 import com.example.features.common.strings.toast
@@ -31,7 +29,6 @@ import org.koin.androidx.compose.getViewModel
 fun AuthorizationScreen(navController: NavController) {
 
     val viewModel: AuthorizationViewModel = getViewModel()
-    val state by viewModel.state.collectAsState()
     val context = LocalContext.current
     val effectFlow = viewModel.effect
 
@@ -43,17 +40,9 @@ fun AuthorizationScreen(navController: NavController) {
                 )
 
                 AuthorizationSideEffect.ToRegistration -> navController.navigate(Screens.Registration.route)
+                is AuthorizationSideEffect.ErrorMessage -> toast(context, effect.error)
             }
         }
-    }
-    when (state) {
-        is AuthorizationState.Error -> {
-            val message = (state as AuthorizationState.Error).message
-            LaunchedEffect(message) { toast(context, message) }
-        }
-
-        AuthorizationState.Loading -> {}
-        AuthorizationState.Success -> {}
     }
     AuthorizationContent(viewModel)
 }

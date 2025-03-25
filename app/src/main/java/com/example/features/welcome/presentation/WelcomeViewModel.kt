@@ -2,12 +2,11 @@ package com.example.features.welcome.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.features.R
 import com.example.features.common.navigation.Screens
+import com.example.features.welcome.domain.entities.PagerItem
 import com.example.features.welcome.domain.usecase.WelcomeUseCase
 import com.example.features.welcome.presentation.models.WelcomeEvent
 import com.example.features.welcome.presentation.models.WelcomeSideEffect
-import com.example.features.welcome.presentation.models.WelcomeState
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -20,8 +19,8 @@ class WelcomeViewModel(
     private val welcomeUseCase: WelcomeUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<WelcomeState>(WelcomeState.Loading)
-    val state: StateFlow<WelcomeState> get() = _state.asStateFlow()
+    private val _state = MutableStateFlow<List<PagerItem>>(emptyList())
+    val state: StateFlow<List<PagerItem>> get() = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<WelcomeSideEffect>()
     val effect: SharedFlow<WelcomeSideEffect> get() = _effect.asSharedFlow()
@@ -38,13 +37,8 @@ class WelcomeViewModel(
         }
     }
 
-    private fun loadPagerItems() = viewModelScope.launch {
-        try {
-            val itemPager = welcomeUseCase()
-            _state.value = WelcomeState.Success(itemPager)
-        } catch (e: Exception) {
-            _state.value = WelcomeState.Error(R.string.error_load)
-        }
+    private fun loadPagerItems() {
+        _state.value = welcomeUseCase()
     }
 
     private fun navigateTo(route: String) {

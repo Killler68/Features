@@ -5,11 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.features.R
 import com.example.features.common.navigation.Screens
 import com.example.features.common.strings.city
+import com.example.features.features.domain.usecase.FeaturesUseCase
+import com.example.features.features.domain.usecase.GetDrawerItemsUseCase
 import com.example.features.features.presentation.models.FeaturesEvent
 import com.example.features.features.presentation.models.FeaturesSideEffect
 import com.example.features.features.presentation.models.FeaturesState
-import com.example.features.features.domain.usecase.FeaturesUseCase
-import com.example.features.features.domain.usecase.GetDrawerItemsUseCase
 import com.example.features.notes.common.usecase.GetNotesUseCase
 import com.example.features.weather.domain.usecase.WeatherPreviewBarUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -42,7 +42,12 @@ class FeaturesViewModel(
     fun dispatch(event: FeaturesEvent) {
         when (event) {
             FeaturesEvent.NavigateToAbout -> destination(Screens.AboutScreen.route)
-            is FeaturesEvent.NavigateToSettings -> destination(Screens.SettingsScreen.createRouter(event.userId))
+            is FeaturesEvent.NavigateToSettings -> destination(
+                Screens.SettingsScreen.createRouter(
+                    event.userId
+                )
+            )
+
             is FeaturesEvent.NavigateToFeature -> destination(event.featureId)
             is FeaturesEvent.NavigateToProfile -> destination(Screens.Profile.createRoute(userId))
             is FeaturesEvent.LoadAllData -> loadData(event.userId)
@@ -52,7 +57,7 @@ class FeaturesViewModel(
     private fun loadData(userId: Int) {
         viewModelScope.launch {
             try {
-                val drawerItems = drawerItems()
+                val drawerItems = drawerItems(userId)
                 _state.value = FeaturesState.Success(
                     itemDrawer = drawerItems,
                     itemWeather = null,

@@ -1,16 +1,43 @@
 package com.example.features.features.data
 
 import com.example.features.R
+import com.example.features.common.navigation.Screens
+import com.example.features.common.repository.UserRepository
 import com.example.features.features.domain.entities.DrawerItems
 import com.example.features.features.domain.entities.Features
 import com.example.features.features.domain.entities.FeaturesItemDrawer
 import com.example.features.features.domain.usecase.FeaturesRepository
-import com.example.features.common.navigation.Screens
 
-class FeaturesRepositoryImpl : FeaturesRepository {
+class FeaturesRepositoryImpl(
+    private val userRepository: UserRepository
+) : FeaturesRepository {
 
     override fun getFeatures(): List<Features> = features
-    override fun getDrawerItems(): List<DrawerItems> = drawerItems
+    override suspend fun getDrawerItems(userId: Int): List<DrawerItems> {
+        return listOf(
+            DrawerItems(
+                id = FeaturesItemDrawer.PROFILE_PREVIEW,
+                title = "Профиль",
+                image = R.drawable.profile
+            ),
+            DrawerItems(
+                id = FeaturesItemDrawer.PROFILE,
+                userLogin = userRepository.getUserById(userId)?.login,
+                title = "Настройки",
+                image = 0
+            ),
+            DrawerItems(
+                id = FeaturesItemDrawer.SETTINGS,
+                title = "Настройки",
+                image = R.drawable.settings
+            ),
+            DrawerItems(
+                id = FeaturesItemDrawer.ABOUT,
+                title = "О приложении",
+                image = R.drawable.question
+            ),
+        )
+    }
 }
 
 private val features = listOf(
@@ -30,9 +57,3 @@ private val features = listOf(
     )
 )
 
-private val drawerItems = listOf(
-    DrawerItems(FeaturesItemDrawer.PROFILE_PREVIEW, "Профиль", R.drawable.profile),
-    DrawerItems(FeaturesItemDrawer.PROFILE, "Настройки", 0),
-    DrawerItems(FeaturesItemDrawer.SETTINGS, "Настройки", R.drawable.settings),
-    DrawerItems(FeaturesItemDrawer.ABOUT, "О приложении", R.drawable.question),
-)

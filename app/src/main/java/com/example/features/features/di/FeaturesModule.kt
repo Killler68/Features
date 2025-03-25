@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 object FeaturesModule {
     val module = module {
-        single<FeaturesRepository> { FeaturesRepositoryImpl() }
+        single<FeaturesRepository> { FeaturesRepositoryImpl(get()) }
         factory { FeaturesUseCase(get()) }
         factory { GetDrawerItemsUseCase(get()) }
         viewModel { FeaturesViewModel(get(), get(), get(), get(), get()) }

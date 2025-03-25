@@ -9,11 +9,11 @@ import com.example.features.features.domain.entities.DrawerItems
 import com.example.features.features.domain.entities.FeaturesItemDrawer
 
 @Composable
-fun DrawerItemView(drawerItem: DrawerItems) {
+fun DrawerItemView(drawerItem: DrawerItems, login: String) {
         Column(modifier = Modifier.fillMaxWidth(0.6f)) {
         when (drawerItem.id) {
             FeaturesItemDrawer.PROFILE_PREVIEW -> DrawerImagePreview()
-            FeaturesItemDrawer.PROFILE -> Text(text = "LOGIN")
+            FeaturesItemDrawer.PROFILE -> DrawerUserLoginPreview(login)
             else -> DrawerDefaultItem(drawerItem)
         }
     }

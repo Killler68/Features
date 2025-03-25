@@ -28,7 +28,7 @@ fun FeaturesDrawerSheet(state: FeaturesState.Success, userId: Int) {
                 drawerNavigateTo(item, userId, viewModel)
             }
         ) {
-            DrawerItemView(item)
+            item.userLogin?.let { DrawerItemView(item, it) }
         }
     }
 }

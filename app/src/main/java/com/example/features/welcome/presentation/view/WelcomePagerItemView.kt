@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.R
 import com.example.features.welcome.domain.entities.PagerItem
 
 
@@ -22,7 +23,7 @@ fun WelcomePagerItemView(item: PagerItem) {
     Column {
         Image(
             painter = painterResource(item.image),
-            contentDescription = "item",
+            contentDescription = stringResource(R.string.pager_image_description),
             alignment = Alignment.Center,
             modifier = Modifier
                 .padding(top = 20.dp, start = 20.dp, end = 20.dp, bottom = 5.dp)

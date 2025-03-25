@@ -15,9 +15,7 @@ fun WeatherDetailedListHours(state: WeatherDetailedState.Success) {
         modifier = Modifier
             .padding(horizontal = 10.dp)
     ) {
-        itemsIndexed(
-            state.hoursDay
-        ) { _, item ->
+        itemsIndexed(state.hoursDay) { _, item ->
             WeatherDetailedHoursDayItem(hoursDay = item, state)
         }
     }

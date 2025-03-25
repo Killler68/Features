@@ -118,5 +118,6 @@
     <string name="menu_image_description">option</string>
     <string name="condition_image_description">option</string>
     <string name="temperature_image_description">option</string>
+    <string name="pager_image_description">option</string>
 
 </resources>

@@ -17,10 +17,10 @@ fun SettingsTopBar(viewModel: SettingsViewModel, userId: Int) {
     TopAppBar(
         title = {
             TopBarScreen(
-                R.drawable.back,
-                stringResource(R.string.back_image_description),
-                { viewModel.dispatch((SettingsEvent.OnBack(userId))) },
-                stringResource(R.string.settings)
+                imageOnBack = R.drawable.back,
+                imageDescriptionOnBack = stringResource(R.string.back_image_description),
+                onBack = { viewModel.dispatch((SettingsEvent.OnBack(userId))) },
+                nameScreen = stringResource(R.string.settings)
             )
         }
     )

@@ -48,22 +48,22 @@ fun SettingsContent(viewModel: SettingsViewModel, userId: Int) {
                     .padding(it)
             ) {
                 SettingsCardView(
-                    R.drawable.trash_bucket,
-                    stringResource(R.string.theme_image_description),
-                    stringResource(R.string.theme),
-                    stringResource(R.string.light_theme)
+                    imageCard = R.drawable.trash_bucket,
+                    imageDescription = stringResource(R.string.theme_image_description),
+                    title = stringResource(R.string.theme),
+                    subTitle = stringResource(R.string.light_theme)
                 )
                 SettingsCardView(
-                    R.drawable.trash_bucket,
-                    stringResource(R.string.languages_image_description),
-                    stringResource(R.string.change_languages),
-                    stringResource(R.string.russian_languages)
+                    imageCard = R.drawable.trash_bucket,
+                    imageDescription = stringResource(R.string.languages_image_description),
+                    title = stringResource(R.string.change_languages),
+                    subTitle = stringResource(R.string.russian_languages)
                 )
                 SettingsCardView(
-                    R.drawable.trash_bucket,
-                    stringResource(R.string.dimension_image_description),
-                    stringResource(R.string.text_size),
-                    stringResource(R.string.ordinary)
+                    imageCard = R.drawable.trash_bucket,
+                    imageDescription = stringResource(R.string.dimension_image_description),
+                    title = stringResource(R.string.text_size),
+                    subTitle = stringResource(R.string.ordinary)
                 )
                 Text(
                     text = stringResource(R.string.delete_user),

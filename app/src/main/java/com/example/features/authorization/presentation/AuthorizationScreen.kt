@@ -73,8 +73,8 @@ fun AuthorizationContent(viewModel: AuthorizationViewModel) {
 
         AuthorizationPreview(viewModel)
 
-        InputField(stringResource(R.string.login), login) { login = it }
-        InputField(stringResource(R.string.password), password) { password = it }
+        InputField(label = stringResource(R.string.login), value = login) { login = it }
+        InputField(label = stringResource(R.string.password), value = password) { password = it }
 
         ButtonNavigateToView(
             enabled = login.isNotEmpty() && password.isNotEmpty(),

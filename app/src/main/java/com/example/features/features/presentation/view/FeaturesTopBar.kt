@@ -18,10 +18,10 @@ fun FeaturesTopBar(drawerState: DrawerState) {
     TopAppBar(
         title = {
             TopBarScreen(
-                R.drawable.menu,
-                stringResource(R.string.menu_image_description),
-                { scope.launch { drawerState.open() } },
-                ""
+                imageOnBack = R.drawable.menu,
+                imageDescriptionOnBack = stringResource(R.string.menu_image_description),
+                onBack = { scope.launch { drawerState.open() } },
+                nameScreen = ""
             )
         }
     )

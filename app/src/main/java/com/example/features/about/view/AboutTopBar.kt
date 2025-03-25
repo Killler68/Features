@@ -15,10 +15,10 @@ fun AboutTopBar(navController: NavController) {
     TopAppBar(
         title = {
             TopBarScreen(
-                R.drawable.back,
-                stringResource(R.string.back_image_description),
-                { navController.popBackStack() },
-                stringResource(R.string.about_project)
+                imageOnBack = R.drawable.back,
+                imageDescriptionOnBack = stringResource(R.string.back_image_description),
+                onBack = { navController.popBackStack() },
+                nameScreen = stringResource(R.string.about_project)
             )
         }
     )

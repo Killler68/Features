@@ -31,7 +31,7 @@ fun WelcomePagerView(item: List<PagerItem>) {
             .padding(vertical = 20.dp),
         count = item.size,
         currentPage = pagerState.currentPage,
-        Cyan,
-        Color.LightGray
+        colorCurrent = Cyan,
+        colorNotCurrent = Color.LightGray
     )
 }

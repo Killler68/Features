@@ -32,8 +32,19 @@ fun AboutContent(paddingValues: PaddingValues) {
             .padding(paddingValues)
             .padding(20.dp)
     ) {
-        CenteredImage(R.drawable.tree, stringResource(R.string.tree), 128.dp, LightGreen)
-        InfoRow(stringResource(R.string.name_project), stringResource(R.string.features))
-        InfoRow(stringResource(R.string.version_text), stringResource(R.string.version))
+        CenteredImage(
+            imageRes = R.drawable.tree,
+            description = stringResource(R.string.tree),
+            imageSize = 128.dp,
+            imageColor = LightGreen
+        )
+        InfoRow(
+            label = stringResource(R.string.name_project),
+            value = stringResource(R.string.features)
+        )
+        InfoRow(
+            label = stringResource(R.string.version_text),
+            value = stringResource(R.string.version)
+        )
     }
 }

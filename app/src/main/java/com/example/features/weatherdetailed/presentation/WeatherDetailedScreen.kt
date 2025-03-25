@@ -45,9 +45,7 @@ fun WeatherDetailedScreen(weatherId: Int, navController: NavController) {
 }
 
 @Composable
-fun WeatherDetailedContent(
-    state: WeatherDetailedState.Success
-) {
+fun WeatherDetailedContent(state: WeatherDetailedState.Success) {
 
     val viewModel: WeatherDetailedViewModel = getViewModel()
     val backgroundColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.BACKGROUND)

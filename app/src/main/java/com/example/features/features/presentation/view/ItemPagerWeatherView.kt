@@ -74,5 +74,5 @@ fun ItemPagerWeatherView(state: FeaturesState.Success) {
                 .fillMaxWidth()
                 .padding(top = 10.dp)
         )
-    } else NotFound(stringResource(R.string.weather_not_found))
+    } else NotFound(nameError = stringResource(R.string.weather_not_found))
 }

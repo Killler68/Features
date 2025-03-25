@@ -13,12 +13,7 @@ import com.example.features.features.presentation.models.FeaturesState
 fun ItemPagerWeather(state: FeaturesState.Success) {
 
     if (state.isWeatherLoading) ShimmerEffect()
-    else {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 10.dp, vertical = 10.dp)
-        ) {
-            ItemPagerWeatherView(state)
-        }
+    else Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp)) {
+        ItemPagerWeatherView(state)
     }
 }

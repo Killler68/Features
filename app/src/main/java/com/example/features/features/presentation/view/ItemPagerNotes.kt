@@ -12,5 +12,5 @@ import com.example.features.features.presentation.models.FeaturesState
 fun ItemPagerNotes(state: FeaturesState.Success) {
     if (state.isNotesLoading) ShimmerEffect()
     else if (state.itemNote.isNotEmpty()) ItemPagerNotesView(state)
-    else NotFound(stringResource(R.string.notes_not_found))
+    else NotFound(nameError = stringResource(R.string.notes_not_found))
 }

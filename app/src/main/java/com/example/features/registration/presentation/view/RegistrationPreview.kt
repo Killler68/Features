@@ -23,7 +23,7 @@ fun RegistrationPreview() {
             .fillMaxWidth()
             .fillMaxHeight(0.2f),
     )
-    Text(stringResource(R.string.registration), fontSize = 30.sp)
+    Text(text = stringResource(R.string.registration), fontSize = 30.sp)
     TextNavigateToView(
         title = stringResource(R.string.is_registered),
         subTitle = stringResource(R.string.log_in),

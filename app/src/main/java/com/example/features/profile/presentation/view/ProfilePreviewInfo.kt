@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.R
 import com.example.features.profile.data.database.model.Profile
+import com.example.features.ui.theme.Cyan
 
 
 @Composable
@@ -27,16 +28,13 @@ fun ProfilePreviewInfo(profile: Profile) {
             .fillMaxWidth()
             .padding(vertical = 5.dp)
     ) {
-//        login?.let {
-//            Text(
-//                text = it,
-//                fontSize = 20.sp,
-//                color = Cyan
-//            )
-//        }
-
-        Text(text = "LOGIN")
+        Text(
+            text = profile.userLogin ?: "",
+            fontSize = 20.sp,
+            color = Cyan
+        )
     }
+
     if (profile.email.isNotEmpty()) {
         Box(
             contentAlignment = Alignment.Center,

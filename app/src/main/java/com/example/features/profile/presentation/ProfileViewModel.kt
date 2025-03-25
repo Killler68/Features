@@ -2,15 +2,16 @@ package com.example.features.profile.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.features.profile.data.database.model.Profile
 import com.example.features.common.navigation.Screens
+import com.example.features.profile.data.database.model.Profile
 import com.example.features.profile.domain.entities.Option
+import com.example.features.profile.domain.usecase.CreateProfileUseCase
+import com.example.features.profile.domain.usecase.GetProfileByIdUseCase
+import com.example.features.profile.domain.usecase.GetUserLoginUseCase
+import com.example.features.profile.domain.usecase.UpdateProfileUseCase
 import com.example.features.profile.presentation.models.ProfileEvent
 import com.example.features.profile.presentation.models.ProfileSideEffect
 import com.example.features.profile.presentation.models.ProfileState
-import com.example.features.profile.domain.usecase.CreateProfileUseCase
-import com.example.features.profile.domain.usecase.GetProfileByIdUseCase
-import com.example.features.profile.domain.usecase.UpdateProfileUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -22,7 +23,8 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(
     private val getProfileByIdUseCase: GetProfileByIdUseCase,
     private val updateProfileUseCase: UpdateProfileUseCase,
-    private val addProfileUseCase: CreateProfileUseCase
+    private val addProfileUseCase: CreateProfileUseCase,
+    private val getUserLoginUseCase: GetUserLoginUseCase // Добавили новый UseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<ProfileState> = MutableStateFlow(ProfileState())
@@ -50,7 +52,9 @@ class ProfileViewModel(
     private fun loadProfile(userId: Int) {
         viewModelScope.launch {
             updateState { copy(isLoading = true) }
+
             val profile = getProfileByIdUseCase(userId) ?: createProfile(userId)
+
             updateState {
                 copy(
                     profile = profile,
@@ -66,9 +70,11 @@ class ProfileViewModel(
     }
 
     private suspend fun createProfile(userId: Int): Profile {
+        val userLogin = getUserLoginUseCase(userId)
         val newProfile = Profile(
             id = 0,
             userId = userId,
+            userLogin = userLogin,
             email = "",
             name = "",
             age = "",

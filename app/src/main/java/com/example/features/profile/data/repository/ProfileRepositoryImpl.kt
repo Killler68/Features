@@ -4,13 +4,12 @@ import com.example.features.profile.data.database.ProfileDao
 import com.example.features.profile.data.database.model.Profile
 import com.example.features.profile.data.database.model.ProfileData
 import com.example.features.profile.data.database.model.toProfile
-import com.example.features.profile.data.database.tuple.CreateProfileTuple
 import com.example.features.profile.data.database.tuple.DeleteProfileTuple
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class ProfileRepositoryImpl(
-    private val profileDao: ProfileDao
+    private val profileDao: ProfileDao,
 ) : ProfileRepository {
 
     override suspend fun getProfile(): List<Profile> =
@@ -29,13 +28,15 @@ class ProfileRepositoryImpl(
     override suspend fun addProfile(profile: Profile): Profile =
         withContext(Dispatchers.IO) {
             val profileId = profileDao.createProfile(
-                CreateProfileTuple(
-                    profile.id,
-                    profile.email,
-                    profile.name,
-                    profile.age,
-                    profile.city,
-                    profile.nationality
+                ProfileData(
+                    id = profile.id,
+                    userId = profile.userId,
+                    userLogin = profile.userLogin ?: "",
+                    email = profile.email,
+                    name = profile.name,
+                    age = profile.age,
+                    city = profile.city,
+                    nationality = profile.nationality
                 )
             )
 
@@ -49,6 +50,7 @@ class ProfileRepositoryImpl(
             ProfileData(
                 id = profile.id,
                 userId = profile.userId,
+                userLogin = profile.userLogin ?: "",
                 email = profile.email,
                 name = profile.name,
                 age = profile.age,

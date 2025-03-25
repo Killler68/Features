@@ -3,6 +3,7 @@ package com.example.features.profile.data.database.model
 data class Profile(
     val id: Int,
     val userId: Int,
+    val userLogin: String?,
     val email: String,
     val name: String,
     val age: String,
@@ -11,8 +12,14 @@ data class Profile(
 )
 
 
-
 fun ProfileData.toProfile() = Profile(
-    id, userId, email, name, age, city, nationality
+    id = id,
+    userId = userId,
+    userLogin = userLogin,
+    email = email,
+    name = name,
+    age = age,
+    city = city,
+    nationality = nationality
 )
 

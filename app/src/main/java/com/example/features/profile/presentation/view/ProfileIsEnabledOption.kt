@@ -8,7 +8,7 @@ import com.example.features.profile.presentation.ProfileViewModel
 
 
 @Composable
-fun ProfileIsEnabledOption(profile: Profile, state: ProfileState, viewModel: ProfileViewModel) {
+fun ProfileIsEnabledOption(profile: Profile, state: ProfileState, viewModel: ProfileViewModel ) {
 
     when (state.isOption) {
         is Option.Enabled -> {

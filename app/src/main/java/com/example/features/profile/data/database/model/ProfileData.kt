@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 data class ProfileData(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "userId") val userId: Int,
+    @ColumnInfo(name = "login") val userLogin: String,
     val email: String,
     val name: String,
     val age: String,

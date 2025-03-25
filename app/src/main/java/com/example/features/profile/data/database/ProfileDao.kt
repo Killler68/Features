@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.features.profile.data.database.model.ProfileData
-import com.example.features.profile.data.database.tuple.CreateProfileTuple
 import com.example.features.profile.data.database.tuple.DeleteProfileTuple
 
 @Dao
@@ -19,7 +18,7 @@ interface ProfileDao {
     suspend fun getProfileByUserId(userId: Int): ProfileData?
 
     @Insert(entity = ProfileData::class)
-    suspend fun createProfile(user: CreateProfileTuple): Long
+    suspend fun createProfile(profile: ProfileData): Long
 
     @Delete(entity = ProfileData::class)
     suspend fun deleteProfile(id: DeleteProfileTuple)

@@ -7,6 +7,10 @@ class WeatherHoursDayUseCase(
 ) {
     suspend operator fun invoke(weatherId: Int, city: String): List<WeatherHoursDay> =
         repository.getWeatherHoursDay(weatherId, city).map { forecast ->
-            forecast.copy(chanceRain = forecast.chanceRain * 100)
+            forecast.copy(chanceRain = forecast.chanceRain * PERCENT)
         }
+
+    companion object {
+        const val PERCENT = 100
+    }
 }

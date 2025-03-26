@@ -32,7 +32,7 @@ fun DrawerDefaultItem(item: DrawerItems) {
                 .padding(7.dp)
         )
         Text(
-            text = item.title,
+            text = stringResource(item.title),
             fontSize = 16.sp,
             color = Color.Gray,
             modifier = Modifier.padding(start = 10.dp, top = 5.dp)

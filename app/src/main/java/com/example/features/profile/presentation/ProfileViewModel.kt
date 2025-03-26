@@ -24,7 +24,7 @@ class ProfileViewModel(
     private val getProfileByIdUseCase: GetProfileByIdUseCase,
     private val updateProfileUseCase: UpdateProfileUseCase,
     private val addProfileUseCase: CreateProfileUseCase,
-    private val getUserLoginUseCase: GetUserLoginUseCase // Добавили новый UseCase
+    private val getUserLoginUseCase: GetUserLoginUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<ProfileState> = MutableStateFlow(ProfileState())

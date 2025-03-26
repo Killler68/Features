@@ -17,40 +17,44 @@ class FeaturesRepositoryImpl(
         return listOf(
             DrawerItems(
                 id = FeaturesItemDrawer.PROFILE_PREVIEW,
-                title = "Профиль",
+                title = R.string.profile,
                 image = R.drawable.profile
             ),
             DrawerItems(
                 id = FeaturesItemDrawer.PROFILE,
                 userLogin = userRepository.getUserById(userId)?.login,
-                title = "Настройки",
-                image = 0
+                title = DEFAULT,
+                image = DEFAULT
             ),
             DrawerItems(
                 id = FeaturesItemDrawer.SETTINGS,
-                title = "Настройки",
+                title = R.string.settings,
                 image = R.drawable.settings
             ),
             DrawerItems(
                 id = FeaturesItemDrawer.ABOUT,
-                title = "О приложении",
+                title = R.string.about_project,
                 image = R.drawable.question
             ),
         )
+    }
+
+    companion object {
+        const val DEFAULT = 0
     }
 }
 
 private val features = listOf(
     Features(
-        "Перейдите и посмотрите что в задачах",
-        "Создайте заметку или задачу",
+        "",
+        "",
         "",
         0.0f,
         Screens.NotesList.route
     ),
     Features(
-        "Погода сегодня прекрасна не так ли?",
-        "Выберите город для отображения погоды",
+        "",
+        "",
         "",
         0.0f,
         Screens.Weather.route

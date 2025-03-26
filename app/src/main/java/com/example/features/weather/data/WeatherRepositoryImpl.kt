@@ -32,12 +32,17 @@ class WeatherRepositoryImpl : WeatherRepository {
             WeatherPreviewBar(
                 city = response.city.name,
                 date = firstForecast?.dt ?: 0,
-                dtText = firstForecast?.dtTxt ?: "",
-                icon = firstForecast?.weather?.firstOrNull()?.icon ?: "",
-                temp = firstForecast?.main?.temp ?: 0.0,
-                description = firstForecast?.weather?.firstOrNull()?.description ?: "",
-                partDay = firstForecast?.sys?.pod ?: ""
+                dtText = firstForecast?.dtTxt ?: EMPTY_STRING,
+                icon = firstForecast?.weather?.firstOrNull()?.icon ?: EMPTY_STRING,
+                temp = firstForecast?.main?.temp ?: DEFAULT_TEMP,
+                description = firstForecast?.weather?.firstOrNull()?.description ?: EMPTY_STRING,
+                partDay = firstForecast?.sys?.pod ?: EMPTY_STRING
             )
         }
+
+    companion object {
+        const val EMPTY_STRING = ""
+        const val DEFAULT_TEMP = 0.0
+    }
 }
 

@@ -12,8 +12,13 @@ class WeatherUseCase(
         if (weatherWeek.isEmpty()) return emptyList()
 
         val dailyWeather = weatherWeek
-            .groupBy { it.dtText.substring(0, 10) }
+            .groupBy { it.dtText.substring(FIRST_DAY, LAST_DAY) }
 
         return dailyWeather.toWeatherData()
+    }
+
+    companion object {
+        const val FIRST_DAY = 0
+        const val LAST_DAY = 10
     }
 }

@@ -41,7 +41,7 @@ class WeatherDetailedRepositoryImpl : WeatherDetailedRepository {
             val response = WeatherRetrofitClient.weatherApi.getWeather(city = city)
 
             val selectedDate = response.forecastList
-                .find { it.dt == weatherId.toLong() }?.dtTxt?.substring(0, 10)
+                .find { it.dt == weatherId.toLong() }?.dtTxt?.substring(FIRST_DAY, LAST_DAY)
                 ?: throw Exception("Данные не найдены")
 
             response.forecastList
@@ -55,4 +55,9 @@ class WeatherDetailedRepositoryImpl : WeatherDetailedRepository {
                     )
                 }
         }
+
+    companion object {
+        const val FIRST_DAY = 0
+        const val LAST_DAY = 10
+    }
 }

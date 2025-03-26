@@ -8,8 +8,7 @@ import kotlinx.coroutines.withContext
 class UpdateProfileUseCase(
     private val repository: ProfileRepository,
 ) {
-    suspend operator fun invoke(profile: Profile) =
-        withContext(Dispatchers.IO) {
+    suspend operator fun invoke(profile: Profile) = withContext(Dispatchers.IO) {
             repository.updateProfile(profile)
         }
 }

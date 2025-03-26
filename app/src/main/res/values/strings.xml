@@ -84,6 +84,7 @@
 
 
     <string name="features_name">Сборник приложений</string>
+    <string name="profile">Профиль</string>
     <string name="notes_not_found">Заметок не обнаружено</string>
     <string name="last_notes">Последняя заметка</string>
     <string name="weather_not_found">Погода не обнаружена</string>

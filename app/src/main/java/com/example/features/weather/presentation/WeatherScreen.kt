@@ -17,7 +17,7 @@ import com.example.features.common.view.ErrorScreen
 import com.example.features.common.view.LoadingScreen
 import com.example.features.weather.presentation.models.WeatherSideEffect
 import com.example.features.weather.presentation.models.WeatherState
-import com.example.features.weather.presentation.view.IsChangeLocationView
+import com.example.features.weather.presentation.view.WeatherLocationDialog
 import com.example.features.weather.presentation.view.WeatherList
 import com.example.features.weather.presentation.view.WeatherTopBar
 import org.koin.androidx.compose.getViewModel
@@ -65,7 +65,7 @@ fun WeatherContent(
     val backgroundColor =
         weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.BACKGROUND)
 
-    IsChangeLocationView(isDialogVisible, state)
+    WeatherLocationDialog(isDialogVisible, state)
 
     Scaffold(
         topBar = { WeatherTopBar(viewModel, state) },

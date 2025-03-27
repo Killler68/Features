@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.features.R
-import com.example.features.common.extension.dateFormatDays
+import com.example.features.common.extension.formatToDayString
 import com.example.features.common.extension.imageWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
@@ -34,7 +34,7 @@ import com.example.features.weather.presentation.models.WeatherState
 
 
 @Composable
-fun DailyWeatherItem(
+fun WeatherDaylyItem(
     weatherWeek: WeatherWeek,
     state: WeatherState.Success,
     onClick: () -> Unit
@@ -45,7 +45,7 @@ fun DailyWeatherItem(
     val textColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
     val cardColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.CARD)
     val dailyImage = weatherWeek.icon.imageWeatherExtension(weatherWeek.day)
-    val day = weatherWeek.day.dateFormatDays()
+    val day = weatherWeek.day.formatToDayString()
 
     Column(
         Modifier
@@ -103,7 +103,7 @@ fun DailyWeatherItem(
         )
 
         LazyRow {
-            items(weatherWeek.hourlyList) { item -> HourlyWeatherItem(item, state) }
+            items(weatherWeek.hourlyList) { item -> WeatherHourlyItem(item, state) }
         }
     }
 }

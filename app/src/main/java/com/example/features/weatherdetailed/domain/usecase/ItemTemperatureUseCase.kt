@@ -3,7 +3,7 @@ package com.example.features.weatherdetailed.domain.usecase
 import android.content.Context
 import com.example.features.R
 import com.example.features.weather.domain.entities.WeatherDetailedDay
-import com.example.features.weatherdetailed.domain.entities.ItemTemperature
+import com.example.features.weatherdetailed.domain.entities.TemperatureItem
 import kotlin.math.abs
 
 class ItemTemperatureUseCase {
@@ -13,13 +13,13 @@ class ItemTemperatureUseCase {
         yesterdayWeather: WeatherDetailedDay?,
         tomorrowWeather: WeatherDetailedDay?,
         context: Context
-    ): List<ItemTemperature> {
-        val items = mutableListOf<ItemTemperature>()
+    ): List<TemperatureItem> {
+        val items = mutableListOf<TemperatureItem>()
 
         todayWeather?.let { today ->
             yesterdayWeather?.let { yesterday ->
                 items.add(
-                    ItemTemperature(
+                    TemperatureItem(
                         yesterday.dt,
                         when {
                             today.temp.toInt() > yesterday.temp.toInt() ->
@@ -42,7 +42,7 @@ class ItemTemperatureUseCase {
             }
 
             items.add(
-                ItemTemperature(
+                TemperatureItem(
                     today.dt,
                     context.getString(R.string.weather_today, today.description, today.temp.toInt())
                 )
@@ -50,7 +50,7 @@ class ItemTemperatureUseCase {
 
             tomorrowWeather?.let { tomorrow ->
                 items.add(
-                    ItemTemperature(
+                    TemperatureItem(
                         tomorrow.dt,
                         when {
                             today.temp.toInt() > tomorrow.temp.toInt() ->

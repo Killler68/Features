@@ -14,7 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.features.common.extension.dateFormatDays
+import com.example.features.common.extension.formatToDayString
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
 import com.example.features.weatherdetailed.presentation.models.WeatherDetailedState
@@ -24,7 +24,7 @@ fun WeatherDetailedInfoDay(state: WeatherDetailedState.Success) {
 
     val backgroundColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD)
     val textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
-    val day = state.detailedDay.dt.dateFormatDays()
+    val day = state.detailedDay.dt.formatToDayString()
 
     Column(
         modifier = Modifier

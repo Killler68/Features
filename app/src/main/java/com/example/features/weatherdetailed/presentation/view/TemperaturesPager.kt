@@ -24,7 +24,7 @@ import com.example.features.weatherdetailed.presentation.models.WeatherDetailedS
 @Composable
 fun TemperaturesPager(state: WeatherDetailedState.Success) {
 
-    val pagerState = rememberPagerState(pageCount = { state.itemPager.size })
+    val pagerState = rememberPagerState(pageCount = { state.temperatureItem.size })
     val cardColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD)
     val indicatorColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.INDICATORS)
 
@@ -39,17 +39,16 @@ fun TemperaturesPager(state: WeatherDetailedState.Success) {
     ) {
 
         HorizontalPager(pagerState) { page ->
-            val itemTemperature = state.itemPager[page]
+            val itemTemperature = state.temperatureItem[page]
             TemperaturesPagerItem(itemTemperature, state)
         }
 
         PageIndicatorsView(
-            modifier = Modifier
-                .padding(top = 10.dp, bottom = 10.dp),
-            count = state.itemPager.size,
+            modifier = Modifier.padding(top = 10.dp, bottom = 10.dp),
+            count = state.temperatureItem.size,
             currentPage = pagerState.currentPage,
-            indicatorColor,
-            Color.Gray
+            activeColor = indicatorColor,
+            inactiveColor = Color.Gray
         )
     }
 }

@@ -8,17 +8,17 @@ import com.example.features.profile.presentation.ProfileViewModel
 
 
 @Composable
-fun ProfileIsEnabledOption(profile: Profile, state: ProfileState, viewModel: ProfileViewModel ) {
+fun ProfileEditingState(profile: Profile, state: ProfileState, viewModel: ProfileViewModel ) {
 
     when (state.isOption) {
         is Option.Enabled -> {
-            ProfileEditingAdditionalInfo(state, viewModel)
-            BottomEditingButtons(viewModel)
+            ProfileEditingDetails(state, viewModel)
+            ProfileEditingButtons(viewModel)
         }
 
         is Option.Off -> {
-            ProfilePreviewInfo(profile)
-            ProfileAdditionalInfo(profile)
+            ProfilePreview(profile)
+            ProfileAdditionalDetails(profile)
         }
     }
 }

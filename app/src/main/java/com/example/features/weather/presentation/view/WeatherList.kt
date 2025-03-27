@@ -25,10 +25,10 @@ fun WeatherList(
             .padding(paddingValues)
     ) {
         item {
-            WeatherPreviewBar(state.preview, state)
+            WeatherPreview(state.preview, state)
         }
         items(state.weatherWeek) { weatherData ->
-            DailyWeatherItem(
+            WeatherDaylyItem(
                 weatherWeek = weatherData,
                 state = state,
                 onClick = { viewModel.dispatch(WeatherEvent.ToWeatherDetailed(weatherData.day)) }

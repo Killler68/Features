@@ -1,6 +1,6 @@
 package com.example.features.weatherdetailed.presentation.models
 
-import com.example.features.weatherdetailed.domain.entities.ItemTemperature
+import com.example.features.weatherdetailed.domain.entities.TemperatureItem
 import com.example.features.weatherdetailed.domain.entities.WeatherHoursDay
 import com.example.features.weather.domain.entities.WeatherDetailedDay
 
@@ -11,7 +11,7 @@ sealed class WeatherDetailedState {
         val weatherId: Int,
         val detailedDay: WeatherDetailedDay,
         val hoursDay: List<WeatherHoursDay>,
-        val itemPager: List<ItemTemperature>
+        val temperatureItem: List<TemperatureItem>
     ) : WeatherDetailedState()
 
     data class Error(val message: Int) : WeatherDetailedState()

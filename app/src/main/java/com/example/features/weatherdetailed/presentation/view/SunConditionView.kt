@@ -28,7 +28,7 @@ import java.util.Locale
 
 
 @Composable
-fun ConditionDayView(state: WeatherDetailedState.Success) {
+fun SunConditionView(state: WeatherDetailedState.Success) {
 
     val textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
     val cardColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.CARD)
@@ -48,7 +48,7 @@ fun ConditionDayView(state: WeatherDetailedState.Success) {
     val sunrise = state.detailedDay.sunRise
     val sunset = state.detailedDay.sunSet
 
-    val progress = if (isToday) {
+    val sunProgress = if (isToday) {
         when {
             currentTime <= sunrise -> 0f
             currentTime >= sunset -> 1f
@@ -66,7 +66,7 @@ fun ConditionDayView(state: WeatherDetailedState.Success) {
             .background(cardColor)
     ) {
         SemiCircularProgress(
-            progress = progress,
+            progress = sunProgress,
             modifier = Modifier.padding(10.dp)
         )
 

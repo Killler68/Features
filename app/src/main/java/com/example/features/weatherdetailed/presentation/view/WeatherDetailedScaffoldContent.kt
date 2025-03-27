@@ -36,9 +36,9 @@ fun WeatherDetailedScaffoldContent(
 
         TemperaturesPager(state = state)
 
-        AdditionalInfoDayView(state = state)
+        WeatherDetailedAdditionalInfo(state = state)
 
-        ConditionDayView(state = state)
+        SunConditionView(state = state)
 
         BottomNameView(
             name = stringResource(R.string.open_weather_map),

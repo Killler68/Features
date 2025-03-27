@@ -23,29 +23,29 @@ import com.example.features.profile.presentation.models.ProfileState
 import com.example.features.profile.presentation.ProfileViewModel
 
 @Composable
-fun ProfileEditingAdditionalInfo(state: ProfileState, viewModel: ProfileViewModel) {
-    ProfileTextField(
+fun ProfileEditingDetails(state: ProfileState, viewModel: ProfileViewModel) {
+    ProfileInputField(
         label = stringResource(R.string.name),
         value = state.editName,
         onValueChange = { viewModel.dispatch(ProfileEvent.OnNameChange(it)) }
     )
-    ProfileTextField(
+    ProfileInputField(
         label = stringResource(R.string.age),
         value = state.editAge,
         onValueChange = { viewModel.dispatch(ProfileEvent.OnAgeChange(it)) },
         keyboardType = KeyboardType.Number
     )
-    ProfileTextField(
+    ProfileInputField(
         label = stringResource(R.string.city),
         value = state.editCity,
         onValueChange = { viewModel.dispatch(ProfileEvent.OnCityChange(it)) }
     )
-    ProfileTextField(
+    ProfileInputField(
         label = stringResource(R.string.nationality),
         value = state.editNationality,
         onValueChange = { viewModel.dispatch(ProfileEvent.OnNationalityChange(it)) }
     )
-    ProfileTextField(
+    ProfileInputField(
         label = stringResource(R.string.email),
         value = state.editEmail,
         onValueChange = { viewModel.dispatch(ProfileEvent.OnEmailChange(it)) }
@@ -53,7 +53,7 @@ fun ProfileEditingAdditionalInfo(state: ProfileState, viewModel: ProfileViewMode
 }
 
 @Composable
-fun ProfileTextField(
+fun ProfileInputField(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,

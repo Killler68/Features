@@ -22,7 +22,7 @@ import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.profile.presentation.models.ProfileEvent
 import com.example.features.profile.presentation.models.ProfileSideEffect
-import com.example.features.profile.presentation.view.ProfileIsEnabledOption
+import com.example.features.profile.presentation.view.ProfileEditingState
 import com.example.features.profile.presentation.view.ProfileTopBar
 import org.koin.androidx.compose.getViewModel
 
@@ -67,7 +67,7 @@ fun ProfileContent(paddingValues: PaddingValues, viewModel: ProfileViewModel) {
                         .fillMaxWidth()
                         .size(160.dp)
                 )
-                ProfileIsEnabledOption(profile, state, viewModel)
+                ProfileEditingState(profile, state, viewModel)
             }
     }
 }

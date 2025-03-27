@@ -1,6 +1,6 @@
 package com.example.features.weatherdetailed.domain.entities
 
-data class ItemTemperature(
+data class TemperatureItem(
     val date: Long,
     val differenceText: String
 )

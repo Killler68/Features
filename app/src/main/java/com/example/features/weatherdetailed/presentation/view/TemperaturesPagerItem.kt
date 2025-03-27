@@ -9,19 +9,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.features.common.extension.dateFormatDays
-import com.example.features.common.extension.firstUppercaseString
+import com.example.features.common.extension.formatToDayString
+import com.example.features.common.extension.capitalizeFirstLetter
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
-import com.example.features.weatherdetailed.domain.entities.ItemTemperature
+import com.example.features.weatherdetailed.domain.entities.TemperatureItem
 import com.example.features.weatherdetailed.presentation.models.WeatherDetailedState
 
 
 @Composable
-fun TemperaturesPagerItem(item: ItemTemperature, state: WeatherDetailedState.Success) {
+fun TemperaturesPagerItem(temperature: TemperatureItem, state: WeatherDetailedState.Success) {
 
     val textColor = weatherColorExtension(state.detailedDay.partDay, ColorCategory.TEXT)
-    val differenceText = item.differenceText.firstUppercaseString()
+    val formattedDifferenceText = temperature.differenceText.capitalizeFirstLetter()
 
     Column(
         modifier = Modifier
@@ -30,12 +30,12 @@ fun TemperaturesPagerItem(item: ItemTemperature, state: WeatherDetailedState.Suc
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = item.date.dateFormatDays(),
+            text = temperature.date.formatToDayString(),
             fontSize = 16.sp,
             color = textColor
         )
         Text(
-            text = differenceText,
+            text = formattedDifferenceText,
             fontSize = 12.sp,
             color = textColor,
             modifier = Modifier.padding(top = 8.dp)

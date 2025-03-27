@@ -204,7 +204,7 @@ fun weatherColorExtension(condition: String, colorCategory: ColorCategory): Colo
 }
 
 
-fun weatherVisibilityExtension(visibility: Int): String = when {
+fun weatherFormatVisibility(visibility: Int): String = when {
     visibility < 100 -> "Плохая"
     visibility < 10000 -> "Средняя"
     visibility == 10000 -> "Хорошая"

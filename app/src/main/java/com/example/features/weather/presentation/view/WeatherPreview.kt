@@ -20,7 +20,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.example.features.R
 import com.example.features.common.extension.dateFormatPreview
 import com.example.features.common.extension.extensionConditionWeather
-import com.example.features.common.extension.firstUppercaseString
+import com.example.features.common.extension.capitalizeFirstLetter
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
@@ -30,13 +30,13 @@ import com.example.features.weather.presentation.models.WeatherState
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun WeatherPreviewBar(preview: WeatherPreviewBar, state: WeatherState.Success) {
+fun WeatherPreview(preview: WeatherPreviewBar, state: WeatherState.Success) {
 
     val temperature = preview.temp.toInt()
     val textColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
     val cardColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.CARD)
     val image = preview.icon.extensionConditionWeather(state.weatherWeek.first().partDay)
-    val description = preview.description.firstUppercaseString().getRawNameWeatherExtension()
+    val description = preview.description.capitalizeFirstLetter().getRawNameWeatherExtension()
 
     Column(
         Modifier

@@ -22,8 +22,8 @@ import com.example.features.weather.presentation.models.WeatherState
 
 
 @Composable
-fun ChangeLocationDialog(
-    title: String,
+fun ChangeCityDialog(
+    cityName: String,
     onCityChange: (String) -> Unit,
     onDismiss: () -> Unit,
     state: WeatherState.Success,
@@ -40,7 +40,7 @@ fun ChangeLocationDialog(
         text = {
             Column {
                 TextField(
-                    value = title,
+                    value = cityName,
                     onValueChange = onCityChange,
                     label = { Text(stringResource(R.string.select_city)) },
                     colors = OutlinedTextFieldDefaults.colors(

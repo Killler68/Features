@@ -9,16 +9,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.features.R
-import com.example.features.common.extension.weatherVisibilityExtension
+import com.example.features.common.extension.weatherFormatVisibility
 import com.example.features.weatherdetailed.presentation.models.WeatherDetailedState
 
 @Composable
-fun AdditionalInfoDayView(state: WeatherDetailedState.Success) {
+fun WeatherDetailedAdditionalInfo(state: WeatherDetailedState.Success) {
 
-    val visibility = weatherVisibilityExtension(state.detailedDay.visibility)
-    val humidity = state.detailedDay.humidity
-    val wind = state.detailedDay.windSpeed
-    val pressure = state.detailedDay.pressure
+    val visibilityText = weatherFormatVisibility(state.detailedDay.visibility)
+    val humidityText = state.detailedDay.humidity
+    val windText = state.detailedDay.windSpeed
+    val pressureText = state.detailedDay.pressure
 
     Row(
         modifier = Modifier
@@ -31,7 +31,7 @@ fun AdditionalInfoDayView(state: WeatherDetailedState.Success) {
             startPadding = 10.dp,
             endPadding = 5.dp,
             info = stringResource(R.string.visibility),
-            subInfo = visibility,
+            subInfo = visibilityText,
             image = R.drawable.visibility,
             state = state
         )
@@ -41,7 +41,7 @@ fun AdditionalInfoDayView(state: WeatherDetailedState.Success) {
             startPadding = 5.dp,
             endPadding = 10.dp,
             info = stringResource(R.string.humidity),
-            subInfo = stringResource(R.string.percent, humidity),
+            subInfo = stringResource(R.string.percent, humidityText),
             image = R.drawable.humidity,
             state = state
         )
@@ -57,7 +57,7 @@ fun AdditionalInfoDayView(state: WeatherDetailedState.Success) {
             startPadding = 10.dp,
             endPadding = 5.dp,
             info = stringResource(R.string.wind),
-            subInfo = stringResource(R.string.wind_unit, wind),
+            subInfo = stringResource(R.string.wind_unit, windText),
             image = R.drawable.wind,
             state = state
         )
@@ -67,7 +67,7 @@ fun AdditionalInfoDayView(state: WeatherDetailedState.Success) {
             startPadding = 5.dp,
             endPadding = 10.dp,
             info = stringResource(R.string.pressure),
-            subInfo = stringResource(R.string.pressure_unit, pressure),
+            subInfo = stringResource(R.string.pressure_unit, pressureText),
             image = R.drawable.barometer,
             state = state
         )

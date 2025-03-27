@@ -5,5 +5,5 @@ import com.example.features.weather.domain.entities.WeatherDetailedDay
 data class WeatherDetailsResult(
     val detailedDay: WeatherDetailedDay,
     val hoursDay: List<WeatherHoursDay>,
-    val itemPager: List<ItemTemperature>
+    val itemPager: List<TemperatureItem>
 )

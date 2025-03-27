@@ -19,7 +19,7 @@ import com.example.features.profile.presentation.models.ProfileEvent
 import com.example.features.ui.theme.Cyan
 
 @Composable
-fun BottomEditingButtons(viewModel: ProfileViewModel) {
+fun ProfileEditingButtons(viewModel: ProfileViewModel) {
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier = Modifier
@@ -27,11 +27,11 @@ fun BottomEditingButtons(viewModel: ProfileViewModel) {
             .padding(bottom = 30.dp)
     ) {
         Row {
-            EditingButton(
+            ProfileActionButton(
                 text = stringResource(R.string.cancel),
                 onClick = { viewModel.dispatch(ProfileEvent.OnClickCancel) }
             )
-            EditingButton(
+            ProfileActionButton(
                 text = stringResource(R.string.confirm),
                 onClick = { viewModel.dispatch(ProfileEvent.OnClickApply) }
             )
@@ -40,7 +40,7 @@ fun BottomEditingButtons(viewModel: ProfileViewModel) {
 }
 
 @Composable
-fun EditingButton(text: String, onClick: () -> Unit) {
+fun ProfileActionButton(text: String, onClick: () -> Unit) {
     Button(
         modifier = Modifier
             .padding(horizontal = 5.dp),

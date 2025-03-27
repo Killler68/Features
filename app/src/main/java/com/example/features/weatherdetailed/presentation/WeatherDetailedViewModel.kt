@@ -42,7 +42,7 @@ class WeatherDetailedViewModel(
                     weatherId = weatherId,
                     detailedDay = result.detailedDay,
                     hoursDay = result.hoursDay,
-                    itemPager = result.itemPager
+                    temperatureItem = result.itemPager
                 )
             } catch (e: Exception) {
                 _state.value = WeatherDetailedState.Error(R.string.error_load)

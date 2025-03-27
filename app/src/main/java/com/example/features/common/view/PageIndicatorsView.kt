@@ -18,8 +18,8 @@ fun PageIndicatorsView(
     modifier: Modifier = Modifier,
     count: Int,
     currentPage: Int,
-    colorCurrent: Color,
-    colorNotCurrent: Color
+    activeColor: Color,
+    inactiveColor: Color
 ) {
     Row(
         modifier = modifier,
@@ -35,7 +35,7 @@ fun PageIndicatorsView(
                     )
                     .clip(RoundedCornerShape(6.dp))
                     .background(
-                        if (index == currentPage) colorCurrent else colorNotCurrent
+                        if (index == currentPage) activeColor else inactiveColor
                     )
             )
         }

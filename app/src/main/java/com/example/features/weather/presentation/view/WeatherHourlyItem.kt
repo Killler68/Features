@@ -25,7 +25,7 @@ import com.example.features.weather.presentation.models.WeatherState
 
 
 @Composable
-fun HourlyWeatherItem(hourWeather: WeatherWeek, state: WeatherState.Success) {
+fun WeatherHourlyItem(hourWeather: WeatherWeek, state: WeatherState.Success) {
 
     val temperature = hourWeather.temp.toInt()
     val textColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)

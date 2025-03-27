@@ -20,7 +20,7 @@ import com.example.features.ui.theme.Cyan
 
 
 @Composable
-fun ProfilePreviewInfo(profile: Profile) {
+fun ProfilePreview(profile: Profile) {
 
     Box(
         contentAlignment = Alignment.Center,

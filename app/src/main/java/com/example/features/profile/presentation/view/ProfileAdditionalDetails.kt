@@ -19,20 +19,20 @@ import com.example.features.R
 import com.example.features.profile.data.database.model.Profile
 
 @Composable
-fun ProfileAdditionalInfo(profile: Profile) {
+fun ProfileAdditionalDetails(profile: Profile) {
     profile.name.takeIf { it.isNotEmpty() }?.let {
-        ProfileInfoItem(label = stringResource(R.string.name), value = it)
+        ProfileDetailItem(label = stringResource(R.string.name), value = it)
     }
     profile.age.takeIf { it.isNotEmpty() }?.let {
-        ProfileInfoItem(label = stringResource(R.string.age), value = it)
+        ProfileDetailItem(label = stringResource(R.string.age), value = it)
     }
     profile.nationality.takeIf { it.isNotEmpty() }?.let {
-        ProfileInfoItem(label = stringResource(R.string.nationality), value = it)
+        ProfileDetailItem(label = stringResource(R.string.nationality), value = it)
     }
 }
 
 @Composable
-fun ProfileInfoItem(label: String, value: String) {
+fun ProfileDetailItem(label: String, value: String) {
     Text(
         text = label,
         fontSize = 16.sp,

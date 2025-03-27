@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.R
-import com.example.features.common.extension.firstUppercaseString
+import com.example.features.common.extension.capitalizeFirstLetter
 import com.example.features.common.extension.getRawNameWeatherExtension
 import com.example.features.common.extension.weatherColorExtension
 import com.example.features.common.utils.ColorCategory
@@ -26,7 +26,7 @@ fun WeatherDetailedPreview(state: WeatherDetailedState.Success) {
     val maxTemp = state.detailedDay.maxTemp.toInt()
     val feelingTemp = state.detailedDay.feelingTemp.toInt()
     val description =
-        state.detailedDay.description.firstUppercaseString().getRawNameWeatherExtension()
+        state.detailedDay.description.capitalizeFirstLetter().getRawNameWeatherExtension()
 
     Row {
         Column(

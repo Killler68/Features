@@ -16,7 +16,7 @@ val dataFormatHours = SimpleDateFormat(DATE_FORMAT_HOURS)
 val dateFormatPreview = SimpleDateFormat(DATE_FORMAT_PREVIEW, Locale(LANGUAGE))
 val dateFormatDays = SimpleDateFormat(DATE_FORMAT_DAYS, Locale(LANGUAGE))
 
-fun Long.dateFormatDays(): String {
+fun Long.formatToDayString(): String {
     return dateFormatDays.format(this * TIME_FORMAT)
 }
 

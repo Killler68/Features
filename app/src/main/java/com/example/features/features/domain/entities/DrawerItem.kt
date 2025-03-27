@@ -1,6 +1,6 @@
 package com.example.features.features.domain.entities
 
-data class DrawerItems(
+data class DrawerItem(
     val id: FeaturesItemDrawer,
     val userLogin: String? = "",
     val title: Int,

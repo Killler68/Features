@@ -1,7 +1,7 @@
 package com.example.features.weatherdetailed.di
 
 import com.example.features.weatherdetailed.data.WeatherDetailedRepositoryImpl
-import com.example.features.weatherdetailed.domain.usecase.ItemTemperatureUseCase
+import com.example.features.weatherdetailed.domain.usecase.TemperatureItemUseCase
 import com.example.features.weatherdetailed.domain.usecase.WeatherDetailedRepository
 import com.example.features.weatherdetailed.domain.usecase.WeatherDetailedUseCase
 import com.example.features.weatherdetailed.domain.usecase.WeatherHoursDayUseCase
@@ -13,7 +13,7 @@ object WeatherDetailedModule {
     val module = module {
         single<WeatherDetailedRepository> { WeatherDetailedRepositoryImpl() }
 
-        factory { ItemTemperatureUseCase() }
+        factory { TemperatureItemUseCase() }
         factory { WeatherDetailedUseCase(get(), get(), get(), get()) }
         factory { WeatherHoursDayUseCase(get()) }
 

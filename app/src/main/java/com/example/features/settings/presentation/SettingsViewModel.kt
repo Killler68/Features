@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.R
 import com.example.features.common.navigation.Screens
-import com.example.features.settings.domain.DeleteUserUseCase
+import com.example.features.settings.domain.DeleteUserByIdUseCase
 import com.example.features.settings.presentation.models.SettingsEvent
 import com.example.features.settings.presentation.models.SettingsSideEffect
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
-    private val deleteUserUseCase: DeleteUserUseCase
+    private val deleteUserByIdUseCase: DeleteUserByIdUseCase
 ) : ViewModel() {
 
     private val _effect = MutableSharedFlow<SettingsSideEffect>()
@@ -29,7 +29,7 @@ class SettingsViewModel(
     private fun deleteUser(userId: Int) =
         viewModelScope.launch {
             try {
-                deleteUserUseCase(userId)
+                deleteUserByIdUseCase(userId)
                 navigateTo(Screens.Registration.route)
             } catch (e: Exception) {
                 _effect.emit(SettingsSideEffect.ErrorMessage(R.string.error_load))

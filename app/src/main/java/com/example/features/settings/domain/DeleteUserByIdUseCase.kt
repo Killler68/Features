@@ -2,7 +2,7 @@ package com.example.features.settings.domain
 
 import com.example.features.common.repository.UserRepository
 
-class DeleteUserUseCase(
+class DeleteUserByIdUseCase(
     private val repository: UserRepository,
 ) {
 

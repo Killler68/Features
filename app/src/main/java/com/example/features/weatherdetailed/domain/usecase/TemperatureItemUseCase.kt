@@ -6,7 +6,7 @@ import com.example.features.weather.domain.entities.WeatherDetailedDay
 import com.example.features.weatherdetailed.domain.entities.TemperatureItem
 import kotlin.math.abs
 
-class ItemTemperatureUseCase {
+class TemperatureItemUseCase {
 
     operator fun invoke(
         todayWeather: WeatherDetailedDay?,

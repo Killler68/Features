@@ -5,24 +5,21 @@ import com.example.features.common.strings.city
 import com.example.features.weather.domain.entities.WeatherDetailedDay
 import com.example.features.weatherdetailed.domain.entities.WeatherDetailsResult
 
-
-private const val ONE_DAY_MILLIS = 86_400_000L
-
 class WeatherDetailedUseCase(
     private val repository: WeatherDetailedRepository,
-    private val itemTemperature: ItemTemperatureUseCase,
+    private val itemTemperature: TemperatureItemUseCase,
     private val weatherHoursDayUseCase: WeatherHoursDayUseCase,
     private val context: Context
 ) {
 
     suspend fun getWeatherDetails(weatherId: Int): WeatherDetailsResult {
-        val todayDt = weatherId.toLong() * 1000
+        val todayDt = weatherId.toLong() * MILLIS_IN_SECOND
         val yesterdayDt = todayDt - ONE_DAY_MILLIS
         val tomorrowDt = todayDt + ONE_DAY_MILLIS
 
         val detailedDay = getWeatherForDay(weatherId)
-        val yesterdayWeather = getWeatherOrNull((yesterdayDt / 1000).toInt())
-        val tomorrowWeather = getWeatherOrNull((tomorrowDt / 1000).toInt())
+        val yesterdayWeather = getWeatherOrNull((yesterdayDt / MILLIS_IN_SECOND).toInt())
+        val tomorrowWeather = getWeatherOrNull((tomorrowDt / MILLIS_IN_SECOND).toInt())
 
         return WeatherDetailsResult(
             detailedDay = detailedDay,
@@ -55,5 +52,10 @@ class WeatherDetailedUseCase(
 
     private suspend fun getWeatherOrNull(weatherId: Int): WeatherDetailedDay? {
         return runCatching { getWeatherForDay(weatherId) }.getOrNull()
+    }
+
+    companion object {
+        private const val ONE_DAY_MILLIS = 86_400_000L
+        private const val MILLIS_IN_SECOND = 1000
     }
 }

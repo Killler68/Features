@@ -6,12 +6,12 @@ import com.example.features.R
 import com.example.features.common.navigation.Screens
 import com.example.features.common.strings.city
 import com.example.features.features.domain.usecase.FeaturesUseCase
-import com.example.features.features.domain.usecase.GetDrawerItemsUseCase
+import com.example.features.features.domain.usecase.GetDrawerItemUseCase
 import com.example.features.features.presentation.models.FeaturesEvent
 import com.example.features.features.presentation.models.FeaturesSideEffect
 import com.example.features.features.presentation.models.FeaturesState
 import com.example.features.notes.common.usecase.GetNotesUseCase
-import com.example.features.weather.domain.usecase.WeatherPreviewBarUseCase
+import com.example.features.weather.domain.usecase.WeatherPreviewUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -24,8 +24,8 @@ import kotlinx.coroutines.launch
 class FeaturesViewModel(
     private val userId: Int,
     private val features: FeaturesUseCase,
-    private val drawerItems: GetDrawerItemsUseCase,
-    private val weatherPreviewBarUseCase: WeatherPreviewBarUseCase,
+    private val drawerItem: GetDrawerItemUseCase,
+    private val weatherPreviewUseCase: WeatherPreviewUseCase,
     private val notesUseCase: GetNotesUseCase
 ) : ViewModel() {
 
@@ -57,7 +57,7 @@ class FeaturesViewModel(
     private fun loadData(userId: Int) {
         viewModelScope.launch {
             try {
-                val drawerItems = drawerItems(userId)
+                val drawerItems = drawerItem(userId)
                 _state.value = FeaturesState.Success(
                     itemDrawer = drawerItems,
                     itemWeather = null,
@@ -75,7 +75,7 @@ class FeaturesViewModel(
                     ) ?: it
                 }
 
-                val weather = weatherPreviewBarUseCase(city)
+                val weather = weatherPreviewUseCase(city)
                 _state.update {
                     (it as? FeaturesState.Success)?.copy(
                         itemWeather = weather,

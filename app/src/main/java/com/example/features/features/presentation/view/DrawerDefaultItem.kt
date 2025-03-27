@@ -16,11 +16,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.R
-import com.example.features.features.domain.entities.DrawerItems
+import com.example.features.features.domain.entities.DrawerItem
 import com.example.features.ui.theme.LightGray
 
 @Composable
-fun DrawerDefaultItem(item: DrawerItems) {
+fun DrawerDefaultItem(item: DrawerItem) {
     Row {
         Image(
             painter = painterResource(item.image),

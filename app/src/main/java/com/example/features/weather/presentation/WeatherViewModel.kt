@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.features.R
 import com.example.features.common.navigation.Screens
 import com.example.features.common.strings.city
-import com.example.features.weather.domain.usecase.WeatherPreviewBarUseCase
+import com.example.features.weather.domain.usecase.WeatherPreviewUseCase
 import com.example.features.weather.domain.usecase.WeatherUseCase
 import com.example.features.weather.presentation.models.WeatherEvent
 import com.example.features.weather.presentation.models.WeatherSideEffect
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class WeatherViewModel(
     private val weatherUseCase: WeatherUseCase,
-    private val weatherPreviewBarUseCase: WeatherPreviewBarUseCase
+    private val weatherPreviewUseCase: WeatherPreviewUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<WeatherState>(WeatherState.Loading)
@@ -48,7 +48,7 @@ class WeatherViewModel(
             _state.value = WeatherState.Loading
             try {
                 val weatherWeek = weatherUseCase(city)
-                val previewWeather = weatherPreviewBarUseCase(city)
+                val previewWeather = weatherPreviewUseCase(city)
                 _state.value = WeatherState.Success(
                     weatherWeek = weatherWeek,
                     preview = previewWeather,

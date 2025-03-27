@@ -1,6 +1,6 @@
 package com.example.features.weather.domain.entities
 
-data class WeatherPreviewBar(
+data class WeatherPreview(
     var city: String = "London",
     val date: Long,
     val dtText: String,

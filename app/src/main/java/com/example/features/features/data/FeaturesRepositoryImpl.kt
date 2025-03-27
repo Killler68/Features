@@ -3,7 +3,7 @@ package com.example.features.features.data
 import com.example.features.R
 import com.example.features.common.navigation.Screens
 import com.example.features.common.repository.UserRepository
-import com.example.features.features.domain.entities.DrawerItems
+import com.example.features.features.domain.entities.DrawerItem
 import com.example.features.features.domain.entities.Features
 import com.example.features.features.domain.entities.FeaturesItemDrawer
 import com.example.features.features.domain.usecase.FeaturesRepository
@@ -13,25 +13,25 @@ class FeaturesRepositoryImpl(
 ) : FeaturesRepository {
 
     override fun getFeatures(): List<Features> = features
-    override suspend fun getDrawerItems(userId: Int): List<DrawerItems> {
+    override suspend fun getDrawerItems(userId: Int): List<DrawerItem> {
         return listOf(
-            DrawerItems(
+            DrawerItem(
                 id = FeaturesItemDrawer.PROFILE_PREVIEW,
                 title = R.string.profile,
                 image = R.drawable.profile
             ),
-            DrawerItems(
+            DrawerItem(
                 id = FeaturesItemDrawer.PROFILE,
                 userLogin = userRepository.getUserById(userId)?.login,
                 title = DEFAULT,
                 image = DEFAULT
             ),
-            DrawerItems(
+            DrawerItem(
                 id = FeaturesItemDrawer.SETTINGS,
                 title = R.string.settings,
                 image = R.drawable.settings
             ),
-            DrawerItems(
+            DrawerItem(
                 id = FeaturesItemDrawer.ABOUT,
                 title = R.string.about_project,
                 image = R.drawable.question

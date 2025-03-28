@@ -1,4 +1,4 @@
-package com.example.features.common.constants
+package com.example.features.common.utils
 
 enum class StartDestination(val route: String) {
     WELCOME("Welcome"),

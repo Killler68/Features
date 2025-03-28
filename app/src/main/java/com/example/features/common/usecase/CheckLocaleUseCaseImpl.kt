@@ -1,6 +1,6 @@
 package com.example.features.common.usecase
 
-import com.example.features.common.constants.StartDestination
+import com.example.features.common.utils.StartDestination
 import com.example.features.common.sharedpreferences.LocalStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

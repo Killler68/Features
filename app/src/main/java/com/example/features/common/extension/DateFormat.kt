@@ -21,9 +21,9 @@ fun Long.formatToDayString(): String {
 }
 
 fun Long.dateFormatPreview(): String {
-    return dateFormatPreview.format(this * 1000)
+    return dateFormatPreview.format(this * TIME_FORMAT)
 }
 
 fun Long.dateFormatHours(): String {
-    return dataFormatHours.format(this * 1000)
+    return dataFormatHours.format(this * TIME_FORMAT)
 }

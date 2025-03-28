@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.navigation.Screens
 import com.example.features.welcome.domain.entities.PagerItem
-import com.example.features.welcome.domain.usecase.WelcomeUseCase
+import com.example.features.welcome.domain.usecase.GetPagerItemUseCase
 import com.example.features.welcome.presentation.models.WelcomeEvent
 import com.example.features.welcome.presentation.models.WelcomeSideEffect
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class WelcomeViewModel(
-    private val welcomeUseCase: WelcomeUseCase
+    private val getPagerItemUseCase: GetPagerItemUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<List<PagerItem>>(emptyList())
@@ -38,7 +38,7 @@ class WelcomeViewModel(
     }
 
     private fun loadPagerItems() {
-        _state.value = welcomeUseCase()
+        _state.value = getPagerItemUseCase()
     }
 
     private fun navigateTo(route: String) {

@@ -5,7 +5,7 @@ import com.example.features.common.strings.city
 import com.example.features.weather.domain.entities.WeatherDetailedDay
 import com.example.features.weatherdetailed.domain.entities.WeatherDetailsResult
 
-class WeatherDetailedUseCase(
+class WeatherDetailedDayUseCase(
     private val repository: WeatherDetailedRepository,
     private val itemTemperature: TemperatureItemUseCase,
     private val weatherHoursDayUseCase: WeatherHoursDayUseCase,

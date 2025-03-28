@@ -29,28 +29,6 @@ fun String.getRawNameWeatherExtension(): String {
     }
 }
 
-fun String.getRawNameCityRuToEngExtension(): String {
-
-    return when (this) {
-        "Воронеж" -> "Voronezh"
-        "Оттава" -> "Ottawa"
-        "Лондон" -> "London"
-        "Москва" -> "Moscow"
-        else -> this
-    }
-}
-
-fun String.getRawNameCityEngToRuExtension(): String {
-
-    return when (this) {
-        "Voronezh" -> "Воронеж"
-        "Ottawa" -> "Оттава"
-        "London" -> "Лондон"
-        "Moscow" -> "Москва"
-        else -> this
-    }
-}
-
 fun String.getRawNameFeaturesCityEngToRuExtension(): String {
 
     return when (this) {
@@ -58,6 +36,16 @@ fun String.getRawNameFeaturesCityEngToRuExtension(): String {
         "Ottawa" -> "Оттаве"
         "London" -> "Лондоне"
         "Moscow" -> "Москве"
+        else -> this
+    }
+}
+fun String.getRawNameCityEngToRuExtension(): String {
+
+    return when (this) {
+        "Voronezh" -> "Воронеж"
+        "Ottawa" -> "Оттава"
+        "London" -> "Лондон"
+        "Moscow" -> "Москва"
         else -> this
     }
 }

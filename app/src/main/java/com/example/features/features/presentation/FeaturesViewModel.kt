@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.features.R
 import com.example.features.common.navigation.Screens
 import com.example.features.common.strings.city
-import com.example.features.features.domain.usecase.FeaturesUseCase
+import com.example.features.features.domain.usecase.GetFeaturesUseCase
 import com.example.features.features.domain.usecase.GetDrawerItemUseCase
 import com.example.features.features.presentation.models.FeaturesEvent
 import com.example.features.features.presentation.models.FeaturesSideEffect
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 class FeaturesViewModel(
     private val userId: Int,
-    private val features: FeaturesUseCase,
+    private val features: GetFeaturesUseCase,
     private val drawerItem: GetDrawerItemUseCase,
     private val weatherPreviewUseCase: WeatherPreviewUseCase,
     private val notesUseCase: GetNotesUseCase

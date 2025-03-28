@@ -3,7 +3,7 @@ package com.example.features.weather.domain.usecase
 import com.example.features.weather.domain.entities.WeatherWeek
 import com.example.features.weather.domain.entities.toWeatherData
 
-class WeatherUseCase(
+class WeatherWeekUseCase(
     private val repository: WeatherRepository
 ) {
     suspend operator fun invoke(city: String): List<WeatherWeek> {

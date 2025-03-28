@@ -6,7 +6,7 @@ import com.example.features.R
 import com.example.features.common.navigation.Screens
 import com.example.features.common.strings.city
 import com.example.features.weather.domain.usecase.WeatherPreviewUseCase
-import com.example.features.weather.domain.usecase.WeatherUseCase
+import com.example.features.weather.domain.usecase.WeatherWeekUseCase
 import com.example.features.weather.presentation.models.WeatherEvent
 import com.example.features.weather.presentation.models.WeatherSideEffect
 import com.example.features.weather.presentation.models.WeatherState
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(
-    private val weatherUseCase: WeatherUseCase,
+    private val weatherWeekUseCase: WeatherWeekUseCase,
     private val weatherPreviewUseCase: WeatherPreviewUseCase
 ) : ViewModel() {
 
@@ -47,7 +47,7 @@ class WeatherViewModel(
         viewModelScope.launch {
             _state.value = WeatherState.Loading
             try {
-                val weatherWeek = weatherUseCase(city)
+                val weatherWeek = weatherWeekUseCase(city)
                 val previewWeather = weatherPreviewUseCase(city)
                 _state.value = WeatherState.Success(
                     weatherWeek = weatherWeek,

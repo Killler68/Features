@@ -1,0 +1,62 @@
+package com.example.features.welcome.presentation
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
+import com.example.features.R
+import com.example.features.common.view.ButtonsApply
+import com.example.features.welcome.presentation.models.WelcomeEvent
+import com.example.features.welcome.presentation.models.WelcomeSideEffect
+import com.example.features.welcome.presentation.view.WelcomePagerView
+import com.example.features.welcome.presentation.view.WelcomePreviewText
+import org.koin.androidx.compose.getViewModel
+
+@Composable
+fun WelcomeScreen(navController: NavController) {
+
+    val viewModel: WelcomeViewModel = getViewModel()
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect { event ->
+            when (event) {
+                is WelcomeSideEffect.NavigateTo -> navController.navigate(event.router)
+            }
+        }
+    }
+    WelcomeContent(viewModel = viewModel)
+}
+
+@Composable
+fun WelcomeContent(viewModel: WelcomeViewModel) {
+
+    val state by viewModel.state.collectAsState()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+
+        WelcomePreviewText()
+        WelcomePagerView(state)
+
+        ButtonsApply(
+            onClick = { viewModel.dispatch(event = WelcomeEvent.ToRegistration) },
+            textButton = stringResource(R.string.create_account),
+        )
+        ButtonsApply(
+            onClick = { viewModel.dispatch(event = WelcomeEvent.ToAuthorization) },
+            textButton = stringResource(R.string.authorization),
+        )
+    }
+}
+
+
+

@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.R
-import com.example.features.navigation.Screens
+import com.example.features.common.navigation.Screens
 import com.example.features.notes.common.screen.DsNote
 import com.example.features.notes.notedetail.viewmodel.NoteDetailViewModel
 import com.example.features.ui.theme.LightGray

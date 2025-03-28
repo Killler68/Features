@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.common.viewmodel.SharedViewModel
-import com.example.features.navigation.Screens
+import com.example.features.common.navigation.Screens
 import com.example.features.notes.noteslist.screen.DsActionBar
 import com.example.features.notes.common.model.NotesModel
 import com.example.features.notes.noteadd.viewmodel.NoteAddViewModel

@@ -1,0 +1,21 @@
+package com.example.features.weather.domain.entities
+
+data class WeatherDetailedDay(
+    val city: String,
+    val dt: Long,
+    val dtText: String,
+    val temp: Double,
+    val description: String,
+    val maxTemp: Double,
+    val minTemp: Double,
+    val feelingTemp: Double,
+    val pressure: Int,
+    val visibility: Int,
+    val humidity: Int,
+    val windDirection: Int,
+    val windSpeed: Double,
+    val probabilityPrecipitation: Double,
+    val partDay: String,
+    val sunSet: Long,
+    val sunRise: Long
+)

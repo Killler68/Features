@@ -1,0 +1,74 @@
+package com.example.features.registration.presentation
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.features.R
+import com.example.features.authorization.domain.GetUserByLoginAndPasswordUseCase
+import com.example.features.common.database.user.model.User
+import com.example.features.common.navigation.Screens
+import com.example.features.registration.domain.CreateUserUseCase
+import com.example.features.registration.domain.GetUserByLoginUseCase
+import com.example.features.registration.presentation.models.RegistrationEvent
+import com.example.features.registration.presentation.models.RegistrationSideEffect
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
+
+class RegistrationViewModel(
+    private val createUserUseCase: CreateUserUseCase,
+    private val getUserByLoginUseCase: GetUserByLoginUseCase,
+    private val getUserByLoginAndPasswordUseCase: GetUserByLoginAndPasswordUseCase
+) : ViewModel() {
+
+    private val _effect = MutableSharedFlow<RegistrationSideEffect>()
+    val effect: SharedFlow<RegistrationSideEffect> get() = _effect.asSharedFlow()
+
+    private val _currentUser = MutableStateFlow<User?>(null)
+
+    fun dispatch(event: RegistrationEvent) {
+        when (event) {
+            is RegistrationEvent.CreateUser -> createUser(event.login, event.password)
+            RegistrationEvent.NavigateToAuthorization -> navigateTo(Screens.Authorization.route)
+        }
+    }
+
+    private fun createUser(login: String, password: String) {
+        viewModelScope.launch {
+            try {
+                val existingUser = getUserByLoginUseCase(login)
+                if (existingUser != null) {
+                    _effect.emit(RegistrationSideEffect.ErrorMessage(R.string.account_already_created))
+                    return@launch
+                }
+
+                createUserUseCase(login, password)
+
+                val newUser = getUserByLoginAndPasswordUseCase(login, password)
+                if (newUser == null) {
+                    _effect.emit(RegistrationSideEffect.ErrorMessage(R.string.error_create_account))
+                    return@launch
+                }
+
+                _currentUser.value = newUser
+                navigateToFeatures(newUser.id)
+
+            } catch (e: Exception) {
+                _effect.emit(RegistrationSideEffect.ErrorMessage(R.string.error_load))
+            }
+        }
+    }
+
+    private fun navigateTo(route: String) {
+        viewModelScope.launch {
+            _effect.emit(RegistrationSideEffect.NavigateTo(route))
+        }
+    }
+
+    private fun navigateToFeatures(userId: Int) {
+        viewModelScope.launch {
+            _effect.emit(RegistrationSideEffect.NavigateTo(Screens.Features.createRoute(userId)))
+        }
+    }
+}

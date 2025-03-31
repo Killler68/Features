@@ -5,6 +5,6 @@ import com.example.features.features.domain.entities.Features
 
 interface FeaturesRepository {
 
-    fun getFeatures(): List<Features>
+    fun getFeatures(userId: Int): List<Features>
    suspend fun getDrawerItems(userId: Int): List<DrawerItem>
 }

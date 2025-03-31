@@ -1,0 +1,43 @@
+package com.example.features.notes.presentation.view
+
+import androidx.compose.runtime.Composable
+import com.example.features.notes.domain.entities.NoteTaskItem
+import com.example.features.notes.presentation.models.NotesTaskEvent
+import com.example.features.notes.presentation.models.NotesTaskState
+import com.example.features.notes.presentation.viewmodel.NotesTaskViewModel
+import org.koin.androidx.compose.getViewModel
+
+
+@Composable
+fun NoteItemEditingDialog(
+    state: NotesTaskState,
+    noteItem: NoteTaskItem,
+    userId: Int,
+    editTitle: String?,
+    editDescription: String?,
+    onValueTitle: (String) -> Unit,
+    onValueDescription: (String) -> Unit
+) {
+    val viewModel: NotesTaskViewModel = getViewModel()
+
+    if (state.editingNote?.id == noteItem.id) {
+        NoteEditingDialogView(
+            title = editTitle ?: "",
+            description = editDescription ?: "",
+            onTitleChange = onValueTitle,
+            onDescriptionChange = onValueDescription,
+            onDismiss = { viewModel.dispatch(NotesTaskEvent.OnClickEditNote(null)) },
+            onSave = {
+                viewModel.dispatch(
+                    NotesTaskEvent.OnClickUpdateNote(
+                        userId,
+                        noteItem.copy(
+                            title = editTitle,
+                            description = editDescription
+                        )
+                    )
+                )
+            }
+        )
+    }
+}

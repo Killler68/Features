@@ -5,12 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.features.R
 import com.example.features.common.navigation.Screens
 import com.example.features.common.strings.city
-import com.example.features.features.domain.usecase.GetFeaturesUseCase
 import com.example.features.features.domain.usecase.GetDrawerItemUseCase
+import com.example.features.features.domain.usecase.GetFeaturesUseCase
 import com.example.features.features.presentation.models.FeaturesEvent
 import com.example.features.features.presentation.models.FeaturesSideEffect
 import com.example.features.features.presentation.models.FeaturesState
-import com.example.features.notes.common.usecase.GetNotesUseCase
+import com.example.features.notes.domain.usecase.GetNotesUseCase
+import com.example.features.notes.domain.usecase.GetTasksUseCase
 import com.example.features.weather.domain.usecase.WeatherPreviewUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,7 +49,7 @@ class FeaturesViewModel(
                 )
             )
 
-            is FeaturesEvent.NavigateToFeature -> destination(event.featureId)
+            is FeaturesEvent.NavigateToFeature -> navigateToFeature(event.userId, event.featureId)
             is FeaturesEvent.NavigateToProfile -> destination(Screens.Profile.createRoute(userId))
             is FeaturesEvent.LoadAllData -> loadData(event.userId)
         }
@@ -62,7 +63,7 @@ class FeaturesViewModel(
                     itemDrawer = drawerItems,
                     itemWeather = null,
                     itemNote = emptyList(),
-                    itemFeature = features(),
+                    itemFeature = features(userId),
                     isNotesLoading = true,
                     isWeatherLoading = true
                 )
@@ -90,6 +91,19 @@ class FeaturesViewModel(
 
     private fun destination(route: String) {
         viewModelScope.launch {
+            _effect.emit(FeaturesSideEffect.NavigateTo(route))
+        }
+    }
+
+    private fun navigateToFeature(userId: Int, featureId: String) {
+        viewModelScope.launch {
+            val route = when (featureId) {
+                "Weather" -> Screens.Weather.route
+                "notes_task_screen" -> Screens.NotesTaskScreen.createRoute(userId)
+                else -> {
+                    Screens.NotesTaskScreen.createRoute(userId)
+                }
+            }
             _effect.emit(FeaturesSideEffect.NavigateTo(route))
         }
     }

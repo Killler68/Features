@@ -4,9 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
@@ -63,18 +65,23 @@ fun TaskItem(
                 ) { _, dragAmount ->
                     offsetX = (offsetX + dragAmount).coerceIn(maxSwipe, 0f)
                 }
-            }
-    ) {
-        TaskItemSwipeImage(offsetX, halfSwipe,
-            onDeleteClick = {
-                onDeleteClick()
-                coroutineScope.launch { animateOffsetToZero { offsetX = 0f } }
             },
-            onEditClick = {
-                onEditClick()
-                coroutineScope.launch { animateOffsetToZero { offsetX = 0f } }
-            }
-        )
+        contentAlignment = Alignment.Center
+    ) {
+
+            TaskItemSwipeImage(offsetX, halfSwipe,
+                onDeleteClick = {
+                    onDeleteClick()
+                    coroutineScope.launch { animateOffsetToZero { offsetX = 0f } }
+                },
+                onEditClick = {
+                    onEditClick()
+                    coroutineScope.launch { animateOffsetToZero { offsetX = 0f } }
+                }
+            )
+
+
+
         TaskItemContent(offsetX, task, onCheckedChange)
         TaskItemEditingDialog(
             state = state,

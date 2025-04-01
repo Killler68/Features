@@ -35,7 +35,7 @@ fun TaskItemSwipeImage(
                 painter = painterResource(R.drawable.pencil),
                 contentDescription = stringResource(R.string.editing_note_image_description),
                 modifier = Modifier
-                    .padding(top = 5.dp, end = 10.dp)
+                    .padding(end = 10.dp)
                     .size(26.dp)
                     .clickable { onEditClick() }
             )
@@ -43,7 +43,7 @@ fun TaskItemSwipeImage(
                 painter = painterResource(R.drawable.trash_bucket),
                 contentDescription = stringResource(R.string.delete_note_image_description),
                 modifier = Modifier
-                    .padding(top = 5.dp, end = 10.dp)
+                    .padding(end = 10.dp)
                     .size(26.dp)
                     .clickable { onDeleteClick() }
             )

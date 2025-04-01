@@ -1,10 +1,16 @@
 package com.example.features.notes.presentation.view
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -14,14 +20,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.R
 import com.example.features.notes.domain.entities.NoteTaskItem
+import com.example.features.notes.presentation.models.NotesTaskEvent
 import com.example.features.notes.presentation.viewmodel.NotesTaskViewModel
 import com.example.features.ui.theme.LightGray
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteItem(noteItem: NoteTaskItem, userId: Int, onClick: () -> Unit) {
     val viewModel: NotesTaskViewModel = getViewModel()
@@ -29,6 +39,7 @@ fun NoteItem(noteItem: NoteTaskItem, userId: Int, onClick: () -> Unit) {
 
     var editTitle by remember(state.editingNote?.id) { mutableStateOf(noteItem.title) }
     var editDescription by remember(state.editingNote?.id) { mutableStateOf(noteItem.description) }
+    var isMenuExpanded by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -36,6 +47,10 @@ fun NoteItem(noteItem: NoteTaskItem, userId: Int, onClick: () -> Unit) {
             .clip(RoundedCornerShape(12.dp))
             .background(LightGray)
             .clickable { onClick() }
+            .combinedClickable(
+                onClick = { onClick() },
+                onLongClick = { isMenuExpanded = true }
+            )
     ) {
         noteItem.description?.let {
             Text(
@@ -45,16 +60,35 @@ fun NoteItem(noteItem: NoteTaskItem, userId: Int, onClick: () -> Unit) {
                 style = TextStyle(fontSize = 12.sp)
             )
         }
+        Spacer(modifier = Modifier.fillMaxWidth())
 
-        NoteItemImages(viewModel, userId, noteItem)
-        NoteItemEditingDialog(
-            state = state,
-            noteItem = noteItem,
-            userId = userId,
-            editTitle = editTitle,
-            editDescription = editDescription,
-            onValueTitle = { editTitle = it },
-            onValueDescription = { editDescription = it }
-        )
+        DropdownMenu(
+            expanded = isMenuExpanded,
+            onDismissRequest = { isMenuExpanded = false }
+        ) {
+            DropdownMenuItem(
+                text = { Text(text = stringResource(R.string.edit)) },
+                onClick = {
+                    isMenuExpanded = false
+                    viewModel.dispatch(NotesTaskEvent.OnClickEditNotesTask(noteItem))
+                }
+            )
+            DropdownMenuItem(
+                text = { Text(text = stringResource(R.string.delete)) },
+                onClick = {
+                    isMenuExpanded = false
+                    viewModel.dispatch(NotesTaskEvent.OnClickDeleteNote(userId, noteItem))
+                }
+            )
+        }
     }
+    NoteItemEditingDialog(
+        state = state,
+        noteItem = noteItem,
+        userId = userId,
+        editTitle = editTitle,
+        editDescription = editDescription,
+        onValueTitle = { editTitle = it },
+        onValueDescription = { editDescription = it }
+    )
 }

@@ -103,6 +103,7 @@
     <string name="edit">Редактировать</string>
     <string name="exit">Выйти</string>
     <string name="confirm">Подтвердить</string>
+    <string name="delete">Удалить</string>
 
 
     <string name="add_note">Добавить заметку</string>

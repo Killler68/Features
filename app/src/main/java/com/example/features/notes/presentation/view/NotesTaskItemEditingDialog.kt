@@ -26,7 +26,7 @@ fun NoteItemEditingDialog(
             description = editDescription ?: "",
             onTitleChange = onValueTitle,
             onDescriptionChange = onValueDescription,
-            onDismiss = { viewModel.dispatch(NotesTaskEvent.OnClickEditNote(null)) },
+            onDismiss = { viewModel.dispatch(NotesTaskEvent.OnClickEditNotesTask(null)) },
             onSave = {
                 viewModel.dispatch(
                     NotesTaskEvent.OnClickUpdateNote(
@@ -36,6 +36,30 @@ fun NoteItemEditingDialog(
                             description = editDescription
                         )
                     )
+                )
+            }
+        )
+    }
+}
+
+@Composable
+fun TaskItemEditingDialog(
+    state: NotesTaskState,
+    taskItem: NoteTaskItem,
+    userId: Int,
+    editTitle: String?,
+    onValueTitle: (String) -> Unit,
+) {
+    val viewModel: NotesTaskViewModel = getViewModel()
+
+    if (state.editingNote?.id == taskItem.id) {
+        TaskEditingDialogView(
+            title = editTitle ?: "",
+            onTitleChange = onValueTitle,
+            onDismiss = { viewModel.dispatch(NotesTaskEvent.OnClickEditNotesTask(null)) },
+            onSave = {
+                viewModel.dispatch(
+                    NotesTaskEvent.OnClickUpdateNote(userId, taskItem.copy(title = editTitle))
                 )
             }
         )

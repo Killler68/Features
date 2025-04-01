@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.navigation.Screens
 import com.example.features.notes.domain.entities.NoteTaskItem
-import com.example.features.notes.domain.usecase.DeleteTaskUseCase
+import com.example.features.notes.domain.usecase.DeleteNotesTaskUseCase
 import com.example.features.notes.domain.usecase.GetNotesUseCase
 import com.example.features.notes.domain.usecase.GetTasksUseCase
-import com.example.features.notes.domain.usecase.UpdateTaskUseCase
+import com.example.features.notes.domain.usecase.UpdateNotesTaskUseCase
 import com.example.features.notes.presentation.models.NotesTaskEvent
 import com.example.features.notes.presentation.models.NotesTaskSideEffect
 import com.example.features.notes.presentation.models.NotesTaskState
@@ -22,8 +22,8 @@ import kotlinx.coroutines.launch
 
 class NotesTaskViewModel(
     private val getNotesUseCase: GetNotesUseCase,
-    private val deleteNoteUseCase: DeleteTaskUseCase,
-    private val updateNoteUseCase: UpdateTaskUseCase,
+    private val deleteNoteTaskUseCase: DeleteNotesTaskUseCase,
+    private val updateNoteTaskUseCase: UpdateNotesTaskUseCase,
     private val getTasksUseCase: GetTasksUseCase,
 ) : ViewModel() {
 
@@ -41,7 +41,7 @@ class NotesTaskViewModel(
                 is NotesTaskEvent.OnClickBack -> navigateTo(Screens.Features.createRoute(event.userId))
                 is NotesTaskEvent.OnClickDeleteNote -> deleteNote(event.userId, event.note)
                 is NotesTaskEvent.OnClickUpdateNote -> updateNotesTask(event.userId, event.note)
-                is NotesTaskEvent.OnClickEditNote -> editNote(event.note)
+                is NotesTaskEvent.OnClickEditNotesTask -> editNote(event.note)
                 is NotesTaskEvent.OnClickNoteDetailed -> navigateTo(
                     Screens.NotesDetail.createRouter(event.userId, event.noteId)
                 )
@@ -56,6 +56,7 @@ class NotesTaskViewModel(
 
                 NotesTaskEvent.OnClickDialog -> showDialog()
                 NotesTaskEvent.OnCloseDialog -> clearSideEffects()
+                is NotesTaskEvent.OnClickDeleteTask -> deleteTask(event.userId, event.task)
             }
         }
 
@@ -73,13 +74,19 @@ class NotesTaskViewModel(
 
     private fun deleteNote(userId: Int, note: NoteTaskItem) =
         viewModelScope.launch {
-            deleteNoteUseCase(note.copy(userId = userId))
+            deleteNoteTaskUseCase(note.copy(userId = userId))
             loadNotes(userId)
+        }
+
+    private fun deleteTask(userId: Int, task: NoteTaskItem) =
+        viewModelScope.launch {
+            deleteNoteTaskUseCase(task.copy(userId = userId))
+            loadTask(userId)
         }
 
     private fun updateNotesTask(userId: Int, note: NoteTaskItem) =
         viewModelScope.launch {
-            updateNoteUseCase(note)
+            updateNoteTaskUseCase(note)
             _state.update {
                 it.copy(
                     notes = getNotesUseCase(userId),

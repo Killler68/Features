@@ -75,3 +75,47 @@ fun NoteEditingDialogView(
         }
     )
 }
+@Composable
+fun TaskEditingDialogView(
+    title: String,
+    onTitleChange: (String) -> Unit,
+    onDismiss: () -> Unit,
+    onSave: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.edit_note)) },
+        text = {
+            Column {
+                TextField(
+                    value = title,
+                    onValueChange = onTitleChange,
+                    label = { Text(stringResource(R.string.title)) },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedContainerColor = LightGray,
+                        focusedContainerColor = LightGray
+                    ),
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = onSave,
+                colors = ButtonDefaults.buttonColors(containerColor = Cyan)
+            ) {
+                Text(stringResource(R.string.add))
+            }
+        },
+        dismissButton = {
+            Button(
+                onClick = onDismiss,
+                colors = ButtonDefaults.buttonColors(containerColor = Cyan)
+            ) {
+                Text(stringResource(R.string.cancellation))
+            }
+        }
+    )
+}

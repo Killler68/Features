@@ -43,7 +43,7 @@ fun NoteItemImages(viewModel: NotesTaskViewModel, userId: Int, noteItem: NoteTas
             contentDescription = stringResource(R.string.update_note_image_description),
             modifier = Modifier
                 .clickable {
-                    viewModel.dispatch(NotesTaskEvent.OnClickEditNote(noteItem))
+                    viewModel.dispatch(NotesTaskEvent.OnClickEditNotesTask(noteItem))
                 }
                 .size(20.dp),
             Alignment.CenterEnd

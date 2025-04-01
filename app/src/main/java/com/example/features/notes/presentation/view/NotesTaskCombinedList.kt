@@ -13,7 +13,7 @@ fun NotesTaskCombinedList(userId: Int) {
     val viewModel: NotesTaskViewModel = getViewModel()
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        item { CombinedTaskItem(viewModel) }
+        item { CombinedTaskItem(userId, viewModel) }
         item { CombinedNoteItem(userId) }
     }
 }

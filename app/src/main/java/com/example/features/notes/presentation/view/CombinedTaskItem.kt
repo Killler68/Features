@@ -1,23 +1,36 @@
 package com.example.features.notes.presentation.view
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.example.features.notes.presentation.models.NotesTaskEvent
 import com.example.features.notes.presentation.viewmodel.NotesTaskViewModel
 
-
 @Composable
-fun CombinedTaskItem(viewModel: NotesTaskViewModel) {
-    val task = viewModel.state.collectAsState()
-    val taskList = task.value.tasks
+fun CombinedTaskItem(userId: Int, viewModel: NotesTaskViewModel) {
+    val taskState by viewModel.state.collectAsState()
 
-    taskList.forEach { taskItem ->
-        TaskItem(taskItem) { isChecked ->
-            viewModel.dispatch(
-                NotesTaskEvent.OnClickUpdateNote(
-                    taskItem.userId,
-                    taskItem.copy(userId = taskItem.userId, isComplete = isChecked)
-                )
+    Column {
+        taskState.tasks.forEach { taskItem ->
+            TaskItem(
+                userId = userId,
+                task = taskItem,
+                state = taskState,
+                onCheckedChange = { isChecked ->
+                    viewModel.dispatch(
+                        NotesTaskEvent.OnClickUpdateNote(
+                            taskItem.userId,
+                            taskItem.copy(isComplete = isChecked)
+                        )
+                    )
+                },
+                onDeleteClick = {
+                    viewModel.dispatch(NotesTaskEvent.OnClickDeleteTask(userId, taskItem))
+                },
+                onEditClick = {
+                    viewModel.dispatch(NotesTaskEvent.OnClickEditNotesTask(taskItem))
+                }
             )
         }
     }

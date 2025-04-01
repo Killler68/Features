@@ -5,11 +5,11 @@ import com.example.features.notes.data.database.NotesTaskDatabase
 import com.example.features.notes.data.repository.NotesTaskRepository
 import com.example.features.notes.data.repository.NotesTaskRepositoryImpl
 import com.example.features.notes.domain.usecase.DeleteNoteUseCase
-import com.example.features.notes.domain.usecase.DeleteTaskUseCase
+import com.example.features.notes.domain.usecase.DeleteNotesTaskUseCase
 import com.example.features.notes.domain.usecase.GetNotesUseCase
 import com.example.features.notes.domain.usecase.GetTasksUseCase
 import com.example.features.notes.domain.usecase.UpdateNoteUseCase
-import com.example.features.notes.domain.usecase.UpdateTaskUseCase
+import com.example.features.notes.domain.usecase.UpdateNotesTaskUseCase
 import com.example.features.notes.presentation.viewmodel.NotesTaskViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -21,8 +21,8 @@ object NotesTaskModule {
         factory { DeleteNoteUseCase(get()) }
 
         factory { GetTasksUseCase(get()) }
-        factory { UpdateTaskUseCase(get()) }
-        factory { DeleteTaskUseCase(get()) }
+        factory { UpdateNotesTaskUseCase(get()) }
+        factory { DeleteNotesTaskUseCase(get()) }
 
         viewModel { NotesTaskViewModel(get(), get(), get(), get()) }
 

@@ -55,7 +55,12 @@ fun TaskItemEditingDialog(
     if (state.editingNote?.id == taskItem.id) {
         TaskEditingDialogView(
             title = editTitle ?: "",
-            onTitleChange = onValueTitle,
+            onTitleChange = { newText ->
+                if (newText.length <= 100) {
+                    onValueTitle(newText)
+                }
+            },
+            charCount = editTitle?.length ?: 0,
             onDismiss = { viewModel.dispatch(NotesTaskEvent.OnClickEditNotesTask(null)) },
             onSave = {
                 viewModel.dispatch(

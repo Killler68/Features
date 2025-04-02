@@ -5,7 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,10 +27,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.features.R
 import com.example.features.notes.presentation.models.TaskAddSideEffect
 import com.example.features.notes.presentation.viewmodel.TaskAddViewModel
+import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
 import org.koin.androidx.compose.getViewModel
 
@@ -48,48 +52,82 @@ fun TaskAddScreen(userId: Int, navController: NavController) {
 
     Scaffold(
         topBar = { TaskAddTopBar(userId, editTask) },
-        content = { TaskAddContent(it, editTask) { editTask = it } }
+        content = {
+            TaskAddContent(
+                it,
+                editTask,
+                editTask.length
+            ) { text -> editTask = text }
+        }
     )
 }
 
+
 @Composable
-fun TaskAddContent(paddingValues: PaddingValues, editTask: String, onValueTask: (String) -> Unit) {
+fun TaskAddContent(
+    paddingValues: PaddingValues,
+    editTask: String,
+    charCount: Int,
+    onValueTask: (String) -> Unit,
+) {
     Column(
         modifier = Modifier
             .padding(paddingValues)
             .fillMaxWidth()
-
+            .padding(horizontal = 10.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(LightGray)
     ) {
-        Row(
+        TaskAddTextField(
+            editTask = editTask,
+            onValueTask = { newText ->
+                if (newText.length <= 100) {
+                    onValueTask(newText)
+                }
+            }
+        )
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(
+            text = stringResource(R.string.max_char, charCount),
+            fontSize = 12.sp,
+            color = Cyan,
+            modifier = Modifier
+                .padding(start = 10.dp, bottom = 5.dp)
+        )
+    }
+}
+
+@Composable
+fun TaskAddTextField(
+    editTask: String,
+    onValueTask: (String) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(R.drawable.question),
+            contentDescription = stringResource(R.string.change_color_task_image_description),
+            modifier = Modifier
+                .padding(start = 10.dp)
+                .size(24.dp)
+        )
+
+        TextField(
+            value = editTask,
+            onValueChange = onValueTask,
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = LightGray,
+                unfocusedContainerColor = LightGray,
+                unfocusedIndicatorColor = LightGray,
+                focusedIndicatorColor = LightGray
+            ),
+            label = { Text(text = stringResource(R.string.edit_task)) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(LightGray),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(R.drawable.question),
-                contentDescription = stringResource(R.string.change_color_task_image_description),
-                modifier = Modifier
-                    .padding(start = 10.dp)
-                    .size(24.dp)
-            )
-
-            TextField(
-                value = editTask,
-                onValueChange = onValueTask,
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = LightGray,
-                    unfocusedContainerColor = LightGray,
-                    unfocusedIndicatorColor = LightGray,
-                    focusedIndicatorColor = LightGray
-                ),
-                label = { Text(text = stringResource(R.string.edit_task)) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 20.dp)
-            )
-        }
+                .padding(end = 20.dp)
+        )
     }
 }

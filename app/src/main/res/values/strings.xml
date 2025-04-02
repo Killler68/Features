@@ -114,6 +114,7 @@
     <string name="edit_note">Введите заметку</string>
     <string name="change">Выберите</string>
     <string name="is_remove">Уверены что хотите удалить?</string>
+    <string name="max_char">%1$s /100</string>
 
     <string name="back_image_description">back</string>
     <string name="city_image_description">city</string>

@@ -1,6 +1,8 @@
 package com.example.features.notes.presentation.view
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
@@ -14,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.features.R
 import com.example.features.ui.theme.Cyan
 import com.example.features.ui.theme.LightGray
@@ -79,6 +82,7 @@ fun NoteEditingDialogView(
 fun TaskEditingDialogView(
     title: String,
     onTitleChange: (String) -> Unit,
+    charCount: Int,
     onDismiss: () -> Unit,
     onSave: () -> Unit
 ) {
@@ -99,6 +103,8 @@ fun TaskEditingDialogView(
                         .padding(vertical = 10.dp)
                         .clip(RoundedCornerShape(12.dp))
                 )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = stringResource(R.string.max_char, charCount), fontSize = 12.sp, color = Cyan)
             }
         },
         confirmButton = {

@@ -4,16 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -30,22 +29,25 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.notes.domain.entities.NoteTaskItem
-import com.example.features.notes.presentation.models.NotesTaskState
+import com.example.features.notes.presentation.models.NotesTaskEvent
+import com.example.features.notes.presentation.viewmodel.NotesTaskViewModel
 import com.example.features.ui.theme.Cyan
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 import kotlin.math.roundToInt
 
 @Composable
 fun TaskItem(
     userId: Int,
-    task: NoteTaskItem,
-    state: NotesTaskState,
-    onCheckedChange: (Boolean) -> Unit,
-    onDeleteClick: () -> Unit,
-    onEditClick: () -> Unit
+    taskItem: NoteTaskItem,
+    onCheckedChange: (Boolean) -> Unit
 ) {
-    var editTitle by remember(state.editingNote?.id) { mutableStateOf(task.title) }
+    val viewModel: NotesTaskViewModel = getViewModel()
+    val stateFlow = viewModel.state.collectAsState()
+    val state = stateFlow.value
+
+    var editTitle by remember(state.editingNote?.id) { mutableStateOf(taskItem.title) }
 
     var offsetX by remember { mutableFloatStateOf(0f) }
     val density = LocalDensity.current
@@ -69,27 +71,34 @@ fun TaskItem(
         contentAlignment = Alignment.Center
     ) {
 
-            TaskItemSwipeImage(offsetX, halfSwipe,
-                onDeleteClick = {
-                    onDeleteClick()
-                    coroutineScope.launch { animateOffsetToZero { offsetX = 0f } }
+        TaskItemSwipeImage(offsetX, halfSwipe,
+            onDeleteClick = {
+                coroutineScope.launch { animateOffsetToZero { offsetX = 0f } }
+                viewModel.dispatch(NotesTaskEvent.OnSelectNoteForDeletion(taskItem))
+                viewModel.dispatch(NotesTaskEvent.OnOpenConfirmationTaskDialog)
+            },
+            onEditClick = {
+                viewModel.dispatch(NotesTaskEvent.OnClickEditNotesTask(taskItem))
+                coroutineScope.launch { animateOffsetToZero { offsetX = 0f } }
+            }
+        )
+
+        if (state.isConfirmationTaskDialogVisible) {
+            NotesTaskConfirmationDialog(
+                onDismiss = {
+                    viewModel.dispatch(NotesTaskEvent.OnCloseConfirmationTaskDialog)
                 },
-                onEditClick = {
-                    onEditClick()
-                    coroutineScope.launch { animateOffsetToZero { offsetX = 0f } }
+                onRemove = {
+                    viewModel.dispatch(
+                        NotesTaskEvent.OnClickDeleteTask(userId)
+                    )
                 }
             )
 
+        }
 
-
-        TaskItemContent(offsetX, task, onCheckedChange)
-        TaskItemEditingDialog(
-            state = state,
-            taskItem = task,
-            userId = userId,
-            editTitle = editTitle,
-            onValueTitle = { editTitle = it },
-        )
+        TaskItemContent(offsetX, taskItem, onCheckedChange)
+        TaskItemEditingDialog(state, taskItem, userId, editTitle) { editTitle = it }
     }
 }
 

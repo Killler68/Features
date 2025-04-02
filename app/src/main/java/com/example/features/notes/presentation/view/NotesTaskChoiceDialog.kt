@@ -1,18 +1,18 @@
 package com.example.features.notes.presentation.view
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.example.features.notes.presentation.models.NotesTaskEvent
 import com.example.features.notes.presentation.viewmodel.NotesTaskViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun NotesTaskChoiceDialog(
-    isVisibleDialog: Boolean,
-    userId: Int
-) {
+fun NotesTaskChoiceDialog(userId: Int) {
     val viewModel: NotesTaskViewModel = getViewModel()
+    val state by viewModel.state.collectAsState()
 
-    if (isVisibleDialog) {
+    if (state.isChoiceDialogVisible) {
         NotesTaskChoiceDialogView(
             onDismiss = {
                 viewModel.dispatch(NotesTaskEvent.OnCloseDialog)

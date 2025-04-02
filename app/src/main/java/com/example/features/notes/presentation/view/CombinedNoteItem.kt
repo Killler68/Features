@@ -35,11 +35,15 @@ fun CombinedNoteItem(userId: Int) {
             ) {
                 rowNotes.forEach { noteItem ->
                     Box(modifier = Modifier.weight(1f)) {
-                        NoteItem(noteItem, userId) {
-                            viewModel.dispatch(
-                                NotesTaskEvent.OnClickNoteDetailed(userId, noteItem.id)
-                            )
-                        }
+                        NoteItem(
+                            noteItem = noteItem,
+                            userId = userId,
+                            onClick = {
+                                viewModel.dispatch(
+                                    NotesTaskEvent.OnClickNoteDetailed(userId, noteItem.id)
+                                )
+                            }
+                        )
                     }
                 }
             }

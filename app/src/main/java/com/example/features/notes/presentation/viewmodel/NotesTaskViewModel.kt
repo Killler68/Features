@@ -33,15 +33,20 @@ class NotesTaskViewModel(
     private val _effect = MutableSharedFlow<NotesTaskSideEffect>()
     val effect: SharedFlow<NotesTaskSideEffect> get() = _effect.asSharedFlow()
 
+    private var selectedNoteForDeletion: NoteTaskItem? = null
+
     fun dispatch(event: NotesTaskEvent) =
         viewModelScope.launch {
             when (event) {
                 is NotesTaskEvent.LoadNotes -> loadNotes(event.userId)
                 is NotesTaskEvent.LoadTask -> loadTask(event.userId)
                 is NotesTaskEvent.OnClickBack -> navigateTo(Screens.Features.createRoute(event.userId))
-                is NotesTaskEvent.OnClickDeleteNote -> deleteNote(event.userId, event.note)
+                is NotesTaskEvent.OnClickDeleteNote -> deleteNote(event.userId)
+                is NotesTaskEvent.OnClickDeleteTask -> deleteTask(event.userId)
                 is NotesTaskEvent.OnClickUpdateNote -> updateNotesTask(event.userId, event.note)
                 is NotesTaskEvent.OnClickEditNotesTask -> editNote(event.note)
+                is NotesTaskEvent.OnSelectNoteForDeletion -> selectNoteForDeletion(event.note)
+
                 is NotesTaskEvent.OnClickNoteDetailed -> navigateTo(
                     Screens.NotesDetail.createRouter(event.userId, event.noteId)
                 )
@@ -54,9 +59,27 @@ class NotesTaskViewModel(
                     Screens.TaskAddScreen.createRoute(event.userId)
                 )
 
-                NotesTaskEvent.OnClickDialog -> showDialog()
-                NotesTaskEvent.OnCloseDialog -> clearSideEffects()
-                is NotesTaskEvent.OnClickDeleteTask -> deleteTask(event.userId, event.task)
+                NotesTaskEvent.OnClickDialog -> {
+                    _state.update { it.copy(isChoiceDialogVisible = true) }
+                }
+
+                NotesTaskEvent.OnCloseDialog -> {
+                    _state.update { it.copy(isChoiceDialogVisible = false) }
+                }
+
+                NotesTaskEvent.OnOpenConfirmationNoteDialog -> {
+                    _state.update { it.copy(isConfirmationDialogVisible = true) }
+                }
+                NotesTaskEvent.OnOpenConfirmationTaskDialog -> {
+                    _state.update { it.copy(isConfirmationTaskDialogVisible = true) }
+                }
+
+                NotesTaskEvent.OnCloseConfirmationNoteDialog -> {
+                    _state.update { it.copy(isConfirmationDialogVisible = false) }
+                }
+                NotesTaskEvent.OnCloseConfirmationTaskDialog -> {
+                    _state.update { it.copy(isConfirmationTaskDialogVisible = false) }
+                }
             }
         }
 
@@ -72,16 +95,24 @@ class NotesTaskViewModel(
             _state.update { it.copy(tasks = tasks) }
         }
 
-    private fun deleteNote(userId: Int, note: NoteTaskItem) =
+    private fun deleteNote(userId: Int) =
         viewModelScope.launch {
-            deleteNoteTaskUseCase(note.copy(userId = userId))
-            loadNotes(userId)
+            selectedNoteForDeletion?.let { note ->
+                deleteNoteTaskUseCase(note.copy(userId = userId))
+                selectedNoteForDeletion = null
+                loadNotes(userId)
+                _state.update { it.copy(isConfirmationDialogVisible = false) }
+            }
         }
 
-    private fun deleteTask(userId: Int, task: NoteTaskItem) =
+    private fun deleteTask(userId: Int) =
         viewModelScope.launch {
-            deleteNoteTaskUseCase(task.copy(userId = userId))
-            loadTask(userId)
+            selectedNoteForDeletion?.let { task ->
+                deleteNoteTaskUseCase(task.copy(userId = userId))
+                selectedNoteForDeletion = null
+                val updatedTasks = getTasksUseCase(userId)
+                _state.update { it.copy(tasks = updatedTasks, isConfirmationTaskDialogVisible = false) }
+            }
         }
 
     private fun updateNotesTask(userId: Int, note: NoteTaskItem) =
@@ -100,18 +131,12 @@ class NotesTaskViewModel(
         _state.update { it.copy(editingNote = note) }
     }
 
+    private fun selectNoteForDeletion(note: NoteTaskItem) {
+        selectedNoteForDeletion = note
+    }
+
     private fun navigateTo(route: String) =
         viewModelScope.launch {
             _effect.emit(NotesTaskSideEffect.NavigateTo(route))
-        }
-
-    private fun showDialog() =
-        viewModelScope.launch {
-            _effect.emit(NotesTaskSideEffect.Popup)
-        }
-
-    private fun clearSideEffects() =
-        viewModelScope.launch {
-            _effect.emit(NotesTaskSideEffect.None)
         }
 }

@@ -7,10 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.features.notes.presentation.models.NotesTaskEvent
@@ -23,14 +19,11 @@ import org.koin.androidx.compose.getViewModel
 fun NotesTaskScreen(userId: Int, navController: NavController) {
 
     val viewModel: NotesTaskViewModel = getViewModel()
-    var isDialogVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
             when (effect) {
                 is NotesTaskSideEffect.NavigateTo -> navController.navigate(effect.route)
-                NotesTaskSideEffect.None -> isDialogVisible = false
-                NotesTaskSideEffect.Popup -> isDialogVisible = true
             }
         }
     }
@@ -41,7 +34,7 @@ fun NotesTaskScreen(userId: Int, navController: NavController) {
 
     Scaffold(
         topBar = { NotesTaskTopBar(userId, viewModel) },
-        content = { NotesTaskContent(it, isDialogVisible, userId) }
+        content = { NotesTaskContent(it, userId) }
     )
 }
 
@@ -49,7 +42,6 @@ fun NotesTaskScreen(userId: Int, navController: NavController) {
 @Composable
 fun NotesTaskContent(
     paddingValues: PaddingValues,
-    isVisibleDialog: Boolean,
     userId: Int,
 ) {
     val viewModel: NotesTaskViewModel = getViewModel()
@@ -59,7 +51,7 @@ fun NotesTaskContent(
             .padding(paddingValues)
     ) {
         NotesTaskCombinedList(userId)
-        NotesTaskChoiceDialog(isVisibleDialog, userId)
+        NotesTaskChoiceDialog(userId)
         NotesTaskAddImage(viewModel)
     }
 }

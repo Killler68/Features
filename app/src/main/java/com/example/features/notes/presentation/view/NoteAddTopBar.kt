@@ -48,7 +48,7 @@ fun NoteAddTopBar(
                         .background(LightGray)
                         .padding(7.dp)
                         .clickable {
-                            if (title.isNotEmpty() || description.isNotEmpty()) {
+                            if (description.isNotEmpty() ) {
                                 viewModel.dispatch(
                                     NoteAddEvent.CreateNote(
                                         userId,

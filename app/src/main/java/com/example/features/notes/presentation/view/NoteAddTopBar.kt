@@ -3,7 +3,6 @@ package com.example.features.notes.presentation.view
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -35,31 +34,10 @@ fun NoteAddTopBar(
 ) {
     val viewModel: NoteAddViewModel = getViewModel()
 
-    TopAppBar(title = {
-        Column {
+    TopAppBar(
+        title = {
             Row {
-                Image(
-                    painter = painterResource(R.drawable.back),
-                    contentDescription = stringResource(R.string.back_image_description),
-                    modifier = Modifier
-                        .padding(end = 10.dp)
-                        .size(32.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(LightGray)
-                        .padding(7.dp)
-                        .clickable {
-                            if (description.isNotEmpty() ) {
-                                viewModel.dispatch(
-                                    NoteAddEvent.CreateNote(
-                                        userId,
-                                        title,
-                                        description
-                                    )
-                                )
-                            }
-                            viewModel.dispatch(NoteAddEvent.OnClickBack(userId))
-                        }
-                )
+                NoteAddTopBarCreateNoteImage(userId, title, description, viewModel)
                 Text(
                     text = stringResource(R.string.add_note),
                     fontSize = 18.sp,
@@ -67,6 +45,36 @@ fun NoteAddTopBar(
                 )
             }
         }
-    }
+    )
+}
+
+@Composable
+fun NoteAddTopBarCreateNoteImage(
+    userId: Int,
+    title: String,
+    description: String,
+    viewModel: NoteAddViewModel
+) {
+    Image(
+        painter = painterResource(R.drawable.back),
+        contentDescription = stringResource(R.string.back_image_description),
+        modifier = Modifier
+            .padding(end = 10.dp)
+            .size(32.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(LightGray)
+            .padding(7.dp)
+            .clickable {
+                if (description.isNotEmpty()) {
+                    viewModel.dispatch(
+                        NoteAddEvent.CreateNote(
+                            userId,
+                            title,
+                            description
+                        )
+                    )
+                }
+                viewModel.dispatch(NoteAddEvent.OnClickBack(userId))
+            }
     )
 }

@@ -22,12 +22,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.common.extension.taskItemBackgroundColor
+import com.example.features.common.extension.taskItemTextColor
 import com.example.features.notes.domain.entities.NoteTaskItem
 import com.example.features.notes.presentation.models.NotesTaskEvent
 import com.example.features.notes.presentation.viewmodel.NotesTaskViewModel
@@ -71,7 +72,8 @@ fun TaskItem(
         contentAlignment = Alignment.Center
     ) {
 
-        TaskItemSwipeImage(offsetX, halfSwipe,
+        TaskItemSwipeImage(
+            offsetX, halfSwipe,
             onDeleteClick = {
                 coroutineScope.launch { animateOffsetToZero { offsetX = 0f } }
                 viewModel.dispatch(NotesTaskEvent.OnSelectNoteForDeletion(taskItem))
@@ -119,7 +121,7 @@ fun TaskItemContent(offsetX: Float, task: NoteTaskItem, onCheckedChange: (Boolea
             .offset { IntOffset(offsetX.roundToInt(), 0) }
             .padding(horizontal = 10.dp, vertical = 5.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(Color.LightGray),
+            .background(taskItemBackgroundColor(isComplete = task.isComplete)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
@@ -132,7 +134,12 @@ fun TaskItemContent(offsetX: Float, task: NoteTaskItem, onCheckedChange: (Boolea
             )
         )
         task.title?.let {
-            Text(text = it, fontSize = 12.sp, modifier = Modifier.padding(5.dp))
+            Text(
+                text = it,
+                fontSize = 12.sp,
+                color = taskItemTextColor(isComplete = task.isComplete),
+                modifier = Modifier.padding(5.dp)
+            )
         }
     }
 }

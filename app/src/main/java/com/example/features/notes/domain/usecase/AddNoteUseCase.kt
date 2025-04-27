@@ -8,7 +8,9 @@ class AddNoteUseCase(
     private val repository: NotesTaskRepository
 ) {
 
-    suspend operator fun invoke(note: NoteTaskItem) =
+    suspend operator fun invoke(note: NoteTaskItem) {
+        val dateNote = System.currentTimeMillis() / 1000
+
         repository.createNotesTask(
             NoteTaskItem(
                 note.id,
@@ -16,7 +18,9 @@ class AddNoteUseCase(
                 note.title,
                 note.description,
                 note.userId,
-                note.isComplete
+                note.isComplete,
+                dateNote
             )
         )
+    }
 }

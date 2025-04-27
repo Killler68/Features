@@ -41,7 +41,8 @@ class TaskAddViewModel(
                     type = TypeItem.TASK,
                     title = title,
                     userId = userId,
-                    isComplete = false
+                    isComplete = false,
+                    createTime = 0L
                 )
             addTaskUseCase(note)
             navigateTo(Screens.NotesTaskScreen.createRoute(userId))

@@ -6,5 +6,6 @@ data class NoteTaskItem(
     val title: String? = null,
     val description: String? = null,
     val userId: Int,
-    val isComplete: Boolean
+    val isComplete: Boolean,
+    val createTime: Long
 )

@@ -16,7 +16,8 @@ class NotesTaskRepositoryImpl(
                 it.title,
                 it.description,
                 it.userId,
-                it.isComplete
+                it.isComplete,
+                it.createTime
             )
         }
 
@@ -28,7 +29,8 @@ class NotesTaskRepositoryImpl(
                 it.title,
                 it.description,
                 it.userId,
-                it.isComplete
+                it.isComplete,
+                it.createTime
             )
         }
 
@@ -41,7 +43,8 @@ class NotesTaskRepositoryImpl(
                 title = it.title,
                 description = it.description,
                 userId = it.userId,
-                isComplete = it.isComplete
+                isComplete = it.isComplete,
+                createTime = it.createTime
             )
         }
     }
@@ -55,6 +58,7 @@ class NotesTaskRepositoryImpl(
                 description = task.description,
                 userId = task.userId,
                 isComplete = task.isComplete,
+                createTime = task.createTime
             )
         )
     }
@@ -71,7 +75,8 @@ class NotesTaskRepositoryImpl(
                 title = task.title,
                 description = task.description,
                 isComplete = task.isComplete,
-                userId = task.userId
+                userId = task.userId,
+                createTime = task.createTime
             )
         )
     }

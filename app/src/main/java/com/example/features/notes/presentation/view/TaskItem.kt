@@ -3,6 +3,7 @@ package com.example.features.notes.presentation.view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -27,6 +28,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.features.common.extension.formatToDayMonthString
 import com.example.features.common.extension.taskItemBackgroundColor
 import com.example.features.common.extension.taskItemTextColor
 import com.example.features.notes.domain.entities.NoteTaskItem
@@ -124,15 +126,27 @@ fun TaskItemContent(offsetX: Float, task: NoteTaskItem, onCheckedChange: (Boolea
             .background(taskItemBackgroundColor(isComplete = task.isComplete)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Checkbox(
-            checked = task.isComplete,
-            onCheckedChange = onCheckedChange,
-            modifier = Modifier.padding(start = 5.dp),
-            colors = CheckboxDefaults.colors(
-                checkedColor = Cyan,
-                uncheckedColor = Cyan
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Checkbox(
+                checked = task.isComplete,
+                onCheckedChange = onCheckedChange,
+                modifier = Modifier.padding(start = 5.dp),
+                colors = CheckboxDefaults.colors(
+                    checkedColor = Cyan,
+                    uncheckedColor = Cyan
+                )
             )
-        )
+            Text(
+                text = task.createTime.formatToDayMonthString(),
+                fontSize = 8.sp,
+                color = taskItemTextColor(isComplete = task.isComplete),
+                modifier = Modifier
+                    .padding(bottom = 5.dp)
+            )
+        }
+
         task.title?.let {
             Text(
                 text = it,

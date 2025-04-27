@@ -28,6 +28,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.features.R
+import com.example.features.common.extension.formatToDayMonthString
 import com.example.features.notes.domain.entities.NoteTaskItem
 import com.example.features.notes.presentation.models.NotesTaskEvent
 import com.example.features.notes.presentation.viewmodel.NotesTaskViewModel
@@ -65,6 +66,12 @@ fun NoteItem(
                 modifier = Modifier.padding(10.dp),
                 maxLines = 8,
                 style = TextStyle(fontSize = 12.sp)
+            )
+            Text(
+                text = noteItem.createTime.formatToDayMonthString(),
+                fontSize = 8.sp,
+                modifier = Modifier
+                    .padding(start = 10.dp, bottom = 5.dp)
             )
         }
         Spacer(modifier = Modifier.fillMaxWidth())

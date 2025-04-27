@@ -41,7 +41,8 @@ class NoteAddViewModel(
                     title = title,
                     description = description,
                     userId = userId,
-                    isComplete = false
+                    isComplete = false,
+                    createTime = 0L
                 )
             addNoteUseCase(note)
             navigateTo(Screens.NotesTaskScreen.createRoute(userId))

@@ -21,7 +21,8 @@ class AddTaskUseCase(
                 task.description,
                 task.userId,
                 task.isComplete,
-                dateTask
+                dateTask,
+                task.backgroundColor
             )
         )
     }

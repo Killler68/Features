@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -31,8 +32,8 @@ import com.example.features.R
 import com.example.features.common.extension.formatToDayMonthString
 import com.example.features.notes.domain.entities.NoteTaskItem
 import com.example.features.notes.presentation.models.NotesTaskEvent
+import com.example.features.notes.presentation.models.NotesTaskState
 import com.example.features.notes.presentation.viewmodel.NotesTaskViewModel
-import com.example.features.ui.theme.LightGray
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -45,15 +46,13 @@ fun NoteItem(
     val viewModel: NotesTaskViewModel = getViewModel()
     val state by viewModel.state.collectAsState()
 
-    var editTitle by remember(state.editingNote?.id) { mutableStateOf(noteItem.title) }
-    var editDescription by remember(state.editingNote?.id) { mutableStateOf(noteItem.description) }
     var isMenuExpanded by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .padding(horizontal = 10.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(LightGray)
+            .background(Color(noteItem.backgroundColor))
             .clickable { onClick() }
             .combinedClickable(
                 onClick = { onClick() },
@@ -80,6 +79,20 @@ fun NoteItem(
             expanded = isMenuExpanded,
             onDismissRequest = { isMenuExpanded = false }
         ) {
+            DropdownMenuItem(
+                text = { Text(text = stringResource(R.string.select_background)) },
+                onClick = {
+                    isMenuExpanded = false
+                    viewModel.dispatch(NotesTaskEvent.OnSelectTaskForColor(noteItem))
+                },
+                leadingIcon = {
+                    Image(
+                        painter = painterResource(R.drawable.paint),
+                        contentDescription = stringResource(R.string.select_background_image_description),
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            )
             DropdownMenuItem(
                 text = { Text(text = stringResource(R.string.edit)) },
                 onClick = {
@@ -112,6 +125,20 @@ fun NoteItem(
         }
     }
 
+    PopupDialogNoteItem(userId, state, noteItem, viewModel)
+}
+
+@Composable
+fun PopupDialogNoteItem(
+    userId: Int,
+    state: NotesTaskState,
+    noteItem: NoteTaskItem,
+    viewModel: NotesTaskViewModel
+) {
+
+    var editTitle by remember(state.editingNote?.id) { mutableStateOf(noteItem.title) }
+    var editDescription by remember(state.editingNote?.id) { mutableStateOf(noteItem.description) }
+
     if (state.isConfirmationDialogVisible) {
         NotesTaskConfirmationDialog(
             onDismiss = { viewModel.dispatch(NotesTaskEvent.OnCloseConfirmationNoteDialog) },
@@ -119,7 +146,20 @@ fun NoteItem(
         )
     }
 
-    NoteItemEditingDialog(state, noteItem, userId, editTitle, editDescription,
+    if (state.isColorDialogVisible) {
+        DialogColorSelection(
+            state.availableColors,
+            onDismiss = { viewModel.dispatch(NotesTaskEvent.OnCloseColorDialog) },
+            onConfirm = { viewModel.dispatch(NotesTaskEvent.OnConfirmColor(it)) }
+        )
+    }
+
+    NoteItemEditingDialog(
+        state,
+        noteItem,
+        userId,
+        editTitle,
+        editDescription,
         { editTitle = it },
         { editDescription = it }
     )

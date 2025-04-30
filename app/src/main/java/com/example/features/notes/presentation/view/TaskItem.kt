@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
@@ -54,7 +55,7 @@ fun TaskItem(
 
     var offsetX by remember { mutableFloatStateOf(0f) }
     val density = LocalDensity.current
-    val maxSwipe = with(density) { -100.dp.toPx() }
+    val maxSwipe = with(density) { -120.dp.toPx() }
     val halfSwipe = maxSwipe / 2
 
     val coroutineScope = rememberCoroutineScope()
@@ -76,6 +77,9 @@ fun TaskItem(
 
         TaskItemSwipeImage(
             offsetX, halfSwipe,
+            onColorClick = {
+                viewModel.dispatch(NotesTaskEvent.OnSelectTaskForColor(taskItem))
+            },
             onDeleteClick = {
                 coroutineScope.launch { animateOffsetToZero { offsetX = 0f } }
                 viewModel.dispatch(NotesTaskEvent.OnSelectNoteForDeletion(taskItem))
@@ -98,11 +102,18 @@ fun TaskItem(
                     )
                 }
             )
-
         }
 
         TaskItemContent(offsetX, taskItem, onCheckedChange)
         TaskItemEditingDialog(state, taskItem, userId, editTitle) { editTitle = it }
+
+        if (state.isColorDialogVisible) {
+            DialogColorSelection(
+                colors = state.availableColors,
+                onDismiss = { viewModel.dispatch(NotesTaskEvent.OnCloseColorDialog) },
+                onConfirm = { viewModel.dispatch(NotesTaskEvent.OnConfirmColor(it)) }
+            )
+        }
     }
 }
 
@@ -123,7 +134,12 @@ fun TaskItemContent(offsetX: Float, task: NoteTaskItem, onCheckedChange: (Boolea
             .offset { IntOffset(offsetX.roundToInt(), 0) }
             .padding(horizontal = 10.dp, vertical = 5.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(taskItemBackgroundColor(isComplete = task.isComplete)),
+            .background(
+                taskItemBackgroundColor(
+                    isComplete = task.isComplete,
+                    Color(task.backgroundColor)
+                )
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(

@@ -2,6 +2,8 @@ package com.example.features.notes.presentation.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.features.common.navigation.Screens
@@ -42,7 +44,8 @@ class TaskAddViewModel(
                     title = title,
                     userId = userId,
                     isComplete = false,
-                    createTime = 0L
+                    createTime = System.currentTimeMillis(),
+                    backgroundColor = Color.LightGray.toArgb()
                 )
             addTaskUseCase(note)
             navigateTo(Screens.NotesTaskScreen.createRoute(userId))

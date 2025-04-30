@@ -7,6 +7,7 @@ import com.example.features.notes.domain.entities.NoteTaskItem
 import com.example.features.notes.domain.usecase.DeleteNotesTaskUseCase
 import com.example.features.notes.domain.usecase.GetNotesUseCase
 import com.example.features.notes.domain.usecase.GetTasksUseCase
+import com.example.features.notes.domain.usecase.SelectColorBackgroundTaskUseCase
 import com.example.features.notes.domain.usecase.UpdateNotesTaskUseCase
 import com.example.features.notes.presentation.models.NotesTaskEvent
 import com.example.features.notes.presentation.models.NotesTaskSideEffect
@@ -25,6 +26,7 @@ class NotesTaskViewModel(
     private val deleteNoteTaskUseCase: DeleteNotesTaskUseCase,
     private val updateNoteTaskUseCase: UpdateNotesTaskUseCase,
     private val getTasksUseCase: GetTasksUseCase,
+    private val selectColorUseCase: SelectColorBackgroundTaskUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(NotesTaskState())
@@ -70,6 +72,7 @@ class NotesTaskViewModel(
                 NotesTaskEvent.OnOpenConfirmationNoteDialog -> {
                     _state.update { it.copy(isConfirmationDialogVisible = true) }
                 }
+
                 NotesTaskEvent.OnOpenConfirmationTaskDialog -> {
                     _state.update { it.copy(isConfirmationTaskDialogVisible = true) }
                 }
@@ -77,8 +80,54 @@ class NotesTaskViewModel(
                 NotesTaskEvent.OnCloseConfirmationNoteDialog -> {
                     _state.update { it.copy(isConfirmationDialogVisible = false) }
                 }
+
                 NotesTaskEvent.OnCloseConfirmationTaskDialog -> {
                     _state.update { it.copy(isConfirmationTaskDialogVisible = false) }
+                }
+
+                is NotesTaskEvent.OnConfirmColor -> {
+                    val old = _state.value.focusedTask ?: return@launch
+                    val updated = old.copy(backgroundColor = event.colorArgb)
+                    updateNoteTaskUseCase(updated)
+                    val newNotes = _state.value.notes.map {
+                        if (it.id == updated.id) updated else it
+                    }
+                    val newTasks = _state.value.tasks.map {
+                        if (it.id == updated.id) updated else it
+                    }
+
+                    _state.update {
+                        it.copy(
+                            notes = newNotes,
+                            tasks = newTasks,
+                            focusedTask = null,
+                            isColorDialogVisible = false
+                        )
+                    }
+                }
+
+                NotesTaskEvent.OnOpenColorDialog -> {
+                    val cols = selectColorUseCase()
+                    _state.update {
+                        it.copy(
+                            availableColors = cols,
+                            isColorDialogVisible = true
+                        )
+                    }
+                }
+
+                NotesTaskEvent.OnCloseColorDialog -> {
+                    _state.update { it.copy(isColorDialogVisible = false) }
+                }
+
+                is NotesTaskEvent.OnSelectTaskForColor -> {
+                    loadColors()
+                    _state.update {
+                        it.copy(
+                            isColorDialogVisible = true,
+                            focusedTask = event.task
+                        )
+                    }
                 }
             }
         }
@@ -111,7 +160,12 @@ class NotesTaskViewModel(
                 deleteNoteTaskUseCase(task.copy(userId = userId))
                 selectedNoteForDeletion = null
                 val updatedTasks = getTasksUseCase(userId)
-                _state.update { it.copy(tasks = updatedTasks, isConfirmationTaskDialogVisible = false) }
+                _state.update {
+                    it.copy(
+                        tasks = updatedTasks,
+                        isConfirmationTaskDialogVisible = false
+                    )
+                }
             }
         }
 
@@ -133,6 +187,11 @@ class NotesTaskViewModel(
 
     private fun selectNoteForDeletion(note: NoteTaskItem) {
         selectedNoteForDeletion = note
+    }
+
+    private suspend fun loadColors() {
+        val colors = selectColorUseCase()
+        _state.update { it.copy(availableColors = colors) }
     }
 
     private fun navigateTo(route: String) =

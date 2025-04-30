@@ -19,7 +19,8 @@ class AddNoteUseCase(
                 note.description,
                 note.userId,
                 note.isComplete,
-                dateNote
+                dateNote,
+                note.backgroundColor
             )
         )
     }

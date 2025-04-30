@@ -8,6 +8,7 @@ import com.example.features.notes.domain.usecase.DeleteNoteUseCase
 import com.example.features.notes.domain.usecase.DeleteNotesTaskUseCase
 import com.example.features.notes.domain.usecase.GetNotesUseCase
 import com.example.features.notes.domain.usecase.GetTasksUseCase
+import com.example.features.notes.domain.usecase.SelectColorBackgroundTaskUseCase
 import com.example.features.notes.domain.usecase.UpdateNoteUseCase
 import com.example.features.notes.domain.usecase.UpdateNotesTaskUseCase
 import com.example.features.notes.presentation.viewmodel.NotesTaskViewModel
@@ -23,8 +24,9 @@ object NotesTaskModule {
         factory { GetTasksUseCase(get()) }
         factory { UpdateNotesTaskUseCase(get()) }
         factory { DeleteNotesTaskUseCase(get()) }
+        factory { SelectColorBackgroundTaskUseCase(get()) }
 
-        viewModel { NotesTaskViewModel(get(), get(), get(), get()) }
+        viewModel { NotesTaskViewModel(get(), get(), get(), get(), get()) }
 
         single<NotesTaskRepository> { NotesTaskRepositoryImpl(get()) }
 

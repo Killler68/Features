@@ -1,8 +1,11 @@
 package com.example.features.notes.data.repository
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import com.example.features.notes.data.database.NoteTask
 import com.example.features.notes.data.database.NotesTaskDao
 import com.example.features.notes.domain.entities.NoteTaskItem
+import com.example.features.notes.presentation.models.ColorList
 
 class NotesTaskRepositoryImpl(
     private val notesTaskDao: NotesTaskDao
@@ -17,7 +20,8 @@ class NotesTaskRepositoryImpl(
                 it.description,
                 it.userId,
                 it.isComplete,
-                it.createTime
+                it.createTime,
+                it.backgroundColor
             )
         }
 
@@ -30,7 +34,8 @@ class NotesTaskRepositoryImpl(
                 it.description,
                 it.userId,
                 it.isComplete,
-                it.createTime
+                it.createTime,
+                it.backgroundColor
             )
         }
 
@@ -44,7 +49,8 @@ class NotesTaskRepositoryImpl(
                 description = it.description,
                 userId = it.userId,
                 isComplete = it.isComplete,
-                createTime = it.createTime
+                createTime = it.createTime,
+                backgroundColor = it.backgroundColor
             )
         }
     }
@@ -58,7 +64,8 @@ class NotesTaskRepositoryImpl(
                 description = task.description,
                 userId = task.userId,
                 isComplete = task.isComplete,
-                createTime = task.createTime
+                createTime = task.createTime,
+                backgroundColor = task.backgroundColor
             )
         )
     }
@@ -76,8 +83,23 @@ class NotesTaskRepositoryImpl(
                 description = task.description,
                 isComplete = task.isComplete,
                 userId = task.userId,
-                createTime = task.createTime
+                createTime = task.createTime,
+                backgroundColor = task.backgroundColor
             )
         )
     }
+
+    override suspend fun getColors(): List<ColorList> = predefinedColors
 }
+
+private val predefinedColors = listOf(
+    ColorList(1, "Красный", Color.Red.toArgb()),
+    ColorList(2, "Зеленый", Color.Green.toArgb()),
+    ColorList(3, "Синий", Color.Blue.toArgb()),
+    ColorList(4, "Желтый", Color.Yellow.toArgb()),
+    ColorList(5, "Черный", Color.Black.toArgb()),
+    ColorList(6, "Белый", Color.White.toArgb()),
+    ColorList(7, "Магента", 0xFFFF00FF.toInt()),
+    ColorList(8, "Циан", 0xFF00FFFF.toInt()),
+    ColorList(9, "Серый", Color.Gray.toArgb()),
+)

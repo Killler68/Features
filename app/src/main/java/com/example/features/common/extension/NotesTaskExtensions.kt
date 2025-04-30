@@ -1,13 +1,12 @@
 package com.example.features.common.extension
 
 import androidx.compose.ui.graphics.Color
-import com.example.features.ui.theme.Gray
 
 
-fun taskItemBackgroundColor(isComplete: Boolean): Color =
+fun taskItemBackgroundColor(isComplete: Boolean, color: Color): Color =
     when (isComplete) {
-        true -> Gray
-        false -> Color.LightGray
+        true -> Color.LightGray
+        false -> color
     }
 
 fun taskItemTextColor(isComplete: Boolean): Color =

@@ -20,4 +20,8 @@ sealed class NotesTaskEvent {
     data object OnOpenConfirmationNoteDialog : NotesTaskEvent()
     data object OnCloseConfirmationTaskDialog : NotesTaskEvent()
     data object OnCloseConfirmationNoteDialog : NotesTaskEvent()
+    data object OnOpenColorDialog : NotesTaskEvent()
+    data object OnCloseColorDialog : NotesTaskEvent()
+    data class OnSelectTaskForColor(val task: NoteTaskItem) : NotesTaskEvent()
+    data class OnConfirmColor(val colorArgb: Int) : NotesTaskEvent()
 }

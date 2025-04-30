@@ -20,6 +20,7 @@ import com.example.features.R
 fun TaskItemSwipeImage(
     offsetX: Float,
     halfSwipe: Float,
+    onColorClick: () -> Unit,
     onDeleteClick: () -> Unit,
     onEditClick: () -> Unit
 ) {
@@ -31,6 +32,14 @@ fun TaskItemSwipeImage(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.End
         ) {
+            Image(
+                painter = painterResource(R.drawable.paint),
+                contentDescription = "Выбрать цвет",
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .size(24.dp)
+                    .clickable(onClick = onColorClick)
+            )
             Image(
                 painter = painterResource(R.drawable.pencil),
                 contentDescription = stringResource(R.string.editing_note_image_description),

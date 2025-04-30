@@ -101,6 +101,7 @@
     <string name="cancellation">Отмена</string>
     <string name="loading_data">Загружаем данные…</string>
     <string name="edit">Редактировать</string>
+    <string name="select_background">Сменить фон</string>
     <string name="exit">Выйти</string>
     <string name="confirm">Подтвердить</string>
     <string name="delete">Удалить</string>
@@ -139,6 +140,7 @@
     <string name="change_color_task_image_description">change_color_task</string>
     <string name="save_task_image_description">save_task</string>
     <string name="editing_note_image_description">editing_note</string>
+    <string name="select_background_image_description">select_background</string>
     <string name="add_note_image_description">add_note</string>
     <string name="add_task_image_description">add_note</string>
     <string name="note_image_description">note</string>

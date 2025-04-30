@@ -12,5 +12,6 @@ data class NoteTask(
     val description: String? = null,
     val userId: Int,
     val isComplete: Boolean = false,
-    val createTime: Long
+    val createTime: Long,
+    val backgroundColor: Int
 )

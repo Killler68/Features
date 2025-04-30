@@ -8,5 +8,8 @@ data class NotesTaskState(
     val editingNote: NoteTaskItem? = null,
     val isChoiceDialogVisible: Boolean = false,
     val isConfirmationDialogVisible: Boolean = false,
-    val isConfirmationTaskDialogVisible: Boolean = false
+    val isConfirmationTaskDialogVisible: Boolean = false,
+    val isColorDialogVisible: Boolean = false,
+    val availableColors: List<ColorList> = emptyList(),
+    val focusedTask: NoteTaskItem? = null
 )

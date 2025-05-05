@@ -18,7 +18,7 @@ fun NotesTaskTopBar(userId: Int, viewModel: NotesTaskViewModel) {
                 imageOnBack = R.drawable.back,
                 imageDescriptionOnBack = stringResource(R.string.back_image_description),
                 { viewModel.dispatch(NotesTaskEvent.OnClickBack(userId)) },
-                stringResource(R.string.notes_title)
+                stringResource(R.string.notes_task_title)
             )
         }
     )

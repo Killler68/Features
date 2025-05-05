@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Features</string>
 
-    <string name="notes_title">Заметки</string>
+    <string name="notes_task_title">Заметки и задачи</string>
     <string name="notes_subtitle">Создание заметок с подробным описанием</string>
     <string name="weather_title">Погода</string>
     <string name="weather_subtitle">Узнайте погоду в любой точке мира!</string>

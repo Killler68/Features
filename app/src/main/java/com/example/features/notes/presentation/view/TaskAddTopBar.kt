@@ -71,14 +71,14 @@ fun TaskAddTopBarContent(userId: Int, viewModel: TaskAddViewModel, editTask: Str
                 .fillMaxWidth()
         ) {
             Image(
-                painter = painterResource(R.drawable.note),
+                painter = painterResource(R.drawable.task),
                 contentDescription = stringResource(R.string.save_task_image_description),
                 modifier = Modifier
                     .padding(end = 10.dp)
                     .size(32.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .background(LightGray)
-                    .padding(7.dp)
+                    .padding(6.dp)
                     .clickable {
                         if (editTask.isNotEmpty())
                             viewModel.dispatch(TaskAddEvent.CreateTask(userId, editTask))

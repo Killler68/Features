@@ -89,7 +89,7 @@ fun TaskAddContent(
             fontSize = 12.sp,
             color = Cyan,
             modifier = Modifier
-                .padding(start = 10.dp, bottom = 5.dp)
+                .padding(start = 20.dp, bottom = 5.dp)
         )
     }
 }

@@ -15,10 +15,9 @@ import com.example.features.features.presentation.models.FeaturesEvent
 import com.example.features.features.presentation.models.FeaturesState
 import com.example.features.ui.theme.Cyan
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Unit) {
+fun FeaturesPager(userId: Int, state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Unit) {
 
     val pagerState = rememberPagerState(pageCount = { state.itemFeature.size })
 
@@ -28,7 +27,7 @@ fun FeaturesPager(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> Uni
             val items = state.itemFeature[page]
             SelectPagerItem(
                 itemPage = page,
-                onClick = { dispatch(FeaturesEvent.NavigateToFeature(items.feature)) },
+                onClick = { dispatch(FeaturesEvent.NavigateToFeature(userId, items.feature)) },
                 state = state
             )
         }

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Features</string>
 
-    <string name="notes_title">Заметки</string>
+    <string name="notes_task_title">Заметки и задачи</string>
     <string name="notes_subtitle">Создание заметок с подробным описанием</string>
     <string name="weather_title">Погода</string>
     <string name="weather_subtitle">Узнайте погоду в любой точке мира!</string>
@@ -87,6 +87,7 @@
     <string name="profile">Профиль</string>
     <string name="notes_not_found">Заметок не обнаружено</string>
     <string name="last_notes">Последняя заметка</string>
+    <string name="last_task">Последняя задача</string>
     <string name="weather_not_found">Погода не обнаружена</string>
     <string name="today_weather">В %1$s сегодня </string>
 
@@ -97,10 +98,24 @@
     <string name="data_not_found">Данные не найдены</string>
     <string name="add">Добавить</string>
     <string name="cancel">Отменить</string>
+    <string name="cancellation">Отмена</string>
     <string name="loading_data">Загружаем данные…</string>
     <string name="edit">Редактировать</string>
+    <string name="select_background">Сменить фон</string>
     <string name="exit">Выйти</string>
     <string name="confirm">Подтвердить</string>
+    <string name="delete">Удалить</string>
+
+
+    <string name="add_note">Добавить заметку</string>
+    <string name="add_task">Добавить задачу</string>
+    <string name="title">Заглавие</string>
+    <string name="description">Описание</string>
+    <string name="edit_task">Введите задачу</string>
+    <string name="edit_note">Введите заметку</string>
+    <string name="change">Выберите</string>
+    <string name="is_remove">Уверены что хотите удалить?</string>
+    <string name="max_char">%1$s /100</string>
 
     <string name="back_image_description">back</string>
     <string name="city_image_description">city</string>
@@ -113,12 +128,22 @@
     <string name="error_image_description">error</string>
     <string name="loading_image_description">loading</string>
     <string name="option_image_description">option</string>
-    <string name="profile_image_description">option</string>
-    <string name="location_image_description">option</string>
-    <string name="drawer_image_description">option</string>
-    <string name="menu_image_description">option</string>
-    <string name="condition_image_description">option</string>
-    <string name="temperature_image_description">option</string>
-    <string name="pager_image_description">option</string>
+    <string name="profile_image_description">profile</string>
+    <string name="location_image_description">location</string>
+    <string name="drawer_image_description">drawer</string>
+    <string name="menu_image_description">menu</string>
+    <string name="condition_image_description">condition</string>
+    <string name="temperature_image_description">temperature</string>
+    <string name="pager_image_description">pager</string>
+    <string name="update_note_image_description">update_note</string>
+    <string name="delete_note_image_description">delete_note</string>
+    <string name="change_color_task_image_description">change_color_task</string>
+    <string name="save_task_image_description">save_task</string>
+    <string name="editing_note_image_description">editing_note</string>
+    <string name="select_background_image_description">select_background</string>
+    <string name="add_note_image_description">add_note</string>
+    <string name="add_task_image_description">add_note</string>
+    <string name="note_image_description">note</string>
+    <string name="task_image_description">task</string>
 
 </resources>

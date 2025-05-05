@@ -30,22 +30,23 @@ fun ItemPagerNotesView(state: FeaturesState.Success) {
             modifier = Modifier
                 .fillMaxWidth()
         )
-        Text(
-            text = state.itemNote.last().title,
-            fontSize = 16.sp,
-            textAlign = TextAlign.Center,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 5.dp)
-        )
-        Text(
-            text = state.itemNote.last().description,
-            fontSize = 12.sp,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier
-                .fillMaxWidth()
-        )
+            Text(
+                text = state.itemNote.last().title ?: "",
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 5.dp)
+            )
+
+            Text(
+                text = state.itemNote.last().description ?: "",
+                fontSize = 12.sp,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
     }
 }

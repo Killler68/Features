@@ -17,7 +17,6 @@ import com.example.features.ui.theme.Cyan
 
 @Composable
 fun SelectPagerItem(itemPage: Int, onClick: () -> Unit, state: FeaturesState.Success) {
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -28,13 +27,8 @@ fun SelectPagerItem(itemPage: Int, onClick: () -> Unit, state: FeaturesState.Suc
             .clickable { onClick() },
     ) {
         when (itemPage) {
-            FeaturesItemPager.NOTES.id -> {
-                ItemPagerNotes(state)
-            }
-
-            FeaturesItemPager.WEATHER.id -> {
-                ItemPagerWeather(state)
-            }
+            FeaturesItemPager.NOTES.id -> ItemPagerNotes(state)
+            FeaturesItemPager.WEATHER.id -> ItemPagerWeather(state)
         }
     }
 }

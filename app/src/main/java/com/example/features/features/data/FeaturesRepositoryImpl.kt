@@ -12,7 +12,24 @@ class FeaturesRepositoryImpl(
     private val userRepository: UserRepository
 ) : FeaturesRepository {
 
-    override fun getFeatures(): List<Features> = features
+    override fun getFeatures(userId: Int): List<Features> =
+        listOf(
+            Features(
+                "",
+                "",
+                "",
+                0.0f,
+                Screens.NotesTaskScreen.createRoute(userId)
+            ),
+            Features(
+                "",
+                "",
+                "",
+                0.0f,
+                Screens.Weather.route
+            )
+        )
+
     override suspend fun getDrawerItems(userId: Int): List<DrawerItem> {
         return listOf(
             DrawerItem(
@@ -44,20 +61,5 @@ class FeaturesRepositoryImpl(
     }
 }
 
-private val features = listOf(
-    Features(
-        "",
-        "",
-        "",
-        0.0f,
-        Screens.NotesList.route
-    ),
-    Features(
-        "",
-        "",
-        "",
-        0.0f,
-        Screens.Weather.route
-    )
-)
+
 

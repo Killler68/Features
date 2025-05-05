@@ -60,16 +60,8 @@ fun TopBarScreen(
                 color = Color.Black
             )
         }
-        Box(
-            modifier = Modifier
-                .padding(top = 10.dp, end = 15.dp)
-                .fillMaxWidth()
-                .background(Color.LightGray)
-                .size(height = 1.dp, width = 1.dp)
-        )
     }
 }
-
 
 @Composable
 fun TopBarScreen(

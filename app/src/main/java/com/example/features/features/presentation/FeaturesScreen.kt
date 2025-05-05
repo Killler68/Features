@@ -20,6 +20,7 @@ import com.example.features.features.presentation.models.FeaturesSideEffect
 import com.example.features.features.presentation.models.FeaturesState
 import com.example.features.features.presentation.view.FeaturesDrawerSheet
 import com.example.features.features.presentation.view.FeaturesScaffold
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -28,17 +29,17 @@ import org.koin.core.parameter.parametersOf
 fun FeaturesScreen(navController: NavController, userId: Int) {
     val viewModel: FeaturesViewModel = getViewModel { parametersOf(userId) }
     val state by viewModel.state.collectAsState()
-    val effectFlow = viewModel.effect
 
     LaunchedEffect(userId) {
         viewModel.dispatch(FeaturesEvent.LoadAllData(userId))
     }
 
-    LaunchedEffect(Unit) {
-        effectFlow.collect { effect ->
+    LaunchedEffect(viewModel.effect) {
+        viewModel.effect.collectLatest { effect ->
             when (effect) {
-                is FeaturesSideEffect.NavigateTo -> navController.navigate(effect.route)
-                is FeaturesSideEffect.NavigateToFeature -> navController.navigate(effect.route)
+                is FeaturesSideEffect.NavigateTo -> {
+                    navController.navigate(effect.route)
+                }
             }
         }
     }
@@ -70,7 +71,6 @@ fun FeaturesContent(state: FeaturesState.Success, dispatch: (FeaturesEvent) -> U
                 FeaturesDrawerSheet(state, userId)
             }
         },
-        content = { FeaturesScaffold(drawerState, state, dispatch) }
+        content = { FeaturesScaffold(userId, drawerState, state, dispatch) }
     )
 }
-

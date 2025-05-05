@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,7 +37,7 @@ fun NotesTaskChoiceDialogView(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(180.dp)
+                .height(190.dp)
                 .padding(16.dp),
             shape = RoundedCornerShape(16.dp),
         ) {
@@ -82,12 +83,14 @@ fun NotesTaskChoiceDialogView(
                         painter = painterResource(R.drawable.task),
                         contentDescription = stringResource(R.string.add_task_image_description),
                         modifier = Modifier
-                            .padding(start = 17.dp, end = 10.dp, top = 3.dp, bottom = 5.dp)
-                            .size(27.dp)
+                            .padding(start = 17.dp, end = 10.dp, top = 5.dp, bottom = 5.dp)
+                            .size(28.dp)
                     )
                     Text(
                         text = stringResource(R.string.add_task),
-                        fontSize = 18.sp
+                        fontSize = 18.sp,
+                        modifier = Modifier
+                            .padding(start = 1.dp)
                     )
                 }
             }

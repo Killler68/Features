@@ -7,8 +7,10 @@ import com.example.features.common.module.DatabaseModule
 import com.example.features.common.module.RepositoryModule
 import com.example.features.common.sharedpreferences.LocalStorageModule
 import com.example.features.features.di.FeaturesModule
-import com.example.features.notes.noteslist.NotesModule
-import com.example.features.notes.task.TaskModule
+import com.example.features.notes.di.NoteAddModule
+import com.example.features.notes.di.NoteDetailedModule
+import com.example.features.notes.di.NotesTaskModule
+import com.example.features.notes.di.TaskAddModule
 import com.example.features.profile.di.ProfileModule
 import com.example.features.registration.di.RegistrationModule
 import com.example.features.settings.di.SettingsModule
@@ -28,8 +30,10 @@ class MainApp : Application() {
             SettingsModule.module,
             RegistrationModule.module,
             ProfileModule.module,
-            TaskModule.module,
-            NotesModule.module,
+            TaskAddModule.module,
+            NoteAddModule.module,
+            NoteDetailedModule.module,
+            NotesTaskModule.module,
             FeaturesModule.module,
             AuthorizationModule.module,
             SharedModule.module,

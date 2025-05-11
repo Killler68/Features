@@ -15,13 +15,13 @@ class UserRepositoryImpl(
     override suspend fun getUsers(): List<User> =
         withContext(Dispatchers.IO) {
             val user = userDao.getUsers()
-            user.map { it.toUser() }.toList()
+            user.map { it.toUser() }.toList() // todo toList can be removed
         }
 
     override suspend fun getUserById(userId: Int): User =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.IO) { //todo useless here
             val user = userDao.getUserById(userId)?.toUser()
-            user ?: throw Exception("User $userId is not found")
+            user ?: throw Exception("User $userId is not found") //todo  just pass null here instead of exception
         }
 
     override suspend fun getUserByLoginAndPassword(login: String, password: String): User =

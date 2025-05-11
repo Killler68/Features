@@ -10,12 +10,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import java.util.Locale
 
-fun String.capitalizeFirstLetter(): String =
+fun String.capitalizeFirstLetter(): String = //todo use simpler someString.replaceFirstChar { it.uppercase() }
     this.substring(0, 1)
         .uppercase(Locale.getDefault()) + this.substring(1)
         .lowercase(Locale.getDefault())
 
-fun annotatedString(
+fun annotatedString( //todo can be inlined
     changedText: String,
     notChangedText: String,
     fontWeight: FontWeight,
@@ -34,7 +34,7 @@ fun annotatedString(
         { append(notChangedText) }
     }
 
-fun annotatedString(
+fun annotatedString( //todo can be inlined
     changedText: String,
     changeTextColor: Color,
     notChangedText: String,

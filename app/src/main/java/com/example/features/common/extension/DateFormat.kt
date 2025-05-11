@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-const val DATE_FORMAT_HOURS = "H:mm "
-const val DATE_FORMAT_PREVIEW = "Сегодня, d MMM EEE"
-const val DATE_FORMAT_DAYS = "d MMM EEE"
+const val DATE_FORMAT_HOURS = "H:mm " //todo  better naming DAYS_FORMAT
+const val DATE_FORMAT_PREVIEW = "Сегодня, d MMM EEE" // todo just add string Сегодня at the start, no need to use additional format
+const val DATE_FORMAT_DAYS = "d MMM EEE"  //todo  better naming DAYS_FORMAT
 const val DATE_FORMAT_DAYS_MONTH = "d MMM"
 const val LANGUAGE = "ru"
 const val TIME_FORMAT = 1000

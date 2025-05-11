@@ -5,7 +5,7 @@ import com.example.features.common.sharedpreferences.LocalStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class CheckLocaleUseCaseImpl(
+class CheckLocaleUseCaseImpl( // no business logic here, nothing to test, can be removed
     private val localStorage: LocalStorage,
 ) : CheckLocaleUseCase {
 

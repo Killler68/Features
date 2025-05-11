@@ -1,3 +1,3 @@
 package com.example.features.common.strings
 
-var city = "Moscow"
+var city = "Moscow" //todo  unaceptable

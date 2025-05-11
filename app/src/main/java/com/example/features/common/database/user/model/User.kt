@@ -6,7 +6,7 @@ data class User(
     val password: String,
 )
 
-//val emptyUser = User(0, "", "", "", "", "", "")
+//val emptyUser = User(0, "", "", "", "", "", "") todo remove comments
 
 fun UserData.toUser() = User(
     id, login, password

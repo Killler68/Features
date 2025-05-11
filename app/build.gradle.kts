@@ -51,7 +51,7 @@ android {
     }
 }
 
-dependencies {
+dependencies { //todo remove all extra libraries and use libs.versions
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
@@ -78,11 +78,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     //Dagger
-    implementation("com.google.dagger:dagger:2.51.1")
+    implementation("com.google.dagger:dagger:2.51.1") // todo can be removed
     kapt("com.google.dagger:dagger-compiler:2.51.1")
 
     //Navigation
-    implementation("com.github.terrakok:cicerone:7.1")
+    implementation("com.github.terrakok:cicerone:7.1") // todo can be removed
 
     //FastAdapter
     implementation("com.mikepenz:fastadapter:5.5.1")
@@ -124,6 +124,6 @@ dependencies {
 
     implementation ("com.google.accompanist:accompanist-pager:0.32.0")
 
-    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("com.github.bumptech.glide:glide:4.15.1") // todo can be removed
     implementation("com.github.bumptech.glide:compose:1.0.0-alpha.1")
 }

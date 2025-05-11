@@ -11,7 +11,7 @@ import com.example.features.common.view.TopBarScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutTopBar(navController: NavController) {
+fun AboutTopBar(navController: NavController) {  // can be inlined
     TopAppBar(
         title = {
             TopBarScreen(

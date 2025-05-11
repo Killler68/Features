@@ -6,13 +6,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-const val OPEN_WEATHER_MAP = "https://api.openweathermap.org/"
-const val WEATHER_FORECAST_API_KEY = "data/2.5/forecast?&appid=1fb564b0448c20cff8c8a08d408dba5b"
-const val WEATHER_METRICS = "&units=metric"
-const val WEATHER_LANGUAGES = "&lang=ru"
+private const val domain = "https://api.openweathermap.org/" //naming and private
+private const val FORECAST_API_KEY = "data/2.5/forecast?&appid=1fb564b0448c20cff8c8a08d408dba5b" //move to build config
+private const val METRICS = "&units=metric"
+private const val LANGUAGES = "&lang=ru"
 
 const val WEATHER_API =
-    OPEN_WEATHER_MAP + WEATHER_FORECAST_API_KEY + WEATHER_METRICS + WEATHER_LANGUAGES
+    domain + WEATHER_FORECAST_API_KEY + WEATHER_METRICS + WEATHER_LANGUAGES
 
 interface WeatherApi {
     @GET(WEATHER_API)
@@ -23,7 +23,7 @@ interface WeatherApi {
 
 object WeatherRetrofitClient {
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(OPEN_WEATHER_MAP)
+        .baseUrl(domain)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

@@ -25,7 +25,7 @@ fun WeatherList(
             .padding(paddingValues)
     ) {
         item {
-            WeatherPreview(state.preview, state)
+            WeatherPreview(state.preview, state) //todo just pass preview and weather weeks here, and not the entire state
         }
         items(state.weatherWeek) { weatherData ->
             WeatherDaylyItem(

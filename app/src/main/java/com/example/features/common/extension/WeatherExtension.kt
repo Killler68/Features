@@ -10,7 +10,7 @@ import java.util.TimeZone
 fun String.getRawNameWeatherExtension(): String {
 
     return when (this) {
-        "Overcast" -> "Пасмурно"
+        "Overcast" -> "Пасмурно" //todo get russian strings from string resources
         "Patchy rain nearby" -> "Мелкий дождь"
         "Light snow showers" -> "Небольшой снежный дождь"
         "Cloudy " -> "Облачный"

@@ -11,7 +11,7 @@ class MainViewModel(
     private val checkLocaleUseCase: CheckLocaleUseCase
 ) : ViewModel() {
 
-    private val _locale = MutableStateFlow("")
+    private val _locale = MutableStateFlow("") //naming, navigation route here, not locale
     val locale: StateFlow<String> get() = _locale
 
     fun checkLocale() {

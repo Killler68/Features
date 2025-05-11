@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,11 +35,12 @@ import com.example.features.weather.presentation.models.WeatherState
 @Composable
 fun WeatherPreview(preview: WeatherPreview, state: WeatherState.Success) {
 
+    // todo if you make mapping in compose use derivedStateOf
     val temperature = preview.temp.toInt()
-    val textColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.TEXT)
+    val textColor = weatherColorExtension(state.weatherWeek.firstOrNull()?.partDay.orEmpty(), ColorCategory.TEXT) //todo first can throw exception, better firstOrNull
     val cardColor = weatherColorExtension(state.weatherWeek.first().partDay, ColorCategory.CARD)
     val image = preview.icon.extensionConditionWeather(state.weatherWeek.first().partDay)
-    val description = preview.description.capitalizeFirstLetter().getRawNameWeatherExtension()
+    val description by remember() { derivedStateOf {  preview.description.capitalizeFirstLetter().getRawNameWeatherExtension() }}
 
     Column(
         Modifier

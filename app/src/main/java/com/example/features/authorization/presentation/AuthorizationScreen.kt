@@ -25,7 +25,7 @@ import com.example.features.common.view.ButtonNavigateToView
 import com.example.features.common.view.InputField
 import org.koin.androidx.compose.getViewModel
 
-@Composable
+@Composable //  no @Preview
 fun AuthorizationScreen(navController: NavController) {
 
     val viewModel: AuthorizationViewModel = getViewModel()
@@ -48,7 +48,7 @@ fun AuthorizationScreen(navController: NavController) {
 }
 
 @Composable
-fun AuthorizationContent(viewModel: AuthorizationViewModel) {
+fun AuthorizationContent(viewModel: AuthorizationViewModel) {  // callbacks instead of passing viewModel
 
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }

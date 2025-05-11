@@ -9,8 +9,8 @@ import kotlinx.coroutines.withContext
 
 class WeatherRepositoryImpl : WeatherRepository {
 
-    override suspend fun getWeatherWeek(city: String): List<WeatherWeek> =
-        withContext(Dispatchers.IO) {
+    override suspend fun getWeatherWeek(city: String): List<WeatherWeek> =  // naming
+        withContext(Dispatchers.IO) {  //useless
             val response = WeatherRetrofitClient.weatherApi.getWeather(city = city)
             response.forecastList.map {
                 WeatherWeek(
@@ -19,7 +19,7 @@ class WeatherRepositoryImpl : WeatherRepository {
                     it.main.temp,
                     it.main.tempMax,
                     it.main.tempMin,
-                    it.weather.first().icon,
+                    it.weather.first().icon,  // or null
                     it.sys.pod,
                 )
             }
@@ -32,7 +32,7 @@ class WeatherRepositoryImpl : WeatherRepository {
             WeatherPreview(
                 city = response.city.name,
                 date = firstForecast?.dt ?: 0,
-                dtText = firstForecast?.dtTxt ?: EMPTY_STRING,
+                dtText = firstForecast?.dtTxt ?: EMPTY_STRING,   //orEmpty
                 icon = firstForecast?.weather?.firstOrNull()?.icon ?: EMPTY_STRING,
                 temp = firstForecast?.main?.temp ?: DEFAULT_TEMP,
                 description = firstForecast?.weather?.firstOrNull()?.description ?: EMPTY_STRING,
@@ -41,7 +41,7 @@ class WeatherRepositoryImpl : WeatherRepository {
         }
 
     companion object {
-        const val EMPTY_STRING = ""
+        const val EMPTY_STRING = "" //private
         const val DEFAULT_TEMP = 0.0
     }
 }

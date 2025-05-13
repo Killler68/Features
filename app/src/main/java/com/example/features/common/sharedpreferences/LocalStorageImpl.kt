@@ -1,6 +1,7 @@
 package com.example.features.common.sharedpreferences
 
 import android.content.Context
+import androidx.core.content.edit
 
 
 const val FIRST_LAUNCH_APP_KEY = "FIRST_LAUNCH_APP_KEY"
@@ -12,9 +13,9 @@ class LocalStorageImpl(
     override fun setFirstLaunch() {
         val sharedPreferences =
             context.getSharedPreferences(FIRST_LAUNCH_APP_KEY, Context.MODE_PRIVATE)
-        sharedPreferences.edit()
-            .putBoolean(FIRST_LAUNCH_APP_KEY, false)
-            .apply()
+        sharedPreferences.edit {
+            putBoolean(FIRST_LAUNCH_APP_KEY, false)
+        }
     }
 
     override fun isFirstLaunch(): Boolean {

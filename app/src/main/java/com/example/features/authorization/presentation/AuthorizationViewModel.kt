@@ -21,28 +21,30 @@ class AuthorizationViewModel(
     fun dispatch(event: AuthorizationEvent) {
         when (event) {
             is AuthorizationEvent.User -> loadUser(event.login, event.password)
-            AuthorizationEvent.NavigateToRegistration -> navigateTo(AuthorizationSideEffect.ToRegistration)
+            AuthorizationEvent.NavigateToRegistration -> {
+                //naming and can be inlined
+                viewModelScope.launch {
+                    _effect.emit(AuthorizationSideEffect.ToRegistration)
+                }
+            }
         }
     }
 
     private fun loadUser(login: String, password: String) {
-        viewModelScope.launch {
+        viewModelScope.launch {  // launchSafely
             try {
                 val userId = getUserUseCase(login, password)?.id
                 if (userId != null) {
-                    navigateTo(AuthorizationSideEffect.ToFeatures(userId))
+                    //naming and can be inlined
+                    viewModelScope.launch {
+                        _effect.emit(AuthorizationSideEffect.ToFeatures(userId))
+                    }
                 } else {
                     _effect.emit(AuthorizationSideEffect.ErrorMessage(R.string.error_load))
                 }
             } catch (e: Exception) {
                 _effect.emit(AuthorizationSideEffect.ErrorMessage(R.string.error_login_and_password))
             }
-        }
-    }
-
-    private fun navigateTo(destination: AuthorizationSideEffect) {
-        viewModelScope.launch {
-            _effect.emit(destination)
         }
     }
 }

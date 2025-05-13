@@ -5,7 +5,7 @@ import com.example.features.authorization.presentation.AuthorizationViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-object AuthorizationModule {
+object AuthorizationModule {  // can be simplified by removing object class and renaming to val authorizationModule
     val module = module {
         factory { GetUserByLoginAndPasswordUseCase(get()) }
         viewModel { AuthorizationViewModel(get()) }

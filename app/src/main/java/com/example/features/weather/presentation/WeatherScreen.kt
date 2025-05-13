@@ -25,8 +25,8 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun WeatherScreen(navController: NavController) {
 
-    val viewModel: WeatherViewModel = getViewModel()
-    val state by viewModel.state.collectAsState()
+    val viewModel: WeatherViewModel = getViewModel()  // koin ?
+    val state by viewModel.state.collectAsState() // with lifecycle
     var isDialogVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(viewModel.effect) {

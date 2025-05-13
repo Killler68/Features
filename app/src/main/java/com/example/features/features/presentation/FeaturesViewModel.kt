@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FeaturesViewModel(
-    private val userId: Int,
+    private val userId: Int, //todo remove userId from here
     private val features: GetFeaturesUseCase,
     private val drawerItem: GetDrawerItemUseCase,
     private val weatherPreviewUseCase: WeatherPreviewUseCase,

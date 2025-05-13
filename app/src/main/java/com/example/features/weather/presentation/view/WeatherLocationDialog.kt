@@ -27,7 +27,7 @@ fun WeatherLocationDialog(isDialogVisible: Boolean, state: WeatherState.Success)
             onDismiss = { viewModel.dispatch(WeatherEvent.OnCloseShowDialogChangeCity) },
             state = state,
             onSave = {
-                city = editCity.trim().capitalizeFirstLetter()
+                city = editCity.trim().replaceFirstChar { it.uppercase() }
                 viewModel.loadWeather(city)
                 viewModel.dispatch(WeatherEvent.OnCloseShowDialogChangeCity)
             }

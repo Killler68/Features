@@ -25,7 +25,7 @@ fun NavigationAppHost(checkLocale: String) {
     val navHostController = rememberNavController()
 
     if (checkLocale.isNotEmpty()) {
-        NavHost(navController = navHostController, startDestination = checkLocale) {
+        NavHost(navController = navHostController, startDestination = checkLocale) { //start destination better be splash screen
             composable(Screens.Welcome.route) { WelcomeScreen(navHostController) }
             composable(Screens.Registration.route) { RegistrationScreen(navHostController) }
             composable(Screens.Authorization.route) { AuthorizationScreen(navHostController) }
